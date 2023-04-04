@@ -29,12 +29,16 @@ import org.apache.maven.project.MavenProject;
 /**
  * Goal which touches a timestamp file.
  *
- * @goal touch
+ * @goal cutter-plugin
  * 
  * @phase process-sources
  */
-@Mojo(name = "cutter-plugin", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "micci", defaultPhase = LifecyclePhase.COMPILE)
 public class CookieCutterMojo extends AbstractMojo {
+
+    @Parameter(property = "scope")
+    String scope;
+
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
