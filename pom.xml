@@ -102,6 +102,11 @@
                     <artifactId>maven-plugin-plugin</artifactId>
                     <version>${maven.plugin.libs.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
