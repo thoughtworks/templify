@@ -9,3 +9,11 @@ workflows:
           executor:
             name: maven/default
             tag: "11.0"
+      - run:
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          name: Save test results
+          when: always
+      - store_test_results:
+          path: ~/test-results
