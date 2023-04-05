@@ -5,4 +5,8 @@ workflows:
   maven_test:
     jobs:
       - maven/test:
-          command: "-X clean install verify"
+          command: "clean install"
+          matrix:
+            parameters:
+              executor:
+                - j11
