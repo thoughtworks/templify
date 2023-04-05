@@ -4,3 +4,5 @@
 target/
 //target//
 .settings
+.tool-versions
+
