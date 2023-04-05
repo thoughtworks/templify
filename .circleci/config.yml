@@ -5,7 +5,7 @@ workflows:
   maven_test:
     jobs:
       - maven/test:
-          command: "-X clean install"
+          command: "-X clean install site"
           executor:
             name: maven/default
             tag: "11.0"
