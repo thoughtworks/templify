@@ -23,10 +23,16 @@
             <plugin>
                 <groupId>com.twlabs</groupId>
                 <artifactId>cookiecutter-templater-maven-plugin</artifactId>
-                <configuration>
-                    <!-- Specify the MyMojo parameter -->
-                    <outputDirectory>target/test-harness/project-to-test</outputDirectory>
-                </configuration>
+                <version>@project.version@</version>
+                <executions>
+                    <execution>
+                        <id>configuracao_basica_build_test</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>micci</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

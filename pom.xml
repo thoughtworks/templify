@@ -13,6 +13,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.plugin.libs.version>3.8.1</maven.plugin.libs.version>
     </properties>
+    
+
+
     <dependencies>
 
         <dependency>
@@ -48,7 +51,7 @@
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.9.2</version>
             <scope>test</scope>
-            </dependency>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -56,5 +59,77 @@
             <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- teste-->
+
+        <dependency>
+            <groupId>com.soebes.itf.jupiter.extension</groupId>
+            <artifactId>itf-extension-maven</artifactId>
+            <version>0.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.soebes.itf.jupiter.extension</groupId>
+            <artifactId>itf-assertj</artifactId>
+            <version>0.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.soebes.itf.jupiter.extension</groupId>
+            <artifactId>itf-jupiter-extension</artifactId>
+            <version>0.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.20.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-component-metadata</artifactId>
+                <version>2.1.1</version>
+            </plugin>
+            <plugin>
+                <groupId>com.soebes.itf.jupiter.extension</groupId>
+                <artifactId>itf-maven-plugin</artifactId>
+                <version>0.12.0</version>
+                <executions>
+                    <execution>
+                        <id>installing</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>install</goal>
+                            <goal>resources-its</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <systemProperties>
+                        <maven.version>${maven.version}</maven.version>
+                        <maven.home>${maven.home}</maven.home>
+                    </systemProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>
