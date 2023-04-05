@@ -37,19 +37,26 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>com.twlabs</groupId>
                 <artifactId>cookiecutter-templater-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>micci</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <configuration>
+                    <teste>true</teste>
+                </configuration>
+                <!-- <executions> -->
+                <!--     <execution> -->
+                <!--         <id>default-cli</id> -->
+                <!--         <goals> -->
+                <!--             <goal>micci</goal> -->
+                <!--         </goals> -->
+                <!--         <configuration> -->
+                <!--             <testes>war</testes> -->
+                <!--         </configuration> -->
+                <!--     </execution> -->
+                <!-- </executions> -->
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

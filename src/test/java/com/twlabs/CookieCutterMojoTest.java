@@ -1,33 +1,31 @@
 package com.twlabs;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.apache.maven.plugin.testing.MojoRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.codehaus.plexus.PlexusTestCase;
 
-public class CookieCutterMojoTest {
+public class CookieCutterMojoTest extends AbstractMojoTestCase {
 
-    private static final String HELLO_WORLD_PJ = "src/test/resources/spring-hello-world/pom.xml";
-    @Rule
-    public MojoRule rule = new MojoRule()
-    {
-      @Override
-      protected void before() throws Throwable 
-      {
-      }
- 
-      @Override
-      protected void after()
-      {
-      }
-    };
-    
+    private static final String HELLO_WORLD_PJ = "/src/test/resources/spring-hello-world/pom.xml";
 
-    @Test
+    protected void setUp() throws Exception {
+        // required
+        super.setUp();
+
+    }
+
+    /** {@inheritDoc} */
+    protected void tearDown() throws Exception {
+        // required
+        super.tearDown();
+
+    }
+
     public void test_method() throws Exception {
-        CookieCutterMojo mojo = (CookieCutterMojo) rule.lookupMojo( "micci", HELLO_WORLD_PJ );
-        assertNotNull( mojo );
+        CookieCutterMojo mojo = (CookieCutterMojo) this.lookupMojo("micci",
+                PlexusTestCase.getBasedir() + HELLO_WORLD_PJ);
+        assertNotNull(mojo);
         mojo.execute();
-        
+
     }
 }
