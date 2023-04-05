@@ -1,24 +1,8 @@
+orbs:
+  maven: circleci/maven@1.4.1
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: docker:stable
-    steps:
-      - run:
-          command: echo "here goes your build steps"
-
-  tests:
-    docker:
-      - image: docker:stable
-    steps:
-      - run:
-          command: echo "here goes your tests steps"
-
 workflows:
-  version: 2
-  build-test-deploy:
+  maven_test:
     jobs:
-      - build
-      - tests:
-          requires:
-            - build
+      - maven/test:
+          command: "-X verify"
