@@ -6,7 +6,6 @@ workflows:
     jobs:
       - maven/test:
           command: "clean install"
-          matrix:
-            parameters:
-              executor:
-                - j11
+          executor:
+            name: maven/default
+            tag: "11.0"
