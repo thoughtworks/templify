@@ -1,6 +1,5 @@
 package com.twlabs;
 
-
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
-
-
 
     @MavenTest
     @DisplayName("Build da aplicação deve ocorrer com sucesso")
