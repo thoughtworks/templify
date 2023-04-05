@@ -39,11 +39,12 @@ public class CookieCutterMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
-    Boolean teste;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        getLog().info("teste " + teste);
+        // Um log para sabermos que o plugin está sendo iniciado e para validar os testes
+        // integrados
+        getLog().info("Brace yourself! Iniciando o cookiecutter-templater-maven-plugin!!");
 
         List<Dependency> dependencias = project.getDependencies();
 
