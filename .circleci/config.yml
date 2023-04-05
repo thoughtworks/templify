@@ -1,3 +1,16 @@
+jobs:
+  save_test:
+    docker:
+      - image: circleci/openjdk:11.0.3-jdk-stretch
+    steps:
+      - run:
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          name: Save test results
+          when: always
+      - store_test_results:
+          path: ~/test-results
 orbs:
   maven: circleci/maven@1.4.1
 version: 2.1
@@ -9,11 +22,4 @@ workflows:
           executor:
             name: maven/default
             tag: "11.0"
-      - run:
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
-          name: Save test results
-          when: always
-      - store_test_results:
-          path: ~/test-results
+      - save_test
