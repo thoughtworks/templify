@@ -4,7 +4,6 @@ version: 2.1
 workflows:
   maven_test:
     jobs:
-      - checkout
       - maven/with_cache:
           command: "mvn clean install"
           executor:
