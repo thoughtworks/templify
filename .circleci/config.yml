@@ -4,8 +4,9 @@ version: 2.1
 workflows:
   maven_test:
     jobs:
-      - maven/test:
-          command: "clean install"
+      - checkout
+      - maven/with_cache:
+          command: "mvn clean install"
           executor:
             name: maven/default
             tag: "11.0"
