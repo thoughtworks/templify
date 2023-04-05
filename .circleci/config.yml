@@ -5,4 +5,4 @@ workflows:
   maven_test:
     jobs:
       - maven/test:
-          command: "-X verify"
+          command: "-X clean install verify"
