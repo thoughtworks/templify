@@ -32,7 +32,7 @@ Deverá ser incluido o `cookiecutter-templater-for-backstage` no `pom.xml` do pr
             <plugin>
                 <groupId>com.twlabs</groupId>
                 <artifactId>cookiecutter-templater-maven-plugin</artifactId>
-                <version>@project.version@</version>
+                <version>{{recomendado usar a ultima versão}}</version>
                 <executions>
                     <execution>
                         <id>configuracao_basica_build_test</id>
@@ -48,7 +48,12 @@ Deverá ser incluido o `cookiecutter-templater-for-backstage` no `pom.xml` do pr
   ...
 </project>
 ```
-## Validação da instalação
+## Validação da instalação/configuração
+Para validar se o plugin está com sua configuração correta em seu projeto, deve ser executado o `mvn clean install`.
+
+```text
+mvn clean install
+```
 
 # Colaboração
 
