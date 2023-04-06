@@ -29,7 +29,7 @@
                         <id>configuracao_basica_build_test</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>micci</goal>
+                            <goal>cutter</goal>
                         </goals>
                     </execution>
                 </executions>

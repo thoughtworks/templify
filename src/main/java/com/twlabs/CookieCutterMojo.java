@@ -33,7 +33,7 @@ import org.apache.maven.project.MavenProject;
  * 
  * @phase process-sources
  */
-@Mojo(name = "micci", defaultPhase = LifecyclePhase.NONE)
+@Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
 public class CookieCutterMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
