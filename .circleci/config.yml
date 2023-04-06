@@ -22,4 +22,6 @@ workflows:
           executor:
             name: maven/default
             tag: "11.0"
-      - save_test
+      - save_test:
+          requires:
+            - maven/test
