@@ -143,6 +143,7 @@
                         <maven.version>${maven.version}</maven.version>
                         <maven.home>${maven.home}</maven.home>
                     </systemProperties>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                 </configuration>
                 <executions>
                     <execution>
