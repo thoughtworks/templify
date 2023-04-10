@@ -1,6 +1,7 @@
 package com.twlabs;
 
 import java.util.List;
+import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Dependency;
 
 /*
@@ -19,12 +20,15 @@ import org.apache.maven.model.Dependency;
 
 
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.BuildPluginManager;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 
 /**
  * Goal which touches a timestamp file.
@@ -37,8 +41,13 @@ import org.apache.maven.project.MavenProject;
 public class CookieCutterMojo extends AbstractMojo {
 
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
-    MavenProject project;
+    private MavenProject project;
 
+    @Component
+    private MavenSession mavenSession;
+
+    @Component
+    private BuildPluginManager pluginManager;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -46,12 +55,24 @@ public class CookieCutterMojo extends AbstractMojo {
         // integrados
         getLog().info("Brace yourself! Iniciando o cookiecutter-templater-maven-plugin!!");
 
-        List<Dependency> dependencias = project.getDependencies();
-
-        long numDependencias = dependencias.stream().count();
-
-        getLog().info("Olá Mundo! Esse projeto possui " + numDependencias + " dependencias");
-
+        getLog().warn(project.getBuild().getDirectory());
+        executeMojo(
+                plugin(groupId("org.apache.maven.plugins"), artifactId("maven-resources-plugin"),
+                        version("3.2.0")),
+                goal("copy-resources"),
+                configuration(
+                    element(
+                        name("outputDirectory"),
+                        "${project.build.directory}/template"
+                            ),
+                    element(name("resources"),
+                        element(name("resources"),
+                            element("directory", "./")
+                                      )
+                                )
+                    ),
+        
+                executionEnvironment(project, mavenSession, pluginManager));
 
 
     }
