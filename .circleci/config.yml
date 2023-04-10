@@ -9,3 +9,6 @@ workflows:
           executor:
             name: maven/default
             tag: "11.0"
+          test_results_path:
+            - target/surefire-reports
+            - target/failsafe-reports
