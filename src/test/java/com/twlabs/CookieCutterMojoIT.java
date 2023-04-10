@@ -12,7 +12,9 @@ import org.junit.jupiter.api.DisplayName;
 public class CookieCutterMojoIT {
 
 
-    String POM = ".target/template/pom.xml";
+    String POM =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/project/target/template/pom.xml";
+
 
     @MavenTest
     @DisplayName("Build da aplicação deve ocorrer com sucesso")
@@ -30,7 +32,8 @@ public class CookieCutterMojoIT {
 
         File resultadoPom = new File(POM);
 
-        assertTrue(resultadoPom.exists() && resultadoPom.isFile(), "Arquivo pom.xml não foi copiado!!");
+        assertTrue(resultadoPom.exists() && resultadoPom.isFile(),
+                "Arquivo pom.xml não foi copiado!!");
 
     }
 
