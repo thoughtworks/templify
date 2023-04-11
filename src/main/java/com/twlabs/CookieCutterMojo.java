@@ -55,27 +55,31 @@ public class CookieCutterMojo extends AbstractMojo {
         // integrados
         getLog().info("Brace yourself! Iniciando o cookiecutter-templater-maven-plugin!!");
 
-        getLog().warn(project.getBuild().getDirectory());
-        executeMojo(
-                plugin(groupId("org.apache.maven.plugins"), artifactId("maven-resources-plugin"),
-                        version("3.2.0")),
-                goal("copy-resources"),
-                configuration(
-                    element(
-                        name("outputDirectory"),
-                        "${project.build.directory}/template"
-                            ),
-                    element(name("resources"),
-                        element(name("resources"),
-                            element("directory", "./")
-                                      )
-                                )
-                    ),
-        
-                executionEnvironment(project, mavenSession, pluginManager));
 
+        copiarProjeto();
+        getLog().warn(project.getBuild().getDirectory());
 
     }
 
+    private void copiarProjeto() {
+        try {
+            getLog().info("Iniciando copia do projeto para: " + project.getBuild().getDirectory());
+            executeMojo(
+                    plugin(groupId("org.apache.maven.plugins"),
+                            artifactId("maven-resources-plugin"), version("3.2.0")),
+                    goal("copy-resources"),
+                    configuration(
+                            element(name("outputDirectory"), "${project.build.directory}/template"),
+                            element(name("resources"),
+                                    element(name("resources"), element("directory", "./")))),
 
+                    executionEnvironment(project, mavenSession, pluginManager));
+
+            getLog().info("Projeto copiado com sucesso!!!");
+        } catch (MojoExecutionException e) {
+            getLog().error(
+                    "copiarProjeto erro -  Algo de errado aconteceu ao tentar executar o maven-resources-plugin");
+            e.printStackTrace();
+        }
+    }
 }
