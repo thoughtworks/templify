@@ -1,8 +1,11 @@
 package com.twlabs;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.nio.file.Path;
@@ -10,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.xpath.XPathExpressionException;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -19,6 +23,14 @@ public class ProcessadorXMLTest {
     String URI_XML = "target/template/pom.xml";
     String URI_CUTTER = "cutter.properties";
 
+    private ProcessadorXML processador;
+
+    @BeforeEach
+    public void setup() throws Exception {
+        Path path = Paths.get(URI_XML);
+        processador = new ProcessadorXML(path);
+
+    }
 
     @Test
     public void test_existe_xml() throws Exception {
@@ -29,31 +41,53 @@ public class ProcessadorXMLTest {
 
 
     @Test
-    public void test_buscaParametro() throws Exception {
+    public void test_buscaParametro_valor_esperado() throws Exception {
+        Map<String, String> esperado = new HashMap<>();
+        esperado.put("/project/groupId", "com.twlabs");
 
+        Map<String, String> resultado = processador.buscaParametro("/project/groupId");
 
-        ProcessadorXML processadorXml = new ProcessadorXML(Paths.get(URI_XML));
-        Map<String, String> parametro = processadorXml.buscaParametro("/project/groupId");
-
-        assertTrue("com.twlabs".equals(parametro.get("/project/groupId")));
-        // assertTrue("cookiecutter-templater-maven-plugin".equals(parametros.get("artifactId")));
-        // assertTrue("packaging".equals(parametros.get("packaging")));
-
+        assertEquals(esperado, resultado);
     }
 
-    @Test
-    public void test_parse() throws Exception {
-        Map<String, String> esperado = new HashMap<String, String>();
 
+    @Test
+    public void test_buscaParametro_Excepetion_path_nao_encontrado() {
+        String path = "/project/fakeNews";
+        assertThrows(XPathExpressionException.class, () -> {
+            processador.buscaParametro(path);
+        });
+    }
+
+
+    @Test
+    public void test_parse_retornando_mapa_parametros() throws Exception {
+        Map<String, String> paths = new HashMap<String, String>();
+        paths.put("/project/artifactId", "");
+        paths.put("/project/packaging", "");
+        paths.put("/project/groupId", "");
+        Map<String, String> esperado = new HashMap<String, String>();
         esperado.put("/project/artifactId", "cookiecutter-templater-maven-plugin");
         esperado.put("/project/packaging", "maven-plugin");
         esperado.put("/project/groupId", "com.twlabs");
 
+        Map<String, String> resultado = processador.parse(paths);
 
-        ProcessadorXML processadorXML = new ProcessadorXML(Paths.get(URI_XML));
-        Map<String, String> resultado = processadorXML.parse(esperado);
+        assertEquals(esperado, resultado);
+    }
 
-        assertTrue(esperado.equals(resultado));
+    @Test
+    public void test_parse_Exception_path_nao_encontrado() {
+        Map<String, String> path = new HashMap<String, String>();
+
+        path.put("/project/artifactId", "");
+        path.put("/project/fakeNews", "");
+
+        assertThrows(XPathExpressionException.class, () -> {
+            processador.parse(path);
+        });
+
+
     }
 
 }
