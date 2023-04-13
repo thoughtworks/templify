@@ -1,35 +1,51 @@
 package com.twlabs;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import java.io.File;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.w3c.dom.NodeList;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ProcessadorTest {
 
-    Processador processador = new ProcessadorXML(null);
+    HandlerFiles processador = new ProcessadorXML(null);
 
-    public String getFileFromResources(){
-       return getClass().getClassLoader().getResource("processador/xml/teste.xml").getPath();
+    String TESTXML = "processador/xml/teste.xml";
+    String TESTREPLACED = "processador/xml/";
+
+    public URL getFileFromResources(String path) {
+        return  getClass().getClassLoader().getResource(path);
     }
+
 
     @ParameterizedTest
-    @ValueSource(strings = {"/project/artifactId", "/project/version"})
-    public void buscar(String valorTeste) {
-        List<String> find = processador.find(getFileFromResources(), valorTeste);
-        assertNotNull(find);
+    @CsvSource({"/project/artifactId, project-to-test",
+            "/project/groupId, org.apache.maven.plugin.my.unit"})
+    public void test_find(String query, String value) {
+        NodeList nodes = processador.find(getFileFromResources(TESTXML).getPath(), query);
+
+        Map<String, String> actual = new HashMap<String, String>();
+        actual.put(query, value);
+
+        Map result = new HashMap<String, String>();
+        for (int i = 0; i < nodes.getLength(); i++) {
+            result.put(query, nodes.item(i).getTextContent());
+        }
+        assertTrue(result.equals(actual), "Result has: \n" + result);
     }
 
-    @Test
-    public void replace() {
-        assertDoesNotThrow(() -> processador.replace("path", "query", "novo_valor"));
-        new File("processador/tmp/xml/teste.xml");
 
+    @ParameterizedTest
+    @CsvSource({"/project/artifactId, param.artifactId"})
+    public void replace(String query, String newValue) {
+        String pathToReplaced =getFileFromResources(TESTREPLACED)+"replaced_file.xml";
+        assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query, newValue, pathToReplaced));
+        // new File("processador/tmp/xml/teste.xml");
     }
 }
