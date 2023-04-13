@@ -59,15 +59,13 @@ public class ProcessadorTest {
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
-        // new File("processador/tmp/xml/teste.xml");
     }
 
     @ParameterizedTest
     @CsvSource({"/project/NotFound, param.artifactId"})
     public void test_replace_node_not_found(String query, String newValue) {
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
-        assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
+        assertThrows(RuntimeException.class,() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
-        // new File("processador/tmp/xml/teste.xml");
     }
 }
