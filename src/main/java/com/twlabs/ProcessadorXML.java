@@ -1,86 +1,119 @@
 package com.twlabs;
 
+import java.io.File;
+import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * ProcessadorXML bom cidadao
  */
-public class ProcessadorXML implements Processador {
+public class ProcessadorXML implements HandlerFiles {
 
-    // Loc
-    private Document xml;
 
-    public ProcessadorXML(Path path) throws RuntimeException {
+    public ProcessadorXML(Path path) throws RuntimeException {}
+
+
+    private Document readFile(Path path) {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
+        Document xml;
+
         try {
             builder = builderFactory.newDocumentBuilder();
             xml = builder.parse(path.toFile());
         } catch (Exception e) {
+            System.err.println(e);
             throw new RuntimeException("Erro ao ler o arquivo " + path.toString());
         }
+        return xml;
     }
 
 
-    public Map<String, String> buscaParametro(String path) throws XPathExpressionException {
 
+    @Override
+    public NodeList find(String pathFile, String query) {
+        Document xml = readFile(Paths.get(pathFile));
         XPath xpath = XPathFactory.newInstance().newXPath();
-        Map<String, String> map = new HashMap<String, String>();
 
-        Node parametro = (Node) xpath.evaluate(path, xml, XPathConstants.NODE);
+        NodeList nodes;
+        try {
+            nodes = (NodeList) xpath.evaluate(query, xml, XPathConstants.NODESET);
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Was not found any nodes with: " + query);
+        }
+        return nodes;
+    }
 
-        if (parametro == null) {
-            throw new XPathExpressionException("Parametro " + path + " não encontrado!!!");
+
+    public void replace(String path, String query, String newValue, String replaceValuePath) {
+        // Load original content
+        Document originalDocument = readFile(Paths.get(path));
+
+        // Find and change value of Nodes
+        NodeList findNodeList = find(path, query);
+        for (int i = 0; i < findNodeList.getLength(); i++) {
+            Node findNode = findNodeList.item(i);
+
+            // Iterate over the elements with the same name off the node
+            NodeList originalNodes = originalDocument.getElementsByTagName(findNode.getNodeName());
+            for (int j = 0; j < originalNodes.getLength(); j++) {
+                Node originalNode = originalNodes.item(j);
+                if (findNode.getNodeName().equals(originalNode.getNodeName())
+                        && findNode.getTextContent().equals(originalNode.getTextContent())) {
+                    System.out.println("Find: " + findNode.getTextContent() + "----"
+                            + originalNode.getTextContent());
+                    originalNode.setTextContent("${{" + newValue + "}}");
+
+                }
+            }
+
         }
 
-        map.put(path, parametro.getTextContent());
-
-        return map;
+        // Making a copy
+        saveChanges(originalDocument, replaceValuePath);
     }
 
-
-    public Map<String, String> parse(Map<String, String> paths) throws XPathExpressionException {
-
-        Map<String, String> map = new HashMap<String, String>();
-
-        for (String path : paths.keySet()) {
-            map.put(path, buscaParametro(path).get(path));
+    private void saveChanges(Document doc, String filePath) {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer;
+        try {
+            transformer = transformerFactory.newTransformer();
+            transformer.transform(new DOMSource(doc),
+                    new StreamResult(new File(URI.create(filePath))));
+        } catch (TransformerConfigurationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (TransformerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-
-        return map;
-    }
-
-
-
-    @Override
-    public void replace(String path, String query, String novoValor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'replace'");
     }
 
 
     @Override
-    public void replace(String path, Map<String, String> mapaQueryValor) {
+    public void replace(String filePath, Map<String, String> queryValueMap,
+            String replacedValuesPath) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'replace'");
-    }
 
-
-    @Override
-    public List<String> find(String pathArquivo, String query) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'find'");
     }
 
 
