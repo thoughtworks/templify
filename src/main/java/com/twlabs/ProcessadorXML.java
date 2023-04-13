@@ -70,6 +70,7 @@ public class ProcessadorXML implements HandlerFiles {
 
         // Find and change value of Nodes
         NodeList findNodeList = find(path, query);
+        boolean notFound = true;
         for (int i = 0; i < findNodeList.getLength(); i++) {
             Node findNode = findNodeList.item(i);
 
@@ -79,15 +80,16 @@ public class ProcessadorXML implements HandlerFiles {
                 Node originalNode = originalNodes.item(j);
                 if (findNode.getNodeName().equals(originalNode.getNodeName())
                         && findNode.getTextContent().equals(originalNode.getTextContent())) {
-                    System.out.println("Find: " + findNode.getTextContent() + "----"
-                            + originalNode.getTextContent());
-                    originalNode.setTextContent("${{" + newValue + "}}");
-
+                    notFound = false;
                 }
             }
 
         }
 
+        if (notFound) {
+            throw new RuntimeException(
+                    "It was not possible to make replace: " + query + " NOT FOUND");
+        }
         // Making a copy
         saveChanges(originalDocument, replaceValuePath);
     }
