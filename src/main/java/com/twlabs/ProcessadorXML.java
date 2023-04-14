@@ -5,6 +5,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -80,15 +81,16 @@ public class ProcessadorXML implements HandlerFiles {
                 Node originalNode = originalNodes.item(j);
                 if (findNode.getNodeName().equals(originalNode.getNodeName())
                         && findNode.getTextContent().equals(originalNode.getTextContent())) {
-                    originalNode.setTextContent("${{"+newValue+"}}");
+                    originalNode.setTextContent("${{" + newValue + "}}");
                     notFound = false;
                 }
             }
 
         }
 
-        if(notFound){
-        throw new RuntimeException("It was not possible to make replace: "+query+" NOT FOUND");
+        if (notFound) {
+            throw new RuntimeException(
+                    "It was not possible to make replace: " + query + " NOT FOUND");
         }
         // Making a copy
         saveChanges(originalDocument, replaceValuePath);
@@ -98,7 +100,6 @@ public class ProcessadorXML implements HandlerFiles {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer;
         try {
-            System.out.println(URI.create(filePath)); 
             transformer = transformerFactory.newTransformer();
             transformer.transform(new DOMSource(doc),
                     new StreamResult(new File(URI.create(filePath))));
@@ -115,7 +116,25 @@ public class ProcessadorXML implements HandlerFiles {
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap,
             String replacedValuesPath) {
-        // TODO Auto-generated method stub
+
+
+
+        boolean isFirst = true;
+        Iterator<String> iterator = queryValueMap.keySet().iterator();
+
+        while (iterator.hasNext()) {
+            String query = iterator.next();
+            if (!isFirst) {
+                replace(URI.create(replacedValuesPath).getPath(), query, queryValueMap.get(query), replacedValuesPath);
+
+
+            } else {
+                replace(filePath, query, queryValueMap.get(query), replacedValuesPath);
+                isFirst = false;
+            }
+
+        }
+
 
     }
 
