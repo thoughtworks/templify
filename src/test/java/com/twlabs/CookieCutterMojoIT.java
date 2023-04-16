@@ -18,22 +18,17 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     @DisplayName("Build da aplicação deve ocorrer com sucesso")
-    public void configuracao_basica_build_test(MavenExecutionResult resultado) {
-        // validando se build foi executado com sucesso
-        assertThat(resultado).isSuccessful();
+    public void configuracao_basica_build_test(MavenExecutionResult result) {
 
-        assertThat(resultado).isSuccessful().out().info()
-                .contains("Brace yourself! Iniciando o cookiecutter-templater-maven-plugin!!");
+        assertThat(result).isSuccessful();
 
-        // maven-jar-plugin vai emitir um warning pq não estamos adicionando conteudo no jar
-        assertThat(resultado).isSuccessful().out().warn()
-                .contains("JAR will be empty - no content was marked for inclusion!");
-
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
         File resultadoPom = new File(POM);
 
         assertTrue(resultadoPom.exists() && resultadoPom.isFile(),
-                "Arquivo pom.xml não foi copiado!!");
+                "pom.xml was not copied to the template folder.");
 
     }
 

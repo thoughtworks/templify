@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
@@ -125,7 +124,8 @@ public class ProcessadorXML implements HandlerFiles {
         while (iterator.hasNext()) {
             String query = iterator.next();
             if (!isFirst) {
-                replace(URI.create(replacedValuesPath).getPath(), query, queryValueMap.get(query), replacedValuesPath);
+                replace(URI.create(replacedValuesPath).getPath(), query, queryValueMap.get(query),
+                        replacedValuesPath);
 
 
             } else {

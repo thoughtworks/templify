@@ -27,7 +27,8 @@ public class LeitorDeArquivosTest {
     @Test
     public void test_LerLinhas() throws IOException {
 
-        Path arquivo = Files.createFile(this.diretorioTeste.resolve("text.txt")); List<String> linhasControle = List.of("Linha 1", "Linha 2", "Linha 3"); 
+        Path arquivo = Files.createFile(this.diretorioTeste.resolve("text.txt"));
+        List<String> linhasControle = List.of("Linha 1", "Linha 2", "Linha 3");
         Files.write(arquivo, linhasControle);
         LeitorDeArquivos leitorArquivo = new LeitorDeArquivos();
 

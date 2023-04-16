@@ -1,8 +1,8 @@
 package com.twlabs;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
 import org.apache.maven.execution.MavenSession;
-import org.apache.maven.model.Dependency;
 
 /*
  * Copyright 2001-2005 The Apache Software Foundation.
@@ -28,7 +28,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Goal which touches a timestamp file.
@@ -40,46 +40,56 @@ import static org.twdata.maven.mojoexecutor.MojoExecutor.*;
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
 public class CookieCutterMojo extends AbstractMojo {
 
+    private static final String BUILD_TEMPLATE_DIR = "/template";
+
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
     @Component
     private MavenSession mavenSession;
 
+    /**
+     * This references to the root folder of the module/project (the location where the current
+     * pom.xml file is located)
+     */
+    @Parameter(defaultValue = "${project.basedir}", required = true, readonly = true)
+    private File baseDir;
+
+    /**
+     * This represents by default the target folder
+     */
+    @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
+    private File buildDir;
+
     @Component
     private BuildPluginManager pluginManager;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        // Um log para sabermos que o plugin está sendo iniciado e para validar os testes
-        // integrados
-        getLog().info("Brace yourself! Iniciando o cookiecutter-templater-maven-plugin!!");
+        getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
+        String templateDir = this.buildDir.getPath() + BUILD_TEMPLATE_DIR;
 
-        copiarProjeto();
-        getLog().warn(project.getBuild().getDirectory());
+        copyProjectTo(templateDir);
+
+        getLog().warn("Project build dir:" + this.buildDir.getPath());
+        getLog().warn("Backstage template dir:" + templateDir);
 
     }
 
-    private void copiarProjeto() {
+    /**
+     * Copy base dir to the dest folder to the replaces
+     * 
+     * @throws MojoExecutionException
+     */
+    private void copyProjectTo(String dest) throws MojoExecutionException {
         try {
-            getLog().info("Iniciando copia do projeto para: " + project.getBuild().getDirectory());
-            executeMojo(
-                    plugin(groupId("org.apache.maven.plugins"),
-                            artifactId("maven-resources-plugin"), version("3.2.0")),
-                    goal("copy-resources"),
-                    configuration(
-                            element(name("outputDirectory"), "${project.build.directory}/template"),
-                            element(name("resources"),
-                                    element(name("resources"), element("directory", "./")))),
 
-                    executionEnvironment(project, mavenSession, pluginManager));
+            FileUtils.copyDirectory(this.baseDir, new File(dest));
 
-            getLog().info("Projeto copiado com sucesso!!!");
-        } catch (MojoExecutionException e) {
-            getLog().error(
-                    "copiarProjeto erro -  Algo de errado aconteceu ao tentar executar o maven-resources-plugin");
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new MojoExecutionException(
+                    "Something went wrong while copying the project to the template folder.", e);
         }
     }
 }
