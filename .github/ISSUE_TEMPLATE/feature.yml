@@ -1,4 +1,10 @@
-name: 💡 Feature Request
+name: 💡 Feature or Enhancement Request
+labels: ["feature", "enhancement"]
+title: "[Feature]: "
+assignees:
+  - luiz-micci
+  - peppetwer
+
 description: Tell us about a problem you'd like to solve using the Cookiecutter templater Plugin
 body:
   - type: textarea

@@ -1,5 +1,10 @@
 ---
 name: 🐞 Bug Report
+labels: ["bug", "triage"]
+title: "[Bug]: "
+assignees:
+  - luiz-micci
+  - peppetwer
 description: |-
   Tell us about something that's not working the way you think it should.
   # Please read the troubleshooting section (fix me) first.
