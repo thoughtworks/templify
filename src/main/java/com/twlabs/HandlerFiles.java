@@ -1,3 +1,4 @@
+
 package com.twlabs;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import org.w3c.dom.NodeList;
  */
 public interface HandlerFiles {
 
-    NodeList find(String filePath, String query);
+    Map<String, String> find(String filePath, String query);
 
     void replace(String filePath, String query, String newValue, String replacedValuesPath);
 
