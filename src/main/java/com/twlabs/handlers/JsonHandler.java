@@ -23,7 +23,7 @@ public class JsonHandler implements HandlerFiles {
     }
 
     @Override
-    public NodeList find(String filePath, String jsonp) {
+    public Map<String, String> find(String filePath, String jsonp) {
 
         HashMap<String, String> result = new HashMap<String, String>();
 
@@ -49,17 +49,18 @@ public class JsonHandler implements HandlerFiles {
                     StringBuffer values = new StringBuffer();
                     JSONArray array = (JSONArray) value;
                     for (int i = 0; i < array.size(); i++) {
-                       values.append(array.get(i).toString()); 
+                        values.append(array.get(i).toString());
                     }
 
                     result.put(node, value.toString());
-                } else if ( value instanceof Map) {
+                } else if (value instanceof Map) {
                     Map<String, String> jsonObject = (Map<String, String>) value;
                     // System.out.println(jsonObject);
 
                 } else {
-                    throw new UnsupportedOperationException("Unsupported type: " + value.getClass().getName());
-                } 
+                    throw new UnsupportedOperationException(
+                            "Unsupported type: " + value.getClass().getName());
+                }
             }
 
         } catch (Exception e) {

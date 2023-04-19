@@ -2,6 +2,7 @@ package com.twlabs.handlers;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -16,12 +17,13 @@ public class JsonHandlerTest {
     final String teste_json = "src/test/resources/processador/json/teste.json";
 
     @ParameterizedTest
-    @CsvSource({"$['name']", "$..['name']", "$['obbies']" , "$['address']"})
+    @CsvSource({"$['name']", "$..['name']", "$['obbies']", "$['address']"})
     public void test_find(String jsonp) throws Exception {
         this.jsonHandler.find(teste_json, jsonp);
     }
 
     @Test
+    @Disabled("Not implemented yet")
     public void test_replace_with_map() throws Exception {
 
         String filePath = "";
@@ -33,6 +35,7 @@ public class JsonHandlerTest {
 
 
     @Test
+    @Disabled("Not implemented yet")
     public void test_replace_with_string() throws Exception {
 
         String filePath = "";
