@@ -5,12 +5,12 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.w3c.dom.NodeList;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.twlabs.HandlerFiles;
+import com.twlabs.HandlerFilesException;
 import net.minidev.json.JSONArray;
 
 /**
@@ -23,7 +23,7 @@ public class JsonHandler implements HandlerFiles {
     }
 
     @Override
-    public Map<String, String> find(String filePath, String jsonp) {
+    public Map<String, String> find(String filePath, String jsonp) throws HandlerFilesException{
 
         HashMap<String, String> result = new HashMap<String, String>();
 
@@ -58,7 +58,7 @@ public class JsonHandler implements HandlerFiles {
                     // System.out.println(jsonObject);
 
                 } else {
-                    throw new UnsupportedOperationException(
+                    throw new HandlerFilesException(
                             "Unsupported type: " + value.getClass().getName());
                 }
             }

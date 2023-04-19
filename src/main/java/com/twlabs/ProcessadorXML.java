@@ -50,7 +50,7 @@ public class ProcessadorXML implements HandlerFiles {
 
 
     @Override
-    public Map<String, String> find(String pathFile, String query) {
+    public Map<String, String> find(String pathFile, String query) throws HandlerFilesException {
         Document xml = readFile(Paths.get(pathFile));
         XPath xpath = XPathFactory.newInstance().newXPath();
 
@@ -63,20 +63,20 @@ public class ProcessadorXML implements HandlerFiles {
                 if (nodeMap.get(query) == null) {
                     nodeMap.put(query, node.getTextContent());
                 } else if (!(nodeMap.get(query).equals(node.getTextContent()))) {
-                    throw new RuntimeException(
+                    throw new HandlerFilesException(
                             "We have same nodes paths with difrentes values. Adjust your Xpath. \n Query Error: "
                                     + query);
                 } // if equals do nothing
             }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
-            throw new RuntimeException("Was not found any nodes with: " + query);
+            throw new HandlerFilesException("Was not found any nodes with: " + query);
         }
         return nodeMap;
     }
 
 
-    public void replace(String path, String query, String newValue, String replaceValuePath) {
+    public void replace(String path, String query, String newValue, String replaceValuePath) throws HandlerFilesException {
         // Load original content
         Document originalDocument = readFile(Paths.get(path));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -111,7 +111,7 @@ public class ProcessadorXML implements HandlerFiles {
             }
         }
         if (notFound) {
-            throw new RuntimeException(
+            throw new HandlerFilesException(
                     "It was not possible to make replace: " + query + " NOT FOUND");
         }
         // Making a copy
@@ -137,7 +137,7 @@ public class ProcessadorXML implements HandlerFiles {
 
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap,
-            String replacedValuesPath) {
+            String replacedValuesPath) throws HandlerFilesException {
 
 
 
