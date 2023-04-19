@@ -5,7 +5,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.w3c.dom.NodeList;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -14,7 +13,7 @@ import com.twlabs.HandlerFiles;
 import net.minidev.json.JSONArray;
 
 /**
- * JsonHandler
+ * JsonHandler ->
  */
 public class JsonHandler implements HandlerFiles {
 
@@ -25,7 +24,7 @@ public class JsonHandler implements HandlerFiles {
     @Override
     public Map<String, String> find(String filePath, String jsonp) {
 
-        HashMap<String, String> result = new HashMap<String, String>();
+        HashMap<String, String> result;
 
         try {
             Configuration pathConfiguration =
@@ -35,39 +34,27 @@ public class JsonHandler implements HandlerFiles {
 
             DocumentContext jsonContext = JsonPath.using(pathConfiguration).parse(json);
             List<String> nodes = jsonContext.read(jsonp);
-
-
             DocumentContext parse = JsonPath.parse(json);
+
+            result = new HashMap<String, String>();
 
             for (String node : nodes) {
                 Object value = parse.read(node);
 
-                if (value instanceof String) {
-                    result.put(node, value.toString());
-
-                } else if (value instanceof JSONArray) {
-                    StringBuffer values = new StringBuffer();
-                    JSONArray array = (JSONArray) value;
-                    for (int i = 0; i < array.size(); i++) {
-                        values.append(array.get(i).toString());
-                    }
-
-                    result.put(node, value.toString());
-                } else if (value instanceof Map) {
-                    Map<String, String> jsonObject = (Map<String, String>) value;
-                    // System.out.println(jsonObject);
-
-                } else {
+                if (!(value instanceof String))
                     throw new UnsupportedOperationException(
                             "Unsupported type: " + value.getClass().getName());
-                }
+
+                result.put(node, value.toString());
             }
 
+        } catch (UnsupportedOperationException e) {
+            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-        return null;
+        return result;
     }
 
     @Override
