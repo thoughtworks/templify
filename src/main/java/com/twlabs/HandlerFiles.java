@@ -8,10 +8,12 @@ import java.util.Map;
  */
 public interface HandlerFiles {
 
-    Map<String, String> find(String filePath, String query);
+    Map<String, String> find(String filePath, String query) throws HandlerFilesException;
 
-    void replace(String filePath, String query, String newValue, String replacedValuesPath);
+    void replace(String filePath, String query, String newValue, String replacedValuesPath)
+            throws HandlerFilesException;
 
-    void replace(String filePath, Map<String, String> queryValueMap, String replacedValuesPath);
+    void replace(String filePath, Map<String, String> queryValueMap, String replacedValuesPath)
+            throws HandlerFilesException;
 
 }

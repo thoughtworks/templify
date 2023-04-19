@@ -58,7 +58,7 @@ public class ProcessadorTest {
     @CsvSource({"/project/artifactId, project-to-test",
             "/project/groupId, org.apache.maven.plugin.my.unit",
             "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
-    public void test_find(String query, String value) {
+    public void test_find(String query, String value) throws HandlerFilesException {
         Map<String, String> result =
                 processador.find(getFileFromResources(TESTXML).getPath(), query);
 
@@ -72,7 +72,7 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"project/notFound", "notfound/groupId",
             "project/dependencies/dependency/scope[text()='NOT_FOUND']"})
-    public void test_find_not_found(String query) {
+    public void test_find_not_found(String query) throws HandlerFilesException {
         Map<String, String> nodes =
                 processador.find(getFileFromResources(TESTXML).getPath(), query);
 
@@ -83,7 +83,7 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"project/dependencies/dependency/scope"})
     public void test_find_found_same_path_different_values(String query) {
-        assertThrows(RuntimeException.class,
+        assertThrows(HandlerFilesException.class,
                 () -> processador.find(getFileFromResources(TESTXML).getPath(), query));
 
     }
@@ -96,7 +96,8 @@ public class ProcessadorTest {
                 URI.create(getFileFromResources(TESTREPLACED) + "replaced_file.xml").getPath()));
 
         XPath xpath = XPathFactory.newInstance().newXPath();
-        NodeList nodes = (NodeList) xpath.evaluate("//*[text()='"+query+"']", doc, XPathConstants.NODESET);
+        NodeList nodes = (NodeList) xpath.evaluate("//*[text()='" + query + "']", doc,
+                XPathConstants.NODESET);
         if (nodes.getLength() == expectedLenght) {
             return true;
         }
@@ -117,7 +118,7 @@ public class ProcessadorTest {
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
 
-        assertTrue(checkExpectedLenght("${{"+newValue+"}}", 1), "Values mismatch");
+        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 1), "Values mismatch");
     }
 
 
@@ -129,7 +130,7 @@ public class ProcessadorTest {
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
 
-        assertTrue(checkExpectedLenght("${{"+newValue+"}}", 2), "Values mismatch");
+        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 2), "Values mismatch");
 
     }
 
@@ -138,7 +139,7 @@ public class ProcessadorTest {
     @CsvSource({"/project/NotFound, param.artifactId"})
     public void test_replace_node_not_found(String query, String newValue) {
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
-        assertThrows(RuntimeException.class, () -> processador
+        assertThrows(HandlerFilesException.class, () -> processador
                 .replace(getFileFromResources(TESTXML).getPath(), query, newValue, pathToReplaced));
     }
 

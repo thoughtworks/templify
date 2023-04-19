@@ -9,8 +9,9 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.PathNotFoundException;
 import com.twlabs.HandlerFiles;
-import net.minidev.json.JSONArray;
+import com.twlabs.HandlerFilesException;
 
 /**
  * JsonHandler ->
@@ -22,7 +23,7 @@ public class JsonHandler implements HandlerFiles {
     }
 
     @Override
-    public Map<String, String> find(String filePath, String jsonp) {
+    public Map<String, String> find(String filePath, String jsonp) throws HandlerFilesException{
 
         HashMap<String, String> result;
 
@@ -50,6 +51,8 @@ public class JsonHandler implements HandlerFiles {
 
         } catch (UnsupportedOperationException e) {
             throw e;
+        } catch (PathNotFoundException notFound) {
+            throw new HandlerFilesException(jsonp);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.HandlerFiles;
+import com.twlabs.HandlerFilesException;
 
 /**
  * JsonHandlerTest
@@ -23,7 +24,8 @@ public class JsonHandlerTest {
 
     @ParameterizedTest
     @CsvSource({"$['name']", "$..['name']"})
-    public void test_find_simple_types_must_return_values(String jsonp) {
+    public void test_find_simple_types_must_return_values(String jsonp)
+            throws HandlerFilesException {
         assertThat(this.jsonHandler.find(teste_json, jsonp)).isNotNull().isNotEmpty();
     }
 
@@ -45,8 +47,7 @@ public class JsonHandlerTest {
     @ParameterizedTest
     @CsvSource({"$['xyzpto']"})
     public void test_find_not_found_must_throw_not_found_excep(String jsonp) {
-        assertThrows(UnsupportedOperationException.class,
-                () -> this.jsonHandler.find(teste_json, jsonp));
+        assertThrows(HandlerFilesException.class, () -> this.jsonHandler.find(teste_json, jsonp));
     }
 
     @Test
