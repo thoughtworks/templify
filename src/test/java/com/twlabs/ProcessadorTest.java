@@ -58,7 +58,7 @@ public class ProcessadorTest {
     @CsvSource({"/project/artifactId, project-to-test",
             "/project/groupId, org.apache.maven.plugin.my.unit",
             "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
-    public void test_find(String query, String value) {
+    public void test_find(String query, String value) throws HandlerFilesException {
         Map<String, String> result =
                 processador.find(getFileFromResources(TESTXML).getPath(), query);
 
@@ -72,7 +72,7 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"project/notFound", "notfound/groupId",
             "project/dependencies/dependency/scope[text()='NOT_FOUND']"})
-    public void test_find_not_found(String query) {
+    public void test_find_not_found(String query) throws HandlerFilesException {
         Map<String, String> nodes =
                 processador.find(getFileFromResources(TESTXML).getPath(), query);
 
