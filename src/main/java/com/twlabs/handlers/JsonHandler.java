@@ -1,5 +1,6 @@
 package com.twlabs.handlers;
 
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
+import com.jayway.jsonpath.internal.JsonFormatter;
 import com.twlabs.HandlerFiles;
 import com.twlabs.HandlerFilesException;
 
@@ -18,12 +20,12 @@ import com.twlabs.HandlerFilesException;
  */
 public class JsonHandler implements HandlerFiles {
 
-    public static String readFileAsString(String file) throws Exception {
+    protected static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));
     }
 
     @Override
-    public Map<String, String> find(String filePath, String jsonp) throws HandlerFilesException{
+    public Map<String, String> find(String filePath, String jsonp) throws HandlerFilesException {
 
         HashMap<String, String> result;
 
@@ -61,9 +63,25 @@ public class JsonHandler implements HandlerFiles {
     }
 
     @Override
-    public void replace(String filePath, String query, String newValue, String replacedValuesPath) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'replace'");
+    public void replace(String file, String jsonp, String newValue, String replacedValuesPath) {
+        try {
+            String json = readFileAsString(file);
+
+            DocumentContext jsonContext = JsonPath.parse(json);
+
+            jsonContext.set(jsonp, newValue);
+
+            String str = JsonFormatter.prettyPrint(jsonContext.jsonString());
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] strToBytes = str.getBytes();
+            outputStream.write(strToBytes);
+
+            outputStream.close();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

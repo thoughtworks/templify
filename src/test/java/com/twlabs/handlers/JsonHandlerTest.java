@@ -2,14 +2,18 @@ package com.twlabs.handlers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import com.github.javafaker.Faker;
 import com.twlabs.HandlerFiles;
 import com.twlabs.HandlerFilesException;
 
@@ -20,6 +24,7 @@ import com.twlabs.HandlerFilesException;
 public class JsonHandlerTest {
 
     HandlerFiles jsonHandler = new JsonHandler();
+    Faker faker = new Faker();
     final String teste_json = "src/test/resources/processador/json/teste.json";
 
     @ParameterizedTest
@@ -51,14 +56,21 @@ public class JsonHandlerTest {
     }
 
     @Test
-    @Disabled("Not implemented yet")
     public void test_replace_with_map() throws Exception {
 
-        String filePath = "";
-        Map<String, String> queryValueMap = new HashMap<String, String>();
-        String replacedValuesPath = "";
+        String query = "$['name']";
+        String newValue = faker.name().fullName();
 
-        this.jsonHandler.replace(filePath, queryValueMap, replacedValuesPath);
+        String filename = faker.lorem().word().toLowerCase();
+        final Path fileForTest = Files.createTempFile(filename, ".json");
+        FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
+
+        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), query, newValue, null);
+
+        Map<String, String> results =
+                this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), query);
+
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
     }
 
 
