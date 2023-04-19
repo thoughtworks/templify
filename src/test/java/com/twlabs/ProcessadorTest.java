@@ -56,28 +56,39 @@ public class ProcessadorTest {
 
     @ParameterizedTest
     @CsvSource({"/project/artifactId, project-to-test",
-            "/project/groupId, org.apache.maven.plugin.my.unit"})
+            "/project/groupId, org.apache.maven.plugin.my.unit",
+            "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
     public void test_find(String query, String value) {
-        NodeList nodes = processador.find(getFileFromResources(TESTXML).getPath(), query);
+        Map<String, String> result =
+                processador.find(getFileFromResources(TESTXML).getPath(), query);
 
         Map<String, String> actual = new HashMap<String, String>();
         actual.put(query, value);
 
-        Map<String, String> result = new HashMap<>();
-        for (int i = 0; i < nodes.getLength(); i++) {
-            result.put(query, nodes.item(i).getTextContent());
-        }
-        assertTrue(result.equals(actual), "Result has: \n" + result);
+        assertTrue(result.equals(actual),
+                "Result has: \n" + result + "\n Actual has: \n" + actual + "\n------");
     }
 
     @ParameterizedTest
-    @CsvSource({"project/notFound", "notfound/groupId"})
+    @CsvSource({"project/notFound", "notfound/groupId",
+            "project/dependencies/dependency/scope[text()='NOT_FOUND']"})
     public void test_find_not_found(String query) {
-        NodeList nodes = processador.find(getFileFromResources(TESTXML).getPath(), query);
+        Map<String, String> nodes =
+                processador.find(getFileFromResources(TESTXML).getPath(), query);
 
-        assertNull(nodes.item(0));
+        assertTrue(nodes.isEmpty());
 
     }
+
+    @ParameterizedTest
+    @CsvSource({"project/dependencies/dependency/scope"})
+    public void test_find_found_same_path_different_values(String query) {
+        assertThrows(RuntimeException.class,
+                () -> processador.find(getFileFromResources(TESTXML).getPath(), query));
+
+    }
+
+
 
     private boolean checkExpectedLenght(String query, int expectedLenght)
             throws XPathExpressionException {
@@ -85,7 +96,7 @@ public class ProcessadorTest {
                 URI.create(getFileFromResources(TESTREPLACED) + "replaced_file.xml").getPath()));
 
         XPath xpath = XPathFactory.newInstance().newXPath();
-        NodeList nodes = (NodeList) xpath.evaluate(query, doc, XPathConstants.NODESET);
+        NodeList nodes = (NodeList) xpath.evaluate("//*[text()='"+query+"']", doc, XPathConstants.NODESET);
         if (nodes.getLength() == expectedLenght) {
             return true;
         }
@@ -98,26 +109,27 @@ public class ProcessadorTest {
 
     @ParameterizedTest
     @CsvSource({"/project/artifactId, param.artifactId",
-            "/project/groupId, Cookiecutter.test.param"})
+            "/project/groupId, Cookiecutter.test.param",
+            "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
     public void test_replace_just_one_tag(String query, String newValue)
             throws XPathExpressionException {
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
 
-        assertTrue(checkExpectedLenght(query, 1), "Values mismatch");
+        assertTrue(checkExpectedLenght("${{"+newValue+"}}", 1), "Values mismatch");
     }
 
 
     @ParameterizedTest
-    @CsvSource({"/project/dependencies/dependency/scope, Cookiecutter.scope.param"})
+    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
     public void test_replace_more_tags(String query, String newValue)
             throws XPathExpressionException {
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
                 newValue, pathToReplaced));
 
-        assertTrue(checkExpectedLenght(query, 2), "Values mismatch");
+        assertTrue(checkExpectedLenght("${{"+newValue+"}}", 2), "Values mismatch");
 
     }
 
@@ -135,7 +147,8 @@ public class ProcessadorTest {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("/project/groupId", "Cookiecutter.test.replace.map.grouId");
         queryMap.put("/project/artifactId", "Cookiecutter.test.replace.map.artifactId");
-        queryMap.put("/project/dependencies/dependency/scope", "Cookiecutter.replace.map.scopes");
+        queryMap.put("/project/dependencies/dependency/scope[text()='test']",
+                "Cookiecutter.replace.map.scopes");
         String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
 
         assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(),

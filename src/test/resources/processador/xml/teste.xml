@@ -20,6 +20,12 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.9.2</version>
+            <scope>no_test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.alguma.coisa</groupId>
+            <artifactId>junit-test-unit</artifactId>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
 
