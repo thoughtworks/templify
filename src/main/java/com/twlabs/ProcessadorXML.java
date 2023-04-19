@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
@@ -49,44 +50,66 @@ public class ProcessadorXML implements HandlerFiles {
 
 
     @Override
-    public NodeList find(String pathFile, String query) {
+    public Map<String, String> find(String pathFile, String query) {
         Document xml = readFile(Paths.get(pathFile));
         XPath xpath = XPathFactory.newInstance().newXPath();
 
+        Map<String, String> nodeMap = new HashMap<>();
         NodeList nodes;
         try {
             nodes = (NodeList) xpath.evaluate(query, xml, XPathConstants.NODESET);
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node node = nodes.item(i);
+                if (nodeMap.get(query) == null) {
+                    nodeMap.put(query, node.getTextContent());
+                } else if (!(nodeMap.get(query).equals(node.getTextContent()))) {
+                    throw new RuntimeException(
+                            "We have same nodes paths with difrentes values. Adjust your Xpath. \n Query Error: "
+                                    + query);
+                } // if equals do nothing
+            }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
             throw new RuntimeException("Was not found any nodes with: " + query);
         }
-        return nodes;
+        return nodeMap;
     }
 
 
     public void replace(String path, String query, String newValue, String replaceValuePath) {
         // Load original content
         Document originalDocument = readFile(Paths.get(path));
+        XPath xpath = XPathFactory.newInstance().newXPath();
 
         // Find and change value of Nodes
-        NodeList findNodeList = find(path, query);
+        Map<String, String> findNodeMap = find(path, query);
+
+        System.out.println("Query replace: " + query);
         boolean notFound = true;
-        for (int i = 0; i < findNodeList.getLength(); i++) {
-            Node findNode = findNodeList.item(i);
+        for (Map.Entry<String, String> entryNode : findNodeMap.entrySet()) {
 
-            // Iterate over the elements with the same name off the node
-            NodeList originalNodes = originalDocument.getElementsByTagName(findNode.getNodeName());
-            for (int j = 0; j < originalNodes.getLength(); j++) {
-                Node originalNode = originalNodes.item(j);
-                if (findNode.getNodeName().equals(originalNode.getNodeName())
-                        && findNode.getTextContent().equals(originalNode.getTextContent())) {
-                    originalNode.setTextContent("${{" + newValue + "}}");
-                    notFound = false;
+
+            NodeList originalNodes;
+            try {
+                originalNodes = (NodeList) xpath.evaluate(entryNode.getKey(), originalDocument,
+                        XPathConstants.NODESET);
+                // OriginalDocument.getElementsByTagName(entryNode.getKey());
+                for (int j = 0; j < originalNodes.getLength(); j++) {
+                    Node originalNode = originalNodes.item(j);
+                    System.out.println("entryNode: " + entryNode.getKey() + " --- "
+                            + originalNode.getNodeName());
+                    if (entryNode.getValue().equals(originalNode.getTextContent())) {
+                        originalNode.setTextContent("${{" + newValue + "}}");
+                        notFound = false;
+                    }
                 }
+
+
+
+            } catch (XPathExpressionException e) {
+                e.printStackTrace();
             }
-
         }
-
         if (notFound) {
             throw new RuntimeException(
                     "It was not possible to make replace: " + query + " NOT FOUND");
