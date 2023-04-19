@@ -1,0 +1,14 @@
+{
+    "name": "David",
+    "age": 30,
+    "hobbies": [
+        "Football",
+        "Cooking",
+        "Swimming"
+    ],
+    "languages": {
+        "French": "Beginner",
+        "German": "Intermediate",
+        "Spanish": "Advanced"
+    }
+}
