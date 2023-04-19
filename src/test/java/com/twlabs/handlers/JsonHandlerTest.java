@@ -3,6 +3,8 @@ package com.twlabs.handlers;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.HandlerFiles;
 
 /**
@@ -11,12 +13,12 @@ import com.twlabs.HandlerFiles;
 public class JsonHandlerTest {
 
     HandlerFiles jsonHandler = new JsonHandler();
+    final String teste_json = "src/test/resources/processador/json/teste.json";
 
-    @Test
-    public void test_find() throws Exception {
-        String file = "src/test/resources/processador/json/teste.json";
-        String jsonPath = "$['name']";
-        this.jsonHandler.find(file, jsonPath);
+    @ParameterizedTest
+    @CsvSource({"$['name']", "$..['name']", "$['obbies']" , "$['address']"})
+    public void test_find(String jsonp) throws Exception {
+        this.jsonHandler.find(teste_json, jsonp);
     }
 
     @Test

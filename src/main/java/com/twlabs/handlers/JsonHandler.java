@@ -10,10 +10,8 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.internal.filter.ValueNode.JsonNode;
 import com.twlabs.HandlerFiles;
 import net.minidev.json.JSONArray;
-import net.minidev.json.JSONObject;
 
 /**
  * JsonHandler
@@ -25,7 +23,7 @@ public class JsonHandler implements HandlerFiles {
     }
 
     @Override
-    public NodeList find(String filePath, String query) {
+    public NodeList find(String filePath, String jsonp) {
 
         HashMap<String, String> result = new HashMap<String, String>();
 
@@ -36,14 +34,32 @@ public class JsonHandler implements HandlerFiles {
             String json = readFileAsString(filePath);
 
             DocumentContext jsonContext = JsonPath.using(pathConfiguration).parse(json);
-            List<String> nodes = jsonContext.read(query);
+            List<String> nodes = jsonContext.read(jsonp);
 
 
             DocumentContext parse = JsonPath.parse(json);
 
             for (String node : nodes) {
-                String value = parse.read(node);
-                result.put(node, value);
+                Object value = parse.read(node);
+
+                if (value instanceof String) {
+                    result.put(node, value.toString());
+
+                } else if (value instanceof JSONArray) {
+                    StringBuffer values = new StringBuffer();
+                    JSONArray array = (JSONArray) value;
+                    for (int i = 0; i < array.size(); i++) {
+                       values.append(array.get(i).toString()); 
+                    }
+
+                    result.put(node, value.toString());
+                } else if ( value instanceof Map) {
+                    Map<String, String> jsonObject = (Map<String, String>) value;
+                    // System.out.println(jsonObject);
+
+                } else {
+                    throw new UnsupportedOperationException("Unsupported type: " + value.getClass().getName());
+                } 
             }
 
         } catch (Exception e) {
