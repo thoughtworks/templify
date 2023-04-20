@@ -54,7 +54,6 @@ public class JsonHandlerTest {
     public void test_find_with_empty_file_must_throw_unsupported_op() {
         assertThrows(UnsupportedOperationException.class,
                 () -> this.jsonHandler.find(teste_empty_json, "$['name']"));
-
     }
 
     @ParameterizedTest
@@ -70,6 +69,7 @@ public class JsonHandlerTest {
         String newName = faker.name().fullName();
 
         String filename = faker.lorem().word().toLowerCase();
+
         final Path fileForTest = Files.createTempFile(filename, ".json");
         FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
 

@@ -36,7 +36,6 @@ public class JsonHandler implements HandlerFiles {
 
             String json = readFileAsString(filePath);
 
-            if(StringUtils.isEmpty(json)) throw new UnsupportedOperationException("Empty json file.");
 
             DocumentContext jsonContext = JsonPath.using(pathConfiguration).parse(json);
             List<String> nodes = jsonContext.read(jsonp);
@@ -76,7 +75,7 @@ public class JsonHandler implements HandlerFiles {
 
             String str = JsonFormatter.prettyPrint(jsonContext.jsonString());
 
-            try(FileOutputStream outputStream = new FileOutputStream(file)) {
+            try (FileOutputStream outputStream = new FileOutputStream(file)) {
 
                 byte[] strToBytes = str.getBytes();
 

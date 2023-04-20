@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
@@ -25,13 +27,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import com.github.javafaker.Faker;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ProcessadorTest {
 
     HandlerFiles processador = new ProcessadorXML(null);
+    Faker faker = new Faker();
+
 
     String TESTXML = "processador/xml/teste.xml";
+    final String teste_xml = "src/test/resources/processador/xml/teste.xml";
+
     String TESTREPLACED = "processador/xml/";
 
     public URL getFileFromResources(String path) {
@@ -57,9 +64,15 @@ public class ProcessadorTest {
     @CsvSource({"/project/artifactId, project-to-test",
             "/project/groupId, org.apache.maven.plugin.my.unit",
             "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
-    public void test_find(String query, String value) throws HandlerFilesException {
+    public void test_find(String query, String value) throws HandlerFilesException, IOException {
+
+        String filename = faker.lorem().word().toLowerCase();
+
+        final Path fileForTest = Files.createTempFile(filename, ".xml");
+        FileUtils.copyFile(Paths.get(teste_xml).toFile(), fileForTest.toFile());
+
         Map<String, String> result =
-                processador.find(getFileFromResources(TESTXML).getPath(), query);
+                processador.find(fileForTest.toAbsolutePath().toString(), query);
 
         Map<String, String> actual = new HashMap<String, String>();
         actual.put(query, value);

@@ -76,7 +76,8 @@ public class ProcessadorXML implements HandlerFiles {
     }
 
 
-    public void replace(String path, String query, String newValue, String replaceValuePath) throws HandlerFilesException {
+    public void replace(String path, String query, String newValue, String replaceValuePath)
+            throws HandlerFilesException {
         // Load original content
         Document originalDocument = readFile(Paths.get(path));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -107,7 +108,7 @@ public class ProcessadorXML implements HandlerFiles {
 
 
             } catch (XPathExpressionException e) {
-                e.printStackTrace();
+                throw new HandlerFilesException("Was not found any nodes with: " + query);
             }
         }
         if (notFound) {
