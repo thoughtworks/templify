@@ -91,8 +91,10 @@ public class JsonHandler implements HandlerFiles {
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap,
             String replacedValuesPath) {
-        throw new UnsupportedOperationException("Unimplemented method 'replace'");
-    }
 
+        for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
+            this.replace(filePath, entry.getKey(), entry.getValue(), replacedValuesPath);
+        }
+    }
 
 }

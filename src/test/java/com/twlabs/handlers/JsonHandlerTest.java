@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Disabled;
@@ -66,31 +67,45 @@ public class JsonHandlerTest {
     @Test
     public void test_replace_with_map() throws Exception {
 
-        String query = "$['name']";
-        String newValue = faker.name().fullName();
+        String nameQuery = "$['name']";
+        String newName = faker.name().fullName();
 
         String filename = faker.lorem().word().toLowerCase();
         final Path fileForTest = Files.createTempFile(filename, ".json");
         FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
 
-        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), query, newValue, null);
+        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), nameQuery, newName, null);
 
         Map<String, String> results =
-                this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), query);
+                this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), nameQuery);
 
-        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newName);
     }
 
 
     @Test
-    @Disabled("Not implemented yet")
-    public void test_replace_with_string() throws Exception {
+    public void test_replace_with_maps() throws Exception {
 
-        String filePath = "";
-        String queryValueMap = "";
-        String replacedValuesPath = "";
-        String newValue = "";
+        String nameQuery = "$['name']";
+        String newName = faker.name().fullName();
 
-        this.jsonHandler.replace(filePath, queryValueMap, newValue, replacedValuesPath);
+        String ageQuery = "$['age']";
+        String newAge = faker.numerify("##");
+
+        Map<String, String> replaces = new HashMap<>();
+        replaces.put(nameQuery, newName);
+        replaces.put(ageQuery, newAge);
+
+        String filename = faker.lorem().word().toLowerCase();
+        final Path fileForTest = Files.createTempFile(filename, ".json");
+        FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
+
+        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), replaces, null);
+
+        Map<String, String> results =
+                this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), nameQuery);
+
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newName);
+
     }
 }
