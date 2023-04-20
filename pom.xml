@@ -11,9 +11,13 @@
     <properties>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <maven.plugin.libs.version>3.8.1</maven.plugin.libs.version>
         <pitest.version>1.12.0</pitest.version>
         <pitest.junit5.version>1.1.1</pitest.junit5.version>
+        <failsafe.version>3.0.0</failsafe.version>
     </properties>
 
     <dependencies>
@@ -120,7 +124,9 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
             <version>3.2.5</version>
+            <scope>provided</scope>
         </dependency>
+
 
         <dependency>
             <groupId>commons-io</groupId>
@@ -200,11 +206,14 @@
                 <version>${pitest.version}</version>
                 <configuration>
                     <targetClasses>
-                        <param>com.twlabs.handlers.*</param>
+                        <param>com.twlabs.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.twlabs.handlers.*</param>
+                        <param>com.twlabs.*Test</param>
                     </targetTests>
+                    <excludeClasses>
+                        <param>com.twlabs.*Mojo</param>
+                    </excludeClasses>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -273,11 +282,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafe.version}</version>
                 <configuration>
-                    <systemProperties>
-                        <maven.version>${maven.version}</maven.version>
-                        <maven.home>${maven.home}</maven.home>
-                    </systemProperties>
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                 </configuration>
                 <executions>
