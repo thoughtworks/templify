@@ -36,10 +36,8 @@ public class ProcessadorTest {
     Faker faker = new Faker();
 
 
-    String TESTXML = "processador/xml/teste.xml";
     final String teste_xml = "src/test/resources/processador/xml/teste.xml";
 
-    String TESTREPLACED = "processador/xml/";
 
     public URL getFileFromResources(String path) {
         return getClass().getClassLoader().getResource(path);
@@ -60,20 +58,24 @@ public class ProcessadorTest {
         return xml;
     }
 
+    private Path fileForTest() throws IOException {
+        String fileName = faker.lorem().word().toLowerCase();
+        final Path fileForTest = Files.createTempFile(fileName, ".xml");
+        FileUtils.copyFile(Paths.get(teste_xml).toFile(), fileForTest.toFile());
+        return fileForTest;
+
+    }
+
+
+
     @ParameterizedTest
     @CsvSource({"/project/artifactId, project-to-test",
             "/project/groupId, org.apache.maven.plugin.my.unit",
             "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
     public void test_find(String query, String value) throws HandlerFilesException, IOException {
-
-        String filename = faker.lorem().word().toLowerCase();
-
-        final Path fileForTest = Files.createTempFile(filename, ".xml");
-        FileUtils.copyFile(Paths.get(teste_xml).toFile(), fileForTest.toFile());
-
+        final Path fileForTest = fileForTest();
         Map<String, String> result =
                 processador.find(fileForTest.toAbsolutePath().toString(), query);
-
         Map<String, String> actual = new HashMap<String, String>();
         actual.put(query, value);
 
@@ -81,31 +83,32 @@ public class ProcessadorTest {
                 "Result has: \n" + result + "\n Actual has: \n" + actual + "\n------");
     }
 
+
     @ParameterizedTest
     @CsvSource({"project/notFound", "notfound/groupId",
             "project/dependencies/dependency/scope[text()='NOT_FOUND']"})
-    public void test_find_not_found(String query) throws HandlerFilesException {
+    public void test_find_not_found(String query) throws HandlerFilesException, IOException {
+        final Path fileForTest = fileForTest();
         Map<String, String> nodes =
-                processador.find(getFileFromResources(TESTXML).getPath(), query);
-
+                processador.find(fileForTest.toAbsolutePath().toString(), query);
         assertTrue(nodes.isEmpty());
-
     }
+
 
     @ParameterizedTest
     @CsvSource({"project/dependencies/dependency/scope"})
-    public void test_find_found_same_path_different_values(String query) {
+    public void test_find_found_same_path_different_values(String query) throws IOException {
+        final Path fileForTest = fileForTest();
         assertThrows(HandlerFilesException.class,
-                () -> processador.find(getFileFromResources(TESTXML).getPath(), query));
+                () -> processador.find(fileForTest.toAbsolutePath().toString(), query));
 
     }
 
 
 
-    private boolean checkExpectedLenght(String query, int expectedLenght)
+    private boolean checkExpectedLenght(String query, int expectedLenght, Path fileToTest)
             throws XPathExpressionException {
-        Document doc = readFile(Paths.get(
-                URI.create(getFileFromResources(TESTREPLACED) + "replaced_file.xml").getPath()));
+        Document doc = readFile(fileToTest);
 
         XPath xpath = XPathFactory.newInstance().newXPath();
         NodeList nodes = (NodeList) xpath.evaluate("//*[text()='" + query + "']", doc,
@@ -125,61 +128,65 @@ public class ProcessadorTest {
             "/project/groupId, Cookiecutter.test.param",
             "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
     public void test_replace_just_one_tag(String query, String newValue)
-            throws XPathExpressionException {
-        String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
-        assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
-                newValue, pathToReplaced));
+            throws XPathExpressionException, IOException {
+        final Path fileForTest = fileForTest();
+        final Path originalFile = fileForTest();
 
-        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 1), "Values mismatch");
+        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
+                query, newValue, fileForTest.toUri().toString()));
+
+        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 1, fileForTest.toAbsolutePath()),
+                "Values mismatch");
     }
 
 
     @ParameterizedTest
     @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
     public void test_replace_more_tags(String query, String newValue)
-            throws XPathExpressionException {
-        String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
-        assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(), query,
-                newValue, pathToReplaced));
+            throws XPathExpressionException, IOException {
+        final Path fileForTest = fileForTest();
+        final Path originalFile = fileForTest();
 
-        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 2), "Values mismatch");
+        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
+                query, newValue, fileForTest.toUri().toString()));
+
+        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 2, fileForTest), "Values mismatch");
 
     }
 
 
     @ParameterizedTest
     @CsvSource({"/project/NotFound, param.artifactId"})
-    public void test_replace_node_not_found(String query, String newValue) {
-        String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
-        assertThrows(HandlerFilesException.class, () -> processador
-                .replace(getFileFromResources(TESTXML).getPath(), query, newValue, pathToReplaced));
+    public void test_replace_node_not_found(String query, String newValue) throws IOException {
+        final Path fileForTest = fileForTest();
+        final Path originalFile = fileForTest();
+        assertThrows(HandlerFilesException.class,
+                () -> processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
+                        fileForTest.toUri().toString()));
     }
 
     @Test
-    public void test_replace_with_map() {
+    public void test_replace_with_map() throws IOException {
+        final Path fileForTest = fileForTest();
+        final Path originalFile = fileForTest();
+
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("/project/groupId", "Cookiecutter.test.replace.map.grouId");
         queryMap.put("/project/artifactId", "Cookiecutter.test.replace.map.artifactId");
         queryMap.put("/project/dependencies/dependency/scope[text()='test']",
                 "Cookiecutter.replace.map.scopes");
-        String pathToReplaced = getFileFromResources(TESTREPLACED) + "replaced_file.xml";
 
-        assertDoesNotThrow(() -> processador.replace(getFileFromResources(TESTXML).getPath(),
-                queryMap, pathToReplaced));
-        try {
-            printFileResult(pathToReplaced);
-        } catch (IOException e) {
-            System.out.println("Didnt-read: " + getFileFromResources(TESTXML).getPath());
-            e.printStackTrace();
-        }
+        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
+                queryMap, fileForTest.toUri().toString()));
+        printFileResult(fileForTest.toAbsolutePath());
 
 
     }
 
 
-    private void printFileResult(String path) throws IOException {
+    private void printFileResult(Path path) throws IOException {
         FileReader file =
-                new FileReader(getFileFromResources(TESTREPLACED + "replaced_file.xml").getPath());
+                new FileReader(path.toAbsolutePath().toString());
         BufferedReader reader = new BufferedReader(file);
         String line;
         while ((line = reader.readLine()) != null) {
