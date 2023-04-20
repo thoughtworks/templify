@@ -58,7 +58,7 @@ public class JsonHandler implements HandlerFiles {
         } catch (PathNotFoundException notFound) {
             throw new HandlerFilesException(jsonp);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new UnsupportedOperationException(e);
         }
 
         return result;
