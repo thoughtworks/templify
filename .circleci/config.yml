@@ -1,6 +1,17 @@
 orbs:
   maven: circleci/maven@1.4.1
+  browser-tools: circleci/browser-tools@1.4.1
 version: 2.1
+jobs:
+  build:
+    docker:
+      - image: cimg/openjdk:17.0-browsers
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools
+      - run: mvn test
+      - store_artifacts:
+          path: target
 workflows:
   maven_test:
     jobs:
@@ -10,3 +21,6 @@ workflows:
             name: maven/default
             tag: "11.0"
           test_results_path: target/surefire-reports
+  coverage:
+    jobs:
+      - build

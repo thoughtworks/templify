@@ -314,12 +314,13 @@
                 </reportSets>
             </plugin>
             <plugin>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                </configuration>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>${pitest.version}</version>
+                <configuration>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <siteReportName>mutation-tests-report</siteReportName>
+                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>
