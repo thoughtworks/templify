@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -34,6 +35,8 @@ public class JsonHandler implements HandlerFiles {
                     Configuration.builder().options(Option.AS_PATH_LIST).build();
 
             String json = readFileAsString(filePath);
+
+            if(StringUtils.isEmpty(json)) throw new UnsupportedOperationException("Empty json file.");
 
             DocumentContext jsonContext = JsonPath.using(pathConfiguration).parse(json);
             List<String> nodes = jsonContext.read(jsonp);
@@ -73,11 +76,12 @@ public class JsonHandler implements HandlerFiles {
 
             String str = JsonFormatter.prettyPrint(jsonContext.jsonString());
 
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] strToBytes = str.getBytes();
-            outputStream.write(strToBytes);
+            try(FileOutputStream outputStream = new FileOutputStream(file)) {
 
-            outputStream.close();
+                byte[] strToBytes = str.getBytes();
+
+                outputStream.write(strToBytes);
+            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -87,7 +91,6 @@ public class JsonHandler implements HandlerFiles {
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap,
             String replacedValuesPath) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'replace'");
     }
 

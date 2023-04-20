@@ -26,6 +26,7 @@ public class JsonHandlerTest {
     HandlerFiles jsonHandler = new JsonHandler();
     Faker faker = new Faker();
     final String teste_json = "src/test/resources/processador/json/teste.json";
+    final String teste_empty_json = "src/test/resources/processador/json/empty.json";
 
     @ParameterizedTest
     @CsvSource({"$['name']", "$..['name']"})
@@ -46,6 +47,13 @@ public class JsonHandlerTest {
     public void test_find_objects_must_throw_unsupported_operation_excep(String jsonp) {
         assertThrows(UnsupportedOperationException.class,
                 () -> this.jsonHandler.find(teste_json, jsonp));
+
+    }
+
+    @Test
+    public void test_find_with_empty_file_must_throw_unsupported_op() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> this.jsonHandler.find(teste_empty_json, "$['name']"));
 
     }
 
