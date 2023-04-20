@@ -211,9 +211,12 @@
                     <targetTests>
                         <param>com.twlabs.*Test</param>
                     </targetTests>
-                    <excludeClasses>
+                    <excludedClasses>
                         <param>com.twlabs.*Mojo</param>
-                    </excludeClasses>
+                    </excludedClasses>
+                    <excludedTestClasses>
+                        <param>com.twlabs.*MojoIT</param>
+                    </excludedTestClasses>
                 </configuration>
                 <dependencies>
                     <dependency>
