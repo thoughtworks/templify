@@ -41,8 +41,7 @@ public class ProcessadorXML implements HandlerFiles {
             builder = builderFactory.newDocumentBuilder();
             xml = builder.parse(path.toFile());
         } catch (Exception e) {
-            System.err.println(e);
-            throw new RuntimeException("Erro ao ler o arquivo " + path.toString());
+            throw new RuntimeException("Erro ao ler o arquivo " + path.toString(), e);
         }
         return xml;
     }
@@ -69,7 +68,6 @@ public class ProcessadorXML implements HandlerFiles {
                 } // if equals do nothing
             }
         } catch (XPathExpressionException e) {
-            e.printStackTrace();
             throw new HandlerFilesException("Was not found any nodes with: " + query);
         }
         return nodeMap;
@@ -85,7 +83,6 @@ public class ProcessadorXML implements HandlerFiles {
         // Find and change value of Nodes
         Map<String, String> findNodeMap = find(path, query);
 
-        System.out.println("Query replace: " + query);
         boolean notFound = true;
         for (Map.Entry<String, String> entryNode : findNodeMap.entrySet()) {
 
@@ -97,8 +94,6 @@ public class ProcessadorXML implements HandlerFiles {
                 // OriginalDocument.getElementsByTagName(entryNode.getKey());
                 for (int j = 0; j < originalNodes.getLength(); j++) {
                     Node originalNode = originalNodes.item(j);
-                    System.out.println("entryNode: " + entryNode.getKey() + " --- "
-                            + originalNode.getNodeName());
                     if (entryNode.getValue().equals(originalNode.getTextContent())) {
                         originalNode.setTextContent("${{" + newValue + "}}");
                         notFound = false;
@@ -119,7 +114,7 @@ public class ProcessadorXML implements HandlerFiles {
         saveChanges(originalDocument, replaceValuePath);
     }
 
-    private void saveChanges(Document doc, String filePath) {
+    private void saveChanges(Document doc, String filePath) throws HandlerFilesException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer;
         try {
@@ -127,11 +122,11 @@ public class ProcessadorXML implements HandlerFiles {
             transformer.transform(new DOMSource(doc),
                     new StreamResult(new File(URI.create(filePath))));
         } catch (TransformerConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new HandlerFilesException(
+                    "Was not possible to make a instance of a transformer!!!");
         } catch (TransformerException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new HandlerFilesException(
+                    "It aws not possible to save the changes on " + filePath);
         }
     }
 
@@ -140,26 +135,17 @@ public class ProcessadorXML implements HandlerFiles {
     public void replace(String filePath, Map<String, String> queryValueMap,
             String replacedValuesPath) throws HandlerFilesException {
 
-
-
         boolean isFirst = true;
-        Iterator<String> iterator = queryValueMap.keySet().iterator();
 
-        while (iterator.hasNext()) {
-            String query = iterator.next();
+        for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
             if (!isFirst) {
-                replace(URI.create(replacedValuesPath).getPath(), query, queryValueMap.get(query),
-                        replacedValuesPath);
-
-
+                this.replace(URI.create(replacedValuesPath).getPath(), entry.getKey(),
+                        entry.getValue(), replacedValuesPath);
             } else {
-                replace(filePath, query, queryValueMap.get(query), replacedValuesPath);
-                isFirst = false;
+                this.replace(filePath, entry.getKey(), entry.getValue(), replacedValuesPath);
             }
-
+            isFirst = false;
         }
-
-
     }
 
 

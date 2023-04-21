@@ -1,5 +1,6 @@
 package com.twlabs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -166,27 +167,43 @@ public class ProcessadorTest {
     }
 
     @Test
-    public void test_replace_with_map() throws IOException {
+    public void test_replace_with_map() throws IOException, HandlerFilesException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("/project/groupId", "Cookiecutter.test.replace.map.grouId");
-        queryMap.put("/project/artifactId", "Cookiecutter.test.replace.map.artifactId");
-        queryMap.put("/project/dependencies/dependency/scope[text()='test']",
-                "Cookiecutter.replace.map.scopes");
+        String groupIdQuery = "/project/groupId";
+        String groupIdNewName = "Cookiecutter.test.replace.map.groupId";
 
-        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
-                queryMap, fileForTest.toUri().toString()));
+        String artifactIdQuery = "/project/artifactId";
+        String artifactIdNewName = "Cookiecutter.test.replace.map.artifactId";
+        
+        String scopesQuery = "/project/dependencies/dependency/scope[text()='test']";
+        String scopesNewName = "Cookiecutter.replace.map.scopes";
+
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put(groupIdQuery, groupIdNewName);
+        queryMap.put(artifactIdQuery, artifactIdNewName);
+        queryMap.put(scopesQuery,scopesNewName);
+
+        processador.replace(originalFile.toAbsolutePath().toString(), queryMap,
+                fileForTest.toUri().toString());
+
+        Map<String, String> result =
+                processador.find(fileForTest.toAbsolutePath().toString(), artifactIdQuery);
+System.out.println(result);
+
         printFileResult(fileForTest.toAbsolutePath());
+        assertThat(result).isNotNull().isNotEmpty().containsValue("${{"+artifactIdNewName+"}}");
+
+        result = processador.find(fileForTest.toAbsolutePath().toString(),groupIdQuery);
+        assertThat(result).isNotNull().isNotEmpty().containsValue("${{"+groupIdNewName+"}}");
 
 
     }
 
 
     private void printFileResult(Path path) throws IOException {
-        FileReader file =
-                new FileReader(path.toAbsolutePath().toString());
+        FileReader file = new FileReader(path.toAbsolutePath().toString());
         BufferedReader reader = new BufferedReader(file);
         String line;
         while ((line = reader.readLine()) != null) {
