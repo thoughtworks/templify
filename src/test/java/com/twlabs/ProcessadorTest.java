@@ -44,6 +44,8 @@ public class ProcessadorTest {
         return getClass().getClassLoader().getResource(path);
     }
 
+
+
     private Document readFile(Path path) {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -59,6 +61,8 @@ public class ProcessadorTest {
         return xml;
     }
 
+
+
     private Path fileForTest() throws IOException {
         String fileName = faker.lorem().word().toLowerCase();
         final Path fileForTest = Files.createTempFile(fileName, ".xml");
@@ -72,17 +76,22 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"/project/artifactId, project-to-test",
             "/project/groupId, org.apache.maven.plugin.my.unit",
-            "/project/dependencies/dependency/scope[text() = 'no_test'], no_test"})
-    public void test_find(String query, String value) throws HandlerFilesException, IOException {
+            "/project/dependencies/dependency/scope[text() = 'no_test'], no_test",
+            "/project/dependencies/dependency/scope[text() = 'test'], test"})
+
+    public void test_find_one_value(String query, String value)
+            throws HandlerFilesException, IOException {
         final Path fileForTest = fileForTest();
         Map<String, String> result =
                 processador.find(fileForTest.toAbsolutePath().toString(), query);
+
         Map<String, String> actual = new HashMap<String, String>();
         actual.put(query, value);
 
         assertTrue(result.equals(actual),
                 "Result has: \n" + result + "\n Actual has: \n" + actual + "\n------");
     }
+
 
 
     @ParameterizedTest
@@ -94,6 +103,7 @@ public class ProcessadorTest {
                 processador.find(fileForTest.toAbsolutePath().toString(), query);
         assertTrue(nodes.isEmpty());
     }
+
 
 
     @ParameterizedTest
@@ -110,10 +120,9 @@ public class ProcessadorTest {
     private boolean checkExpectedLenght(String query, int expectedLenght, Path fileToTest)
             throws XPathExpressionException {
         Document doc = readFile(fileToTest);
-
         XPath xpath = XPathFactory.newInstance().newXPath();
-        NodeList nodes = (NodeList) xpath.evaluate("//*[text()='" + query + "']", doc,
-                XPathConstants.NODESET);
+        System.out.println(query);
+        NodeList nodes = (NodeList) xpath.evaluate(query, doc, XPathConstants.NODESET);
         if (nodes.getLength() == expectedLenght) {
             return true;
         }
@@ -129,31 +138,45 @@ public class ProcessadorTest {
             "/project/groupId, Cookiecutter.test.param",
             "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
     public void test_replace_just_one_tag(String query, String newValue)
-            throws XPathExpressionException, IOException {
+            throws XPathExpressionException, IOException, HandlerFilesException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
-        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
-                query, newValue, fileForTest.toUri().toString()));
+        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
+                fileForTest.toUri().toString());
 
-        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 1, fileForTest.toAbsolutePath()),
-                "Values mismatch");
+        // change the valeu of scopes, it is a more complex xpath :)
+        if (query.equals("/project/dependencies/dependency/scope[text()='no_test']")) {
+            query = "/project/dependencies/dependency/scope[text()='${{Cookiecutter.test.change.one.scope}}']";
+        }
+
+        assertTrue(checkExpectedLenght(query, 1, fileForTest.toAbsolutePath()), "Values mismatch");
+
+        Map<String, String> results =
+                processador.find(fileForTest.toAbsolutePath().toString(), query);
+        assertThat(results).isNotNull().isNotEmpty().containsValue("${{" + newValue + "}}");
     }
+
 
 
     @ParameterizedTest
     @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
     public void test_replace_more_tags(String query, String newValue)
-            throws XPathExpressionException, IOException {
+            throws XPathExpressionException, IOException, HandlerFilesException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
-        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
-                query, newValue, fileForTest.toUri().toString()));
+        final String newQuery =
+                "/project/dependencies/dependency/scope[text()='${{" + newValue + "}}']";
+        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
+                fileForTest.toUri().toString());
 
-        assertTrue(checkExpectedLenght("${{" + newValue + "}}", 2, fileForTest), "Values mismatch");
-
+        assertTrue(checkExpectedLenght(newQuery, 2, fileForTest), "Values mismatch");
+        Map<String, String> results =
+                processador.find(fileForTest.toAbsolutePath().toString(), newQuery);
+        assertThat(results).isNotNull().isNotEmpty().containsValue("${{" + newValue + "}}");
     }
+
 
 
     @ParameterizedTest
@@ -166,6 +189,8 @@ public class ProcessadorTest {
                         fileForTest.toUri().toString()));
     }
 
+
+
     @Test
     public void test_replace_with_map() throws IOException, HandlerFilesException {
         final Path fileForTest = fileForTest();
@@ -176,27 +201,27 @@ public class ProcessadorTest {
 
         String artifactIdQuery = "/project/artifactId";
         String artifactIdNewName = "Cookiecutter.test.replace.map.artifactId";
-        
+
         String scopesQuery = "/project/dependencies/dependency/scope[text()='test']";
         String scopesNewName = "Cookiecutter.replace.map.scopes";
 
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put(groupIdQuery, groupIdNewName);
         queryMap.put(artifactIdQuery, artifactIdNewName);
-        queryMap.put(scopesQuery,scopesNewName);
+        queryMap.put(scopesQuery, scopesNewName);
 
         processador.replace(originalFile.toAbsolutePath().toString(), queryMap,
                 fileForTest.toUri().toString());
 
         Map<String, String> result =
                 processador.find(fileForTest.toAbsolutePath().toString(), artifactIdQuery);
-System.out.println(result);
+        System.out.println(result);
 
         printFileResult(fileForTest.toAbsolutePath());
-        assertThat(result).isNotNull().isNotEmpty().containsValue("${{"+artifactIdNewName+"}}");
+        assertThat(result).isNotNull().isNotEmpty().containsValue("${{" + artifactIdNewName + "}}");
 
-        result = processador.find(fileForTest.toAbsolutePath().toString(),groupIdQuery);
-        assertThat(result).isNotNull().isNotEmpty().containsValue("${{"+groupIdNewName+"}}");
+        result = processador.find(fileForTest.toAbsolutePath().toString(), groupIdQuery);
+        assertThat(result).isNotNull().isNotEmpty().containsValue("${{" + groupIdNewName + "}}");
 
 
     }
