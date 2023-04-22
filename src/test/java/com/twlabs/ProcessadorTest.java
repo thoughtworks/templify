@@ -121,7 +121,6 @@ public class ProcessadorTest {
             throws XPathExpressionException {
         Document doc = readFile(fileToTest);
         XPath xpath = XPathFactory.newInstance().newXPath();
-        System.out.println(query);
         NodeList nodes = (NodeList) xpath.evaluate(query, doc, XPathConstants.NODESET);
         if (nodes.getLength() == expectedLenght) {
             return true;
@@ -215,7 +214,6 @@ public class ProcessadorTest {
 
         Map<String, String> result =
                 processador.find(fileForTest.toAbsolutePath().toString(), artifactIdQuery);
-        System.out.println(result);
 
         printFileResult(fileForTest.toAbsolutePath());
         assertThat(result).isNotNull().isNotEmpty().containsValue("${{" + artifactIdNewName + "}}");
