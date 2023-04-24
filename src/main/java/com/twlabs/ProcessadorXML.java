@@ -5,7 +5,6 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,11 +21,13 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import com.twlabs.FileHandler;
+import com.twlabs.FileHandlerException;
 
 /**
  * ProcessadorXML bom cidadao
  */
-public class ProcessadorXML implements HandlerFiles {
+public class ProcessadorXML implements FileHandler {
 
 
     public ProcessadorXML(Path path) throws RuntimeException {}
@@ -49,7 +50,7 @@ public class ProcessadorXML implements HandlerFiles {
 
 
     @Override
-    public Map<String, String> find(String pathFile, String query) throws HandlerFilesException {
+    public Map<String, String> find(String pathFile, String query) throws FileHandlerException {
         Document xml = readFile(Paths.get(pathFile));
         XPath xpath = XPathFactory.newInstance().newXPath();
 
@@ -62,20 +63,20 @@ public class ProcessadorXML implements HandlerFiles {
                 if (nodeMap.get(query) == null) {
                     nodeMap.put(query, node.getTextContent());
                 } else if (!(nodeMap.get(query).equals(node.getTextContent()))) {
-                    throw new HandlerFilesException(
+                    throw new FileHandlerException(
                             "We have same nodes paths with difrentes values. Adjust your Xpath. \n Query Error: "
                                     + query);
                 } // if equals do nothing
             }
         } catch (XPathExpressionException e) {
-            throw new HandlerFilesException("Was not found any nodes with: " + query);
+            throw new FileHandlerException("Was not found any nodes with: " + query);
         }
         return nodeMap;
     }
 
 
     public void replace(String path, String query, String newValue, String replaceValuePath)
-            throws HandlerFilesException {
+            throws FileHandlerException {
         // Load original content
         Document originalDocument = readFile(Paths.get(path));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -103,18 +104,18 @@ public class ProcessadorXML implements HandlerFiles {
 
 
             } catch (XPathExpressionException e) {
-                throw new HandlerFilesException("Was not found any nodes with: " + query);
+                throw new FileHandlerException("Was not found any nodes with: " + query);
             }
         }
         if (notFound) {
-            throw new HandlerFilesException(
+            throw new FileHandlerException(
                     "It was not possible to make replace: " + query + " NOT FOUND");
         }
         // Making a copy
         saveChanges(originalDocument, replaceValuePath);
     }
 
-    private void saveChanges(Document doc, String filePath) throws HandlerFilesException {
+    private void saveChanges(Document doc, String filePath) throws FileHandlerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer;
         try {
@@ -122,10 +123,10 @@ public class ProcessadorXML implements HandlerFiles {
             transformer.transform(new DOMSource(doc),
                     new StreamResult(new File(URI.create(filePath))));
         } catch (TransformerConfigurationException e) {
-            throw new HandlerFilesException(
+            throw new FileHandlerException(
                     "Was not possible to make a instance of a transformer!!!");
         } catch (TransformerException e) {
-            throw new HandlerFilesException(
+            throw new FileHandlerException(
                     "It aws not possible to save the changes on " + filePath);
         }
     }
@@ -133,7 +134,7 @@ public class ProcessadorXML implements HandlerFiles {
 
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap,
-            String replacedValuesPath) throws HandlerFilesException {
+            String replacedValuesPath) throws FileHandlerException {
 
         boolean isFirst = true;
 

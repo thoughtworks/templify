@@ -13,20 +13,20 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.JsonFormatter;
-import com.twlabs.HandlerFiles;
-import com.twlabs.HandlerFilesException;
+import com.twlabs.FileHandler;
+import com.twlabs.FileHandlerException;
 
 /**
  * JsonHandler ->
  */
-public class JsonHandler implements HandlerFiles {
+public class JsonHandler implements FileHandler {
 
     protected static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));
     }
 
     @Override
-    public Map<String, String> find(String filePath, String jsonp) throws HandlerFilesException {
+    public Map<String, String> find(String filePath, String jsonp) throws FileHandlerException {
 
         HashMap<String, String> result;
 
@@ -56,7 +56,7 @@ public class JsonHandler implements HandlerFiles {
         } catch (UnsupportedOperationException e) {
             throw e;
         } catch (PathNotFoundException notFound) {
-            throw new HandlerFilesException(jsonp);
+            throw new FileHandlerException(jsonp);
         } catch (Exception e) {
             throw new UnsupportedOperationException(e);
         }

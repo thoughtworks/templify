@@ -14,8 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
-import com.twlabs.HandlerFiles;
-import com.twlabs.HandlerFilesException;
+import com.twlabs.FileHandler;
+import com.twlabs.FileHandlerException;
 
 /**
  * JsonHandlerTest
@@ -23,7 +23,7 @@ import com.twlabs.HandlerFilesException;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class JsonHandlerTest {
 
-    HandlerFiles jsonHandler = new JsonHandler();
+    FileHandler jsonHandler = new JsonHandler();
     Faker faker = new Faker();
     final String teste_json = "src/test/resources/processador/json/teste.json";
     final String teste_empty_json = "src/test/resources/processador/json/empty.json";
@@ -31,7 +31,7 @@ public class JsonHandlerTest {
     @ParameterizedTest
     @CsvSource({"$['name']", "$..['name']"})
     public void test_find_simple_types_must_return_values(String jsonp)
-            throws HandlerFilesException {
+            throws FileHandlerException {
         assertThat(this.jsonHandler.find(teste_json, jsonp)).isNotNull().isNotEmpty();
     }
 
@@ -59,7 +59,7 @@ public class JsonHandlerTest {
     @ParameterizedTest
     @CsvSource({"$['xyzpto']"})
     public void test_find_not_found_must_throw_not_found_excep(String jsonp) {
-        assertThrows(HandlerFilesException.class, () -> this.jsonHandler.find(teste_json, jsonp));
+        assertThrows(FileHandlerException.class, () -> this.jsonHandler.find(teste_json, jsonp));
     }
 
     @Test

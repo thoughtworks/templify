@@ -29,11 +29,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
+import com.twlabs.FileHandler;
+import com.twlabs.FileHandlerException;
+
+
+
+
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ProcessadorTest {
 
-    HandlerFiles processador = new ProcessadorXML(null);
+    FileHandler processador = new ProcessadorXML(null);
     Faker faker = new Faker();
 
 
@@ -80,7 +86,7 @@ public class ProcessadorTest {
             "/project/dependencies/dependency/scope[text() = 'test'], test"})
 
     public void test_find_one_value(String query, String value)
-            throws HandlerFilesException, IOException {
+            throws FileHandlerException, IOException {
         final Path fileForTest = fileForTest();
         Map<String, String> result =
                 processador.find(fileForTest.toAbsolutePath().toString(), query);
@@ -97,7 +103,7 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"project/notFound", "notfound/groupId",
             "project/dependencies/dependency/scope[text()='NOT_FOUND']"})
-    public void test_find_not_found(String query) throws HandlerFilesException, IOException {
+    public void test_find_not_found(String query) throws FileHandlerException, IOException {
         final Path fileForTest = fileForTest();
         Map<String, String> nodes =
                 processador.find(fileForTest.toAbsolutePath().toString(), query);
@@ -110,7 +116,7 @@ public class ProcessadorTest {
     @CsvSource({"project/dependencies/dependency/scope"})
     public void test_find_found_same_path_different_values(String query) throws IOException {
         final Path fileForTest = fileForTest();
-        assertThrows(HandlerFilesException.class,
+        assertThrows(FileHandlerException.class,
                 () -> processador.find(fileForTest.toAbsolutePath().toString(), query));
 
     }
@@ -137,7 +143,7 @@ public class ProcessadorTest {
             "/project/groupId, Cookiecutter.test.param",
             "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
     public void test_replace_just_one_tag(String query, String newValue)
-            throws XPathExpressionException, IOException, HandlerFilesException {
+            throws XPathExpressionException, IOException, FileHandlerException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
@@ -161,7 +167,7 @@ public class ProcessadorTest {
     @ParameterizedTest
     @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
     public void test_replace_more_tags(String query, String newValue)
-            throws XPathExpressionException, IOException, HandlerFilesException {
+            throws XPathExpressionException, IOException, FileHandlerException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
@@ -183,7 +189,7 @@ public class ProcessadorTest {
     public void test_replace_node_not_found(String query, String newValue) throws IOException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
-        assertThrows(HandlerFilesException.class,
+        assertThrows(FileHandlerException.class,
                 () -> processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
                         fileForTest.toUri().toString()));
     }
@@ -191,7 +197,7 @@ public class ProcessadorTest {
 
 
     @Test
-    public void test_replace_with_map() throws IOException, HandlerFilesException {
+    public void test_replace_with_map() throws IOException, FileHandlerException {
         final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
