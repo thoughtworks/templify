@@ -1,13 +1,11 @@
 package com.twlabs;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,9 +27,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
-import com.twlabs.FileHandler;
-import com.twlabs.FileHandlerException;
-
 
 
 
@@ -70,7 +65,7 @@ public class ProcessadorTest {
 
 
     private Path fileForTest() throws IOException {
-        String fileName = faker.lorem().word().toLowerCase();
+        String fileName = faker.lorem().word().toLowerCase(); 
         final Path fileForTest = Files.createTempFile(fileName, ".xml");
         FileUtils.copyFile(Paths.get(teste_xml).toFile(), fileForTest.toFile());
         return fileForTest;
@@ -139,93 +134,86 @@ public class ProcessadorTest {
 
 
     @ParameterizedTest
-    @CsvSource({"/project/artifactId, param.artifactId",
-            "/project/groupId, Cookiecutter.test.param",
-            "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
+    @CsvSource({"/project/artifactId, ${param.artifactId}",
+            "/project/groupId, ${Cookiecutter.test.param}",
+            "/project/dependencies/dependency/scope[text()='no_test'], ${{Cookiecutter.test.change.one.scope}}"})
     public void test_replace_just_one_tag(String query, String newValue)
             throws XPathExpressionException, IOException, FileHandlerException {
-        final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
-        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
-                fileForTest.toUri().toString());
+
+        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue);
 
         // change the valeu of scopes, it is a more complex xpath :)
         if (query.equals("/project/dependencies/dependency/scope[text()='no_test']")) {
             query = "/project/dependencies/dependency/scope[text()='${{Cookiecutter.test.change.one.scope}}']";
         }
 
-        assertTrue(checkExpectedLenght(query, 1, fileForTest.toAbsolutePath()), "Values mismatch");
+        assertTrue(checkExpectedLenght(query, 1, originalFile.toAbsolutePath()), "Values mismatch");
 
         Map<String, String> results =
-                processador.find(fileForTest.toAbsolutePath().toString(), query);
-        assertThat(results).isNotNull().isNotEmpty().containsValue("${{" + newValue + "}}");
+                processador.find(originalFile.toAbsolutePath().toString(), query);
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
     }
 
 
 
     @ParameterizedTest
-    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
+    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], ${Cookiecutter.scope.param}"})
     public void test_replace_more_tags(String query, String newValue)
             throws XPathExpressionException, IOException, FileHandlerException {
-        final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
         final String newQuery =
-                "/project/dependencies/dependency/scope[text()='${{" + newValue + "}}']";
-        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
-                fileForTest.toUri().toString());
+                "/project/dependencies/dependency/scope[text()='" + newValue + "']";
+        processador.replace(originalFile.toAbsolutePath().toString(), query, newValue);
 
-        assertTrue(checkExpectedLenght(newQuery, 2, fileForTest), "Values mismatch");
+        assertTrue(checkExpectedLenght(newQuery, 2, originalFile), "Values mismatch");
         Map<String, String> results =
-                processador.find(fileForTest.toAbsolutePath().toString(), newQuery);
-        assertThat(results).isNotNull().isNotEmpty().containsValue("${{" + newValue + "}}");
+                processador.find(originalFile.toAbsolutePath().toString(), newQuery);
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
     }
 
 
 
     @ParameterizedTest
-    @CsvSource({"/project/NotFound, param.artifactId"})
+    @CsvSource({"/project/NotFound, ${param.artifactId}"})
     public void test_replace_node_not_found(String query, String newValue) throws IOException {
-        final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
         assertThrows(FileHandlerException.class,
-                () -> processador.replace(originalFile.toAbsolutePath().toString(), query, newValue,
-                        fileForTest.toUri().toString()));
+                () -> processador.replace(originalFile.toAbsolutePath().toString(), query, newValue));
     }
 
 
 
     @Test
     public void test_replace_with_map() throws IOException, FileHandlerException {
-        final Path fileForTest = fileForTest();
         final Path originalFile = fileForTest();
 
         String groupIdQuery = "/project/groupId";
-        String groupIdNewName = "Cookiecutter.test.replace.map.groupId";
+        String groupIdNewName = "${Cookiecutter.test.replace.map.groupId}";
 
         String artifactIdQuery = "/project/artifactId";
-        String artifactIdNewName = "Cookiecutter.test.replace.map.artifactId";
+        String artifactIdNewName = "${Cookiecutter.test.replace.map.artifactId}";
 
         String scopesQuery = "/project/dependencies/dependency/scope[text()='test']";
-        String scopesNewName = "Cookiecutter.replace.map.scopes";
+        String scopesNewName = "${Cookiecutter.replace.map.scopes}";
 
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put(groupIdQuery, groupIdNewName);
         queryMap.put(artifactIdQuery, artifactIdNewName);
         queryMap.put(scopesQuery, scopesNewName);
 
-        processador.replace(originalFile.toAbsolutePath().toString(), queryMap,
-                fileForTest.toUri().toString());
+        processador.replace(originalFile.toAbsolutePath().toString(), queryMap);
 
         Map<String, String> result =
-                processador.find(fileForTest.toAbsolutePath().toString(), artifactIdQuery);
+                processador.find(originalFile.toAbsolutePath().toString(), artifactIdQuery);
 
-        printFileResult(fileForTest.toAbsolutePath());
-        assertThat(result).isNotNull().isNotEmpty().containsValue("${{" + artifactIdNewName + "}}");
+        printFileResult(originalFile.toAbsolutePath());
+        assertThat(result).isNotNull().isNotEmpty().containsValue( artifactIdNewName  );
 
-        result = processador.find(fileForTest.toAbsolutePath().toString(), groupIdQuery);
-        assertThat(result).isNotNull().isNotEmpty().containsValue("${{" + groupIdNewName + "}}");
+        result = processador.find(originalFile.toAbsolutePath().toString(), groupIdQuery);
+        assertThat(result).isNotNull().isNotEmpty().containsValue(groupIdNewName);
 
 
     }
