@@ -65,7 +65,7 @@ public class JsonHandler implements FileHandler {
     }
 
     @Override
-    public void replace(String file, String jsonp, String newValue, String replacedValuesPath) {
+    public void replace(String file, String jsonp, String newValue) {
         try {
             String json = readFileAsString(file);
 
@@ -88,11 +88,10 @@ public class JsonHandler implements FileHandler {
     }
 
     @Override
-    public void replace(String filePath, Map<String, String> queryValueMap,
-            String replacedValuesPath) {
+    public void replace(String filePath, Map<String, String> queryValueMap) {
 
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
-            this.replace(filePath, entry.getKey(), entry.getValue(), replacedValuesPath);
+            this.replace(filePath, entry.getKey(), entry.getValue());
         }
     }
 
