@@ -30,11 +30,10 @@ import com.github.javafaker.Faker;
 
 
 
-
 @DisplayNameGeneration(ReplaceUnderscores.class)
-public class ProcessadorTest {
+public class XMLHandlerTest {
 
-    FileHandler processador = new ProcessadorXML(null);
+    FileHandler processador = new XMLHandler();
     Faker faker = new Faker();
 
 
@@ -65,7 +64,7 @@ public class ProcessadorTest {
 
 
     private Path fileForTest() throws IOException {
-        String fileName = faker.lorem().word().toLowerCase(); 
+        String fileName = faker.lorem().word().toLowerCase();
         final Path fileForTest = Files.createTempFile(fileName, ".xml");
         FileUtils.copyFile(Paths.get(teste_xml).toFile(), fileForTest.toFile());
         return fileForTest;
@@ -159,13 +158,13 @@ public class ProcessadorTest {
 
 
     @ParameterizedTest
-    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], ${Cookiecutter.scope.param}"})
+    @CsvSource({
+            "/project/dependencies/dependency/scope[text()='test'], ${Cookiecutter.scope.param}"})
     public void test_replace_more_tags(String query, String newValue)
             throws XPathExpressionException, IOException, FileHandlerException {
         final Path originalFile = fileForTest();
 
-        final String newQuery =
-                "/project/dependencies/dependency/scope[text()='" + newValue + "']";
+        final String newQuery = "/project/dependencies/dependency/scope[text()='" + newValue + "']";
         processador.replace(originalFile.toAbsolutePath().toString(), query, newValue);
 
         assertTrue(checkExpectedLenght(newQuery, 2, originalFile), "Values mismatch");
@@ -180,8 +179,8 @@ public class ProcessadorTest {
     @CsvSource({"/project/NotFound, ${param.artifactId}"})
     public void test_replace_node_not_found(String query, String newValue) throws IOException {
         final Path originalFile = fileForTest();
-        assertThrows(FileHandlerException.class,
-                () -> processador.replace(originalFile.toAbsolutePath().toString(), query, newValue));
+        assertThrows(FileHandlerException.class, () -> processador
+                .replace(originalFile.toAbsolutePath().toString(), query, newValue));
     }
 
 
@@ -210,7 +209,7 @@ public class ProcessadorTest {
                 processador.find(originalFile.toAbsolutePath().toString(), artifactIdQuery);
 
         printFileResult(originalFile.toAbsolutePath());
-        assertThat(result).isNotNull().isNotEmpty().containsValue( artifactIdNewName  );
+        assertThat(result).isNotNull().isNotEmpty().containsValue(artifactIdNewName);
 
         result = processador.find(originalFile.toAbsolutePath().toString(), groupIdQuery);
         assertThat(result).isNotNull().isNotEmpty().containsValue(groupIdNewName);
