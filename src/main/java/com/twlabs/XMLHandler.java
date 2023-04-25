@@ -1,16 +1,13 @@
 package com.twlabs;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -28,10 +25,8 @@ import org.w3c.dom.NodeList;
 /**
  * ProcessadorXML bom cidadao
  */
-public class ProcessadorXML implements FileHandler {
+public class XMLHandler implements FileHandler {
 
-
-    public ProcessadorXML(Path path) throws RuntimeException {}
 
 
     private Document readFile(Path path) {
