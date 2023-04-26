@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import com.twlabs.ConfigMappings.Mapping;
+import com.twlabs.ConfigMappings.Translation;
 import org.junit.jupiter.api.Test;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
@@ -49,6 +50,15 @@ public class ConfigMappingsTest {
         assertEquals("target_file", actual.getTargetFile());
         assertTrue(actual.getTranslations().isEmpty());
 
+    }
+
+
+
+    @Test
+    public void testTranslation() {
+        Translation translation = new Translation("source_key", "target_value");
+        assertEquals("source_key", translation.getSourceKey());
+        assertEquals("target_value", translation.getTargetValue());
     }
 
 }
