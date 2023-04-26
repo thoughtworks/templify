@@ -53,9 +53,26 @@ public class ConfigMappingsTest {
     }
 
 
+    @Test
+    public void test_confingMapping_mapping_with_translation(){
+   
+        Translation translation = new Translation("source_key", "target_file");
+
+        List<Translation> translationList = new ArrayList<>();
+
+        translationList.add(translation);
+
+        Mapping actual = new Mapping("source_file", "target_file", translationList);
+
+        assertEquals(translationList, actual.getTranslations());
+        assertNotNull(actual.getTranslations());
+        assertEquals(translation, actual.getTranslations().get(0));
+
+    }
+
 
     @Test
-    public void testTranslation() {
+    public void test_configMapping_translation() {
         Translation translation = new Translation("source_key", "target_value");
         assertEquals("source_key", translation.getSourceKey());
         assertEquals("target_value", translation.getTargetValue());
