@@ -2,6 +2,7 @@ package com.twlabs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -23,9 +24,8 @@ public class ConfigMappingsTest {
 
 
     @Test
-    public void test_set_configMapping() {
+    public void test_set_configMapping_mappings() {
         ConfigMappings actual = new YamlMappings();
-
 
         List<Mapping> mappingList = new ArrayList<>();
         Mapping mapping = new Mapping("source_file", "target_file", new ArrayList<>());
@@ -34,7 +34,20 @@ public class ConfigMappingsTest {
         actual.setMappings(mappingList);
 
         assertEquals(1, actual.getMappings().size());
-        assertEquals(mapping, actual.getMappings().get(0)); 
+        assertEquals(mapping, actual.getMappings().get(0));
+
+    }
+
+
+
+    @Test
+    public void test_confingMapping_mapping() {
+
+        Mapping actual = new Mapping("source_file", "target_file", new ArrayList<>());
+
+        assertEquals("source_file", actual.getSourceFile());
+        assertEquals("target_file", actual.getTargetFile());
+        assertTrue(actual.getTranslations().isEmpty());
 
     }
 
