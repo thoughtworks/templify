@@ -1,5 +1,6 @@
 package com.twlabs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,75 +8,69 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
-import com.twlabs.ConfigMappings.Mapping;
-import com.twlabs.ConfigMappings.Translation;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.api.Test;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ConfigMappingsTest {
 
-    @Test
-    public void test_create_empty_ConfigMappings() {
-        ConfigMappings actual = new YamlMappings();
+    ConfigMappings mappings = new YamlMappings();
 
-        assertNotNull(actual.getMappings());
-        assertEquals(0, actual.getMappings().size());
+
+    final String test_yml = "config/yaml/teste.yml";
+
+
+
+    @Test
+    public void test_confingMapping_is_builded() {
+        ConfigReader reader = new YamlReader();
+
+        ConfigMappings mappings = reader.read(test_yml);
+        List<Mapping> actual = mappings.getMappings();
+
+        assertThat(actual).isNotNull().isNotEmpty();
 
     }
 
 
-    @Test
-    public void test_set_configMapping_mappings() {
-        ConfigMappings actual = new YamlMappings();
+    @ParameterizedTest
+    @CsvSource({"0, pom.xml",
+            "1, ./config/file.properties"})
+    public void test_configMapping_getFile(int index, String expected) {
+        ConfigReader reader = new YamlReader();
+        ConfigMappings actual = reader.read(test_yml);
 
-        List<Mapping> mappingList = new ArrayList<>();
-        Mapping mapping = new Mapping("source_file", "target_file", new ArrayList<>());
-        mappingList.add(mapping);
-
-        actual.setMappings(mappingList);
-
-        assertEquals(1, actual.getMappings().size());
-        assertEquals(mapping, actual.getMappings().get(0));
+        System.out.println(actual.getMappings().get(index).getFile());
+        assertThat(actual.getMappings().get(index).getFile()).isEqualTo(expected);
 
     }
 
 
 
     @Test
-    public void test_confingMapping_mapping() {
+    public void test_confingMapping_mapping_with_translation() {
 
-        Mapping actual = new Mapping("source_file", "target_file", new ArrayList<>());
+        Placeholder placeholder = new Placeholder("source_key", "target_file");
 
-        assertEquals("source_file", actual.getSourceFile());
-        assertEquals("target_file", actual.getTargetFile());
-        assertTrue(actual.getTranslations().isEmpty());
+        List<Placeholder> placeholderList = new ArrayList<>();
 
-    }
+        placeholderList.add(placeholder);
 
+        Mapping actual = new Mapping("source_file", placeholderList);
 
-    @Test
-    public void test_confingMapping_mapping_with_translation(){
-   
-        Translation translation = new Translation("source_key", "target_file");
-
-        List<Translation> translationList = new ArrayList<>();
-
-        translationList.add(translation);
-
-        Mapping actual = new Mapping("source_file", "target_file", translationList);
-
-        assertEquals(translationList, actual.getTranslations());
-        assertNotNull(actual.getTranslations());
-        assertEquals(translation, actual.getTranslations().get(0));
+        assertEquals(placeholderList, actual.getPlaceholders());
+        assertNotNull(actual.getPlaceholders());
+        assertEquals(placeholder, actual.getPlaceholders().get(0));
 
     }
 
 
     @Test
     public void test_configMapping_translation() {
-        Translation translation = new Translation("source_key", "target_value");
-        assertEquals("source_key", translation.getSourceKey());
-        assertEquals("target_value", translation.getTargetValue());
+        Placeholder placeholder = new Placeholder("source_key", "target_value");
+        assertEquals("source_key", placeholder.getQuery());
+        assertEquals("target_value", placeholder.getName());
     }
 
 }
