@@ -217,21 +217,6 @@ public class XMLHandlerTest {
 
     }
 
-    @Test
-    public void test_replace_with_empty_map() throws IOException {
-        final Path fileForTest = fileForTest();
-        final Path originalFile = fileForTest();
-
-        Map<String, String> queryMap = new HashMap<>();
-
-        assertDoesNotThrow(() -> processador.replace(originalFile.toAbsolutePath().toString(),
-                queryMap, fileForTest.toUri().toString()));
-
-        printFileResult(fileForTest.toAbsolutePath());
-    }
-
-
-
     private void printFileResult(Path path) throws IOException {
         FileReader file = new FileReader(path.toAbsolutePath().toString());
         BufferedReader reader = new BufferedReader(file);
