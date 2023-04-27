@@ -73,7 +73,7 @@ public class JsonHandlerTest {
         final Path fileForTest = Files.createTempFile(filename, ".json");
         FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
 
-        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), nameQuery, newName, null);
+        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), nameQuery, newName);
 
         Map<String, String> results =
                 this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), nameQuery);
@@ -99,7 +99,7 @@ public class JsonHandlerTest {
         final Path fileForTest = Files.createTempFile(filename, ".json");
         FileUtils.copyFile(Paths.get(teste_json).toFile(), fileForTest.toFile());
 
-        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), replaces, null);
+        this.jsonHandler.replace(fileForTest.toAbsolutePath().toString(), replaces);
 
         Map<String, String> results =
                 this.jsonHandler.find(fileForTest.toAbsolutePath().toString(), nameQuery);

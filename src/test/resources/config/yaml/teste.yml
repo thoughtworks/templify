@@ -1,0 +1,10 @@
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
+
+  - file: ./config/file.properties
+    placeholders:
+      - query: parametro1
+        name: valor1

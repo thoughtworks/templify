@@ -1,7 +1,7 @@
 package com.twlabs;
 
-import java.io.File;
-import java.net.URI;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -21,16 +21,12 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import com.twlabs.FileHandler;
-import com.twlabs.FileHandlerException;
 
 /**
  * ProcessadorXML bom cidadao
  */
-public class ProcessadorXML implements FileHandler {
+public class XMLHandler implements FileHandler {
 
-
-    public ProcessadorXML(Path path) throws RuntimeException {}
 
 
     private Document readFile(Path path) {
@@ -75,12 +71,10 @@ public class ProcessadorXML implements FileHandler {
     }
 
 
-    public void replace(String path, String query, String newValue, String replaceValuePath)
-            throws FileHandlerException {
+    public void replace(String path, String query, String newValue) throws FileHandlerException {
         // Load original content
         Document originalDocument = readFile(Paths.get(path));
         XPath xpath = XPathFactory.newInstance().newXPath();
-
         // Find and change value of Nodes
         Map<String, String> findNodeMap = find(path, query);
 
@@ -92,16 +86,15 @@ public class ProcessadorXML implements FileHandler {
             try {
                 originalNodes = (NodeList) xpath.evaluate(entryNode.getKey(), originalDocument,
                         XPathConstants.NODESET);
+
                 // OriginalDocument.getElementsByTagName(entryNode.getKey());
                 for (int j = 0; j < originalNodes.getLength(); j++) {
                     Node originalNode = originalNodes.item(j);
                     if (entryNode.getValue().equals(originalNode.getTextContent())) {
-                        originalNode.setTextContent("${{" + newValue + "}}");
+                        originalNode.setTextContent(newValue);
                         notFound = false;
                     }
                 }
-
-
 
             } catch (XPathExpressionException e) {
                 throw new FileHandlerException("Was not found any nodes with: " + query);
@@ -112,40 +105,38 @@ public class ProcessadorXML implements FileHandler {
                     "It was not possible to make replace: " + query + " NOT FOUND");
         }
         // Making a copy
-        saveChanges(originalDocument, replaceValuePath);
+
+        saveChanges(originalDocument, path);
     }
 
     private void saveChanges(Document doc, String filePath) throws FileHandlerException {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer;
+
         try {
             transformer = transformerFactory.newTransformer();
-            transformer.transform(new DOMSource(doc),
-                    new StreamResult(new File(URI.create(filePath))));
+            FileOutputStream outputStream = new FileOutputStream(filePath);
+
+            transformer.transform(new DOMSource(doc), new StreamResult(outputStream));
+
         } catch (TransformerConfigurationException e) {
             throw new FileHandlerException(
                     "Was not possible to make a instance of a transformer!!!");
         } catch (TransformerException e) {
             throw new FileHandlerException(
                     "It aws not possible to save the changes on " + filePath);
+        } catch (IOException e) {
+            throw new FileHandlerException("It was not possible do to colse Stream: " + filePath);
         }
     }
 
 
     @Override
-    public void replace(String filePath, Map<String, String> queryValueMap,
-            String replacedValuesPath) throws FileHandlerException {
-
-        boolean isFirst = true;
+    public void replace(String filePath, Map<String, String> queryValueMap)
+            throws FileHandlerException {
 
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
-            if (!isFirst) {
-                this.replace(URI.create(replacedValuesPath).getPath(), entry.getKey(),
-                        entry.getValue(), replacedValuesPath);
-            } else {
-                this.replace(filePath, entry.getKey(), entry.getValue(), replacedValuesPath);
-            }
-            isFirst = false;
+            this.replace(filePath, entry.getKey(), entry.getValue());
         }
     }
 
