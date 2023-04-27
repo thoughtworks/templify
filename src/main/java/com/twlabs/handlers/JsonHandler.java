@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -35,7 +34,6 @@ public class JsonHandler implements FileHandler {
                     Configuration.builder().options(Option.AS_PATH_LIST).build();
 
             String json = readFileAsString(filePath);
-
 
             DocumentContext jsonContext = JsonPath.using(pathConfiguration).parse(json);
             List<String> nodes = jsonContext.read(jsonp);

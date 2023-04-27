@@ -2,8 +2,10 @@
 .project
 .classpath
 .factorypath
+.nvimrc.json
 target/
 //target//
 .settings
 .tool-versions
-
+.envrc
+.nvimrc.json

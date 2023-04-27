@@ -2,7 +2,6 @@
 package com.twlabs;
 
 import java.util.Map;
-import com.twlabs.FileHandlerException;
 /**
  * Locator
  */
@@ -15,5 +14,6 @@ public interface FileHandler {
 
     void replace(String filePath, Map<String, String> queryValueMap, String replacedValuesPath)
             throws FileHandlerException;
+
 
 }
