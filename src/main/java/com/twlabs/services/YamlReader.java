@@ -14,7 +14,7 @@ import com.twlabs.model.PluginConfig;
 public class YamlReader implements ConfigReader {
 
     @Override
-    public PluginConfig read(String configFilePath) throws IOException { //caminho absoluto
+    public PluginConfig read(String configFilePath) throws IOException {
         Yaml yaml = new Yaml();
         
         InputStream inputStream = Files.newInputStream(Paths.get(configFilePath));

@@ -10,15 +10,8 @@ public class PluginConfig {
 
     public PluginConfig() {}
 
-    public PluginConfig(List<Mapping> mappings) {
-        this.mappings = mappings;
-    }
-
     public List<Mapping> getMappings() {
         return mappings;
     }
 
-    public void setMappings(List<Mapping> mappings) {
-        this.mappings = mappings;
-    }
 }

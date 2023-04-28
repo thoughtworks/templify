@@ -24,14 +24,6 @@ public class Mapping {
         return placeholders;
     }
 
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    public void setPlaceholders(List<Placeholder> placeholders) {
-        this.placeholders = placeholders;
-    }
-
 
 
 }

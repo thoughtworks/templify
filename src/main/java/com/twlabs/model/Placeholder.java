@@ -22,14 +22,4 @@ public class Placeholder {
     public String getName() {
         return name;
     }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
 }
