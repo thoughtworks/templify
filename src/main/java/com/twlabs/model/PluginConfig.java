@@ -5,12 +5,12 @@ import java.util.List;
 /**
  * YamlMappings
  */
-public class YamlMappings {
+public class PluginConfig {
     private List<Mapping> mappings;
 
-    public YamlMappings() {}
+    public PluginConfig() {}
 
-    public YamlMappings(List<Mapping> mappings) {
+    public PluginConfig(List<Mapping> mappings) {
         this.mappings = mappings;
     }
 
