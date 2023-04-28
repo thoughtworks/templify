@@ -1,4 +1,4 @@
-package com.twlabs;
+package com.twlabs.exceptions;
 
 public class FileHandlerException extends Exception {
 
