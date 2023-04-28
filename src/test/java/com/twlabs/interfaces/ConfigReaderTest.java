@@ -1,32 +1,33 @@
-package com.twlabs;
+package com.twlabs.interfaces;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.api.Test;
+import com.twlabs.model.Mapping;
+import com.twlabs.model.Placeholder;
+import com.twlabs.model.YamlMappings;
+import com.twlabs.services.YamlReader;
 
+/**
+ * Test interface {@link ConfigReader} by {@link YamlReader}
+ */
 @DisplayNameGeneration(ReplaceUnderscores.class)
-public class ConfigMappingsTest {
-
-    ConfigMappings mappings = new YamlMappings();
-
+public class ConfigReaderTest {
 
     final String test_yml = "config/yaml/teste.yml";
-
-
 
     @Test
     public void test_confingMapping_is_builded() {
         ConfigReader reader = new YamlReader();
 
-        ConfigMappings mappings = reader.read(test_yml);
+        YamlMappings mappings = reader.read(test_yml);
         List<Mapping> actual = mappings.getMappings();
 
         assertThat(actual).isNotNull().isNotEmpty();
@@ -35,11 +36,10 @@ public class ConfigMappingsTest {
 
 
     @ParameterizedTest
-    @CsvSource({"0, pom.xml",
-            "1, ./config/file.properties"})
+    @CsvSource({"0, pom.xml", "1, ./config/file.properties"})
     public void test_configMapping_getFile(int index, String expected) {
         ConfigReader reader = new YamlReader();
-        ConfigMappings actual = reader.read(test_yml);
+        YamlMappings actual = reader.read(test_yml);
 
         System.out.println(actual.getMappings().get(index).getFile());
         assertThat(actual.getMappings().get(index).getFile()).isEqualTo(expected);

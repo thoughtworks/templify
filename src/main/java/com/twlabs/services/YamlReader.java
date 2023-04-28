@@ -1,7 +1,9 @@
-package com.twlabs;
+package com.twlabs.services;
 
 import java.io.InputStream;
 import org.yaml.snakeyaml.Yaml;
+import com.twlabs.interfaces.ConfigReader;
+import com.twlabs.model.YamlMappings;
 
 /**
  * YamlReader
@@ -9,9 +11,7 @@ import org.yaml.snakeyaml.Yaml;
 public class YamlReader implements ConfigReader {
 
     @Override
-    public ConfigMappings read(String configFilePath) {
-        // TODO Auto-generated method stub
-        //
+    public YamlMappings read(String configFilePath) {
         Yaml yaml = new Yaml();
 
         InputStream inputStream =

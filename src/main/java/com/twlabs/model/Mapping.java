@@ -1,4 +1,4 @@
-package com.twlabs;
+package com.twlabs.model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ public class Mapping {
     private List<Placeholder> placeholders;
 
 
-    public Mapping(){}
+    public Mapping() {}
 
     public Mapping(String sourceFile, List<Placeholder> placeholders) {
         this.file = sourceFile;
@@ -23,5 +23,15 @@ public class Mapping {
     public List<Placeholder> getPlaceholders() {
         return placeholders;
     }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public void setPlaceholders(List<Placeholder> placeholders) {
+        this.placeholders = placeholders;
+    }
+
+
 
 }
