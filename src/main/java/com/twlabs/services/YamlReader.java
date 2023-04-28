@@ -1,9 +1,12 @@
 package com.twlabs.services;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.yaml.snakeyaml.Yaml;
 import com.twlabs.interfaces.ConfigReader;
-import com.twlabs.model.YamlMappings;
+import com.twlabs.model.PluginConfig;
 
 /**
  * YamlReader
@@ -11,11 +14,11 @@ import com.twlabs.model.YamlMappings;
 public class YamlReader implements ConfigReader {
 
     @Override
-    public YamlMappings read(String configFilePath) {
+    public PluginConfig read(String configFilePath) throws IOException { //caminho absoluto
         Yaml yaml = new Yaml();
+        
+        InputStream inputStream = Files.newInputStream(Paths.get(configFilePath));
 
-        InputStream inputStream =
-                this.getClass().getClassLoader().getResourceAsStream(configFilePath);
-        return yaml.loadAs(inputStream, YamlMappings.class);
+        return yaml.loadAs(inputStream, PluginConfig.class);
     }
 }

@@ -3,6 +3,7 @@ package com.twlabs.interfaces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -12,7 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
-import com.twlabs.model.YamlMappings;
+import com.twlabs.model.PluginConfig;
 import com.twlabs.services.YamlReader;
 
 /**
@@ -21,13 +22,13 @@ import com.twlabs.services.YamlReader;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ConfigReaderTest {
 
-    final String test_yml = "config/yaml/teste.yml";
+    final String test_yml = "src/test/resources/config/yaml/teste.yml";
 
     @Test
-    public void test_confingMapping_is_builded() {
+    public void test_confingMapping_is_builded() throws IOException {
         ConfigReader reader = new YamlReader();
 
-        YamlMappings mappings = reader.read(test_yml);
+        PluginConfig mappings = reader.read(test_yml);
         List<Mapping> actual = mappings.getMappings();
 
         assertThat(actual).isNotNull().isNotEmpty();
@@ -37,9 +38,9 @@ public class ConfigReaderTest {
 
     @ParameterizedTest
     @CsvSource({"0, pom.xml", "1, ./config/file.properties"})
-    public void test_configMapping_getFile(int index, String expected) {
+    public void test_configMapping_getFile(int index, String expected) throws IOException {
         ConfigReader reader = new YamlReader();
-        YamlMappings actual = reader.read(test_yml);
+        PluginConfig actual = reader.read(test_yml);
 
         System.out.println(actual.getMappings().get(index).getFile());
         assertThat(actual.getMappings().get(index).getFile()).isEqualTo(expected);
