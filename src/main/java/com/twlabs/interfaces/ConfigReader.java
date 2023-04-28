@@ -1,12 +1,13 @@
 package com.twlabs.interfaces;
 
-import com.twlabs.model.YamlMappings;
+import java.io.IOException;
+import com.twlabs.model.PluginConfig;
 
 /**
  * ConfigReader
  */
 public interface ConfigReader {
 
-    public YamlMappings read(String configFilePath);
+    public PluginConfig read(String configFilePath) throws IOException;
 
 }

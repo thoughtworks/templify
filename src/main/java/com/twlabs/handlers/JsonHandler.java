@@ -13,7 +13,7 @@ import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.JsonFormatter;
 import com.twlabs.FileHandler;
-import com.twlabs.FileHandlerException;
+import com.twlabs.exceptions.FileHandlerException;
 
 /**
  * JsonHandler ->

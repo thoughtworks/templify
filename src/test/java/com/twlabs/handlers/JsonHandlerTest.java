@@ -15,7 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
 import com.twlabs.FileHandler;
-import com.twlabs.FileHandlerException;
+import com.twlabs.exceptions.FileHandlerException;
 
 /**
  * JsonHandlerTest

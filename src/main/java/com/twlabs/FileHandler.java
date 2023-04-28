@@ -2,6 +2,7 @@
 package com.twlabs;
 
 import java.util.Map;
+import com.twlabs.exceptions.FileHandlerException;
 /**
  * Locator
  */
