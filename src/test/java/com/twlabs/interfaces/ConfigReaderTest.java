@@ -48,9 +48,24 @@ public class ConfigReaderTest {
     }
 
 
+    @ParameterizedTest
+    @CsvSource({"0, 0, /project/groupId, Cookiecutter.param.groupId", "1, 0, parametro1, valor1"})
+    public void test_configMapping_getPlaceholder(int index, int indexPlaceHolder, String expectedQuery, String expectedName) throws IOException{
+        ConfigReader reader = new YamlReader();
+        PluginConfig config = reader.read(test_yml);
+
+        List<Mapping> actual = config.getMappings();
+
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getQuery()).isEqualTo(expectedQuery);
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getName()).isEqualTo(expectedName);
+
+
+    }
+
+
 
     @Test
-    public void test_confingMapping_mapping_with_translation() {
+    public void test_confingMapping_mapping_with_placeholder() {
 
         Placeholder placeholder = new Placeholder("source_key", "target_file");
 
@@ -68,7 +83,7 @@ public class ConfigReaderTest {
 
 
     @Test
-    public void test_configMapping_translation() {
+    public void test_configMapping_placeholder() {
         Placeholder placeholder = new Placeholder("source_key", "target_value");
         assertEquals("source_key", placeholder.getQuery());
         assertEquals("target_value", placeholder.getName());
