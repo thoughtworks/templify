@@ -9,6 +9,12 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
+import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.ConfigReader;
+import com.twlabs.model.Mapping;
+import com.twlabs.model.Placeholder;
+import com.twlabs.model.PluginConfig;
+import com.twlabs.services.YamlReader;
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
 public class CookieCutterMojo extends AbstractMojo {
@@ -38,6 +44,53 @@ public class CookieCutterMojo extends AbstractMojo {
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
         getLog().warn("Backstage template dir:" + templateDir);
+
+        getLog().warn("Starting placheholders");
+        setPlaceHolders(templateDir);
+        getLog().warn("End to config placeholders");
+
+    }
+
+
+    private void setPlaceHolders(String templateDir) {
+
+        String configFile = templateDir + "/template.yml";
+        ConfigReader reader = new YamlReader();
+        PluginConfig config;
+        getLog().warn("Template file: " + configFile);
+        try {
+            config = reader.read(configFile);
+
+            for (Mapping mapping : config.getMappings()) {
+                if (mapping.getFile().contains(".xml")) {
+                    setXmlPlaceHolder(mapping, templateDir);
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            getLog().error("Error when I try to read the config file", e);;
+        }
+    }
+
+
+    private void setXmlPlaceHolder(Mapping mapping, String templateDir) {
+        FileHandler handler = new XMLHandler();
+
+        String filePath = templateDir + "/" + mapping.getFile();
+
+        getLog().warn("Start placeholder for: " + filePath);
+        for (Placeholder placeholder : mapping.getPlaceholders()) {
+            try {
+                handler.replace(filePath, placeholder.getQuery(), placeholder.getName());
+            } catch (FileHandlerException e) {
+                e.printStackTrace();
+                getLog().error("Error while I was doing some placeholders", e);
+            }
+
+        }
+
+
 
     }
 
