@@ -102,7 +102,7 @@ public class CookieCutterMojo extends AbstractMojo {
     private void copyProjectTo(String dest) throws MojoExecutionException {
         try {
 
-            FileUtils.copyDirectory(this.baseDir, new File(dest));
+            FileUtils.copyDirectoryStructure(this.baseDir, new File(dest));
 
         } catch (IOException e) {
             throw new MojoExecutionException(
