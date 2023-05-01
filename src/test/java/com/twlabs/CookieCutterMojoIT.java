@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
@@ -27,7 +26,8 @@ public class CookieCutterMojoIT {
     String templateDir_default_pom =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_default_pom_file/project/target/template";
 
-
+    String templateDir_generics_xmls =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_generics_xml_files/project/target/template";
 
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
@@ -73,7 +73,7 @@ public class CookieCutterMojoIT {
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
 
-        final Path fileTemplate = Paths.get(templateDir_default_pom + "/pom.xml");
+        final Path fileTemplatePom = Paths.get(templateDir_default_pom + "/pom.xml");
 
 
         String groupIdQuery = "/project/groupId";
@@ -86,24 +86,62 @@ public class CookieCutterMojoIT {
                 "/project/dependencies/dependency/scope[text()='${Cookiecutter.replace.map.scopes}']";
         String scopesNewName = "${Cookiecutter.replace.map.scopes}";
 
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put(groupIdQuery, groupIdNewName);
-        queryMap.put(artifactIdQuery, artifactIdNewName);
-        queryMap.put(scopesQuery, scopesNewName);
-
-
         Map<String, String> actual =
-                handler.find(fileTemplate.toAbsolutePath().toString(), artifactIdQuery);
+                handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(artifactIdNewName);
 
 
-        actual = handler.find(fileTemplate.toAbsolutePath().toString(), groupIdQuery);
+        actual = handler.find(fileTemplatePom.toAbsolutePath().toString(), groupIdQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdNewName);
 
 
-        actual = handler.find(fileTemplate.toAbsolutePath().toString(), scopesQuery);
+        actual = handler.find(fileTemplatePom.toAbsolutePath().toString(), scopesQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(scopesNewName);
 
     }
+
+
+    @MavenTest
+    public void test_replace_generics_xml_files(MavenExecutionResult result)
+            throws FileHandlerException {
+        assertThat(result).isSuccessful();
+
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+        final Path fileTemplateGeneric1 =
+                Paths.get(templateDir_generics_xmls + "/xmls/generic_1.xml");
+
+
+        String headingQuery = "/note/heading";
+        String headingNewName = "${New Reminder}";
+
+
+        Map<String, String> actual =
+                handler.find(fileTemplateGeneric1.toAbsolutePath().toString(), headingQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(headingNewName);
+
+
+        final Path fileTemplateGeneric2 = Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
+
+        String authorQuery = "/bookstore/book/author[text()='${Cookiecutter.kurtCagle}']";
+        String autorNewName = "${Cookiecutter.kurtCagle}";
+
+        String yearQuery = "/bookstore/book/year[text()='${Cookiecutter.NewYear}']"; 
+        String yearNewName = "${Cookiecutter.NewYear}";
+
+        actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), authorQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(autorNewName);
+
+
+        actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), yearQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(yearNewName).doesNotContainValue("2005");
+
+
+
+
+    }
+
+
 
 }
