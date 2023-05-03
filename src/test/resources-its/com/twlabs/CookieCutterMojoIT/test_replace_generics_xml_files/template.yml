@@ -4,30 +4,17 @@ mappings:
       - query: /project/groupId
         name: Cookiecutter.param.groupId
       - query: /project/artifactId
-        name: ${Cookiecutter.test.replace.map.artifactId}
+        name: Cookiecutter.test.replace.map.artifactId
       - query: /project/dependencies/dependency/scope[text()='test']
-        name: ${Cookiecutter.replace.map.scopes}
+        name: Cookiecutter.replace.map.scopes
 
   - file: xmls/generic_1.xml
     placeholders:
       - query: /note/heading
-        name: ${New Reminder}
+        name: New Reminder
   - file: xmls/complex/generic_2.xml
     placeholders:
       - query: /bookstore/book/author[text()='Kurt Cagle']
-        name: ${Cookiecutter.kurtCagle}
+        name: Cookiecutter.kurtCagle
       - query: /bookstore/book/year[text()='2005']
-        name: ${Cookiecutter.NewYear}
-
-
-
-
-
-
-
-
-
-
-
-
-
+        name: Cookiecutter.NewYear
