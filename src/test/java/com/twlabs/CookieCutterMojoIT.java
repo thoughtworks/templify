@@ -77,14 +77,14 @@ public class CookieCutterMojoIT {
 
 
         String groupIdQuery = "/project/groupId";
-        String groupIdNewName = "Cookiecutter.param.groupId";
+        String groupIdNewName = "{{Cookiecutter.param.groupId}}";
 
         String artifactIdQuery = "/project/artifactId";
-        String artifactIdNewName = "${Cookiecutter.test.replace.map.artifactId}";
+        String artifactIdNewName = "{{Cookiecutter.test.replace.map.artifactId}}";
 
         String scopesQuery =
-                "/project/dependencies/dependency/scope[text()='${Cookiecutter.replace.map.scopes}']";
-        String scopesNewName = "${Cookiecutter.replace.map.scopes}";
+                "/project/dependencies/dependency/scope[text()='{{Cookiecutter.replace.map.scopes}}']";
+        String scopesNewName = "{{Cookiecutter.replace.map.scopes}}";
 
         Map<String, String> actual =
                 handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
@@ -114,7 +114,7 @@ public class CookieCutterMojoIT {
 
 
         String headingQuery = "/note/heading";
-        String headingNewName = "${New Reminder}";
+        String headingNewName = "{{New Reminder}}";
 
 
         Map<String, String> actual =
@@ -122,21 +122,22 @@ public class CookieCutterMojoIT {
         assertThat(actual).isNotNull().isNotEmpty().containsValue(headingNewName);
 
 
-        final Path fileTemplateGeneric2 = Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
+        final Path fileTemplateGeneric2 =
+                Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
 
-        String authorQuery = "/bookstore/book/author[text()='${Cookiecutter.kurtCagle}']";
-        String autorNewName = "${Cookiecutter.kurtCagle}";
+        String authorQuery = "/bookstore/book/author[text()='{{Cookiecutter.kurtCagle}}']";
+        String autorNewName ="{{Cookiecutter.kurtCagle}}";
 
-        String yearQuery = "/bookstore/book/year[text()='${Cookiecutter.NewYear}']"; 
-        String yearNewName = "${Cookiecutter.NewYear}";
+        String yearQuery = "/bookstore/book/year[text()='{{Cookiecutter.NewYear}}']";
+        String yearNewName = "{{Cookiecutter.NewYear}}";
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), authorQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(autorNewName);
 
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), yearQuery);
-        assertThat(actual).isNotNull().isNotEmpty().containsValue(yearNewName).doesNotContainValue("2005");
-
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(yearNewName)
+                .doesNotContainValue("2005");
 
 
 
