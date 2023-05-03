@@ -82,16 +82,12 @@ public class CookieCutterMojo extends AbstractMojo {
         getLog().warn("Start placeholder for: " + filePath);
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
-                handler.replace(filePath, placeholder.getQuery(), placeholder.getName());
+                handler.replace(filePath, placeholder.getQuery(), "{{"+placeholder.getName()+"}}");
             } catch (FileHandlerException e) {
                 e.printStackTrace();
                 getLog().error("Error while I was doing some placeholders", e);
             }
-
         }
-
-
-
     }
 
     /**

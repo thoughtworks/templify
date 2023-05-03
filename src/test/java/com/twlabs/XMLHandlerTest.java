@@ -146,14 +146,14 @@ public class XMLHandlerTest {
 
         // change the valeu of scopes, it is a more complex xpath :)
         if (query.equals("/project/dependencies/dependency/scope[text()='no_test']")) {
-            query = "/project/dependencies/dependency/scope[text()='{{Cookiecutter.test.change.one.scope}}']";
+            query = "/project/dependencies/dependency/scope[text()='Cookiecutter.test.change.one.scope']";
         }
 
         assertTrue(checkExpectedLenght(query, 1, originalFile.toAbsolutePath()), "Values mismatch");
 
         Map<String, String> results =
                 processador.find(originalFile.toAbsolutePath().toString(), query);
-        assertThat(results).isNotNull().isNotEmpty().containsValue("{{" + newValue + "}}");
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
     }
 
 
@@ -164,13 +164,13 @@ public class XMLHandlerTest {
             throws XPathExpressionException, IOException, FileHandlerException {
         final Path originalFile = fileForTest();
 
-        final String newQuery = "/project/dependencies/dependency/scope[text()='{{" + newValue + "}}']";
+        final String newQuery = "/project/dependencies/dependency/scope[text()='" + newValue + "']";
         processador.replace(originalFile.toAbsolutePath().toString(), query, newValue);
 
         assertTrue(checkExpectedLenght(newQuery, 2, originalFile), "Values mismatch");
         Map<String, String> results =
                 processador.find(originalFile.toAbsolutePath().toString(), newQuery);
-        assertThat(results).isNotNull().isNotEmpty().containsValue("{{" + newValue + "}}");
+        assertThat(results).isNotNull().isNotEmpty().containsValue(newValue);
     }
 
 
@@ -209,10 +209,10 @@ public class XMLHandlerTest {
                 processador.find(originalFile.toAbsolutePath().toString(), artifactIdQuery);
 
         printFileResult(originalFile.toAbsolutePath());
-        assertThat(result).isNotNull().isNotEmpty().containsValue("{{"+artifactIdNewName+"}}");
+        assertThat(result).isNotNull().isNotEmpty().containsValue(artifactIdNewName);
 
         result = processador.find(originalFile.toAbsolutePath().toString(), groupIdQuery);
-        assertThat(result).isNotNull().isNotEmpty().containsValue("{{"+groupIdNewName+"}}");
+        assertThat(result).isNotNull().isNotEmpty().containsValue(groupIdNewName);
 
 
     }
