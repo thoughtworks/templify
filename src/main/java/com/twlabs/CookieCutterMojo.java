@@ -10,11 +10,14 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.handlers.XMLHandler;
+import com.twlabs.interfaces.FileHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.services.YamlReader;
+
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
 public class CookieCutterMojo extends AbstractMojo {
@@ -82,7 +85,8 @@ public class CookieCutterMojo extends AbstractMojo {
         getLog().warn("Start placeholder for: " + filePath);
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
-                handler.replace(filePath, placeholder.getQuery(), "{{"+placeholder.getName()+"}}");
+                handler.replace(filePath, placeholder.getQuery(),
+                        "{{" + placeholder.getName() + "}}");
             } catch (FileHandlerException e) {
                 e.printStackTrace();
                 getLog().error("Error while I was doing some placeholders", e);

@@ -1,4 +1,4 @@
-package com.twlabs;
+package com.twlabs.handlers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.FileHandler;
 
 
 

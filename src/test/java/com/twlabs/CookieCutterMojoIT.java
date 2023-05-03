@@ -12,6 +12,8 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.FileHandler;
+import com.twlabs.handlers.XMLHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
@@ -126,7 +128,7 @@ public class CookieCutterMojoIT {
                 Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
 
         String authorQuery = "/bookstore/book/author[text()='{{Cookiecutter.kurtCagle}}']";
-        String autorNewName ="{{Cookiecutter.kurtCagle}}";
+        String autorNewName = "{{Cookiecutter.kurtCagle}}";
 
         String yearQuery = "/bookstore/book/year[text()='{{Cookiecutter.NewYear}}']";
         String yearNewName = "{{Cookiecutter.NewYear}}";

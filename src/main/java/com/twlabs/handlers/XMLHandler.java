@@ -1,4 +1,4 @@
-package com.twlabs;
+package com.twlabs.handlers;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.FileHandler;
 
 /**
  * ProcessadorXML bom cidadao
