@@ -92,7 +92,7 @@ public class XMLHandler implements FileHandler {
                 for (int j = 0; j < originalNodes.getLength(); j++) {
                     Node originalNode = originalNodes.item(j);
                     if (entryNode.getValue().equals(originalNode.getTextContent())) {
-                        originalNode.setTextContent(newValue);
+                        originalNode.setTextContent("{{"+newValue+"}}");
                         notFound = false;
                     }
                 }
