@@ -2,6 +2,8 @@ package com.twlabs;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class CookieCutterMojoIT {
     String templateDir_generics_ymls =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_generics_yml_files/project/target/template";
 
+    String unsupportFileType =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/project/target/template";
 
 
     @MavenTest
@@ -184,6 +188,16 @@ public class CookieCutterMojoIT {
         actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(),
                 groupIdQueryName);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdNewName);
+
+
+    }
+
+
+    @MavenTest
+    public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
+
+        assertThat(result).isFailure().out().info()
+                .contains("Unsupported file type: pom.unsupported");
 
 
     }
