@@ -2,6 +2,8 @@ package com.twlabs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -12,6 +14,7 @@ import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
+import com.twlabs.handlers.JsonHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
@@ -38,6 +41,12 @@ public class CookieCutterMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private File buildDir;
 
+    private YamlHandler yamlHandler = new YamlHandler();
+    private XMLHandler xmlHandler = new XMLHandler();
+    private JsonHandler jsonHandler = new JsonHandler();
+
+    private ConfigReader reader = new YamlReader();
+
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
@@ -55,36 +64,44 @@ public class CookieCutterMojo extends AbstractMojo {
 
     }
 
+    /**
+     *
+     * Registry pattern for open-closed to set, add, remove, expand the handlers outside of mojo
+     * logic withouth changing setPlaceHolders code block.
+     */
+    private Map<String, FileHandler> getFileHandlerRegistry() {
+        return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
+                "json", this.jsonHandler);
+    }
+
 
     private void setPlaceHolders(String templateDir) {
 
+        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
+
         String configFile = templateDir + "/template.yml";
-        ConfigReader reader = new YamlReader();
-        PluginConfig config;
+
         getLog().warn("Template file: " + configFile);
+
         try {
-            config = reader.read(configFile);
+            PluginConfig config = reader.read(configFile);
 
             for (Mapping mapping : config.getMappings()) {
 
-                switch (getFileExtension(mapping.getFile())) {
-                    case ".xml":
-                        setPlaceHolder(mapping, templateDir, new XMLHandler());
-                        break;
+                String extension = getFileExtension(mapping.getFile());
 
-                    case ".yml":
-                        setPlaceHolder(mapping, templateDir, new YamlHandler());
-                        break;
-                    default:
-                        getLog().info("Unsupported file type: " + mapping.getFile());
-                        throw new IllegalArgumentException(
-                                "Unsupported file type: " + mapping.getFile());
+                if (!handlersRegistry.containsKey(extension)) {
+                    getLog().info("Unsupported file type: " + mapping.getFile());
+                    throw new IllegalArgumentException(
+                            "Unsupported file type: " + mapping.getFile());
                 }
 
+                setPlaceHolder(mapping, templateDir, handlersRegistry.get(extension));
             }
+
         } catch (IOException e) {
             e.printStackTrace();
-            getLog().error("Error when I try to read the config file", e);;
+            getLog().error("Error to read the config file", e);;
         }
     }
 
@@ -99,7 +116,7 @@ public class CookieCutterMojo extends AbstractMojo {
                         "{{" + placeholder.getName() + "}}");
             } catch (FileHandlerException e) {
                 e.printStackTrace();
-                getLog().error("Error while I was doing some placeholders", e);
+                getLog().error("Error to replace placeholders", e);
             }
         }
     }

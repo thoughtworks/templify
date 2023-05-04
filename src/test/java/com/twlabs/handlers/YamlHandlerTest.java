@@ -71,7 +71,7 @@ public class YamlHandlerTest {
             "placeholders[2].query", "placeholders[2].name"})
     public void test_replace(String query) throws FileHandlerException, IOException {
 
-        String newName = faker.name().fullName();
+        String newName = faker.name().fullName().concat("---");
         String filename = faker.lorem().word().toLowerCase();
 
         final Path fileForTest = Files.createTempFile(filename, ".yml");

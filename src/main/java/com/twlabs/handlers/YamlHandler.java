@@ -52,8 +52,6 @@ public class YamlHandler implements FileHandler {
             String result = YamlPath.from(new FileInputStream(new File(filePath)))
                     .write(query, newValue).dumpAsString();
 
-            result = result.replace("---\n", "");
-
             try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                 outputStream.write(result.getBytes());
             }

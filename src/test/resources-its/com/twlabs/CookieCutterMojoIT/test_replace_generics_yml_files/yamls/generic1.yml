@@ -17,3 +17,6 @@ mappings:
         name: Cookiecutter.kurtCagle
       - query: /bookstore/book/year[text()='2005']
         name: Cookiecutter.NewYear
+      - query: /bookstore/book/author[text()='replace ---- test']
+        name: Cookiecutter.kurtCagle
+
