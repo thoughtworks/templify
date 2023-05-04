@@ -14,6 +14,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.handlers.XMLHandler;
+import com.twlabs.handlers.YamlHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
@@ -30,6 +31,11 @@ public class CookieCutterMojoIT {
 
     String templateDir_generics_xmls =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_generics_xml_files/project/target/template";
+
+    String templateDir_generics_ymls =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_generics_yml_files/project/target/template";
+
+
 
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
@@ -141,6 +147,43 @@ public class CookieCutterMojoIT {
         assertThat(actual).isNotNull().isNotEmpty().containsValue(yearNewName)
                 .doesNotContainValue("2005");
 
+    }
+
+    @MavenTest
+    public void test_replace_generics_yml_files(MavenExecutionResult result)
+            throws FileHandlerException {
+
+        FileHandler yamlHandler = new YamlHandler();
+        assertThat(result).isSuccessful();
+
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+        final Path fileTemplateGeneric1 =
+                Paths.get(templateDir_generics_ymls + "/yamls/generic1.yml");
+
+
+        String fileQuery = "mappings[0].file";
+        String fileNewName = "{{newFile}}";
+
+        String groupIdQuery = "mappings[0].placeholders[0].query";
+        String groupIdQueryNewName = "{{Cookiecutter.query.project.groupId}}";
+
+        String groupIdQueryName = "mappings[0].placeholders[0].name";
+        String groupIdNewName = "{{Cookiecutter.replace.map.groupId}}";
+
+        Map<String, String> actual =
+                yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), fileQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(fileNewName);
+
+
+        actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), groupIdQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdQueryNewName);
+
+
+        actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(),
+                groupIdQueryName);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdNewName);
 
 
     }

@@ -87,7 +87,7 @@ public class YamlHandlerTest {
 
 
     @Test
-    public void test_replace_map() throws IOException, FileHandlerException{
+    public void test_replace_map() throws IOException, FileHandlerException {
         String kindQuery = "kind";
         String newKind = faker.name().fullName();
 
@@ -109,7 +109,7 @@ public class YamlHandlerTest {
         replaces.put(placeholder2Query, newPlaceholder2Query);
         replaces.put(placeholder0Name, newPlaceholder0Name);
         replaces.put(placeholder1Name, newPlaceholder1Name);
-        
+
         String filename = faker.lorem().word().toLowerCase();
         final Path fileForTest = Files.createTempFile(filename, ".yml");
         FileUtils.copyFile(Paths.get(test_yaml).toFile(), fileForTest.toFile());

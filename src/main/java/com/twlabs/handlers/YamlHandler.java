@@ -51,10 +51,11 @@ public class YamlHandler implements FileHandler {
         try {
             String result = YamlPath.from(new FileInputStream(new File(filePath)))
                     .write(query, newValue).dumpAsString();
-
+            result = result.replace("---\n", "");
             try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                 byte[] strToBytes = result.getBytes();
                 outputStream.write(strToBytes);
+                outputStream.close();
             }
 
         } catch (FileNotFoundException e) {
@@ -68,7 +69,7 @@ public class YamlHandler implements FileHandler {
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap)
             throws FileHandlerException {
- 
+
 
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
             this.replace(filePath, entry.getKey(), entry.getValue());

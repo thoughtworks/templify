@@ -11,8 +11,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.handlers.XMLHandler;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
+import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
@@ -65,8 +66,18 @@ public class CookieCutterMojo extends AbstractMojo {
             config = reader.read(configFile);
 
             for (Mapping mapping : config.getMappings()) {
-                if (mapping.getFile().contains(".xml")) {
-                    setXmlPlaceHolder(mapping, templateDir);
+
+                getLog().warn("Start to set placeholders for mapping: " + mapping.getFile());
+                switch (getFileExtension(mapping.getFile())) {
+                    case ".xml":
+                        setXmlPlaceHolder(mapping, templateDir);
+                        break;
+
+                    case ".yml":
+                        setYmlPlaceHolder(mapping, templateDir);
+                    default:
+
+                        break;
                 }
 
             }
@@ -74,6 +85,25 @@ public class CookieCutterMojo extends AbstractMojo {
             e.printStackTrace();
             getLog().error("Error when I try to read the config file", e);;
         }
+    }
+
+
+
+    private void setYmlPlaceHolder(Mapping mapping, String templateDir) {
+        FileHandler handler = new YamlHandler();
+
+        String filePath = templateDir + "/" + mapping.getFile();
+        getLog().warn("Start placeholder for: " + filePath);
+        for (Placeholder placeholder : mapping.getPlaceholders()) {
+            try {
+                handler.replace(filePath, placeholder.getQuery(),
+                        "{{" + placeholder.getName() + "}}");
+            } catch (FileHandlerException e) {
+                e.printStackTrace();
+                getLog().error("Error while I was doing some placeholders", e);
+            }
+        }
+
     }
 
 
@@ -93,6 +123,16 @@ public class CookieCutterMojo extends AbstractMojo {
             }
         }
     }
+
+
+    private String getFileExtension(String fileName) {
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex == -1) {
+            return "";
+        }
+        return fileName.substring(lastDotIndex);
+    }
+
 
     /**
      * Copy base dir to the dest folder to the replaces
