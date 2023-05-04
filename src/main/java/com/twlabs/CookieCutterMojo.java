@@ -74,9 +74,11 @@ public class CookieCutterMojo extends AbstractMojo {
 
                     case ".yml":
                         setPlaceHolder(mapping, templateDir, new YamlHandler());
-                    default:
-
                         break;
+                    default:
+                        getLog().info("Unsupported file type: " + mapping.getFile());
+                        throw new IllegalArgumentException(
+                                "Unsupported file type: " + mapping.getFile());
                 }
 
             }
