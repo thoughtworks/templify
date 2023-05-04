@@ -55,7 +55,6 @@ public class YamlHandler implements FileHandler {
             try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                 byte[] strToBytes = result.getBytes();
                 outputStream.write(strToBytes);
-                outputStream.close();
             }
 
         } catch (FileNotFoundException e) {
