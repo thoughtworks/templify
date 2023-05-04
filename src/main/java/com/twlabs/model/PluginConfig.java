@@ -14,4 +14,12 @@ public class PluginConfig {
         return mappings;
     }
 
+    public void setMappings(List<Mapping> mappings) {
+        this.mappings = mappings;
+    }
+
+    public PluginConfig(List<Mapping> mappings) {
+        this.mappings = mappings;
+    }
+
 }

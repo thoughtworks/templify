@@ -14,7 +14,6 @@ public class Mapping {
         this.placeholders = placeholders;
     }
 
-
     public String getFile() {
         return file;
     }
@@ -22,6 +21,14 @@ public class Mapping {
 
     public List<Placeholder> getPlaceholders() {
         return placeholders;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public void setPlaceholders(List<Placeholder> placeholders) {
+        this.placeholders = placeholders;
     }
 
 

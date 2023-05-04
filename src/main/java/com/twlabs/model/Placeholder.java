@@ -10,9 +10,11 @@ public class Placeholder {
 
     public Placeholder() {}
 
-    public Placeholder(String sourceKey, String targetValue) {
-        this.query = sourceKey;
-        this.name = targetValue;
+
+
+    public Placeholder(String query, String name) {
+        this.query = query;
+        this.name = name;
     }
 
     public String getQuery() {
@@ -22,4 +24,14 @@ public class Placeholder {
     public String getName() {
         return name;
     }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
 }
