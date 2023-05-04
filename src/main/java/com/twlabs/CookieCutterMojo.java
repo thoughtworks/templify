@@ -67,14 +67,13 @@ public class CookieCutterMojo extends AbstractMojo {
 
             for (Mapping mapping : config.getMappings()) {
 
-                getLog().warn("Start to set placeholders for mapping: " + mapping.getFile());
                 switch (getFileExtension(mapping.getFile())) {
                     case ".xml":
-                        setXmlPlaceHolder(mapping, templateDir);
+                        setPlaceHolder(mapping, templateDir, new XMLHandler());
                         break;
 
                     case ".yml":
-                        setYmlPlaceHolder(mapping, templateDir);
+                        setPlaceHolder(mapping, templateDir, new YamlHandler());
                     default:
 
                         break;
@@ -89,33 +88,12 @@ public class CookieCutterMojo extends AbstractMojo {
 
 
 
-    private void setYmlPlaceHolder(Mapping mapping, String templateDir) {
-        FileHandler handler = new YamlHandler();
-
+    private void setPlaceHolder(Mapping mapping, String templateDir, FileHandler fileHandler) {
         String filePath = templateDir + "/" + mapping.getFile();
         getLog().warn("Start placeholder for: " + filePath);
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
-                handler.replace(filePath, placeholder.getQuery(),
-                        "{{" + placeholder.getName() + "}}");
-            } catch (FileHandlerException e) {
-                e.printStackTrace();
-                getLog().error("Error while I was doing some placeholders", e);
-            }
-        }
-
-    }
-
-
-    private void setXmlPlaceHolder(Mapping mapping, String templateDir) {
-        FileHandler handler = new XMLHandler();
-
-        String filePath = templateDir + "/" + mapping.getFile();
-
-        getLog().warn("Start placeholder for: " + filePath);
-        for (Placeholder placeholder : mapping.getPlaceholders()) {
-            try {
-                handler.replace(filePath, placeholder.getQuery(),
+                fileHandler.replace(filePath, placeholder.getQuery(),
                         "{{" + placeholder.getName() + "}}");
             } catch (FileHandlerException e) {
                 e.printStackTrace();
