@@ -3,7 +3,9 @@ package com.twlabs.handlers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 import io.github.yamlpath.YamlPath;
@@ -17,19 +19,24 @@ public class YamlHandler implements FileHandler {
     @Override
     public Map<String, String> find(String filePath, String query) throws FileHandlerException {
 
+        Map<String, String> yamlMap = new HashMap<>();
+
         try {
-            System.out.println("---");
+            Set<String> yamlSets =
+                    YamlPath.from(new FileInputStream(new File(filePath))).read(query);
 
-            String yamlSets =
-                    YamlPath.from(new FileInputStream(new File(filePath))).readSingle(query);
+            for (String yamlSet : yamlSets) {
+                yamlMap.put(query, yamlSet);
+            }
 
-            System.out.println(yamlSets);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            if (yamlMap.isEmpty()) {
+                throw new FileHandlerException("No data found in file: " + filePath);
+            }
+        } catch (IOException | IllegalStateException e) {
+            throw new FileHandlerException("Problem to read file: "+filePath+"\nor multiples data was found for the query: "+query, e);
         }
 
-        return null;
+        return yamlMap;
 
     }
 
