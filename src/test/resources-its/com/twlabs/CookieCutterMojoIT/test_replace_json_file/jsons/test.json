@@ -1,0 +1,21 @@
+{
+    "name": "David",
+    "age": 30,
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001",
+        "name": "David House"
+    },
+    "hobbies": [
+        "Football",
+        "Cooking",
+        "Swimming"
+    ],
+    "languages": {
+        "French": "Beginner",
+        "German": "Intermediate",
+        "Spanish": "Advanced"
+    }
+}

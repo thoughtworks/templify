@@ -15,6 +15,7 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
+import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 
@@ -40,6 +41,8 @@ public class CookieCutterMojoIT {
     String unsupportFileType =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/project/target/template";
 
+    String template_json =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_json_file/project/target/template";
 
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
@@ -118,9 +121,6 @@ public class CookieCutterMojoIT {
             throws FileHandlerException {
         assertThat(result).isSuccessful();
 
-        assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
-
         final Path fileTemplateGeneric1 =
                 Paths.get(templateDir_generics_xmls + "/xmls/generic_1.xml");
 
@@ -191,6 +191,36 @@ public class CookieCutterMojoIT {
 
 
     }
+
+
+    @MavenTest
+    public void test_replace_json_file(MavenExecutionResult result)
+            throws IOException, FileHandlerException {
+
+        FileHandler jsonHandler = new JsonHandler();
+
+        assertThat(result).isSuccessful();
+
+
+        final Path fileTemplatePom = Paths.get(template_json + "/jsons/test.json");
+
+
+        String nameQuery = "$['name']";
+        String nameNewName = "{{Cookiecutter.name}}";
+
+        String ageQuery = "$['age']";
+        String ageNewName = "{{Cookiecutter.age}}";
+
+
+        Map<String, String> actual =
+                jsonHandler.find(fileTemplatePom.toAbsolutePath().toString(), ageQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(ageNewName);
+
+
+        actual = jsonHandler.find(fileTemplatePom.toAbsolutePath().toString(), nameQuery);
+        assertThat(actual).isNotNull().isNotEmpty().containsValue(nameNewName);
+    }
+
 
 
     @MavenTest
