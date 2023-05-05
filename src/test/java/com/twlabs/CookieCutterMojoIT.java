@@ -196,8 +196,8 @@ public class CookieCutterMojoIT {
     @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
 
-        assertThat(result).isFailure().out().info()
-                .contains("Unsupported file type: pom.unsupported");
+        assertThat(result).isFailure().out().plain().contains(
+                "Caused by: java.lang.IllegalArgumentException: Unsupported file type: pom.unsupported");
 
 
     }
