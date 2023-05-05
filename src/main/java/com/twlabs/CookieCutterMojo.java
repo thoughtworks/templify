@@ -51,15 +51,14 @@ public class CookieCutterMojo extends AbstractMojo {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
-        String templateDir = this.buildDir.getPath() + BUILD_TEMPLATE_DIR;
 
-        copyProjectTo(templateDir);
+        copyProjectTo(getTemplateDir());
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
-        getLog().warn("Backstage template dir:" + templateDir);
+        getLog().warn("Backstage template dir:" + getTemplateDir());
 
         getLog().warn("Starting placheholders");
-        setPlaceHolders(templateDir);
+        setPlaceHolders();
         getLog().warn("End to config placeholders");
 
     }
@@ -74,45 +73,48 @@ public class CookieCutterMojo extends AbstractMojo {
                 "json", this.jsonHandler);
     }
 
+    private String getTemplateDir() {
+        return this.buildDir.getPath() + BUILD_TEMPLATE_DIR;
+    }
 
-    private void setPlaceHolders(String templateDir) {
+    private PluginConfig getConfig() throws IOException {
 
-        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
-
-        String configFile = templateDir + "/template.yml";
+        String configFile = getTemplateDir() + "/template.yml";
 
         getLog().warn("Template file: " + configFile);
 
+        PluginConfig config = reader.read(configFile);
+
+        return config;
+    }
+
+
+    private void setPlaceHolders() {
+
         try {
-            PluginConfig config = reader.read(configFile);
-
-            for (Mapping mapping : config.getMappings()) {
-
-                String extension = getFileExtension(mapping.getFile());
-
-                if (!handlersRegistry.containsKey(extension)) {
-                    getLog().info("Unsupported file type: " + mapping.getFile());
-                    throw new IllegalArgumentException(
-                            "Unsupported file type: " + mapping.getFile());
-                }
-
-                setPlaceHolder(mapping, templateDir, handlersRegistry.get(extension));
-            }
+            getConfig().getMappings().forEach(this::setPlaceHolder);
 
         } catch (IOException e) {
-            e.printStackTrace();
             getLog().error("Error to read the config file", e);;
         }
     }
 
+    private void setPlaceHolder(Mapping mapping) {
 
+        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
 
-    private void setPlaceHolder(Mapping mapping, String templateDir, FileHandler fileHandler) {
-        String filePath = templateDir + "/" + mapping.getFile();
+        String file = mapping.getFile();
+        String filePath = getTemplateDir() + "/" + file;
+        String extension = getFileExtension(file);
+
+        if (!handlersRegistry.containsKey(extension))
+            throw new IllegalArgumentException("Unsupported file type: " + file);
+
         getLog().warn("Start placeholder for: " + filePath);
+
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
-                fileHandler.replace(filePath, placeholder.getQuery(),
+                handlersRegistry.get(extension).replace(filePath, placeholder.getQuery(),
                         "{{" + placeholder.getName() + "}}");
             } catch (FileHandlerException e) {
                 e.printStackTrace();
