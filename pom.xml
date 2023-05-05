@@ -385,6 +385,11 @@
     </reporting>
 
     <distributionManagement>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+        </repository>
+
         <snapshotRepository>
             <id>artifact-registry</id>
             <url>artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</url>
@@ -402,6 +407,17 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>artifact-registry-release</id>
+            <url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+
     </repositories>
 
 </project>
