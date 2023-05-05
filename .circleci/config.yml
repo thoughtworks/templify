@@ -3,22 +3,17 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.1
 version: 2.1
 jobs:
-  build:
-    docker:
-      - image: cimg/openjdk:17.0-browsers
-    steps:
-      - checkout
-      - browser-tools/install-browser-tools
-      - run: mvn test
-      - store_artifacts:
-          path: target
   deploy:
     docker:
       - image: cimg/openjdk:17.0-browsers
     steps:
-      - checkout
-      - browser-tools/install-browser-tools
-      - run: mvn deploy
+      - run: |
+          sudo apt-get install apt-transport-https ca-certificates gnupg -y
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo tee /usr/share/keyrings/cloud.google.gpg
+          RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | tee /usr/share/keyrings/cloud.google.gpg && apt-get update -y && apt-get install google-cloud-sdk -y
+          gcloud init
+          mvn deploy
       - store_artifacts:
           path: target
 workflows:
@@ -30,9 +25,6 @@ workflows:
             name: maven/default
             tag: "11.0"
           test_results_path: target/surefire-reports
-  coverage:
-    jobs:
-      - build
   deploy:
     jobs:
       - deploy
