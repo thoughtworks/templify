@@ -12,6 +12,15 @@ jobs:
       - run: mvn test
       - store_artifacts:
           path: target
+  deploy:
+    docker:
+      - image: cimg/openjdk:17.0-browsers
+    steps:
+      - checkout
+      - browser-tools/install-browser-tools
+      - run: mvn deploy
+      - store_artifacts:
+          path: target
 workflows:
   maven_test:
     jobs:
@@ -24,36 +33,6 @@ workflows:
   coverage:
     jobs:
       - build
-  maven_publish_flow:
+  deploy:
     jobs:
-      - maven-deploy/code-checkout:
-          executor-version: 14-buster
-      - maven-deploy/resolve-dependency:
-          executor-version: 14-buster
-          requires:
-            - maven-deploy/code-checkout
-      - maven-deploy/build:
-          executor-version: 14-buster
-          requires:
-            - maven-deploy/resolve-dependency
-      - maven-deploy/test:
-          executor-version: 14-buster
-          requires:
-            - maven-deploy/build
-          result-path: target/surefire-reports
-      - maven-deploy/sonar-analysis:
-          executor-version: 14-buster
-          requires:
-            - maven-deploy/test
-      - maven-deploy/deploy:
-          context: RELEASE_PROFILE_XYZ
-          deploy-command: >-
-            mvn deploy -DskipTests
-            -Dcheckstyle.skip -B -Prelease
-          executor-version: 14-buster
-          filters:
-            branches:
-              only:
-                - main
-          requires:
-            - maven-deploy/sonar-analysis
+      - deploy
