@@ -129,7 +129,7 @@ public class CookieCutterMojo extends AbstractMojo {
         if (lastDotIndex == -1) {
             return "";
         }
-        return fileName.substring(lastDotIndex);
+        return fileName.substring(lastDotIndex).replace(".", "");
     }
 
 
