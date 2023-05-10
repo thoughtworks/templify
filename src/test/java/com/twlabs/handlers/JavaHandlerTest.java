@@ -68,8 +68,16 @@ public class JavaHandlerTest {
         String packageFolders = query.replace(".", File.separator);
 
 
+        Path tempDir;
+        Path baseDirPath = Paths.get(baseDir);
+        if (Files.exists(baseDirPath)) {
+            tempDir = Files.createDirectory(Paths.get(baseDir + "/" + packageFolders));
 
-        Path tempDir = Files.createDirectory(Paths.get(baseDir + "/" + packageFolders));
+        } else {
+            Files.createDirectory(baseDirPath);
+            tempDir = Files.createDirectory(Paths.get(baseDir + "/" + packageFolders));
+        }
+
 
 
         for (int i = 0; i < 3; i++) {

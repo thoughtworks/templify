@@ -47,7 +47,8 @@ public class JavaHandler implements FileHandler {
                         Files.move(regulaFile, Paths.get(newPath));
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException("replace file exception: "+regulaFile.toString(), e);
+                    throw new RuntimeException("replace file exception: " + regulaFile.toString(),
+                            e);
                 }
             });
         } catch (IOException e) {
@@ -92,7 +93,6 @@ public class JavaHandler implements FileHandler {
         throw new IllegalArgumentException("content: " + content + "\natcher: " + matcher.group()
                 + " Package not found in " + filePath);
     }
-
 
 
 
