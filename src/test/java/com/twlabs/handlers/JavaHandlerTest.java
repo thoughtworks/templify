@@ -1,6 +1,7 @@
 package com.twlabs.handlers;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,15 @@ public class JavaHandlerTest {
 
         assertTrue(filesMaps.containsValue("com/myPackage/br"));
 
+    }
+
+
+    @Test
+    public void find_file_not_found() throws FileHandlerException {
+    String query = "com.Not.Found";
+
+        assertThrows(FileHandlerException.class,
+                () -> javaHandler.find(baseDir, query)).getMessage().contains("Path not found");
     }
 
 
