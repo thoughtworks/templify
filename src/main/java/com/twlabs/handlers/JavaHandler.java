@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,14 +18,27 @@ import com.twlabs.interfaces.FileHandler;
  */
 public class JavaHandler implements FileHandler {
 
-    @Override
     public Map<String, String> find(String filePath, String query) throws FileHandlerException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'find'");
+
+        String transformQuery = query.replace(".", File.separator);
+        Path path = Paths.get(filePath + File.separator + transformQuery);
+
+
+        Map<String, String> pathsMap = new HashMap<>();
+
+        if (Files.isDirectory(path)) {
+            pathsMap.put(query, transformQuery);
+        } else {
+            throw new FileHandlerException("Path not found: " + path + "\nfor query: " + query
+                    + " at filePath: " + filePath);
+        }
+
+        return pathsMap;
 
     }
 
-    @Override
+
+
     public void replace(String file, String query, String newValue) throws FileHandlerException {
 
         Path classPath = Paths.get(file);
@@ -55,7 +69,6 @@ public class JavaHandler implements FileHandler {
         } catch (IOException e) {
             throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
         } finally {
-            System.out.println("classpath: " + classPath + " query: " +query);
             removePackageDirectory(classPath, query);
         }
 
@@ -70,7 +83,6 @@ public class JavaHandler implements FileHandler {
 
         Path dirToDelete = classPath.resolve(firstFolder);
 
-        System.out.println("dirToDelete: " + dirToDelete);
         if (Files.isDirectory(dirToDelete)) {
             try {
                 Files.walk(dirToDelete).sorted(Comparator.reverseOrder()).map(Path::toFile)
@@ -102,9 +114,7 @@ public class JavaHandler implements FileHandler {
     public void replace(String filePath, Map<String, String> queryValueMap)
             throws FileHandlerException {
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
-            System.out.println("file: " + filePath + " query: " + entry.getKey() + " value: " + entry.getValue());
             replace(filePath, entry.getKey(), entry.getValue());
-
         }
     }
 

@@ -26,6 +26,21 @@ public class JavaHandlerTest {
 
     Faker faker = new Faker();
 
+
+    @Test
+    public void find_file() throws FileHandlerException {
+
+
+        String query = "com.myPackage.br";
+
+        Map<String, String> filesMaps = javaHandler.find(baseDir, query);
+
+        assertTrue(filesMaps.containsValue("com/myPackage/br"));
+
+    }
+
+
+
     @Test
     public void test_change_directory() throws FileHandlerException, IOException {
 
