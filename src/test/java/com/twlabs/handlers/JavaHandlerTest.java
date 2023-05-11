@@ -68,7 +68,7 @@ public class JavaHandlerTest {
         assertTrue(newDirectory.exists());
 
 
-        javaHandler.removePackageDirectory(Paths.get(baseDir), name);
+        javaHandler.removePackageDirectory(baseDir, name);
 
         // assertTrue(false);
     }
@@ -81,7 +81,7 @@ public class JavaHandlerTest {
 
         createFakeProject(baseDir, query);
 
-        javaHandler.removePackageDirectory(Paths.get(baseDir), query);
+        javaHandler.removePackageDirectory(baseDir, query);
         File removedDirectory = new File(baseDir + "/" + query.replace(".", "/"));
 
         assertFalse(removedDirectory.exists());
@@ -117,7 +117,7 @@ public class JavaHandlerTest {
         File newDirectory = new File(baseDir + "/" + name.replace(".", "/"));
         assertTrue(newDirectory.exists());
 
-        javaHandler.removePackageDirectory(Paths.get(baseDir), name);
+        javaHandler.removePackageDirectory(baseDir, name);
 
         oldDirectory = new File(baseDir + "/" + queryTest2.replace(".", "/"));
         assertFalse(oldDirectory.exists());
@@ -125,7 +125,7 @@ public class JavaHandlerTest {
         newDirectory = new File(baseDir + "/" + nameCookie2.replace(".", "/"));
         assertTrue(newDirectory.exists());
 
-        javaHandler.removePackageDirectory(Paths.get(baseDir), nameCookie2);
+        javaHandler.removePackageDirectory(baseDir, nameCookie2);
 
     }
 

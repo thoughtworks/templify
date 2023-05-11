@@ -41,7 +41,7 @@ public class JavaHandler implements FileHandler {
 
     public void replace(String file, String query, String newValue) throws FileHandlerException {
 
-        Path classPath = Paths.get(file);
+        Path classPath = Paths.get(file+File.separator+find(file,query).get(query));
 
 
         try {
@@ -69,19 +69,19 @@ public class JavaHandler implements FileHandler {
         } catch (IOException e) {
             throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
         } finally {
-            removePackageDirectory(classPath, query);
+            removePackageDirectory(file, query);
         }
 
 
     }
 
 
-    public void removePackageDirectory(Path classPath, String oldDir) throws FileHandlerException {
+    public void removePackageDirectory(String classPath, String oldDir) throws FileHandlerException {
 
         // get first folder to walk
-        String firstFolder = oldDir.replace(".", File.separator).split(File.separator)[0];
+        String firstFolder = find(classPath, oldDir).get(oldDir);
 
-        Path dirToDelete = classPath.resolve(firstFolder);
+        Path dirToDelete = Paths.get(classPath + File.separator + firstFolder);
 
         if (Files.isDirectory(dirToDelete)) {
             try {
