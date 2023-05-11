@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -49,6 +50,54 @@ public class JavaHandlerTest {
                 .getMessage().contains("Path not found");
     }
 
+
+    @Test
+    public void test_change_java_package() throws IOException, FileHandlerException {
+
+        String packageFolder = "com.myTestPackage";
+        String file = "MyClass";
+
+        Path tempDir = Files.createDirectory(
+                Paths.get(baseDir + "/" + packageFolder.replace(".", File.separator)));
+
+        Path newTempFile = Files.createFile(Paths.get(tempDir.toString() + "/" + file + ".java"));
+
+        Files.write(newTempFile,
+                ("package " + packageFolder + ";\npublic class " + file + "{ }").getBytes());
+
+        assertTrue(Files.exists(newTempFile));
+
+        String replace = "CookieCutter.newPackage";
+
+        System.out.println("baseDir: " + baseDir + " packageFolder: " + packageFolder + " replace: "
+                + replace);
+        javaHandler.replace(baseDir, packageFolder, replace);
+
+        assertFalse(Files.exists(newTempFile));
+
+
+        String newContent =
+                Files.readString(Paths.get(baseDir + "/" + replace + "/" + file + ".java"));
+
+        assertTrue(newContent.contains("package " + replace));
+
+
+        Path dirToDelete = Paths.get(baseDir + "/" + replace);
+
+        if (Files.isDirectory(dirToDelete)) {
+            try {
+                Files.walk(dirToDelete).sorted(Comparator.reverseOrder()).map(Path::toFile)
+                        .forEach(File::delete);
+            } catch (IOException e) {
+                throw new FileHandlerException(
+                        "It was not possible to remove the directory: " + dirToDelete.toString(),
+                        e);
+            }
+        }
+
+        assertFalse(Files.exists(dirToDelete));
+
+    }
 
 
     @Test
