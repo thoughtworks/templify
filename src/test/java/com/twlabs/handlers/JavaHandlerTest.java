@@ -43,10 +43,10 @@ public class JavaHandlerTest {
 
     @Test
     public void find_file_not_found() throws FileHandlerException {
-    String query = "com.Not.Found";
+        String query = "com.Not.Found";
 
-        assertThrows(FileHandlerException.class,
-                () -> javaHandler.find(baseDir, query)).getMessage().contains("Path not found");
+        assertThrows(FileHandlerException.class, () -> javaHandler.find(baseDir, query))
+                .getMessage().contains("Path not found");
     }
 
 
@@ -110,23 +110,19 @@ public class JavaHandlerTest {
         javaHandler.replace(baseDir, replaceMap);
 
 
+        for (Map.Entry<String, String> entry : replaceMap.entrySet()) {
+            String currentQuery = entry.getKey();
+            String currentName = entry.getValue();
 
-        File oldDirectory = new File(baseDir + "/" + query.replace(".", "/"));
-        assertFalse(oldDirectory.exists());
+            File oldDirectory = new File(baseDir + "/" + currentQuery.replace(".", "/"));
+            assertFalse(oldDirectory.exists());
 
-        File newDirectory = new File(baseDir + "/" + name.replace(".", "/"));
-        assertTrue(newDirectory.exists());
+            File newDirectory = new File(baseDir + "/" + currentName.replace(".", "/"));
+            assertTrue(newDirectory.exists());
 
-        javaHandler.removePackageDirectory(baseDir, name);
-
-        oldDirectory = new File(baseDir + "/" + queryTest2.replace(".", "/"));
-        assertFalse(oldDirectory.exists());
-
-        newDirectory = new File(baseDir + "/" + nameCookie2.replace(".", "/"));
-        assertTrue(newDirectory.exists());
-
-        javaHandler.removePackageDirectory(baseDir, nameCookie2);
-
+            javaHandler.removePackageDirectory(baseDir, currentName);
+            assertFalse(newDirectory.exists());
+        }
     }
 
 
