@@ -2,19 +2,20 @@ package com.twlabs.handlers;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+
+
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class JavaHandlerTest {
@@ -59,6 +60,48 @@ public class JavaHandlerTest {
         File removedDirectory = new File(baseDir + "/" + query.replace(".", "/"));
 
         assertFalse(removedDirectory.exists());
+    }
+
+
+
+    @Test
+    public void test_replace_map_directory() throws IOException, FileHandlerException {
+
+
+        Map<String, String> replaceMap = new HashMap<>();
+
+        String query = "firstTest";// faker.dog().name();
+        String name = "cookieCutter1"; // faker.lorem().word();
+        replaceMap.put(query, name);
+
+        createFakeProject(baseDir, query);
+
+        String queryTest2 = "secondTest";// faker.color().name();
+        String nameCookie2 = "CookieCutter2"; // "faker.lorem().word();
+        replaceMap.put(queryTest2, nameCookie2);
+
+        createFakeProject(baseDir, queryTest2);
+
+        javaHandler.replace(baseDir, replaceMap);
+
+
+
+        File oldDirectory = new File(baseDir + "/" + query.replace(".", "/"));
+        assertFalse(oldDirectory.exists());
+
+        File newDirectory = new File(baseDir + "/" + name.replace(".", "/"));
+        assertTrue(newDirectory.exists());
+
+        javaHandler.removePackageDirectory(Paths.get(baseDir), name);
+
+        oldDirectory = new File(baseDir + "/" + queryTest2.replace(".", "/"));
+        assertFalse(oldDirectory.exists());
+
+        newDirectory = new File(baseDir + "/" + nameCookie2.replace(".", "/"));
+        assertTrue(newDirectory.exists());
+
+        javaHandler.removePackageDirectory(Paths.get(baseDir), nameCookie2);
+
     }
 
 
