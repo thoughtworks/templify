@@ -49,14 +49,15 @@ public class JavaHandler implements FileHandler {
                 } catch (IOException e) {
                     throw new RuntimeException("replace file exception: " + regulaFile.toString(),
                             e);
+
                 }
             });
         } catch (IOException e) {
             throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
+        } finally {
+            System.out.println("classpath: " + classPath + " query: " +query);
+            removePackageDirectory(classPath, query);
         }
-
-        removePackageDirectory(classPath, query);
-
 
 
     }
@@ -69,6 +70,7 @@ public class JavaHandler implements FileHandler {
 
         Path dirToDelete = classPath.resolve(firstFolder);
 
+        System.out.println("dirToDelete: " + dirToDelete);
         if (Files.isDirectory(dirToDelete)) {
             try {
                 Files.walk(dirToDelete).sorted(Comparator.reverseOrder()).map(Path::toFile)
@@ -99,10 +101,12 @@ public class JavaHandler implements FileHandler {
     @Override
     public void replace(String filePath, Map<String, String> queryValueMap)
             throws FileHandlerException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'replace'");
-    }
+        for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
+            System.out.println("file: " + filePath + " query: " + entry.getKey() + " value: " + entry.getValue());
+            replace(filePath, entry.getKey(), entry.getValue());
 
+        }
+    }
 
 
 }
