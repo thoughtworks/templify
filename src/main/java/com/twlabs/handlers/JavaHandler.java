@@ -43,6 +43,7 @@ public class JavaHandler implements FileHandler {
 
         Path classPath = Paths.get(file+File.separator+find(file,query).get(query));
 
+        System.out.println("classPath: " + classPath + "\nquery: " + query + "\nnewValue: " + newValue);
 
         try {
             Files.walk(classPath).filter(Files::isRegularFile).forEach(regulaFile -> {
@@ -56,10 +57,13 @@ public class JavaHandler implements FileHandler {
 
                     if (packageName.contains(query)) {
                         String newPath =
-                                regulaFile.toAbsolutePath().toString().replace(query, newValue);
+                                regulaFile.toAbsolutePath().toString().replace(query.replace(".", File.separator), newValue);
                         Files.createDirectories(Paths.get(newPath).getParent());
                         Files.move(regulaFile, Paths.get(newPath));
-                    }
+                        System.out.println("newPath: "+newPath);
+                    }else{
+                    System.out.println("not found");
+                    } 
                 } catch (IOException e) {
                     throw new RuntimeException("replace file exception: " + regulaFile.toString(),
                             e);
