@@ -20,7 +20,10 @@ public class JavaHandler implements FileHandler {
 
     public Map<String, String> find(String filePath, String query) throws FileHandlerException {
 
-        String transformQuery = query.replace(".", File.separator);
+        String transformQuery = query;
+        if (!query.startsWith("{{") && !query.endsWith("}}")) {
+            transformQuery = query.replace(".", File.separator);
+        }
         Path path = Paths.get(filePath + File.separator + transformQuery);
 
 
@@ -41,7 +44,7 @@ public class JavaHandler implements FileHandler {
 
     public void replace(String file, String query, String newValue) throws FileHandlerException {
 
-        Path classPath = Paths.get(file+File.separator+find(file,query).get(query));
+        Path classPath = Paths.get(file + File.separator + find(file, query).get(query));
 
         try {
             Files.walk(classPath).filter(Files::isRegularFile).forEach(regulaFile -> {
@@ -54,12 +57,12 @@ public class JavaHandler implements FileHandler {
                     Files.write(regulaFile, fileContent.getBytes());
 
                     if (packageName.contains(query)) {
-                        String newPath =
-                                regulaFile.toAbsolutePath().toString().replace(query.replace(".", File.separator), newValue);
+                        String newPath = regulaFile.toAbsolutePath().toString()
+                                .replace(query.replace(".", File.separator), newValue);
                         Files.createDirectories(Paths.get(newPath).getParent());
                         Files.move(regulaFile, Paths.get(newPath));
                     }
-                } catch (IOException e) {
+                } catch (IOException | FileHandlerException e) {
                     throw new RuntimeException("replace file exception: " + regulaFile.toString(),
                             e);
 
@@ -75,10 +78,11 @@ public class JavaHandler implements FileHandler {
     }
 
 
-    public void removePackageDirectory(String classPath, String oldDir) throws FileHandlerException {
+    public void removePackageDirectory(String classPath, String oldDir)
+            throws FileHandlerException {
 
         // get first folder to walk
-        String firstFolder = find(classPath, oldDir).get(oldDir);
+        String firstFolder = find(classPath, oldDir).get(oldDir).split(File.separator)[0];
 
         Path dirToDelete = Paths.get(classPath + File.separator + firstFolder);
 
@@ -96,14 +100,14 @@ public class JavaHandler implements FileHandler {
 
 
 
-    private static String getPackageName(Path filePath) throws IOException {
+    private static String getPackageName(Path filePath) throws IOException, FileHandlerException {
         String content = Files.readString(filePath);
         Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([a-z0-9_\\.]+)\\s*;");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
             return matcher.group(1);
         }
-        throw new IllegalArgumentException("content: " + content + "\natcher: " + matcher.group()
+        throw new FileHandlerException("content: " + content + "\natcher: " + matcher.group()
                 + " Package not found in " + filePath);
     }
 
