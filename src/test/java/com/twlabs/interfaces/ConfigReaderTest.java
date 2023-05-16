@@ -50,16 +50,42 @@ public class ConfigReaderTest {
 
     @ParameterizedTest
     @CsvSource({"0, 0, /project/groupId, Cookiecutter.param.groupId", "1, 0, parametro1, valor1"})
-    public void test_configMapping_getPlaceholder(int index, int indexPlaceHolder, String expectedQuery, String expectedName) throws IOException{
+    public void test_configMapping_getPlaceholder(int index, int indexPlaceHolder,
+            String expectedQuery, String expectedName) throws IOException {
         ConfigReader reader = new YamlReader();
         PluginConfig config = reader.read(test_yml);
 
         List<Mapping> actual = config.getMappings();
 
-        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getQuery()).isEqualTo(expectedQuery);
-        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getName()).isEqualTo(expectedName);
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getQuery())
+                .isEqualTo(expectedQuery);
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getName())
+                .isEqualTo(expectedName);
 
 
+    }
+
+
+    //
+    // public Mapping(String sourceFile, List<Placeholder> placeholders, String type, String
+    // base_dir,
+    @Test
+    public void test_configMapping_with_type_baseid() {
+        Placeholder placeholder = new Placeholder("source_key", "target_file");
+        List<Placeholder> placeholderList = new ArrayList<>();
+
+        placeholderList.add(placeholder);
+
+        Mapping actual = new Mapping("source_file", placeholderList, "language_type",
+                "src/main/java", "src/test/java");
+
+        assertEquals(placeholderList, actual.getPlaceholders());
+        assertNotNull(actual.getPlaceholders());
+        assertEquals(placeholder, actual.getPlaceholders().get(0));
+        assertEquals(actual.getFile(), "source_file");
+        assertEquals(actual.getType(), "language_type");
+        assertEquals(actual.getBase_dir(), "src/main/java");
+        assertEquals(actual.getBase_test_dir(), "src/test/java");
     }
 
 
