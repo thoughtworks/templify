@@ -4,17 +4,39 @@ import java.util.List;
 
 public class Mapping {
     private String file;
+    private String type;
+    private String base_dir;
+    private String base_test_dir;
+
     private List<Placeholder> placeholders;
 
 
     public Mapping() {}
 
-    public Mapping(String sourceFile, List<Placeholder> placeholders) {
+
+    public Mapping(String file, List<Placeholder> placePlaceholders) {
+        this.file = file;
+        this.placeholders = placePlaceholders;
+        this.type = "file";
+        this.base_dir =""; 
+        this.base_test_dir = "";
+    }
+
+
+
+    public Mapping(String sourceFile, List<Placeholder> placeholders, String type, String base_dir,
+            String base_test_dir) {
         this.file = sourceFile;
         this.placeholders = placeholders;
+        this.type = type;
+        this.base_dir = base_dir;
+        this.base_test_dir = base_test_dir;
     }
 
     public String getFile() {
+        if (this.file == null) {
+            return this.getBase_dir();
+        }
         return file;
     }
 
@@ -29,6 +51,30 @@ public class Mapping {
 
     public void setPlaceholders(List<Placeholder> placeholders) {
         this.placeholders = placeholders;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getBase_dir() {
+        return base_dir;
+    }
+
+    public void setBase_dir(String base_dir) {
+        this.base_dir = base_dir;
+    }
+
+    public String getBase_test_dir() {
+        return base_test_dir;
+    }
+
+    public void setBase_test_dir(String base_test_dir) {
+        this.base_test_dir = base_test_dir;
     }
 
 
