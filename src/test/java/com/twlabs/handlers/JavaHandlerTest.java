@@ -11,9 +11,12 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
 
@@ -24,9 +27,20 @@ public class JavaHandlerTest {
 
     JavaHandler javaHandler = new JavaHandler();
 
-    String baseDir = "src/test/resources/processador/java";
+    static String query = "";
+    static String baseDir = "src/test/resources/processador/java/dynamic";
+    static String staticBaseDir = "src/test/resources/processador/java/static";
 
     Faker faker = new Faker();
+
+
+
+    @AfterAll
+    public static void cleanFolders() throws IOException {
+
+        FileUtils.deleteDirectory(new File(baseDir));
+
+    }
 
 
     @Test
@@ -35,7 +49,7 @@ public class JavaHandlerTest {
 
         String query = "com.myPackage.br";
 
-        Map<String, String> filesMaps = javaHandler.find(baseDir, query);
+        Map<String, String> filesMaps = javaHandler.find(staticBaseDir+"", query);
 
         assertTrue(filesMaps.containsValue("com/myPackage/br"));
 
@@ -54,7 +68,7 @@ public class JavaHandlerTest {
     @Test
     public void test_change_java_package() throws IOException, FileHandlerException {
 
-        String packageFolder = "com.myTestPackage";
+        String packageFolder = "myTestPackage";
         String file = "MyClass";
 
         Path tempDir = Files.createDirectory(
@@ -103,7 +117,7 @@ public class JavaHandlerTest {
     @Test
     public void test_change_directory() throws FileHandlerException, IOException {
 
-        String query = faker.dog().name();
+        query = faker.dog().name();
         String name = faker.lorem().word();
 
         createFakeProject(baseDir, query);
@@ -120,6 +134,7 @@ public class JavaHandlerTest {
         javaHandler.removePackageDirectory(baseDir, name);
 
         // assertTrue(false);
+        
     }
 
     @Test
