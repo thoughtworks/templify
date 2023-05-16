@@ -3,10 +3,12 @@ package com.twlabs;
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -15,6 +17,7 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
+import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
@@ -43,6 +46,10 @@ public class CookieCutterMojoIT {
 
     String template_json =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_json_file/project/target/template";
+
+
+    String template_java =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_java/project/target/template";
 
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
@@ -191,6 +198,29 @@ public class CookieCutterMojoIT {
 
 
     }
+
+
+    @MavenTest
+    public void test_replace_java(MavenExecutionResult result) throws FileHandlerException {
+        FileHandler javaHandler = new JavaHandler();
+        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+
+        String classpathTemplate_java = template_java + "/src/main/java";
+        String packageQuery = "com.myPackage";
+        String packageNewName = "{{cookiecutter.package}}";
+
+        Map<String, String> filePathMap = javaHandler.find(classpathTemplate_java, packageNewName);
+
+        assertFalse(filePathMap.containsKey(packageQuery),
+                "Directory " + filePathMap.get(packageQuery) + " was not moved");
+        assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
+                "It was not found directory: " + packageNewName + " on path: "
+                        + classpathTemplate_java);
+    }
+
 
 
     @MavenTest
