@@ -14,6 +14,7 @@ import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
+import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
@@ -44,6 +45,7 @@ public class CookieCutterMojo extends AbstractMojo {
     private YamlHandler yamlHandler = new YamlHandler();
     private XMLHandler xmlHandler = new XMLHandler();
     private JsonHandler jsonHandler = new JsonHandler();
+    private JavaHandler javaHandler = new JavaHandler();
 
     private ConfigReader reader = new YamlReader();
 
@@ -70,7 +72,7 @@ public class CookieCutterMojo extends AbstractMojo {
      */
     private Map<String, FileHandler> getFileHandlerRegistry() {
         return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
-                "json", this.jsonHandler);
+                "json", this.jsonHandler, "java", this.javaHandler);
     }
 
     private String getTemplateDir() {
@@ -105,7 +107,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
         String file = mapping.getFile();
         String filePath = getTemplateDir() + "/" + file;
-        String extension = getFileExtension(file);
+        String extension = getFileExtension(mapping);
 
         if (!handlersRegistry.containsKey(extension))
             throw new IllegalArgumentException("Unsupported file type: " + file);
@@ -124,12 +126,12 @@ public class CookieCutterMojo extends AbstractMojo {
     }
 
 
-    private String getFileExtension(String fileName) {
-        int lastDotIndex = fileName.lastIndexOf(".");
+    private String getFileExtension(Mapping mapping) {
+        int lastDotIndex = mapping.getFile().lastIndexOf(".");
         if (lastDotIndex == -1) {
-            return "";
+            return mapping.getType();
         }
-        return fileName.substring(lastDotIndex).replace(".", "");
+        return mapping.getFile().substring(lastDotIndex).replace(".", "");
     }
 
 
