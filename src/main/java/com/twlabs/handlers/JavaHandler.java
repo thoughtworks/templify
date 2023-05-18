@@ -50,10 +50,8 @@ public class JavaHandler implements FileHandler {
 
 
             boolean filesModified = modifyFileContents(classPath, query, newValue);
-
-
+            
             boolean filesMoved = moveFiles(classPath, query, newValue);
-
 
             boolean directoryRemoved = removePackageDirectory(file, query);
 
@@ -116,7 +114,6 @@ public class JavaHandler implements FileHandler {
                     if (packageName.contains(newDir)) {
                         String newPath = regularFile.toAbsolutePath().toString()
                                 .replace(oldDir.replace(".", File.separator), newDir);
-
                         Files.createDirectories(Paths.get(newPath).getParent());
                         Files.move(regularFile, Paths.get(newPath));
                         filesMoved.set(true);
@@ -161,7 +158,7 @@ public class JavaHandler implements FileHandler {
 
     private static String getPackageName(Path filePath) throws IOException, FileHandlerException {
         String content = Files.readString(filePath);
-        Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([a-z0-9_\\.]+)\\s*;");
+        Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([a-z0-9_\\.\\{\\}]+)\\s*;");
         Matcher matcher = pattern.matcher(content);
         if (matcher.find()) {
             return matcher.group(1);
