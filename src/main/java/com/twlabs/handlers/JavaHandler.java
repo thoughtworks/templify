@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.twlabs.exceptions.FileHandlerException;
@@ -43,42 +44,100 @@ public class JavaHandler implements FileHandler {
 
 
     public void replace(String file, String query, String newValue) throws FileHandlerException {
-
         Path classPath = Paths.get(file + File.separator + find(file, query).get(query));
 
         try {
-            Files.walk(classPath).filter(Files::isRegularFile).forEach(regulaFile -> {
-                try {
-                    String packageName = getPackageName(regulaFile.toAbsolutePath());
 
-                    String fileContent = new String(Files.readAllBytes(regulaFile));
 
-                    fileContent = fileContent.replaceAll(query, newValue);
-                    Files.write(regulaFile, fileContent.getBytes());
+            boolean filesModified = modifyFileContents(classPath, query, newValue);
 
-                    if (packageName.contains(query)) {
-                        String newPath = regulaFile.toAbsolutePath().toString()
-                                .replace(query.replace(".", File.separator), newValue);
-                        Files.createDirectories(Paths.get(newPath).getParent());
-                        Files.move(regulaFile, Paths.get(newPath));
-                    }
-                } catch (IOException | FileHandlerException e) {
-                    throw new RuntimeException("replace file exception: " + regulaFile.toString(),
-                            e);
 
-                }
-            });
-        } catch (IOException e) {
-            throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
-        } finally {
-            removePackageDirectory(file, query);
+            boolean filesMoved = moveFiles(classPath, query, newValue);
+
+
+            boolean directoryRemoved = removePackageDirectory(file, query);
+
+
+            if (!(filesMoved && filesModified && directoryRemoved)) {
+
+                throw new FileHandlerException("Could not replace " + query + " in " + file);
+            }
+
+
+        } catch (FileHandlerException e) {
+            throw new FileHandlerException("Error while replacing file: " + file, e);
         }
-
 
     }
 
 
-    public void removePackageDirectory(String classPath, String oldDir)
+
+    private boolean modifyFileContents(Path classPath, String oldDir, String newContent)
+            throws FileHandlerException {
+        AtomicBoolean filesModified = new AtomicBoolean(false);
+
+        try {
+            Files.walk(classPath).filter(Files::isRegularFile).forEach(regularFile -> {
+                try {
+                    String fileContent = new String(Files.readAllBytes(regularFile));
+
+                    if (fileContent.contains(oldDir)) {
+                        fileContent = fileContent.replaceAll(oldDir, newContent);
+                        Files.write(regularFile, fileContent.getBytes());
+                        filesModified.set(true);
+                    }
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(
+                            "Error while modify files contents: " + classPath.toString(), e);
+                }
+
+            });
+        } catch (IOException | RuntimeException e) {
+            throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
+        }
+
+        return filesModified.get();
+
+    }
+
+
+
+    private boolean moveFiles(Path classPath, String oldDir, String newDir)
+            throws FileHandlerException {
+        AtomicBoolean filesMoved = new AtomicBoolean(false);
+
+        try {
+            Files.walk(classPath).filter(Files::isRegularFile).forEach(regularFile -> {
+                try {
+                    String packageName = getPackageName(regularFile.toAbsolutePath());
+
+                    if (packageName.contains(newDir)) {
+                        String newPath = regularFile.toAbsolutePath().toString()
+                                .replace(oldDir.replace(".", File.separator), newDir);
+
+                        Files.createDirectories(Paths.get(newPath).getParent());
+                        Files.move(regularFile, Paths.get(newPath));
+                        filesMoved.set(true);
+                    }
+                } catch (IOException | FileHandlerException e) {
+                    throw new RuntimeException("Error while moving file: " + regularFile.toString(),
+                            e);
+                }
+            });
+
+        } catch (IOException | RuntimeException e) {
+            throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
+        }
+
+        return filesMoved.get();
+
+    }
+
+
+
+    public boolean removePackageDirectory(String classPath, String oldDir)
             throws FileHandlerException {
 
         // get first folder to walk
@@ -86,15 +145,15 @@ public class JavaHandler implements FileHandler {
 
         Path dirToDelete = Paths.get(classPath + File.separator + firstFolder);
 
-        if (Files.isDirectory(dirToDelete)) {
-            try {
+        try {
+            if (Files.isDirectory(dirToDelete)) {
                 Files.walk(dirToDelete).sorted(Comparator.reverseOrder()).map(Path::toFile)
                         .forEach(File::delete);
-            } catch (IOException e) {
-                throw new FileHandlerException(
-                        "It was not possible to remove the directory: " + dirToDelete.toString(),
-                        e);
             }
+            return true;
+        } catch (IOException e) {
+            throw new FileHandlerException(
+                    "It was not possible to remove the directory: " + dirToDelete.toString(), e);
         }
     }
 
