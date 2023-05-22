@@ -16,8 +16,8 @@ Today, the plugin supports:
 * XML 
 * YAML 
 * JSON 
+* Java files and packages
 
-Soon, the plugin will also be able to update Java packages. :)
 
 # Quickstart
 
@@ -103,10 +103,123 @@ The path should be informed from the root of the project. Example:
 * `placeholders:` atribute that contains a list of `queries` and `names`
 * `query:` For each file type, the query will have a specific format. The formats will be described in the corresponding section for each file type.
 * `name:` This is the value that the query result will be transformed into. *Important:* the plugin will already format it as `mustache` type, `{{new value}}`
- 
+
+
 #### XML
+To perform mapping for replacement with XML files, you will need to provide the following fields:
+* `file:` Relative path to the XML file from the project root.
+* `query:` Within the placeholders tag, provide the XPATH for the XML file attribute that needs to be changed.
+* `name:` Value to be replaced for 
+
+Usage example:
+* Config
+```yaml
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
+      - query: /project/artifactId
+        name: Cookiecutter.test.replace.map.artifactId
+```
+
+- Before:
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>0.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>my-example-maven-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
+    <version>0.0.0-SNAPSHOT</version>
+    <name>my project example</name>
+    <url>http://maven.apache.org</url>
+ ...
+```
+
+ - Expected result after running Cookie-Cutter Templater:
+ ```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>0.0.0</modelVersion>
+    <groupId>{{Cookiecutter.param.groupId}}</groupId>
+    <artifactId>{{Cookiecutter.test.replace.map.artifactId}}</artifactId>
+    <packaging>maven-plugin</packaging>
+    <version>0.0.0-SNAPSHOT</version>
+    <name>my project example</name>
+    <url>http://maven.apache.org</url>
+ ...
+```
+
 
 #### JSON
+To make replacements in JSON files, you should use a similar XML configuration, but instead of using XPath, you should use JSONPath.
+* `file:` Relative path to the JSON file from the project root.
+* `query:` Within the placeholders tag, provide the JASONpath for the JSON file attribute that needs to be changed.
+* `name:` It is the value that will be placed for the specified query field.
+
+Usage example:
+* Config
+```yaml
+mappings:
+  - file: jsons/my_json.xml
+    placeholders:
+      - query: $['name']
+        name: Cookiecutter.name
+      - query: $['age']
+        name: Cookiecutter.age
+```
+- Before:
+```json
+{
+    "name": "David",
+    "age": 30,
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001",
+        "name": "David House"
+    },
+    "hobbies": [
+        "Football",
+        "Cooking",
+        "Swimming"
+    ],
+    "languages": {
+        "French": "Beginner",
+        "German": "Intermediate",
+        "Spanish": "Advanced"
+    }
+}
+```
+ - Expected result after running Cookie-Cutter Templater:
+ ```json
+ {
+    "name": {{Cookiecutter.name}},
+    "age": {{Cookiecutter.age}},
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001",
+        "name": "David House"
+    },
+    "hobbies": [
+        "Football",
+        "Cooking",
+        "Swimming"
+    ],
+    "languages": {
+        "French": "Beginner",
+        "German": "Intermediate",
+        "Spanish": "Advanced"
+    }
+}
+```
+
 
 #### YAML
 
