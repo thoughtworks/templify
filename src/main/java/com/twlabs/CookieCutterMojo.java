@@ -81,7 +81,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private PluginConfig getConfig() throws IOException {
 
-        String configFile = getTemplateDir() + "/template.yml";
+        String configFile = getTemplateDir() + "/maven-cookiecutter.yml";
 
         getLog().warn("Template file: " + configFile);
 
