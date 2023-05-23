@@ -3,6 +3,8 @@ package com.twlabs.interfaces;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,16 @@ public class ConfigReaderTest {
         List<Mapping> actual = mappings.getMappings();
 
         assertThat(actual).isNotNull().isNotEmpty();
+
+    }
+
+    @Test
+    public void test_confgFile_not_found() {
+        ConfigReader reader = new YamlReader();
+
+         assertThrows(RuntimeException.class,
+         () -> reader.read("srt/test/resources/config/yaml/Not_Found.yml"));
+
 
     }
 
