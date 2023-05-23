@@ -1,0 +1,5 @@
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
