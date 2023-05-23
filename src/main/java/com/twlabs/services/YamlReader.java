@@ -22,13 +22,13 @@ public class YamlReader implements ConfigReader {
             PluginConfig pluginConfig = yaml.loadAs(inputStream, PluginConfig.class);
 
 
-            if (pluginConfig == null ) {
+            if (pluginConfig == null) {
                 throw new RuntimeException("Config file is not valid: " + configFilePath);
             }
             return pluginConfig;
         } catch (IOException e) {
             throw new RuntimeException("It's not possible to read the config file: "
-                    + configFilePath + " \nmake sure the config file exists", e);
+                    + configFilePath + " \nmake sure the config file exists");
         }
     }
 }
