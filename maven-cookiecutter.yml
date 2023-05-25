@@ -1,0 +1,12 @@
+mappings:
+  - type: java
+    base_dir: src/test/java
+    placeholders:
+      - query: com.twlabs
+        name: cookiecutter.package.test
+
+  - type: java
+    base_dir: src/main/java
+    placeholders:
+      - query: com.twlabs
+        name: cookiecutter.package
