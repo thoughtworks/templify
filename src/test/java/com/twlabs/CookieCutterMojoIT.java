@@ -264,4 +264,10 @@ public class CookieCutterMojoIT {
 
 
 
+    @MavenTest
+    public void test_running_with_existing_template_directory(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().info().contains("Old template directory was found and it was removed!!");
+
+    }
+
 }
