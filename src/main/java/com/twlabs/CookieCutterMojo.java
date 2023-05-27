@@ -82,10 +82,6 @@ public class CookieCutterMojo extends AbstractMojo {
                 FileUtils.deleteDirectory(templateDir);
                 return true;
             }
-            // FileUtils.deleteDirectory(directory);
-            // if (Files.deleteIfExists(Paths.get(templateDir))) {
-            // return true;
-            // }
         } catch (IOException e) {
             getLog().error("It was not possible to remove directory: " + templateDir, e);
 
