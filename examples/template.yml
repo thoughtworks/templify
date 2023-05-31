@@ -1,0 +1,12 @@
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId #xpath
+        name: cookiecutter.groupId
+      - query: /project/artifactId
+        name: cookiecutter.artifactId
+  - type: java
+    base_dir: src/main/java
+    placeholders:
+      - query: com.example.demo
+        name: cookiecutter.package

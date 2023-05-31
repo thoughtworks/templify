@@ -28,58 +28,22 @@ The basic requirements to use the cookiecutter-templater-for-backstage plugin ar
 * Apache Maven 3.8.1
 
 ## Configuration 
-The cookiecutter-templater-for-backstage plugin should be included in the pom.xml or settings.xml file of the project.
+The cookiecutter-templater-for-backstage plugin should be included in the pom.xml or settings.xml.
 
 ```xml
-<project>
-  ...
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.twlabs</groupId>
-                <artifactId>cookiecutter-templater-maven-plugin</artifactId>
-                <version>{{latest-version}}</version>
-                <executions>
-                    <execution>
-                        <id>configuracao_basica_build_test</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>cutter</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-  ...
-  <repositories>
-        <repository>
-            <id>artifact-registry</id>
-            <url>artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>artifact-registry-release</id>
-            <url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-  ...
-</project>
+<repository>
+    <id>artifact-registry-release</id>
+    <url>https://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+</repository>
 ```
+
 ## Getting Started
 To start using the plugin, you are going to need to adjust the configuration file. 
 Currently, the configuration file is template.yml (We have plans to be updated to a more friendly name, please make suggestions).
+
+```
+mvn com.twlabs:cookiecutter-templater-maven-plugin:0.0.4:cutter
+```
 
 ### Usage of the configuration file.
 As mentioned, the plugin supports some file types and we are going to explain the configuration for each supported types.
@@ -222,6 +186,4 @@ mappings:
 
 
 #### YAML
-
-
 
