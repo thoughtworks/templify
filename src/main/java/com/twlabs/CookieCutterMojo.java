@@ -2,6 +2,9 @@ package com.twlabs;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
@@ -54,6 +57,12 @@ public class CookieCutterMojo extends AbstractMojo {
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
 
+
+        getLog().warn("Checking if the template dir exists" + getTemplateDir());
+        if (deleteTemplateIfexist(getTemplateDir())) {
+            getLog().warn("Old template directory was found and it was removed!!");
+        }
+
         copyProjectTo(getTemplateDir());
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
@@ -64,6 +73,23 @@ public class CookieCutterMojo extends AbstractMojo {
         getLog().warn("End to config placeholders");
 
     }
+
+
+
+    private boolean deleteTemplateIfexist(String templateDir) {
+        try {
+            if (FileUtils.fileExists(templateDir)) {
+                FileUtils.deleteDirectory(templateDir);
+                return true;
+            }
+        } catch (IOException e) {
+            getLog().error("It was not possible to remove directory: " + templateDir, e);
+
+        }
+        return false;
+    }
+
+
 
     /**
      *
@@ -81,7 +107,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private PluginConfig getConfig() throws IOException {
 
-        String configFile = getTemplateDir() + "/template.yml";
+        String configFile = getTemplateDir() + "/maven-cookiecutter.yml";
 
         getLog().warn("Template file: " + configFile);
 
@@ -150,4 +176,6 @@ public class CookieCutterMojo extends AbstractMojo {
                     "Something went wrong while copying the project to the template folder.", e);
         }
     }
+
+
 }

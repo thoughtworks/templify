@@ -14,11 +14,21 @@ import com.twlabs.model.PluginConfig;
 public class YamlReader implements ConfigReader {
 
     @Override
-    public PluginConfig read(String configFilePath) throws IOException {
+    public PluginConfig read(String configFilePath) {
         Yaml yaml = new Yaml();
-        
-        InputStream inputStream = Files.newInputStream(Paths.get(configFilePath));
+        try {
+            InputStream inputStream = Files.newInputStream(Paths.get(configFilePath));
 
-        return yaml.loadAs(inputStream, PluginConfig.class);
+            PluginConfig pluginConfig = yaml.loadAs(inputStream, PluginConfig.class);
+
+
+            if (pluginConfig == null) {
+                throw new RuntimeException("Config file is not valid: " + configFilePath);
+            }
+            return pluginConfig;
+        } catch (IOException e) {
+            throw new RuntimeException("It's not possible to read the config file: "
+                    + configFilePath + " \nmake sure the config file exists");
+        }
     }
 }

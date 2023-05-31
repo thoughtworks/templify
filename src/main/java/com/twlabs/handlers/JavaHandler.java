@@ -50,7 +50,7 @@ public class JavaHandler implements FileHandler {
 
 
             boolean filesModified = modifyFileContents(classPath, query, newValue);
-            
+
             boolean filesMoved = moveFiles(classPath, query, newValue);
 
             boolean directoryRemoved = removePackageDirectory(file, query);
@@ -58,12 +58,14 @@ public class JavaHandler implements FileHandler {
 
             if (!(filesMoved && filesModified && directoryRemoved)) {
 
-                throw new FileHandlerException("Could not replace " + query + " in " + file);
+                throw new FileHandlerException(
+                        "Could not replace " + query + "to" + newValue + " in path: " + file);
             }
 
 
         } catch (FileHandlerException e) {
-            throw new FileHandlerException("Error while replacing file: " + file, e);
+            throw new FileHandlerException("Error while replacing for path: " + file
+                    + "with package: " + query + " to be replaced for: " + newValue, e);
         }
 
     }

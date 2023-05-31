@@ -264,4 +264,36 @@ public class CookieCutterMojoIT {
 
 
 
+    @MavenTest
+    public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
+        FileHandler javaHandler = new JavaHandler();
+        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+
+        String classpathTemplate_java = template_java + "/src/main/java";
+        String packageQuery = "br.com.client.sfc.datalake.sfcdatatransferdatalake";
+        String packageNewName = "{{cookiecutter.package}}";
+
+        Map<String, String> filePathMap = javaHandler.find(classpathTemplate_java, packageNewName);
+
+        assertFalse(filePathMap.containsKey(packageQuery),
+                "Directory " + filePathMap.get(packageQuery) + " was not moved");
+        assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
+                "It was not found directory: " + packageNewName + " on path: "
+                        + classpathTemplate_java);
+
+
+
+    }
+
+
+    @MavenTest
+    public void test_running_with_existing_template_directory(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Old template directory was found and it was removed!!");
+
+    }
+
 }
