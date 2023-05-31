@@ -17,7 +17,7 @@ jobs:
           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}         
           mvn deploy
       - store_artifacts:
-          path: target
+          path: target/surefire-reports
 workflows:
   maven_test:
     jobs:
