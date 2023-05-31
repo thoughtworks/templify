@@ -42,14 +42,13 @@ public class JavaHandlerTest {
 
     }
 
-
     @Test
     public void find_file() throws FileHandlerException {
 
 
         String query = "com.myPackage.br";
 
-        Map<String, String> filesMaps = javaHandler.find(staticBaseDir+"", query);
+        Map<String, String> filesMaps = javaHandler.find(staticBaseDir + "", query);
 
         assertTrue(filesMaps.containsValue("com/myPackage/br"));
 
@@ -134,7 +133,7 @@ public class JavaHandlerTest {
         javaHandler.removePackageDirectory(baseDir, name);
 
         // assertTrue(false);
-        
+
     }
 
     @Test

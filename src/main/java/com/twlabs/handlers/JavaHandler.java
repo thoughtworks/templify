@@ -140,7 +140,7 @@ public class JavaHandler implements FileHandler {
             throws FileHandlerException {
 
         // get first folder to walk
-        String firstFolder = find(classPath, oldDir).get(oldDir).split(File.separator)[0];
+        String firstFolder = find(classPath, oldDir).get(oldDir).split(Pattern.quote(File.separator))[0];
 
         Path dirToDelete = Paths.get(classPath + File.separator + firstFolder);
 
