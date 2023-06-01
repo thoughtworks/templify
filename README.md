@@ -186,4 +186,77 @@ mappings:
 
 
 #### YAML
+The configuration structure for YAML files follows the pattern: file, placeholders, query, and name. Each of these attributes has the following function:
 
+* `file:` Relative path of the YAML file from the project root.
+* `placeholders:` A set of queries and names to be processed during the plugin execution.
+* `query:` The YAML path to be located in the file. We use the YAMLPath project structure.
+* `name:` The value by which it should be replaced.
+
+Usage example:
+* Config
+```yaml
+ mappings:
+   - file: yamls/generic1.yml
+      placeholders:
+        - query: mappings[0].file
+          name: newFile
+        - query: mappings[0].placeholders[0].query
+          name: Cookiecutter.query.project.groupId
+        - query: mappings[0].placeholders[0].name
+          name: Cookiecutter.replace.map.groupId
+        - query: mappings[0].placeholders[1].query
+          name: Cookiecutter.query.project.artifactId
+        - query: mappings[0].placeholders[1].name
+          name: Cookiecutter.replace.map.artifactId
+```
+- Before:
+```yaml
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
+      - query: /project/artifactId
+        name: Cookiecutter.test.replace.map.artifactId
+      - query: /project/dependencies/dependency/scope[text()='test']
+        name: Cookiecutter.replace.map.scopes
+  - file: xmls/generic_1.xml
+    placeholders:
+      - query: /note/heading
+        name: New Reminder
+  - file: xmls/complex/generic_2.xml
+    placeholders:
+      - query: /bookstore/book/author[text()='Kurt Cagle']
+        name: Cookiecutter.kurtCagle
+      - query: /bookstore/book/year[text()='2005']
+        name: Cookiecutter.NewYear
+      - query: /bookstore/book/author[text()='replace ---- test']
+        name: Cookiecutter.kurtCagle
+
+```
+ - Expected result after running Cookie-Cutter Templater:
+ ```yaml
+ ---
+mappings:
+  - file: "{{newFile}}"
+    placeholders:
+      - query: "{{Cookiecutter.query.project.groupId}}"
+        name: "{{Cookiecutter.replace.map.groupId}}"
+      - query: "{{Cookiecutter.query.project.artifactId}}"
+        name: "{{Cookiecutter.replace.map.artifactId}}"
+      - query: "/project/dependencies/dependency/scope[text()='test']"
+        name: Cookiecutter.replace.map.scopes
+  - file: xmls/generic_1.xml
+    placeholders:
+      - query: /note/heading
+        name: New Reminder
+  - file: xmls/complex/generic_2.xml
+    placeholders:
+      - query: "/bookstore/book/author[text()='Kurt Cagle']"
+        name: Cookiecutter.kurtCagle
+      - query: "/bookstore/book/year[text()='2005']"
+        name: Cookiecutter.NewYear
+      - query: "/bookstore/book/author[text()='replace ---- test']"
+        name: Cookiecutter.kurtCagle
+```
