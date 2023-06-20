@@ -42,7 +42,7 @@ To start using the plugin, you are going to need to adjust the configuration fil
 Currently, the configuration file is template.yml (We have plans to be updated to a more friendly name, please make suggestions).
 
 ```
-mvn com.twlabs:cookiecutter-templater-maven-plugin:0.0.4:cutter
+mvn com.twlabs:cookiecutter-templater-maven-plugin:cutter
 ```
 
 ### Usage of the configuration file.
@@ -332,7 +332,7 @@ mappings:
         name: cookiecutter.package
 ```
 
-##### The expected behavior for each of the files will be described below:
+##### The expected behavior for each of the files will be described below for type `java`:
 ###### Before MyClass.java
 ```Java
 package com.myPackage;
@@ -375,3 +375,73 @@ package {{cookiecutter.package}}.interfaces;
 public class InterfaceClass {
 ...
 ```
+
+##### The expected behavior for each of the files will be described below for file `yamls/generic1.yml`:
+###### Before yamls/generic1.yml
+```yaml
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
+      - query: /project/artifactId
+        name: Cookiecutter.test.replace.map.artifactId
+      - query: /project/dependencies/dependency/scope[text()='test']
+        name: Cookiecutter.replace.map.scopes
+  - file: xmls/generic_1.xml
+    placeholders:
+      - query: /note/heading
+        name: New Reminder
+  - file: xmls/complex/generic_2.xml
+    placeholders:
+      - query: /bookstore/book/author[text()='Kurt Cagle']
+        name: Cookiecutter.kurtCagle
+      - query: /bookstore/book/year[text()='2005']
+        name: Cookiecutter.NewYear
+      - query: /bookstore/book/author[text()='replace ---- test']
+        name: Cookiecutter.kurtCagle
+
+```
+ ###### After yamls/generic1.yml
+ ```yaml
+ ---
+mappings:
+  - file: "{{newFile}}"
+    placeholders:
+      - query: "{{Cookiecutter.query.project.groupId}}"
+        name: "{{Cookiecutter.replace.map.groupId}}"
+      - query: "{{Cookiecutter.query.project.artifactId}}"
+        name: "{{Cookiecutter.replace.map.artifactId}}"
+      - query: "/project/dependencies/dependency/scope[text()='test']"
+        name: Cookiecutter.replace.map.scopes
+  - file: xmls/generic_1.xml
+    placeholders:
+      - query: /note/heading
+        name: New Reminder
+  - file: xmls/complex/generic_2.xml
+    placeholders:
+      - query: "/bookstore/book/author[text()='Kurt Cagle']"
+        name: Cookiecutter.kurtCagle
+      - query: "/bookstore/book/year[text()='2005']"
+        name: Cookiecutter.NewYear
+      - query: "/bookstore/book/author[text()='replace ---- test']"
+        name: Cookiecutter.kurtCagle
+```
+
+At the end the folder structure should be like this:
+```
+root
+└── src/ 
+|     └── main/java/{{cookiecutter.package}}/
+|                            └── MyClass.java
+|                            └── interfaces/
+|                                         └── InterfaceClass.java
+└── xmls/
+|      └── complex/
+|                └── generic_2.xml
+|      └── generic_1.xml
+└── ymls/
+|      └── generic1.yml
+└── maven-cookiecutter.yml
+└── pom.xml 
+``` 
