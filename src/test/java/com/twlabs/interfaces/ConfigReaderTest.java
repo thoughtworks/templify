@@ -41,8 +41,8 @@ public class ConfigReaderTest {
     public void test_confgFile_not_found() {
         ConfigReader reader = new YamlReader();
 
-         assertThrows(RuntimeException.class,
-         () -> reader.read("srt/test/resources/config/yaml/Not_Found.yml"));
+        assertThrows(RuntimeException.class,
+                () -> reader.read("srt/test/resources/config/yaml/Not_Found.yml"));
 
 
     }
@@ -126,5 +126,18 @@ public class ConfigReaderTest {
         assertEquals("source_key", placeholder.getQuery());
         assertEquals("target_value", placeholder.getName());
     }
+
+    @Test
+    @CsvSource({"${{, }}"})
+    public void test_configMapping_settings(String prefix, String suffix) {
+        Settings settings = new Settings();
+
+        String actualPrefix = settings.getPlaceholder().getPrefix();
+        String actualSuffix = settings.getPlaceholder().getSuffix();
+
+        assertEquals(prefix, actualPrefix);
+        assertEquals(suffix, actualSuffix);
+    }
+
 
 }
