@@ -145,7 +145,7 @@ public class ConfigReaderTest {
     @ParameterizedTest
     @CsvSource({"{{, }}", "#${{, }}$$", "${{, }}"})
     public void test_configMapping_settings(String prefix, String suffix) {
-         Settings settings = new Settings();
+        Settings settings = new Settings();
 
         settings.getPlaceholder().setPrefix(prefix);
         settings.getPlaceholder().setSuffix(suffix);
@@ -159,4 +159,17 @@ public class ConfigReaderTest {
     }
 
 
+
+    @ParameterizedTest
+    @CsvSource({"${{, }}"})
+    public void test_configMapping_getSettings(String expectedPrefix, String expectedSuffix) throws IOException {
+        ConfigReader reader = new YamlReader();
+        PluginConfig config = reader.read(test_yml);
+
+         Settings actual = config.getSettings();
+
+        assertEquals(expectedPrefix, actual.getPlaceholder().getPrefix());
+        assertEquals(expectedSuffix, actual.getPlaceholder().getSuffix());
+
+    }
 }
