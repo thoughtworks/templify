@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
+import com.twlabs.model.Settings;
 import com.twlabs.services.YamlReader;
 
 /**
@@ -127,9 +127,11 @@ public class ConfigReaderTest {
         assertEquals("target_value", placeholder.getName());
     }
 
-    @Test
-    @CsvSource({"${{, }}"})
-    public void test_configMapping_settings(String prefix, String suffix) {
+
+    @ParameterizedTest
+    @CsvSource({"{{, }}"})
+    public void test_configMapping_default_settings(String prefix, String suffix) {
+
         Settings settings = new Settings();
 
         String actualPrefix = settings.getPlaceholder().getPrefix();
@@ -137,6 +139,23 @@ public class ConfigReaderTest {
 
         assertEquals(prefix, actualPrefix);
         assertEquals(suffix, actualSuffix);
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({"{{, }}", "#${{, }}$$", "${{, }}"})
+    public void test_configMapping_settings(String prefix, String suffix) {
+         Settings settings = new Settings();
+
+        settings.getPlaceholder().setPrefix(prefix);
+        settings.getPlaceholder().setSuffix(suffix);
+
+        String actualPrefix = settings.getPlaceholder().getPrefix();
+        String actualSuffix = settings.getPlaceholder().getSuffix();
+
+        assertEquals(prefix, actualPrefix);
+        assertEquals(suffix, actualSuffix);
+
     }
 
 
