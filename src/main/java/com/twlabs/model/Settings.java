@@ -17,6 +17,10 @@ public class Settings {
 
     }
 
+    public Settings(Placeholder placeholder){
+        this.placeholder = placeholder;
+    }
+
     public Placeholder getPlaceholder() {
         return placeholder;
     }
