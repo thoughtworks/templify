@@ -296,4 +296,12 @@ public class CookieCutterMojoIT {
 
     }
 
+
+    @MavenTest
+    public void test_using_default_placeholder_settings(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Using default placeholder settings!! -> Prefix: {{  and Suffix: }}");
+
+    }
+
 }
