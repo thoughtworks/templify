@@ -2,9 +2,7 @@ package com.twlabs;
 
 import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
@@ -300,7 +298,7 @@ public class CookieCutterMojoIT {
     @MavenTest
     public void test_using_default_placeholder_settings(MavenExecutionResult result) {
         assertThat(result).isSuccessful().out().warn()
-                .contains("Using default placeholder settings!! -> Prefix: {{  and Suffix: }}");
+                .contains("Using default placeholder settings!! -> Prefix:{{ and Suffix: }}");
 
     }
 
