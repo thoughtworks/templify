@@ -302,4 +302,15 @@ public class CookieCutterMojoIT {
 
     }
 
+
+
+    @MavenTest
+    public void test_using_custom_placeholder_settings(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Using custom placeholder settings!! -> Prefix:${{ and Suffix: }}");
+
+    }
+
+
+
 }
