@@ -71,8 +71,9 @@ public class CookieCutterMojo extends AbstractMojo {
         getLog().warn("Reading settings from config file!");
         getSettings();
 
-        if (this.placeholderSettings.getPrefix() == "{{" && this.placeholderSettings.getSuffix() == "}}") {
-            //"Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"
+        if (this.placeholderSettings.getPrefix() == "{{"
+                && this.placeholderSettings.getSuffix() == "}}") {
+            // "Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"
             getLog().warn("Using default placeholder settings!! -> Prefix:"
                     + this.placeholderSettings.getPrefix() + " and Suffix: "
                     + this.placeholderSettings.getSuffix());
