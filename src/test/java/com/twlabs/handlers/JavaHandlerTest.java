@@ -16,7 +16,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
 
@@ -48,9 +47,9 @@ public class JavaHandlerTest {
 
         String query = "com.myPackage.br";
 
-        Map<String, String> filesMaps = javaHandler.find(staticBaseDir + "", query);
+        String file = javaHandler.findDir(staticBaseDir + "", query);
 
-        assertTrue(filesMaps.containsValue("com/myPackage/br"));
+        assertTrue(file.contains("com/myPackage/br"));
 
     }
 

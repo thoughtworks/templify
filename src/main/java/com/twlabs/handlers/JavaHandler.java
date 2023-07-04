@@ -19,12 +19,29 @@ import com.twlabs.interfaces.FileHandler;
  */
 public class JavaHandler implements FileHandler {
 
+
+    public String findDir(String filePath, String query) throws FileHandlerException {
+
+        String queryToTransform = query;
+        if (!query.startsWith("{{") && !query.endsWith("}}")) {
+            queryToTransform = query.replace(".", File.separator);
+        }
+
+        System.out.println("Query: " + queryToTransform);
+
+        return this.find(filePath, queryToTransform).get(queryToTransform);
+
+    }
+
+
+
     public Map<String, String> find(String filePath, String query) throws FileHandlerException {
 
         String transformQuery = query;
-        if (!query.startsWith("{{") && !query.endsWith("}}")) {
-            transformQuery = query.replace(".", File.separator);
-        }
+        // if (!query.startsWith("{{") && !query.endsWith("}}")) {
+        // transformQuery = query.replace(".", File.separator);
+        //
+        // }
         Path path = Paths.get(filePath + File.separator + transformQuery);
 
 
@@ -44,7 +61,14 @@ public class JavaHandler implements FileHandler {
 
 
     public void replace(String file, String query, String newValue) throws FileHandlerException {
-        Path classPath = Paths.get(file + File.separator + find(file, query).get(query));
+        Path classPath = Paths.get(file + File.separator + findDir(file, query));
+
+
+        System.out.println("#################################################");
+        System.out.println("classPath: " + classPath.toString());
+        System.out.println("query: " + query);
+        System.out.println("newValue: " + newValue);
+        System.out.println("file: " + file);
 
         try {
 
@@ -140,7 +164,7 @@ public class JavaHandler implements FileHandler {
             throws FileHandlerException {
 
         // get first folder to walk
-        String firstFolder = find(classPath, oldDir).get(oldDir).split(Pattern.quote(File.separator))[0];
+        String firstFolder = findDir(classPath, oldDir).split(Pattern.quote(File.separator))[0];
 
         Path dirToDelete = Paths.get(classPath + File.separator + firstFolder);
 

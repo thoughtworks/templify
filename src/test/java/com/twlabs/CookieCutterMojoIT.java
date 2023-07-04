@@ -200,7 +200,7 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_replace_java(MavenExecutionResult result) throws FileHandlerException {
-        FileHandler javaHandler = new JavaHandler();
+        JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
@@ -211,6 +211,7 @@ public class CookieCutterMojoIT {
         String packageNewName = "{{cookiecutter.package}}";
 
         Map<String, String> filePathMap = javaHandler.find(classpathTemplate_java, packageNewName);
+        // src/main/java+/{{cookiecutter.package}}
 
         assertFalse(filePathMap.containsKey(packageQuery),
                 "Directory " + filePathMap.get(packageQuery) + " was not moved");
@@ -264,7 +265,7 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
-        FileHandler javaHandler = new JavaHandler();
+        JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
