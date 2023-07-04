@@ -2,10 +2,6 @@ package com.twlabs;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -15,15 +11,16 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.handlers.XMLHandler;
-import com.twlabs.handlers.YamlHandler;
 import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
+import com.twlabs.handlers.XMLHandler;
+import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
+import com.twlabs.model.Settings;
 import com.twlabs.services.YamlReader;
 
 
@@ -52,6 +49,9 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private ConfigReader reader = new YamlReader();
 
+
+    private com.twlabs.model.settings.Placeholder placeholderSettings;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
@@ -67,6 +67,20 @@ public class CookieCutterMojo extends AbstractMojo {
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
         getLog().warn("Backstage template dir:" + getTemplateDir());
+
+        getLog().warn("Reading settings from config file!");
+        getSettings();
+
+        if (this.placeholderSettings.getPrefix() == "{{" && this.placeholderSettings.getSuffix() == "}}") {
+            //"Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"
+            getLog().warn("Using default placeholder settings!! -> Prefix:"
+                    + this.placeholderSettings.getPrefix() + " and Suffix: "
+                    + this.placeholderSettings.getSuffix());
+        } else {
+            getLog().warn("Using custom placeholder settings!! -> Prefix:"
+                    + this.placeholderSettings.getPrefix() + " and Suffix: "
+                    + this.placeholderSettings.getSuffix());
+        }
 
         getLog().warn("Starting placheholders");
         setPlaceHolders();
@@ -116,6 +130,18 @@ public class CookieCutterMojo extends AbstractMojo {
         return config;
     }
 
+    private void getSettings() {
+
+        try {
+            if (getConfig().getSettings() == null) {
+                this.placeholderSettings = new Settings().getPlaceholder();
+            } else {
+                this.placeholderSettings = getConfig().getSettings().getPlaceholder();
+            }
+        } catch (Exception e) {
+            getLog().error("Error to read the settings from the config file", e);;
+        }
+    }
 
     private void setPlaceHolders() {
 
@@ -143,7 +169,8 @@ public class CookieCutterMojo extends AbstractMojo {
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
                 handlersRegistry.get(extension).replace(filePath, placeholder.getQuery(),
-                        "{{" + placeholder.getName() + "}}");
+                        this.placeholderSettings.getPrefix() + placeholder.getName()
+                                + this.placeholderSettings.getSuffix());
             } catch (FileHandlerException e) {
                 e.printStackTrace();
                 getLog().error("Error to replace placeholders", e);
