@@ -1,0 +1,17 @@
+settings:
+  placeholder:
+    prefix: "${{"
+    suffix: "}}"
+
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: com.api.new
+        name: CookieCutter.TemPlate
+      - query: DONt-CHange.HErE
+        name: Need-tOBE--LoWer.Not.HerE
+
+  - file: ./config/file.properties
+    placeholders:
+      - query: parametro1
+        name: valor1
