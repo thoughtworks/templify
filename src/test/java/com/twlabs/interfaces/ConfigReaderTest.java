@@ -62,7 +62,7 @@ public class ConfigReaderTest {
 
 
     @ParameterizedTest
-    @CsvSource({"0, 0, /project/groupId, Cookiecutter.param.groupId", "1, 0, parametro1, valor1"})
+    @CsvSource({"0, 0, /project/groupId, cookiecutter.param.groupId", "1, 0, parametro1, valor1"})
     public void test_configMapping_getPlaceholder(int index, int indexPlaceHolder,
             String expectedQuery, String expectedName) throws IOException {
         ConfigReader reader = new YamlReader();
@@ -178,8 +178,8 @@ public class ConfigReaderTest {
 
 
     @ParameterizedTest
-    @CsvSource({"0, 0 , copm.api.new, Cookiecutter.TemPlate",
-            "0, 1, DONt-CHange.HErE, Need.To-Be.LowER"})
+    @CsvSource({"0, 0 , com.api.new, cookiecutter.TemPlate",
+            "0, 1, DONt-CHange.HErE, need-tobe--lower.Not.HerE"})
     public void test_configMapping_putPlaceholder_lowercase(int index, int indexPlaceHolder,
             String expectedQuery, String expectedName) throws IOException {
         ConfigReader reader = new YamlReader();
@@ -189,7 +189,7 @@ public class ConfigReaderTest {
         List<Mapping> actual = config.getMappings();
 
         assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getName())
-                .isEqualTo(expectedName.toLowerCase());
+                .isEqualTo(expectedName);
         assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getQuery())
                 .isEqualTo(expectedQuery);
 
