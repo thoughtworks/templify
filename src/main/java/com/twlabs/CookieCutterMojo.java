@@ -81,6 +81,8 @@ public class CookieCutterMojo extends AbstractMojo {
             getLog().warn("Using custom placeholder settings!! -> Prefix:"
                     + this.placeholderSettings.getPrefix() + " and Suffix: "
                     + this.placeholderSettings.getSuffix());
+            javaHandler.setHandler(this.placeholderSettings);
+
         }
 
         getLog().warn("Starting placheholders");
