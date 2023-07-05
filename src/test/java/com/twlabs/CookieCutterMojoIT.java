@@ -49,6 +49,11 @@ public class CookieCutterMojoIT {
     String template_java =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_replace_java/project/target/template";
 
+    String template_custom_placeholder =
+            "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_using_custom_placeholder_settings/project/target/template";
+
+
+
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
 
@@ -306,10 +311,27 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void test_using_custom_placeholder_settings(MavenExecutionResult result) {
-        assertThat(result).isSuccessful().out().warn()
-                .contains("Using custom placeholder settings!! -> Prefix:${{ and Suffix: }}");
+    public void test_using_custom_placeholder_settings(MavenExecutionResult result) throws FileHandlerException {
 
+        String prefix = "_{{";
+        String suffix = "}}";
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Using custom placeholder settings!! -> Prefix:"+ prefix+" and Suffix: "+suffix);
+
+        // JavaHandler javaHandler = new JavaHandler();
+        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+
+        String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
+        // String packageQuery = "com.myPackage";
+        String packageNewName = prefix+"cookiecutter.package"+suffix;
+
+        assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
+                "It was not found directory: " + packageNewName + " on path: "
+                        + classpathTemplate_java);
     }
 
 

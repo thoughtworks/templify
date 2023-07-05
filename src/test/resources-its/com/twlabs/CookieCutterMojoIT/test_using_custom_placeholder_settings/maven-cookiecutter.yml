@@ -1,6 +1,6 @@
 settings:
   placeholder:
-    prefix: "${{"
+    prefix: "_{{"
     suffix: "}}"
 
 mappings:
