@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
+import com.twlabs.model.settings.Placeholder;
 
 /**
  * JavaHandler
@@ -20,17 +21,24 @@ import com.twlabs.interfaces.FileHandler;
 public class JavaHandler implements FileHandler {
 
 
+    private Placeholder handler = new Placeholder("{{", "}}");
+
+
+    public void setHandler(Placeholder handler) {
+
+        this.handler = handler;
+    }
+
+
+
     public String findDir(String filePath, String query) throws FileHandlerException {
 
         String queryToTransform = query;
-        if (!query.startsWith("{{") && !query.endsWith("}}")) {
+        if (!query.startsWith(this.handler.getPrefix())
+                && !query.endsWith(this.handler.getSuffix())) {
             queryToTransform = query.replace(".", File.separator);
         }
-
-        System.out.println("Query: " + queryToTransform);
-
         return this.find(filePath, queryToTransform).get(queryToTransform);
-
     }
 
 
@@ -38,12 +46,7 @@ public class JavaHandler implements FileHandler {
     public Map<String, String> find(String filePath, String query) throws FileHandlerException {
 
         String transformQuery = query;
-        // if (!query.startsWith("{{") && !query.endsWith("}}")) {
-        // transformQuery = query.replace(".", File.separator);
-        //
-        // }
         Path path = Paths.get(filePath + File.separator + transformQuery);
-
 
         Map<String, String> pathsMap = new HashMap<>();
 
@@ -55,7 +58,6 @@ public class JavaHandler implements FileHandler {
         }
 
         return pathsMap;
-
     }
 
 
@@ -63,15 +65,7 @@ public class JavaHandler implements FileHandler {
     public void replace(String file, String query, String newValue) throws FileHandlerException {
         Path classPath = Paths.get(file + File.separator + findDir(file, query));
 
-
-        System.out.println("#################################################");
-        System.out.println("classPath: " + classPath.toString());
-        System.out.println("query: " + query);
-        System.out.println("newValue: " + newValue);
-        System.out.println("file: " + file);
-
         try {
-
 
             boolean filesModified = modifyFileContents(classPath, query, newValue);
 
@@ -79,13 +73,10 @@ public class JavaHandler implements FileHandler {
 
             boolean directoryRemoved = removePackageDirectory(file, query);
 
-
             if (!(filesMoved && filesModified && directoryRemoved)) {
-
                 throw new FileHandlerException(
                         "Could not replace " + query + "to" + newValue + " in path: " + file);
             }
-
 
         } catch (FileHandlerException e) {
             throw new FileHandlerException("Error while replacing for path: " + file
@@ -184,8 +175,10 @@ public class JavaHandler implements FileHandler {
 
     private static String getPackageName(Path filePath) throws IOException, FileHandlerException {
         String content = Files.readString(filePath);
-        Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([a-z0-9_\\.\\{\\}]+)\\s*;");
+        // Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([a-z0-9_\\.\\{\\}]+)\\s*;");
+        Pattern pattern = Pattern.compile("(?mi)^\\s*package\\s+([\\p{all}]+)\\s*;");
         Matcher matcher = pattern.matcher(content);
+
         if (matcher.find()) {
             return matcher.group(1);
         }
