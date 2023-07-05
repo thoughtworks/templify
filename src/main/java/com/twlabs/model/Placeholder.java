@@ -14,7 +14,7 @@ public class Placeholder {
 
     public Placeholder(String query, String name) {
         this.query = query;
-        this.name = name;
+        this.setName(name);
     }
 
     public String getQuery() {
@@ -30,8 +30,21 @@ public class Placeholder {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = lowerFirstWord(name, ".");
+
     }
 
 
+    public String lowerFirstWord(String input, String separator) {
+
+        if (input.contains(separator)) {
+            String parts[] = input.split("\\" + separator);
+
+            String toLower = parts[0].toLowerCase();
+
+
+            return toLower + input.substring(toLower.length());
+        }
+        return input;
+    }
 }
