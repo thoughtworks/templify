@@ -25,6 +25,7 @@ import com.twlabs.services.YamlReader;
 public class ConfigReaderTest {
 
     final String test_yml = "src/test/resources/config/yaml/teste.yml";
+    final String test_yml_lower = "src/test/resources/config/yaml/test_lower.yml";
 
     @Test
     public void test_confingMapping_is_builded() throws IOException {
@@ -162,14 +163,37 @@ public class ConfigReaderTest {
 
     @ParameterizedTest
     @CsvSource({"${{, }}"})
-    public void test_configMapping_getSettings(String expectedPrefix, String expectedSuffix) throws IOException {
+    public void test_configMapping_getSettings(String expectedPrefix, String expectedSuffix)
+            throws IOException {
         ConfigReader reader = new YamlReader();
         PluginConfig config = reader.read(test_yml);
 
-         Settings actual = config.getSettings();
+        Settings actual = config.getSettings();
 
         assertEquals(expectedPrefix, actual.getPlaceholder().getPrefix());
         assertEquals(expectedSuffix, actual.getPlaceholder().getSuffix());
+
+    }
+
+
+
+    @ParameterizedTest
+    @CsvSource({"0, 0 , copm.api.new, Cookiecutter.TemPlate",
+            "0, 1, DONt-CHange.HErE, Need.To-Be.LowER"})
+    public void test_configMapping_putPlaceholder_lowercase(int index, int indexPlaceHolder,
+            String expectedQuery, String expectedName) throws IOException {
+        ConfigReader reader = new YamlReader();
+
+        PluginConfig config = reader.read(test_yml_lower);
+
+        List<Mapping> actual = config.getMappings();
+
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getName())
+                .isEqualTo(expectedName.toLowerCase());
+        assertThat(actual.get(index).getPlaceholders().get(indexPlaceHolder).getQuery())
+                .isEqualTo(expectedQuery);
+
+
 
     }
 }
