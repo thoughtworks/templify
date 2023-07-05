@@ -285,7 +285,17 @@
                 </dependencies>
                 <configuration>
                     <statelessTestsetInfoReporter
-                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporterUnicode" />
+                        implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporterUnicode">
+                                                <printStacktraceOnError>true</printStacktraceOnError>
+                                                <printStacktraceOnFailure>true</printStacktraceOnFailure>
+                                                <printStdoutOnError>true</printStdoutOnError>      
+                                          <printStdoutOnFailure>true</printStdoutOnFailure>        
+                                        <printStdoutOnSuccess>false</printStdoutOnSuccess>          
+                                      <printStderrOnError>true</printStderrOnError>                
+                                <printStderrOnFailure>true</printStderrOnFailure>                  
+                              <printStderrOnSuccess>false</printStderrOnSuccess>                    
+                            <theme>UNICODE</theme>                     </statelessTestsetInfoReporter>
+
                     <reportFormat>plain</reportFormat>
                     <consoleOutputReporter>
                         <disable>true</disable>
