@@ -102,14 +102,14 @@ public class CookieCutterMojoIT {
 
 
         String groupIdQuery = "/project/groupId";
-        String groupIdNewName = "{{Cookiecutter.param.groupId}}";
+        String groupIdNewName = "{{cookiecutter.param.groupId}}";
 
         String artifactIdQuery = "/project/artifactId";
-        String artifactIdNewName = "{{Cookiecutter.test.replace.map.artifactId}}";
+        String artifactIdNewName = "{{cookiecutter.test.replace.map.artifactId}}";
 
         String scopesQuery =
-                "/project/dependencies/dependency/scope[text()='{{Cookiecutter.replace.map.scopes}}']";
-        String scopesNewName = "{{Cookiecutter.replace.map.scopes}}";
+                "/project/dependencies/dependency/scope[text()='{{cookiecutter.replace.map.scopes}}']";
+        String scopesNewName = "{{cookiecutter.replace.map.scopes}}";
 
         Map<String, String> actual =
                 handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
@@ -147,11 +147,11 @@ public class CookieCutterMojoIT {
         final Path fileTemplateGeneric2 =
                 Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
 
-        String authorQuery = "/bookstore/book/author[text()='{{Cookiecutter.kurtCagle}}']";
-        String autorNewName = "{{Cookiecutter.kurtCagle}}";
+        String authorQuery = "/bookstore/book/author[text()='{{cookiecutter.kurtCagle}}']";
+        String autorNewName = "{{cookiecutter.kurtCagle}}";
 
-        String yearQuery = "/bookstore/book/year[text()='{{Cookiecutter.NewYear}}']";
-        String yearNewName = "{{Cookiecutter.NewYear}}";
+        String yearQuery = "/bookstore/book/year[text()='{{cookiecutter.NewYear}}']";
+        String yearNewName = "{{cookiecutter.NewYear}}";
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), authorQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(autorNewName);
@@ -181,10 +181,10 @@ public class CookieCutterMojoIT {
         String fileNewName = "{{newFile}}";
 
         String groupIdQuery = "mappings[0].placeholders[0].query";
-        String groupIdQueryNewName = "{{Cookiecutter.query.project.groupId}}";
+        String groupIdQueryNewName = "{{cookiecutter.query.project.groupId}}";
 
         String groupIdQueryName = "mappings[0].placeholders[0].name";
-        String groupIdNewName = "{{Cookiecutter.replace.map.groupId}}";
+        String groupIdNewName = "{{cookiecutter.replace.map.groupId}}";
 
         Map<String, String> actual =
                 yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), fileQuery);
@@ -240,10 +240,10 @@ public class CookieCutterMojoIT {
 
 
         String nameQuery = "$['name']";
-        String nameNewName = "{{Cookiecutter.name}}";
+        String nameNewName = "{{cookiecutter.name}}";
 
         String ageQuery = "$['age']";
-        String ageNewName = "{{Cookiecutter.age}}";
+        String ageNewName = "{{cookiecutter.age}}";
 
 
         Map<String, String> actual =
