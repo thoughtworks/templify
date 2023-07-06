@@ -1,20 +1,7 @@
 package com.twlabs;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import org.codehaus.plexus.util.FileUtils;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.handlers.JavaHandler;
-import com.twlabs.handlers.JsonHandler;
-import com.twlabs.handlers.XMLHandler;
-import com.twlabs.handlers.YamlHandler;
+import com.twlabs.handlers.*;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
@@ -22,6 +9,19 @@ import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
 import com.twlabs.services.YamlReader;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.codehaus.plexus.util.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
@@ -46,6 +46,7 @@ public class CookieCutterMojo extends AbstractMojo {
     private XMLHandler xmlHandler = new XMLHandler();
     private JsonHandler jsonHandler = new JsonHandler();
     private JavaHandler javaHandler = new JavaHandler();
+    private PlainTextHandler plainTextHandler = new PlainTextHandler();
 
     private ConfigReader reader = new YamlReader();
 
@@ -55,7 +56,6 @@ public class CookieCutterMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
-
 
 
         getLog().warn("Checking if the template dir exists" + getTemplateDir());
@@ -92,7 +92,6 @@ public class CookieCutterMojo extends AbstractMojo {
     }
 
 
-
     private boolean deleteTemplateIfexist(String templateDir) {
         try {
             if (FileUtils.fileExists(templateDir)) {
@@ -107,15 +106,13 @@ public class CookieCutterMojo extends AbstractMojo {
     }
 
 
-
     /**
-     *
      * Registry pattern for open-closed to set, add, remove, expand the handlers outside of mojo
      * logic withouth changing setPlaceHolders code block.
      */
     private Map<String, FileHandler> getFileHandlerRegistry() {
         return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
-                "json", this.jsonHandler, "java", this.javaHandler);
+                "json", this.jsonHandler, "java", this.javaHandler, "txt", this.plainTextHandler);
     }
 
     private String getTemplateDir() {
@@ -142,7 +139,8 @@ public class CookieCutterMojo extends AbstractMojo {
                 this.placeholderSettings = getConfig().getSettings().getPlaceholder();
             }
         } catch (Exception e) {
-            getLog().error("Error to read the settings from the config file", e);;
+            getLog().error("Error to read the settings from the config file", e);
+            ;
         }
     }
 
@@ -152,28 +150,29 @@ public class CookieCutterMojo extends AbstractMojo {
             getConfig().getMappings().forEach(this::setPlaceHolder);
 
         } catch (IOException e) {
-            getLog().error("Error to read the config file", e);;
+            getLog().error("Error to read the config file", e);
+            ;
         }
     }
 
     private void setPlaceHolder(Mapping mapping) {
 
-        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
+        com.twlabs.model.settings.Placeholder placeHolderSettings = getPlaceHolderSettings(mapping);
+
 
         String file = mapping.getFile();
         String filePath = getTemplateDir() + "/" + file;
-        String extension = getFileExtension(mapping);
+        String type = getMappingType(mapping);
 
-        if (!handlersRegistry.containsKey(extension))
-            throw new IllegalArgumentException("Unsupported file type: " + file);
+        getLog().info("Finding handler for type: " + type + " and file: " + filePath);
+        FileHandler handler = getHandler(type);
 
-        getLog().warn("Start placeholder for: " + filePath);
-
+        getLog().info("Start placeholder for: " + filePath + " and handler " + handler.getClass().getName());
         for (Placeholder placeholder : mapping.getPlaceholders()) {
             try {
-                handlersRegistry.get(extension).replace(filePath, placeholder.getQuery(),
-                        this.placeholderSettings.getPrefix() + placeholder.getName()
-                                + this.placeholderSettings.getSuffix());
+                handler.replace(filePath, placeholder.getQuery(),
+                        placeHolderSettings.getPrefix() + placeholder.getName()
+                                + placeHolderSettings.getSuffix());
             } catch (FileHandlerException e) {
                 e.printStackTrace();
                 getLog().error("Error to replace placeholders", e);
@@ -181,19 +180,38 @@ public class CookieCutterMojo extends AbstractMojo {
         }
     }
 
-
-    private String getFileExtension(Mapping mapping) {
-        int lastDotIndex = mapping.getFile().lastIndexOf(".");
-        if (lastDotIndex == -1) {
-            return mapping.getType();
+    private FileHandler getHandler(String type) {
+        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
+        FileHandler handler = handlersRegistry.get(type);
+        if (handler == null) {
+            getLog().warn("No handler found for type: " + type + ". Defaulting to PlainTextHandler");
+            handler = this.plainTextHandler;
         }
-        return mapping.getFile().substring(lastDotIndex).replace(".", "");
+        return handler;
+    }
+
+    private com.twlabs.model.settings.Placeholder getPlaceHolderSettings(Mapping mapping) {
+        getLog().info("Checking if the mapping has overridden placeholder settings, otherwise use the default settings");
+        return Objects.nonNull(mapping.getSettings()) ? mapping.getSettings().getPlaceholder() : this.placeholderSettings;
+    }
+
+
+    private String getMappingType(Mapping mapping) {
+        String type = mapping.getType();
+        if (type == null) {
+            // get extension of file but check if it doesn't have extension then return txt as default
+            type = FilenameUtils.getExtension(mapping.getFile());
+            if (type == null || type.isEmpty()) {
+                type = "txt";
+            }
+        }
+        return type;
     }
 
 
     /**
      * Copy base dir to the dest folder to the replaces
-     * 
+     *
      * @throws MojoExecutionException
      */
     private void copyProjectTo(String dest) throws MojoExecutionException {
