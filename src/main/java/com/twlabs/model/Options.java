@@ -7,17 +7,17 @@ public class Options {
     String placeholderPrefix;
     String placeholderSuffix;
 
-    Map<String, String> extensions;
+    Map<String, String> extended;
 
     public Options(String prefix, String suffix) {
         this.placeholderPrefix = prefix;
         this.placeholderSuffix = suffix;
     }
 
-    public Options(String prefix, String suffix, Map<String, String> extensions) {
+    public Options(String prefix, String suffix, Map<String, String> extended) {
         this.placeholderPrefix = prefix;
         this.placeholderSuffix = suffix;
-        this.extensions = extensions;
+        this.extended = extended;
     }
 
     public String getPlaceholderPrefix() {
@@ -28,8 +28,8 @@ public class Options {
         return this.placeholderSuffix;
     }
 
-    public Map<String, String> getExtensions() {
-        return extensions;
+    public Map<String, String> getExtended() {
+        return extended;
     }
 
 }

@@ -5,9 +5,12 @@ steps:
       - submodule/pom.xml
       - submodule/pom.xml
     opts:
-      - keyA: "valueA"
-      - keyB: "valueB"
-      - keyC: "valueC"
+      prefix: "{{"
+      suffix: "}}"
+      extended:
+        - keyA: "valueA"
+        - keyB: "valueB"
+        - keyC: "valueC"
     placeholders:
       - query: /project/groupId
         name: Cookiecutter.param.groupId

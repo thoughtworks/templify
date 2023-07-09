@@ -23,7 +23,6 @@ import com.twlabs.model.Options;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
-import com.twlabs.services.YamlConfigReader;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
