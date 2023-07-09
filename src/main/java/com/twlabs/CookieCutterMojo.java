@@ -23,7 +23,7 @@ import com.twlabs.model.Options;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
-import com.twlabs.services.YamlReader;
+import com.twlabs.services.YamlConfigReader;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
@@ -60,8 +60,8 @@ public class CookieCutterMojo extends AbstractMojo {
     @Named("java")
     private FileHandler javaHandler;
 
-    private ConfigReader reader = new YamlReader();
-
+    @Inject
+    private ConfigReader reader;
 
     private com.twlabs.model.settings.Placeholder placeholderSettings;
 

@@ -13,7 +13,20 @@ import com.twlabs.interfaces.FileHandler;
 import io.github.yamlpath.YamlPath;
 
 /**
- * YamlHandler
+ * YamlHandler is a class that implements the FileHandler interface and extends the FileHandlerOptions class.
+ * It provides functionality for handling YAML files.
+ * 
+ * 
+ * Example usage:
+ * 
+ * YamlHandler yamlHandler = new YamlHandler();
+ * 
+ * Note: The YamlHandler class requires the SnakeYAML library to be present in the classpath.
+ * Note: This class assumes that the yaml|yml files being handled are valid and well-formed.
+ * 
+ * @see FileHandlerOptions
+ * @see FileHandler
+ * 
  */
 public class YamlHandler extends FileHandlerOptions implements FileHandler {
 

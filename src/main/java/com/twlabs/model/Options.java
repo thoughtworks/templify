@@ -2,9 +2,6 @@ package com.twlabs.model;
 
 import java.util.Map;
 
-/**
- * Options
- */
 public class Options {
 
     String placeholderPrefix;

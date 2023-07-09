@@ -16,9 +16,12 @@ import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
 /**
- * JsonHandler ->
+ * This class represents a JSON file handler that implements the FileHandler interface and extends the FileHandlerOptions class. 
+ * It provides methods to read and write JSON files, as well as handle various file operations.
+ * 
  */
 public class JsonHandler extends FileHandlerOptions implements FileHandler {
+
 
     protected static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));

@@ -16,10 +16,10 @@ import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
-import com.twlabs.services.YamlReader;
+import com.twlabs.services.YamlConfigReader;
 
 /**
- * Test interface {@link ConfigReader} by {@link YamlReader}
+ * Test interface {@link ConfigReader} by {@link YamlConfigReader}
  */
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ConfigReaderTest {
@@ -29,7 +29,7 @@ public class ConfigReaderTest {
 
     @Test
     public void test_confingMapping_is_builded() throws IOException {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
 
         PluginConfig mappings = reader.read(test_yml);
         List<Mapping> actual = mappings.getMappings();
@@ -40,7 +40,7 @@ public class ConfigReaderTest {
 
     @Test
     public void test_confgFile_not_found() {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
 
         assertThrows(RuntimeException.class,
                 () -> reader.read("srt/test/resources/config/yaml/Not_Found.yml"));
@@ -52,7 +52,7 @@ public class ConfigReaderTest {
     @ParameterizedTest
     @CsvSource({"0, pom.xml", "1, ./config/file.properties"})
     public void test_configMapping_getFile(int index, String expected) throws IOException {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
         PluginConfig actual = reader.read(test_yml);
 
         System.out.println(actual.getMappings().get(index).getFile());
@@ -65,7 +65,7 @@ public class ConfigReaderTest {
     @CsvSource({"0, 0, /project/groupId, cookiecutter.param.groupId", "1, 0, parametro1, valor1"})
     public void test_configMapping_getPlaceholder(int index, int indexPlaceHolder,
             String expectedQuery, String expectedName) throws IOException {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
         PluginConfig config = reader.read(test_yml);
 
         List<Mapping> actual = config.getMappings();
@@ -165,7 +165,7 @@ public class ConfigReaderTest {
     @CsvSource({"${{, }}"})
     public void test_configMapping_getSettings(String expectedPrefix, String expectedSuffix)
             throws IOException {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
         PluginConfig config = reader.read(test_yml);
 
         Settings actual = config.getSettings();
@@ -182,7 +182,7 @@ public class ConfigReaderTest {
             "0, 1, DONt-CHange.HErE, need-tobe--lower.Not.HerE"})
     public void test_configMapping_putPlaceholder_lowercase(int index, int indexPlaceHolder,
             String expectedQuery, String expectedName) throws IOException {
-        ConfigReader reader = new YamlReader();
+        ConfigReader reader = new YamlConfigReader();
 
         PluginConfig config = reader.read(test_yml_lower);
 

@@ -24,7 +24,21 @@ import org.w3c.dom.NodeList;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
+/**
+ * This class represents an XML file handler that implements the FileHandler interface and extends the FileHandlerOptions class.
+ * It provides methods to handle XML files, such as reading, writing, and manipulating XML data.
+ * 
+ * Example usage:
+ * 
+ * <pre>
+ * XMLHandler xmlHandler = new XMLHandler();
+ * </pre>
+ * 
+ * Note: This class requires the FileHandlerOptions class to be imported.
+ * 
+ */
 public class XMLHandler extends FileHandlerOptions implements FileHandler {
+
 
     private Document readFile(Path path) {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();

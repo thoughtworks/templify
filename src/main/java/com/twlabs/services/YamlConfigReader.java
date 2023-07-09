@@ -8,10 +8,7 @@ import org.yaml.snakeyaml.Yaml;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.model.PluginConfig;
 
-/**
- * YamlReader
- */
-public class YamlReader implements ConfigReader {
+public class YamlConfigReader implements ConfigReader {
 
     @Override
     public PluginConfig read(String configFilePath) {
