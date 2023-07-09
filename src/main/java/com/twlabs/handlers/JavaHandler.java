@@ -15,13 +15,17 @@ import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
 /**
- * This class represents a JavaHandler, which is a type of FileHandler that implements the FileHandlerOptions interface.
+ * This class represents a JavaHandler, which is a type of FileHandler that implements the
+ * FileHandlerOptions interface.
  * 
- * The JavaHandler class provides functionality for handling Java files, including reading, writing, and manipulating Java code.
+ * The JavaHandler class provides functionality for handling Java files, including reading, writing,
+ * and manipulating Java code.
  * 
- * This class extends the FileHandlerOptions class, which provides additional options and settings for file handling.
+ * This class extends the FileHandlerOptions class, which provides additional options and settings
+ * for file handling.
  * 
  * Usage:
+ * 
  * <pre>
  * JavaHandler handler = new JavaHandler();
  * </pre>
@@ -37,8 +41,8 @@ public class JavaHandler extends FileHandlerOptions implements FileHandler {
     public String findDir(String filePath, String query) throws FileHandlerException {
 
         String queryToTransform = query;
-        if (!query.startsWith(getOptions().getPlaceholderPrefix())
-                && !query.endsWith(getOptions().getPlaceholderSuffix())) {
+        if (!query.startsWith(getOptions().getPrefix())
+                && !query.endsWith(getOptions().getSuffix())) {
             queryToTransform = query.replace(".", File.separator);
         }
         return this.find(filePath, queryToTransform).get(queryToTransform);

@@ -34,8 +34,10 @@ import com.twlabs.interfaces.FileHandler;
  * XMLHandler xmlHandler = new XMLHandler();
  * </pre>
  * 
- * Note: This class requires the FileHandlerOptions class to be imported.
+ * Note: This class assumes that the xml files being handled are valid and well-formed.
  * 
+ * @see FileHandlerOptions
+ * @see FileHandler
  */
 public class XMLHandler extends FileHandlerOptions implements FileHandler {
 

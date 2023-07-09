@@ -1,6 +1,8 @@
-package com.twlabs.model;
+package com.twlabs.model.settings;
 
 import java.util.List;
+import com.twlabs.model.Mapping;
+import com.twlabs.model.Settings;
 
 /**
  * YamlMappings

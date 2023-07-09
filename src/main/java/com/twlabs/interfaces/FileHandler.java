@@ -3,7 +3,7 @@ package com.twlabs.interfaces;
 
 import java.util.Map;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.model.Options;
+import com.twlabs.model.Metadata;
 
 /**
  * Interface to be implemented by the file handler class.
@@ -48,7 +48,7 @@ public interface FileHandler {
      * @param opts the options to set for the file handler
      * @throws FileHandlerException if an error occurs while setting the options
      */
-    void setOptions(Options opts) throws FileHandlerException;
+    void setOptions(Metadata opts) throws FileHandlerException;
 
 
 

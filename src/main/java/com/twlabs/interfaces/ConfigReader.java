@@ -1,7 +1,7 @@
 package com.twlabs.interfaces;
 
 import java.io.IOException;
-import com.twlabs.model.PluginConfig;
+import com.twlabs.model.settings.PluginConfig;
 
 
 /**

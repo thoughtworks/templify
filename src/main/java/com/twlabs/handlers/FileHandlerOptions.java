@@ -2,7 +2,7 @@ package com.twlabs.handlers;
 
 import java.util.HashMap;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.model.Options;
+import com.twlabs.model.Metadata;
 
 /**
  * Abstract class to handle options for file handlers.
@@ -17,7 +17,7 @@ import com.twlabs.model.Options;
  * Common options are attributes of Options, for ex placeholder suffix and preffix
  * Any different options must be added to extension map that is a <String, String>
  *
- * @see com.twlabs.model.Options 
+ * @see com.twlabs.model.Metadata 
  *
  */
 abstract class FileHandlerOptions {
@@ -33,12 +33,12 @@ abstract class FileHandlerOptions {
      * Default suffix for file handlers.
      */
 
-    public Options options;
+    public Metadata options;
     /**
      * Options for file handlers.
      */
 
-    public void setOptions(Options opt) throws FileHandlerException {
+    public void setOptions(Metadata opt) throws FileHandlerException {
     /**
      * Set options for file handlers.
      * @param opt Options for file handlers.
@@ -47,13 +47,13 @@ abstract class FileHandlerOptions {
         this.options = opt;
     }
 
-    public Options getOptions() {
+    public Metadata getOptions() {
     /**
      * Get options for file handlers.
      * @return Options for file handlers.
      */
         if( this.options == null ) 
-            this.options = new Options(DEFAULT_PREFIX, DEFAULT_SUFFIX, new HashMap<String, String>());
+            this.options = new Metadata(DEFAULT_PREFIX, DEFAULT_SUFFIX, new HashMap<String, String>());
         return this.options;
     }
 

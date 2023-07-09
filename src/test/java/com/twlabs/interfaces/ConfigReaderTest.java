@@ -14,8 +14,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Placeholder;
-import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
+import com.twlabs.model.settings.PluginConfig;
 import com.twlabs.services.YamlConfigReader;
 
 /**

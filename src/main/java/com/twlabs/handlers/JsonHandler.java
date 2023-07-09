@@ -19,6 +19,10 @@ import com.twlabs.interfaces.FileHandler;
  * This class represents a JSON file handler that implements the FileHandler interface and extends the FileHandlerOptions class. 
  * It provides methods to read and write JSON files, as well as handle various file operations.
  * 
+ * Note: This class assumes that the json files being handled are valid and well-formed.
+ * 
+ * @see FileHandlerOptions
+ * @see FileHandler
  */
 public class JsonHandler extends FileHandlerOptions implements FileHandler {
 

@@ -15,10 +15,11 @@ public class OptionsTest {
 
         String prefix = "_{{";
         String suffix = "}}_";
-        Map<String, String> extendedOptions = Map.of("k1",  "v1",  "k2", "v2");
+        Map<String, String> extendedOptions = Map.of("k1", "v1", "k2", "v2");
 
-        assertThat(new Options(prefix, suffix, extendedOptions)).isNotNull()
-                .extracting(Options::getPlaceholderPrefix, Options::getPlaceholderSuffix, Options::getExtended)
+        assertThat(new Metadata(prefix, suffix, extendedOptions))
+                .isNotNull().extracting(Metadata::getPrefix,
+                        Metadata::getSuffix, Metadata::getExtended)
                 .containsExactly(prefix, suffix, extendedOptions);
     }
 }

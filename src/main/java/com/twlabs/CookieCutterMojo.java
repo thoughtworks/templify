@@ -19,10 +19,10 @@ import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
-import com.twlabs.model.Options;
+import com.twlabs.model.Metadata;
 import com.twlabs.model.Placeholder;
-import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
+import com.twlabs.model.settings.PluginConfig;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
@@ -100,7 +100,7 @@ public class CookieCutterMojo extends AbstractMojo {
         }
 
         try {
-            javaHandler.setOptions(new Options(this.placeholderSettings.getPrefix(),
+            javaHandler.setOptions(new Metadata(this.placeholderSettings.getPrefix(),
                 this.placeholderSettings.getSuffix()));
         } catch (FileHandlerException e) {
             throw new MojoExecutionException("Invalid Options for java handler", e);
