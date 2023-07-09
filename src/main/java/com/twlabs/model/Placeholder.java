@@ -4,6 +4,7 @@ package com.twlabs.model;
  * Placeholder
  */
 public class Placeholder {
+
     private String query;
     private String name;
 

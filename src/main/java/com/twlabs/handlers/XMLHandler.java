@@ -24,12 +24,7 @@ import org.w3c.dom.NodeList;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
-/**
- * ProcessadorXML bom cidadao
- */
-public class XMLHandler implements FileHandler {
-
-
+public class XMLHandler extends FileHandlerOptions implements FileHandler {
 
     private Document readFile(Path path) {
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -141,7 +136,4 @@ public class XMLHandler implements FileHandler {
             this.replace(filePath, entry.getKey(), entry.getValue());
         }
     }
-
-
-
 }

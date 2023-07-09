@@ -10,14 +10,16 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.handlers.JavaHandler;
-import com.twlabs.handlers.JsonHandler;
-import com.twlabs.handlers.XMLHandler;
-import com.twlabs.handlers.YamlHandler;
+import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.Mapping;
+import com.twlabs.model.Options;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.PluginConfig;
 import com.twlabs.model.Settings;
@@ -42,10 +44,21 @@ public class CookieCutterMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project.build.directory}", required = true, readonly = true)
     private File buildDir;
 
-    private YamlHandler yamlHandler = new YamlHandler();
-    private XMLHandler xmlHandler = new XMLHandler();
-    private JsonHandler jsonHandler = new JsonHandler();
-    private JavaHandler javaHandler = new JavaHandler();
+    @Inject
+    @Named("yaml")
+    private FileHandler yamlHandler;
+
+    @Inject
+    @Named("xml")
+    private FileHandler xmlHandler;
+
+    @Inject
+    @Named("json")
+    private FileHandler jsonHandler;
+
+    @Inject
+    @Named("java")
+    private FileHandler javaHandler;
 
     private ConfigReader reader = new YamlReader();
 
@@ -54,8 +67,11 @@ public class CookieCutterMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+        Injector injector = Guice.createInjector(new ContextDependencyInjection());
+        injector.injectMembers(this);
 
+
+        getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
 
         getLog().warn("Checking if the template dir exists" + getTemplateDir());
@@ -73,6 +89,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
         if (this.placeholderSettings.getPrefix() == "{{"
                 && this.placeholderSettings.getSuffix() == "}}") {
+
             // "Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"
             getLog().warn("Using default placeholder settings!! -> Prefix:"
                     + this.placeholderSettings.getPrefix() + " and Suffix: "
@@ -81,8 +98,13 @@ public class CookieCutterMojo extends AbstractMojo {
             getLog().warn("Using custom placeholder settings!! -> Prefix:"
                     + this.placeholderSettings.getPrefix() + " and Suffix: "
                     + this.placeholderSettings.getSuffix());
-            javaHandler.setHandler(this.placeholderSettings);
+        }
 
+        try {
+            javaHandler.setOptions(new Options(this.placeholderSettings.getPrefix(),
+                this.placeholderSettings.getSuffix()));
+        } catch (FileHandlerException e) {
+            throw new MojoExecutionException("Invalid Options for java handler", e);
         }
 
         getLog().warn("Starting placheholders");

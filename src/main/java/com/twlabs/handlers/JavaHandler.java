@@ -13,29 +13,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.model.settings.Placeholder;
 
 /**
  * JavaHandler
  */
-public class JavaHandler implements FileHandler {
-
-
-    private Placeholder handler = new Placeholder("{{", "}}");
-
-
-    public void setHandler(Placeholder handler) {
-
-        this.handler = handler;
-    }
-
-
+public class JavaHandler extends FileHandlerOptions implements FileHandler {
 
     public String findDir(String filePath, String query) throws FileHandlerException {
 
         String queryToTransform = query;
-        if (!query.startsWith(this.handler.getPrefix())
-                && !query.endsWith(this.handler.getSuffix())) {
+        if (!query.startsWith(getOptions().getPlaceholderPrefix())
+                && !query.endsWith(getOptions().getPlaceholderSuffix())) {
             queryToTransform = query.replace(".", File.separator);
         }
         return this.find(filePath, queryToTransform).get(queryToTransform);
@@ -195,6 +183,7 @@ public class JavaHandler implements FileHandler {
             replace(filePath, entry.getKey(), entry.getValue());
         }
     }
+
 
 
 }

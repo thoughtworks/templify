@@ -15,7 +15,7 @@ import io.github.yamlpath.YamlPath;
 /**
  * YamlHandler
  */
-public class YamlHandler implements FileHandler {
+public class YamlHandler extends FileHandlerOptions implements FileHandler {
 
 
     @Override
@@ -73,5 +73,6 @@ public class YamlHandler implements FileHandler {
         }
 
     }
+
 
 }

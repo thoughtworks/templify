@@ -32,8 +32,6 @@ public class JavaHandlerTest {
 
     Faker faker = new Faker();
 
-
-
     @AfterAll
     public static void cleanFolders() throws IOException {
 

@@ -14,11 +14,11 @@ import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
 import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
+import com.twlabs.interfaces.FileHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
@@ -267,7 +267,6 @@ public class CookieCutterMojoIT {
     }
 
 
-
     @MavenTest
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
         JavaHandler javaHandler = new JavaHandler();
@@ -311,13 +310,15 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void test_using_custom_placeholder_settings(MavenExecutionResult result) throws FileHandlerException {
+    public void test_using_custom_placeholder_settings(MavenExecutionResult result)
+            throws FileHandlerException {
 
         String prefix = "_{{";
         String suffix = "}}";
 
         assertThat(result).isSuccessful().out().warn()
-                .contains("Using custom placeholder settings!! -> Prefix:"+ prefix+" and Suffix: "+suffix);
+                .contains("Using custom placeholder settings!! -> Prefix:" + prefix
+                        + " and Suffix: " + suffix);
 
         // JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
@@ -327,7 +328,7 @@ public class CookieCutterMojoIT {
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
         // String packageQuery = "com.myPackage";
-        String packageNewName = prefix+"cookiecutter.package"+suffix;
+        String packageNewName = prefix + "cookiecutter.package" + suffix;
 
         assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
                 "It was not found directory: " + packageNewName + " on path: "

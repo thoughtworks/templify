@@ -12,13 +12,13 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.JsonFormatter;
-import com.twlabs.interfaces.FileHandler;
 import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.FileHandler;
 
 /**
  * JsonHandler ->
  */
-public class JsonHandler implements FileHandler {
+public class JsonHandler extends FileHandlerOptions implements FileHandler {
 
     protected static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));
