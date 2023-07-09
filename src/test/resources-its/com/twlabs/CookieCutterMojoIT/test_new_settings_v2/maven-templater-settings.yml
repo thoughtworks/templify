@@ -1,20 +1,21 @@
 steps:
-  - kind: "fileHandler"
-    files:
-      - pom.xml
-      - submodule/pom.xml
-      - submodule/pom.xml
-    opts:
+  - kind: FileHandler
+    metadata:
       prefix: "{{"
       suffix: "}}"
-      extended:
+      options:
         - keyA: "valueA"
         - keyB: "valueB"
         - keyC: "valueC"
-    placeholders:
-      - query: /project/groupId
-        name: Cookiecutter.param.groupId
-      - query: /project/artifactId
-        name: Cookiecutter.test.replace.map.artifactId
-      - query: /project/dependencies/dependency/scope[text()='test']
-        name: Cookiecutter.replace.map.scopes
+    spec:
+      files:
+        - pom.xml
+        - submodule/pom.xml
+        - submodule/pom.xml
+      placeholders:
+        - match: /project/groupId
+          replace: Cookiecutter.param.groupId
+        - match: /project/artifactId
+          replace: Cookiecutter.test.replace.map.artifactId
+        - match: /project/dependencies/dependency/scope[text()='test']
+          replace: Cookiecutter.replace.map.scopes
