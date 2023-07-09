@@ -1,0 +1,17 @@
+steps:
+  - kind: "fileHandler"
+    files:
+      - pom.xml
+      - submodule/pom.xml
+      - submodule/pom.xml
+    opts:
+      - keyA: "valueA"
+      - keyB: "valueB"
+      - keyC: "valueC"
+    placeholders:
+      - query: /project/groupId
+        name: Cookiecutter.param.groupId
+      - query: /project/artifactId
+        name: Cookiecutter.test.replace.map.artifactId
+      - query: /project/dependencies/dependency/scope[text()='test']
+        name: Cookiecutter.replace.map.scopes
