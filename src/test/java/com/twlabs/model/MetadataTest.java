@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * OptionsTest
  */
-public class OptionsTest {
+public class MetadataTest {
 
 
     @Test
@@ -19,7 +19,7 @@ public class OptionsTest {
 
         assertThat(new Metadata(prefix, suffix, extendedOptions))
                 .isNotNull().extracting(Metadata::getPrefix,
-                        Metadata::getSuffix, Metadata::getExtended)
+                        Metadata::getSuffix, Metadata::getOptions)
                 .containsExactly(prefix, suffix, extendedOptions);
     }
 }

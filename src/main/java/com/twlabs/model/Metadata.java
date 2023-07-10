@@ -1,5 +1,6 @@
 package com.twlabs.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Metadata {
@@ -7,7 +8,7 @@ public class Metadata {
     String prefix;
     String suffix;
 
-    Map<String, String> extended;
+    Map<String, String> options;
 
     public Metadata(String prefix, String suffix) {
         this.prefix = prefix;
@@ -17,10 +18,12 @@ public class Metadata {
     public Metadata(String prefix, String suffix, Map<String, String> extended) {
         this.prefix = prefix;
         this.suffix = suffix;
-        this.extended = extended;
+        this.options = extended;
     }
 
-    public Metadata() {}
+    public Metadata() {
+        this.options = new HashMap<String, String>();
+    }
 
     public String getPrefix() {
         return this.prefix;
@@ -30,8 +33,20 @@ public class Metadata {
         return this.suffix;
     }
 
-    public Map<String, String> getExtended() {
-        return extended;
+    public Map<String, String> getOptions() {
+        return options;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
     }
 
 }
