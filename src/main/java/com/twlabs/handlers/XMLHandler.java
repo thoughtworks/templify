@@ -36,10 +36,10 @@ import com.twlabs.interfaces.FileHandler;
  * 
  * Note: This class assumes that the xml files being handled are valid and well-formed.
  * 
- * @see FileHandlerOptions
+ * @see FileHandlerKind
  * @see FileHandler
  */
-public class XMLHandler extends FileHandlerOptions implements FileHandler {
+public class XMLHandler extends FileHandlerKind implements FileHandler {
 
 
     private Document readFile(Path path) {

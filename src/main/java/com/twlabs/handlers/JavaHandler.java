@@ -32,17 +32,26 @@ import com.twlabs.interfaces.FileHandler;
  * 
  * Note: This class assumes that the Java files being handled are valid and well-formed.
  * 
- * @see FileHandlerOptions
+ * @see FileHandlerKind
  * @see FileHandler
  */
-public class JavaHandler extends FileHandlerOptions implements FileHandler {
+public class JavaHandler extends FileHandlerKind {
+
+
+    private static final String DEFAULT_VALUE_PREFIX = "{{";
+    private static final String DEFAULT_VALUE_SUFFIX = "}}";
+    private static final String PREFIX_KEY = "prefix";
+    private static final String SUFFIX_KEY = "suffix";
+
 
 
     public String findDir(String filePath, String query) throws FileHandlerException {
 
+        String suffix = (String) this.metadata.getOrDefault(SUFFIX_KEY, DEFAULT_VALUE_SUFFIX);
+        String prefix = (String) this.metadata.getOrDefault(PREFIX_KEY, DEFAULT_VALUE_PREFIX);
+
         String queryToTransform = query;
-        if (!query.startsWith(getOptions().getPrefix())
-                && !query.endsWith(getOptions().getSuffix())) {
+        if (!query.startsWith(prefix) && !query.endsWith(suffix)) {
             queryToTransform = query.replace(".", File.separator);
         }
         return this.find(filePath, queryToTransform).get(queryToTransform);

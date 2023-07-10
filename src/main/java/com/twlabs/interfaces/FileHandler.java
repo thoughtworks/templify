@@ -18,7 +18,7 @@ public interface FileHandler {
      * @return A map containing the finded query values.
      * @throws FileHandlerException If there is an error accessing or reading the file.
      */
-    Map<String, String> find(String filePath, String query ) throws FileHandlerException;
+    Map<String, String> find(String filePath, String query) throws FileHandlerException;
 
 
     /**
@@ -48,7 +48,8 @@ public interface FileHandler {
      * @param opts the options to set for the file handler
      * @throws FileHandlerException if an error occurs while setting the options
      */
-    void setOptions(Metadata opts) throws FileHandlerException;
+    void configure(Map<String, Object> metadata, Map<String, Object> spec)
+            throws FileHandlerException;
 
 
 

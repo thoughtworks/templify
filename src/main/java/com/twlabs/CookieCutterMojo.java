@@ -2,6 +2,7 @@ package com.twlabs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -101,8 +102,13 @@ public class CookieCutterMojo extends AbstractMojo {
 
         try {
             // FIX configs v2 read node metadata
-            javaHandler.setOptions(new Metadata(this.placeholderSettings.getPrefix(),
-                this.placeholderSettings.getSuffix()));
+            Map<String, Object> metadata = new HashMap<>();
+
+            metadata.put("prefix", this.placeholderSettings.getPrefix());
+            metadata.put("suffix", this.placeholderSettings.getSuffix());
+
+            javaHandler.configure(metadata, new HashMap<>());
+
         } catch (FileHandlerException e) {
             throw new MojoExecutionException("Invalid Options for java handler", e);
         }

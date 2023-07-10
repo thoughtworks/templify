@@ -21,10 +21,10 @@ import com.twlabs.interfaces.FileHandler;
  * 
  * Note: This class assumes that the json files being handled are valid and well-formed.
  * 
- * @see FileHandlerOptions
+ * @see FileHandlerKind
  * @see FileHandler
  */
-public class JsonHandler extends FileHandlerOptions implements FileHandler {
+public class JsonHandler extends FileHandlerKind {
 
 
     protected static String readFileAsString(String file) throws Exception {

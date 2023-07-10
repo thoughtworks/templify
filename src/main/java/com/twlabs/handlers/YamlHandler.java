@@ -24,11 +24,11 @@ import io.github.yamlpath.YamlPath;
  * Note: The YamlHandler class requires the SnakeYAML library to be present in the classpath.
  * Note: This class assumes that the yaml|yml files being handled are valid and well-formed.
  * 
- * @see FileHandlerOptions
+ * @see FileHandlerKind
  * @see FileHandler
  * 
  */
-public class YamlHandler extends FileHandlerOptions implements FileHandler {
+public class YamlHandler extends FileHandlerKind implements FileHandler {
 
 
     @Override
