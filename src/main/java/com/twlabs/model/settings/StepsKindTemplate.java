@@ -1,13 +1,37 @@
 package com.twlabs.model.settings;
 
-import com.twlabs.model.Metadata;
+import java.util.Map;
 
+/**
+ * This class represents a template for a StepsKind object.
+ * 
+ * A StepsKind object represents a kind of step that can be performed in the template creation process.
+ * 
+ *  KISS principle, make settings as simple as possible.
+ *  Avoid major breaks in the user interface
+ *  Steps must be simple to define using .yaml file.
+ *
+ *  @kind {String} must be the name of the interface, ex: FileHandler
+ *  @metadata {Map} metadata for the step, it's a map of anything.
+ *  @spec {Map} input for the step, it's a map of anything as well.
+ *
+ *  Note: It's important that each interface validate spec and metadata.
+ *  @see FileHandler
+ */
 public class StepsKindTemplate {
 
     private String kind;
-    private Metadata metadata = new Metadata();
-    private Spec spec;
 
+    private Map<String, Object> metadata;
+    private Map<String, Object> spec;
+
+    public Map<String, Object> getSpec() {
+        return spec;
+    }
+
+    public void setSpec(Map<String, Object> spec) {
+        this.spec = spec;
+    }
 
     public String getKind() {
         return kind;
@@ -17,20 +41,11 @@ public class StepsKindTemplate {
         this.kind = kind;
     }
 
-
-    public Metadata getMetadata() {
+    public Map<String, Object> getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(Metadata metadata) {
+    public void setMetadata(Map<String, Object> metadata) {
         this.metadata = metadata;
-    }
-
-    public Spec getSpec() {
-        return spec;
-    }
-
-    public void setSpec(Spec spec) {
-        this.spec = spec;
     }
 }
