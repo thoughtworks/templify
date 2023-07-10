@@ -18,7 +18,7 @@ public interface FileHandler {
      * @return A map containing the finded query values.
      * @throws FileHandlerException If there is an error accessing or reading the file.
      */
-    Map<String, String> find(String filePath, String query) throws FileHandlerException;
+    Map<String, String> find(String filePath, String query ) throws FileHandlerException;
 
 
     /**

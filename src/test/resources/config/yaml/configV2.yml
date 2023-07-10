@@ -1,17 +1,18 @@
 steps:
   - kind: FileHandler
     metadata:
+      type: xml
       prefix: "{{"
       suffix: "}}"
       options:
-        keyA: "valueA"
-        keyB: "valueB"
-        keyC: "valueC"
+        keyA: valueA
+        keyB: valueB
+        keyC: valueC
     spec:
       files:
         - pom.xml
         - submodule/pom.xml
-        - submodule/pom.xml
+        - submodule/submoduleB/pom.xml
       placeholders:
         - match: /project/groupId
           replace: Cookiecutter.param.groupId

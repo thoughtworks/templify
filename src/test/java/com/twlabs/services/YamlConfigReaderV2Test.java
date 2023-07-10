@@ -20,5 +20,11 @@ public class YamlConfigReaderV2Test {
 
         assertThat(config).isNotNull();
 
+        String kind = config.getSteps().get(0).getKind();
+        String type =  String.valueOf(config.getSteps().get(0).getMetadata().get("type"));
+
+        assertThat(kind).isEqualTo("FileHandler");
+        assertThat(type).isEqualTo("xml");
+
     }
 }

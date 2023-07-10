@@ -100,6 +100,7 @@ public class CookieCutterMojo extends AbstractMojo {
         }
 
         try {
+            // FIX configs v2 read node metadata
             javaHandler.setOptions(new Metadata(this.placeholderSettings.getPrefix(),
                 this.placeholderSettings.getSuffix()));
         } catch (FileHandlerException e) {
