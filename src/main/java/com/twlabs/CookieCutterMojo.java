@@ -28,6 +28,7 @@ import java.util.Objects;
 public class CookieCutterMojo extends AbstractMojo {
 
     private static final String BUILD_TEMPLATE_DIR = "/template";
+    public static final String UNKNOWN = "unknown";
 
     /**
      * This references to the root folder of the module/project (the location where the current
@@ -112,7 +113,7 @@ public class CookieCutterMojo extends AbstractMojo {
      */
     private Map<String, FileHandler> getFileHandlerRegistry() {
         return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
-                "json", this.jsonHandler, "java", this.javaHandler, "txt", this.plainTextHandler);
+                "json", this.jsonHandler, "java", this.javaHandler);
     }
 
     private String getTemplateDir() {
@@ -202,7 +203,7 @@ public class CookieCutterMojo extends AbstractMojo {
             // get extension of file but check if it doesn't have extension then return txt as default
             type = FilenameUtils.getExtension(mapping.getFile());
             if (type == null || type.isEmpty()) {
-                type = "txt";
+                type = UNKNOWN;
             }
         }
         return type;

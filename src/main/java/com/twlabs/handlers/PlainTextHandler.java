@@ -1,21 +1,15 @@
 package com.twlabs.handlers;
 
+import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.interfaces.FileHandler;
+
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.PathNotFoundException;
-import com.jayway.jsonpath.internal.JsonFormatter;
-import com.twlabs.interfaces.FileHandler;
-import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.model.settings.Placeholder;
 
 /**
  * JsonHandler ->
@@ -27,9 +21,21 @@ public class PlainTextHandler implements FileHandler {
     }
 
     @Override
-    public Map<String, String> find(String filePath, String jsonp) throws FileHandlerException {
+    public Map<String, String> find(String filePath, String query) throws FileHandlerException {
 
-        return null;
+        HashMap<String, String> result = new HashMap<>();
+
+        try {
+            String text = readFileAsString(filePath);
+            List<Integer> resultIndex = searchWord(text, query);
+
+            if (!resultIndex.isEmpty())
+                result.put(query, String.valueOf(resultIndex.size()));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     @Override
@@ -57,6 +63,16 @@ public class PlainTextHandler implements FileHandler {
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
             this.replace(filePath, entry.getKey(), entry.getValue());
         }
+    }
+
+    private List<Integer> searchWord(String string, String word) {
+        List<Integer> results = new ArrayList<>();
+        int indexOfWord = string.indexOf(word);
+        while (indexOfWord != -1) {
+            results.add(indexOfWord);
+            indexOfWord = string.indexOf(word, indexOfWord + word.length());
+        }
+        return results;
     }
 
 }

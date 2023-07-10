@@ -1,0 +1,11 @@
+settings:
+  placeholder:
+    prefix: "{%"
+    suffix: "%}"
+mappings:
+  - file: Makefile
+    placeholders:
+      - query: "#backstage-template-condition-infra-elk-condition-start"
+        name: " if values.infra is defined and 'elk' in values.infra "
+      - query: "#backstage-template-condition-infra-elk-condition-end"
+        name: " endif "

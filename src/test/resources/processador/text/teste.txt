@@ -1,0 +1,6 @@
+David is a 30-year-old man who lives in New York City.
+His address is 123 Main St, David House, New York, NY 10001.
+His hobbies are football, cooking, and swimming.
+He speaks French at a beginner level, German at an intermediate level,
+and Spanish at an advanced level.
+
