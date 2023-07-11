@@ -22,6 +22,7 @@ public class YamlConfigReaderV2Test {
 
         String kind = config.getSteps().get(0).getKind();
         String type =  String.valueOf(config.getSteps().get(0).getMetadata().get("type"));
+        assertThat(config.getSettings()).containsKey("prefix").containsKey("suffix");
 
         assertThat(kind).isEqualTo("FileHandler");
         assertThat(type).isEqualTo("xml");

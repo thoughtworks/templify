@@ -1,6 +1,7 @@
 package com.twlabs.model.settings;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * PluginConfigKind
@@ -13,6 +14,8 @@ public class PluginConfigV2 {
 
     List<StepsKindTemplate> steps;
 
+    Map<String, Object> settings;
+
     public PluginConfigV2() {}
 
 
@@ -23,5 +26,16 @@ public class PluginConfigV2 {
     public void setSteps(List<StepsKindTemplate> steps) {
         this.steps = steps;
     }
+
+
+    public Map<String, Object> getSettings() {
+        return settings;
+    }
+
+
+    public void setSettings(Map<String, Object> settings) {
+        this.settings = settings;
+    }
+
 
 }

@@ -1,9 +1,12 @@
+settings:
+  prefix: "_{{"
+  suffix: "}}_"
 steps:
   - kind: FileHandler
     metadata:
-      type: xml
       prefix: "{{"
       suffix: "}}"
+      type: xml
       options:
         keyA: valueA
         keyB: valueB
