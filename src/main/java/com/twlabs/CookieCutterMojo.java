@@ -191,7 +191,6 @@ public class CookieCutterMojo extends AbstractMojo {
     private void processFileHandler(StepsKindTemplate fileHandlerStep)
             throws IllegalArgumentException {
 
-
         // nothing change from v1
         var fileHandlersRegistry = getFileHandlerRegistry();
 
@@ -205,7 +204,7 @@ public class CookieCutterMojo extends AbstractMojo {
                     String.format("Unsupported Kind: FileHandler type: %s", type));
 
         
-        List<Map<String, Object>> specs = fileHandlerStep.getSpecs();
+        List<Map<String, Object>> specs = fileHandlerStep.getSpec();
 
         for(Map<String, Object> spec : specs) {
 

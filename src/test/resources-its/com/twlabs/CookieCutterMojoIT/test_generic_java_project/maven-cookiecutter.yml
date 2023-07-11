@@ -14,7 +14,7 @@ steps:
     metadata:
       type: java
     spec:
-      base_dir: src/main/java
-      placeholders:
-        - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
-          replace: cookiecutter.package
+      - base_dir: src/main/java
+        placeholders:
+          - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
+            replace: cookiecutter.package

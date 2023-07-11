@@ -47,7 +47,7 @@ steps:
     metadata:
       type: java
     spec:
-      base_dir: src/main/java
-      placeholders:
-        - match: com.myPackage
-          replace: cookiecutter.package
+      - base_dir: src/main/java
+        placeholders:
+          - match: com.myPackage
+            replace: cookiecutter.package

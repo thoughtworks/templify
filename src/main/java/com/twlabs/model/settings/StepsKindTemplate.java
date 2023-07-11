@@ -24,7 +24,7 @@ public class StepsKindTemplate {
     private String kind;
 
     private Map<String, Object> metadata;
-    private List<Map<String, Object>> specs;
+    private List<Map<String, Object>> spec;
 
     public String getKind() {
         return kind;
@@ -42,12 +42,12 @@ public class StepsKindTemplate {
         this.metadata = metadata;
     }
 
-    public List<Map<String, Object>> getSpecs() {
-        return specs;
+    public List<Map<String, Object>> getSpec() {
+        return spec;
     }
 
-    public void setSpecs(List<Map<String, Object>> spec) {
-        this.specs = spec;
+    public void setSpec(List<Map<String, Object>> spec) {
+        this.spec = spec;
     }
 
 

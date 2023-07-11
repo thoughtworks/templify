@@ -1,5 +1,6 @@
 package com.twlabs.model.settings;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class PluginConfig {
 
     List<StepsKindTemplate> steps;
 
-    Map<String, Object> settings;
+    Map<String, Object> settings = new HashMap<String, Object>();
 
     public PluginConfig() {}
 
