@@ -2,7 +2,8 @@ package com.twlabs.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.twlabs.model.settings.PluginConfig;
@@ -10,27 +11,8 @@ import com.twlabs.model.settings.PluginConfig;
 /**
  * YamlConfigReaderTest
  */
+@DisplayNameGeneration(ReplaceUnderscores.class)
 public class YamlConfigReaderTest {
-
-
-    @Test
-    public void test_map_config_reader() throws IOException {
-
-        YamlConfigReader reader = new YamlConfigReader();
-
-        PluginConfig config = reader.read("src/test/resources/config/yaml/config.yml");
-
-        assertThat(config).isNotNull();
-
-        String kind = config.getSteps().get(0).getKind();
-        String type = String.valueOf(config.getSteps().get(0).getMetadata().get("type"));
-        assertThat(config.getSettings()).containsKey("prefix").containsKey("suffix");
-
-        assertThat(kind).isEqualTo("FileHandler");
-        assertThat(type).isEqualTo("xml");
-
-    }
-
 
     @ParameterizedTest
     @CsvSource(value = {"src/test/resources/config/yaml/config.yml",
@@ -46,8 +28,7 @@ public class YamlConfigReaderTest {
             "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/maven-cookiecutter.yml",
             "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_running_with_existing_template_directory/maven-cookiecutter.yml",
             "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_using_custom_placeholder_settings/maven-cookiecutter.yml",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_using_default_placeholder_settings/maven-cookiecutter.yml",
-    })
+            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_using_default_placeholder_settings/maven-cookiecutter.yml",})
     public void test_map_config_combinations(String configFile) throws IOException {
 
         YamlConfigReader reader = new YamlConfigReader();

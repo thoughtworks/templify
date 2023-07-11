@@ -72,17 +72,17 @@ public class CookieCutterMojo extends AbstractMojo {
         Injector injector = Guice.createInjector(new ContextDependencyInjection());
         injector.injectMembers(this);
 
+        getLog().warn("Checking if the template dir exists" + getTemplateDir());
+        if (deleteTemplateIfexist(getTemplateDir())) {
+            getLog().warn("Old template directory was found and it was removed!!");
+        }
+
         // create target/template dir
         copyProjectTo(getTemplateDir());
 
         // load and validate config file before copy project
         // BUG settings are read from config file in template folder
         loadConfigFile();
-
-        getLog().warn("Checking if the template dir exists" + getTemplateDir());
-        if (deleteTemplateIfexist(getTemplateDir())) {
-            getLog().warn("Old template directory was found and it was removed!!");
-        }
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
         getLog().warn("Backstage template dir:" + getTemplateDir());
@@ -203,14 +203,15 @@ public class CookieCutterMojo extends AbstractMojo {
             throw new IllegalArgumentException(
                     String.format("Unsupported Kind: FileHandler type: %s", type));
 
-        
+
         List<Map<String, Object>> specs = fileHandlerStep.getSpec();
 
-        for(Map<String, Object> spec : specs) {
+        for (Map<String, Object> spec : specs) {
 
             List<String> files = (List<String>) spec.getOrDefault("files", new ArrayList<>());
-            List<Map<String, String>> placeholders = (List<Map<String, String>>) spec.getOrDefault("placeholders", new ArrayList<>());
-        
+            List<Map<String, String>> placeholders = (List<Map<String, String>>) spec
+                    .getOrDefault("placeholders", new ArrayList<>());
+
             for (String file : files) {
                 String filePath = getTemplateDir() + "/" + file;
                 getLog().warn("Start placeholder for: " + filePath);
