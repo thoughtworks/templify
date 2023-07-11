@@ -13,7 +13,7 @@ steps:
           - match: /project/dependencies/dependency/scope[text()='test']
             replace: Cookiecutter.replace.map.scopes
       - files:
-          - xmls/generic_0.xml
+          - xmls/generic_1.xml
         placeholders:
           - match: /note/heading
             replace: New Reminder
@@ -34,11 +34,11 @@ steps:
         placeholders:
           - match: mappings[0].file
             replace: newFile
-          - match: mappings[0].placeholders[0].match
-            replace: Cookiecutter.match.project.groupId
+          - match: mappings[0].placeholders[0].query
+            replace: Cookiecutter.query.project.groupId
           - match: mappings[0].placeholders[0].name
             replace: Cookiecutter.replace.map.groupId
-          - match: mappings[0].placeholders[1].match
+          - match: mappings[0].placeholders[1].query
             replace: Cookiecutter.match.project.artifactId
           - match: mappings[0].placeholders[1].name
             replace: Cookiecutter.replace.map.artifactId

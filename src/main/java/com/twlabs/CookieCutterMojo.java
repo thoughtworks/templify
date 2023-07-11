@@ -147,7 +147,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
             this.config = reader.read(configFile);
 
-            if (this.config.getSettings() == null) {
+            if (this.config.getSettings() == null || this.config.getSettings().isEmpty()) {
                 Map<String, Object> defaultSettings = new HashMap<>();
                 defaultSettings.put("prefix", "{{");
                 defaultSettings.put("suffix", "}}");
@@ -208,7 +208,12 @@ public class CookieCutterMojo extends AbstractMojo {
 
         for (Map<String, Object> spec : specs) {
 
+            // BUG - JavaHandler does not have files
             List<String> files = (List<String>) spec.getOrDefault("files", new ArrayList<>());
+
+            // BUG - When it's not java, it's empty
+            String baseDir = String.valueOf(spec.getOrDefault("base_dir", ""));
+
             List<Map<String, String>> placeholders = (List<Map<String, String>>) spec
                     .getOrDefault("placeholders", new ArrayList<>());
 
@@ -220,7 +225,8 @@ public class CookieCutterMojo extends AbstractMojo {
                     String match = placeholder.get("match");
                     String replace = placeholder.get("replace");
                     try {
-                        fileHandlersRegistry.get(type).replace(filePath, match,
+                        getLog().warn("Replace: " + match + " with: " + replace);
+                        fileHandlersRegistry.get(type).replace(baseDir + filePath, match,
                                 this.config.getSettings().get("prefix") + replace
                                         + this.config.getSettings().get("suffix"));
                     } catch (FileHandlerException e) {

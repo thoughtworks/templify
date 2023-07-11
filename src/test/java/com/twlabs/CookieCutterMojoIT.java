@@ -220,6 +220,7 @@ public class CookieCutterMojoIT {
 
         assertFalse(filePathMap.containsKey(packageQuery),
                 "Directory " + filePathMap.get(packageQuery) + " was not moved");
+
         assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
                 "It was not found directory: " + packageNewName + " on path: "
                         + classpathTemplate_java);
