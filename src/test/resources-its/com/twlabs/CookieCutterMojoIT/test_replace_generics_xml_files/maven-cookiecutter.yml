@@ -1,20 +1,34 @@
-mappings:
-  - file: pom.xml
-    placeholders:
-      - query: /project/groupId
-        name: Cookiecutter.param.groupId
-      - query: /project/artifactId
-        name: Cookiecutter.test.replace.map.artifactId
-      - query: /project/dependencies/dependency/scope[text()='test']
-        name: Cookiecutter.replace.map.scopes
-
-  - file: xmls/generic_1.xml
-    placeholders:
-      - query: /note/heading
-        name: New Reminder
-  - file: xmls/complex/generic_2.xml
-    placeholders:
-      - query: /bookstore/book/author[text()='Kurt Cagle']
-        name: Cookiecutter.kurtCagle
-      - query: /bookstore/book/year[text()='2005']
-        name: Cookiecutter.NewYear
+steps:
+  - kind: FileHandler
+    metadata:
+      type: xml
+    spec:
+      files:
+        - pom.xml
+      placeholders:
+        - match: /project/groupId
+          replace: Cookiecutter.param.groupId
+        - match: /project/artifactId
+          replace: Cookiecutter.test.replace.map.artifactId
+        - match: /project/dependencies/dependency/scope[text()='test']
+          replace: Cookiecutter.replace.map.scopes
+  - kind: FileHandler
+    metadata:
+      type: xml
+    spec:
+      files:
+        - xmls/generic_1.xml
+      placeholders:
+        - match: /note/heading
+          replace: New Reminder
+  - kind: FileHandler
+    metadata:
+      type: xml
+    spec:
+      files:
+        - xmls/complex/generic_2.xml
+      placeholders:
+        - match: /bookstore/book/author[text()='Kurt Cagle']
+          replace: Cookiecutter.kurtCagle
+        - match: /bookstore/book/year[text()='2005']
+          replace: Cookiecutter.NewYear

@@ -1,12 +1,20 @@
-mappings:
-  - file: pom.xml
-    placeholders:
-      - query: /project/groupId
-        name: cookiecutter.groupId
-      - query: /project/artifactId
-        name: cookiecutter.artifactId
-  - type: java
-    base_dir: src/main/java
-    placeholders:
-      - query: br.com.client.sfc.datalake.sfcdatatransferdatalake
-        name: cookiecutter.package
+steps:
+  - kind: FileHandler
+    metadata:
+      type: xml
+    spec:
+      files:
+        - pom.xml
+      placeholders:
+        - match: /project/groupId
+          replace: cookiecutter.groupId
+        - match: /project/artifactId
+          replace: cookiecutter.artifactId
+  - kind: FileHandler
+    metadata:
+      type: java
+    spec:
+      base_dir: src/main/java
+      placeholders:
+        - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
+          replace: cookiecutter.package

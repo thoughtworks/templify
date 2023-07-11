@@ -20,7 +20,6 @@ import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandlerKind;
 import com.twlabs.model.Mapping;
-import com.twlabs.model.Metadata;
 import com.twlabs.model.Placeholder;
 import com.twlabs.model.Settings;
 import com.twlabs.model.settings.PluginConfig;

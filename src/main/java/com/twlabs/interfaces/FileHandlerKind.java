@@ -3,7 +3,6 @@ package com.twlabs.interfaces;
 
 import java.util.Map;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.model.Metadata;
 
 /**
  * Interface to be implemented by the file handler class.

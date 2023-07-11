@@ -28,7 +28,7 @@ import io.github.yamlpath.YamlPath;
  * @see FileHandlerKind
  * 
  */
-public class YamlHandler extends AbstractFileHandlerKind implements FileHandlerKind {
+public class YamlHandler extends AbstractFileHandlerKind {
 
 
     @Override

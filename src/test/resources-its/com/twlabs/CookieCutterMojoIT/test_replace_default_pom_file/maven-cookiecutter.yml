@@ -1,5 +1,10 @@
-mappings:
-  - file: pom.xml
+steps:
+  kind: FileHandler
+  medata:
+    type: xml
+  spec:
+    files:
+      - pom.xml
     placeholders:
       - query: /project/groupId
         name: Cookiecutter.param.groupId
