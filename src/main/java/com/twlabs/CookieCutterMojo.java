@@ -73,6 +73,7 @@ public class CookieCutterMojo extends AbstractMojo {
         injector.injectMembers(this);
 
         // load and validate config file before copy project
+        // BUG settings are read from config file in template folder
         loadConfigFile();
 
         getLog().warn("Checking if the template dir exists" + getTemplateDir());
