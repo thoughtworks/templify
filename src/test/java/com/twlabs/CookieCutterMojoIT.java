@@ -4,12 +4,14 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -19,6 +21,7 @@ import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
+import org.junit.Ignore;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
@@ -53,7 +56,6 @@ public class CookieCutterMojoIT {
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/test_using_custom_placeholder_settings/project/target/template";
 
 
-
     @MavenTest
     public void configuracao_basica_build_test(MavenExecutionResult result) {
 
@@ -86,7 +88,6 @@ public class CookieCutterMojoIT {
 
 
     }
-
 
 
     @MavenTest
@@ -226,7 +227,6 @@ public class CookieCutterMojoIT {
     }
 
 
-
     @MavenTest
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
@@ -256,18 +256,6 @@ public class CookieCutterMojoIT {
     }
 
 
-
-    @MavenTest
-    public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
-
-        assertThat(result).isFailure().out().plain().contains(
-                "Caused by: java.lang.IllegalArgumentException: Unsupported file type: pom.unsupported");
-
-
-    }
-
-
-
     @MavenTest
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
         JavaHandler javaHandler = new JavaHandler();
@@ -289,7 +277,6 @@ public class CookieCutterMojoIT {
                         + classpathTemplate_java);
 
 
-
     }
 
 
@@ -309,7 +296,6 @@ public class CookieCutterMojoIT {
     }
 
 
-
     @MavenTest
     public void test_using_custom_placeholder_settings(MavenExecutionResult result) throws FileHandlerException {
 
@@ -317,7 +303,7 @@ public class CookieCutterMojoIT {
         String suffix = "}}";
 
         assertThat(result).isSuccessful().out().warn()
-                .contains("Using custom placeholder settings!! -> Prefix:"+ prefix+" and Suffix: "+suffix);
+                .contains("Using custom placeholder settings!! -> Prefix:" + prefix + " and Suffix: " + suffix);
 
         // JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
@@ -327,13 +313,30 @@ public class CookieCutterMojoIT {
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
         // String packageQuery = "com.myPackage";
-        String packageNewName = prefix+"cookiecutter.package"+suffix;
+        String packageNewName = prefix + "cookiecutter.package" + suffix;
 
         assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
                 "It was not found directory: " + packageNewName + " on path: "
                         + classpathTemplate_java);
     }
 
+    @MavenTest
+    public void test_using_custom_placeholder_settings_and_default_handler(MavenExecutionResult result) {
+
+        String prefix = "{%";
+        String suffix = "%}";
+        String type = "unknown";
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Using custom placeholder settings!! -> Prefix:" + prefix + " and Suffix: " + suffix);
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("No handler found for type: " + type + ". Defaulting to PlainTextHandler");
+
+                        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+    }
 
 
 }

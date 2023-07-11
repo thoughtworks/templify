@@ -1,31 +1,33 @@
 package com.twlabs.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Mapping {
     private String file;
     private String type;
     private String base_dir;
     private String base_test_dir;
+    private Settings settings;
 
     private List<Placeholder> placeholders;
 
 
-    public Mapping() {}
+    public Mapping() {
+    }
 
 
     public Mapping(String file, List<Placeholder> placePlaceholders) {
         this.file = file;
         this.placeholders = placePlaceholders;
         this.type = "file";
-        this.base_dir =""; 
+        this.base_dir = "";
         this.base_test_dir = "";
     }
 
 
-
     public Mapping(String sourceFile, List<Placeholder> placeholders, String type, String base_dir,
-            String base_test_dir) {
+                   String base_test_dir) {
         this.file = sourceFile;
         this.placeholders = placeholders;
         this.type = type;
@@ -77,6 +79,13 @@ public class Mapping {
         this.base_test_dir = base_test_dir;
     }
 
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
 
 
 }

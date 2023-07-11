@@ -17,6 +17,7 @@ Today, the plugin supports:
 * YAML 
 * JSON 
 * Java files and packages
+* PlainText
 
 
 # Quickstart
@@ -444,4 +445,51 @@ root
 |      └── generic1.yml
 └── maven-cookiecutter.yml
 └── pom.xml 
-``` 
+```
+
+
+
+#### PlainText
+
+##### in case you want to use plain text handler to replace the placeholders by overriding settings, you can use the following configuration: 
+###### Mapping file
+```
+mappings:
+  - file: src/main/java/com/thoughtworks/Sample.java
+    type: plainText
+    settings:
+      placeholder:
+        prefix: "{%"
+        suffix: "%}"
+    placeholders:
+      - query: //backstage-template-condition-algo-start
+        name: " if values.algo is defined and 'AES' in values.algo "
+      - query: //backstage-template-condition-algo-end
+        name: " endif "
+  - file: build.gradle
+    placeholders:
+      - query: JavaVersion.VERSION_20
+        name: values.java_version
+  - file: build.gradle
+    settings:
+      placeholder:
+        prefix: "{%"
+        suffix: "%}"
+    placeholders:
+      - query: //backstage-template-condition-keycloak-condition-start
+        name: " if values.security is defined and 'Keycloak' in values.security "
+      - query: //backstage-template-condition-keycloak-condition-end
+        name: " endif "
+  - file: Makefile
+    settings:
+      placeholder:
+        prefix: "{%"
+        suffix: "%}"
+    placeholders:
+      - query: "#backstage-template-condition-infra-elk-condition-start"
+        name: " if values.infra is defined and 'elk' in values.infra "
+      - query: "#backstage-template-condition-infra-elk-condition-end"
+        name: " endif "
+```
+
+This mapping will execute files in order and replace the placeholders considering files as text files.
