@@ -141,7 +141,6 @@ public class CookieCutterMojo extends AbstractMojo {
             }
         } catch (Exception e) {
             getLog().error("Error to read the settings from the config file", e);
-            ;
         }
     }
 
@@ -152,7 +151,6 @@ public class CookieCutterMojo extends AbstractMojo {
 
         } catch (IOException e) {
             getLog().error("Error to read the config file", e);
-            ;
         }
     }
 

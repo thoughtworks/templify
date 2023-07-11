@@ -336,7 +336,6 @@ public class CookieCutterMojoIT {
                         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
-
     }
 
 
