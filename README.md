@@ -17,7 +17,7 @@ Today, the plugin supports:
 * YAML 
 * JSON 
 * Java files and packages
-* Any file type as plaintext
+* PlainText
 
 
 # Quickstart
@@ -445,7 +445,11 @@ root
 |      └── generic1.yml
 └── maven-cookiecutter.yml
 └── pom.xml 
-``` 
+```
+
+
+
+#### PlainText
 
 ##### in case you want to use plain text handler to replace the placeholders by overriding settings, you can use the following configuration: 
 ###### Mapping file
