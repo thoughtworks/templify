@@ -113,7 +113,7 @@ public class CookieCutterMojo extends AbstractMojo {
      */
     private Map<String, FileHandler> getFileHandlerRegistry() {
         return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
-                "json", this.jsonHandler, "java", this.javaHandler);
+                "json", this.jsonHandler, "java", this.javaHandler, "plainText", this.plainTextHandler);
     }
 
     private String getTemplateDir() {
