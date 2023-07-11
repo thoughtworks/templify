@@ -1,53 +1,38 @@
 package com.twlabs.model.settings;
 
 import java.util.List;
-import com.twlabs.model.Mapping;
-import com.twlabs.model.Settings;
+import java.util.Map;
 
-/**
- * YamlMappings
- */
 public class PluginConfig {
-    private List<Mapping> mappings;
 
-    private Settings settings;
+    public PluginConfig(List<StepsKindTemplate> steps) {
+        this.steps = steps;
+    }
 
+    List<StepsKindTemplate> steps;
+
+    Map<String, Object> settings;
 
     public PluginConfig() {}
 
-    public List<Mapping> getMappings() {
-        return mappings;
-    
+
+    public List<StepsKindTemplate> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<StepsKindTemplate> steps) {
+        this.steps = steps;
     }
 
 
-    public PluginConfig(List<Mapping> mappings){
-        this.mappings = mappings;
-    }
-
-    public PluginConfig(Settings settings){
-        this.settings = settings;
-    }
-
-    public PluginConfig(Settings settings, List<Mapping> mappings) {
-        this.mappings = mappings;
-        this.settings = settings;
-    }
-
-
-
-    public void setMappings(List<Mapping> mappings) {
-        this.mappings = mappings;
-    }
-
-    public Settings getSettings() {
+    public Map<String, Object> getSettings() {
         return settings;
     }
 
-    public void setSettings(Settings settings) {
+
+    public void setSettings(Map<String, Object> settings) {
         this.settings = settings;
     }
-
 
 
 }

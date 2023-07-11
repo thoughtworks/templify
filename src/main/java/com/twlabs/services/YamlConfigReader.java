@@ -10,22 +10,57 @@ import com.twlabs.model.settings.PluginConfig;
 
 public class YamlConfigReader implements ConfigReader {
 
-    @Override
-    public PluginConfig read(String configFilePath) {
-        Yaml yaml = new Yaml();
+    /**
+     * Maps a YAML file to a specified type.
+     *
+     * This method reads a YAML file from the specified file path and maps it to the specified type
+     * using the Jackson library.
+     *
+     * @param yamlFilePath the path to the YAML file to be mapped
+     * @param type the class representing the type to which the YAML file should be mapped
+     * @return an instance of the specified type with the data from the YAML file
+     * @throws IOException if an I/O error occurs while reading the YAML file
+     * @throws IllegalArgumentException if the specified file path is null or empty
+     * @throws IllegalArgumentException if the specified type is null
+     * @throws IllegalArgumentException if the specified type is not a valid class
+     * @throws MappingException if the YAML file cannot be mapped to the specified type
+     *
+     *         Usage example:
+     *
+     *         <pre>
+     *
+     *         <PersonDTO>mapYamlToType(personYamlPath, PersonDTO.class);
+     *
+     *         </pre>
+     *
+     * @see Yaml
+     * @see Yaml#loadAs
+     */
+    public <T> T mapYamlToType(String yamlFilePath, Class<T> type) throws IOException {
+
+        T result = null;
+
         try {
-            InputStream inputStream = Files.newInputStream(Paths.get(configFilePath));
+            Yaml yaml = new Yaml();
 
-            PluginConfig pluginConfig = yaml.loadAs(inputStream, PluginConfig.class);
+            InputStream inputStream = Files.newInputStream(Paths.get(yamlFilePath));
 
+            result = yaml.loadAs(inputStream, type);
 
-            if (pluginConfig == null) {
-                throw new RuntimeException("Config file is not valid: " + configFilePath);
+            if (result == null) {
+                throw new RuntimeException("Config file is not valid: " + yamlFilePath);
             }
-            return pluginConfig;
         } catch (IOException e) {
-            throw new RuntimeException("It's not possible to read the config file: "
-                    + configFilePath + " \nmake sure the config file exists");
+            throw new RuntimeException("It's not possible to read the config file: " + yamlFilePath
+                    + " \nmake sure the config file exists");
         }
+
+        return result;
+    }
+
+    @Override
+    public PluginConfig read(String configFilePath) throws IOException {
+        return this.<PluginConfig>mapYamlToType(configFilePath, PluginConfig.class);
     }
 }
+
