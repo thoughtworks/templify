@@ -8,7 +8,7 @@ import com.twlabs.model.Metadata;
 /**
  * Interface to be implemented by the file handler class.
  */
-public interface FileHandler {
+public interface FileHandlerKind {
 
     /**
      * Finds all occurrences of a given query in a file specified by the file path.

@@ -15,7 +15,7 @@ import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 /**
  * BasicModuleTest
@@ -43,8 +43,8 @@ public class ContextDependencyInjectionTest {
     public void test_injector_binds(String name, Class<?> impl) {
 
         Injector injector = CREATE_INJECTOR;
-        FileHandler fileHandler =
-                injector.getInstance(Key.get(FileHandler.class, Names.named(name)));
+        FileHandlerKind fileHandler =
+                injector.getInstance(Key.get(FileHandlerKind.class, Names.named(name)));
 
         assertThat(fileHandler).isNotNull().isInstanceOf(impl);
     }

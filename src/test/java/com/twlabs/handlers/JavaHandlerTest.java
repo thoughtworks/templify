@@ -22,6 +22,7 @@ import com.twlabs.exceptions.FileHandlerException;
 
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
+// JavaHandlerTest#test_change_java_package
 public class JavaHandlerTest {
 
     JavaHandler javaHandler = new JavaHandler();

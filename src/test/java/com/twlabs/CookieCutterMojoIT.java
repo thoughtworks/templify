@@ -18,12 +18,12 @@ import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
 
-    FileHandler handler = new XMLHandler();
+    FileHandlerKind handler = new XMLHandler();
 
     String POM =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/project/target/template/pom.xml";
@@ -167,7 +167,7 @@ public class CookieCutterMojoIT {
     public void test_replace_generics_yml_files(MavenExecutionResult result)
             throws FileHandlerException {
 
-        FileHandler yamlHandler = new YamlHandler();
+        FileHandlerKind yamlHandler = new YamlHandler();
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
@@ -231,7 +231,7 @@ public class CookieCutterMojoIT {
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
-        FileHandler jsonHandler = new JsonHandler();
+        FileHandlerKind jsonHandler = new JsonHandler();
 
         assertThat(result).isSuccessful();
 

@@ -7,7 +7,7 @@ import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 import com.twlabs.services.YamlConfigReader;
 
 /**
@@ -40,11 +40,11 @@ public class ContextDependencyInjection extends AbstractModule {
     protected void configure() {
 
         // file Handlers block
-        bind(FileHandler.class).annotatedWith(Names.named("java")).to(JavaHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named("json")).to(JsonHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named("xml")).to(XMLHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named("yaml")).to(YamlHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named("yml")).to(YamlHandler.class);
+        bind(FileHandlerKind.class).annotatedWith(Names.named("java")).to(JavaHandler.class);
+        bind(FileHandlerKind.class).annotatedWith(Names.named("json")).to(JsonHandler.class);
+        bind(FileHandlerKind.class).annotatedWith(Names.named("xml")).to(XMLHandler.class);
+        bind(FileHandlerKind.class).annotatedWith(Names.named("yaml")).to(YamlHandler.class);
+        bind(FileHandlerKind.class).annotatedWith(Names.named("yml")).to(YamlHandler.class);
 
         // services block
         bind(ConfigReader.class).to(YamlConfigReader.class);

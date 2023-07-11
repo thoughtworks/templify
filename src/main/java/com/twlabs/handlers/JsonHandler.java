@@ -13,7 +13,7 @@ import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.JsonFormatter;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 /**
  * This class represents a JSON file handler that implements the FileHandler interface and extends the FileHandlerOptions class. 
@@ -21,10 +21,10 @@ import com.twlabs.interfaces.FileHandler;
  * 
  * Note: This class assumes that the json files being handled are valid and well-formed.
  * 
+ * @see AbstractFileHandlerKind
  * @see FileHandlerKind
- * @see FileHandler
  */
-public class JsonHandler extends FileHandlerKind {
+public class JsonHandler extends AbstractFileHandlerKind {
 
 
     protected static String readFileAsString(String file) throws Exception {

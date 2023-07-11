@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 /**
  * This class represents a JavaHandler, which is a type of FileHandler that implements the
@@ -32,10 +32,10 @@ import com.twlabs.interfaces.FileHandler;
  * 
  * Note: This class assumes that the Java files being handled are valid and well-formed.
  * 
+ * @see AbstractFileHandlerKind
  * @see FileHandlerKind
- * @see FileHandler
  */
-public class JavaHandler extends FileHandlerKind {
+public class JavaHandler extends AbstractFileHandlerKind {
 
 
     private static final String DEFAULT_VALUE_PREFIX = "{{";

@@ -18,7 +18,7 @@ import com.google.inject.name.Named;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.interfaces.ConfigReader;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 import com.twlabs.model.Mapping;
 import com.twlabs.model.Metadata;
 import com.twlabs.model.Placeholder;
@@ -46,19 +46,19 @@ public class CookieCutterMojo extends AbstractMojo {
 
     @Inject
     @Named("yaml")
-    private FileHandler yamlHandler;
+    private FileHandlerKind yamlHandler;
 
     @Inject
     @Named("xml")
-    private FileHandler xmlHandler;
+    private FileHandlerKind xmlHandler;
 
     @Inject
     @Named("json")
-    private FileHandler jsonHandler;
+    private FileHandlerKind jsonHandler;
 
     @Inject
     @Named("java")
-    private FileHandler javaHandler;
+    private FileHandlerKind javaHandler;
 
     @Inject
     private ConfigReader reader;
@@ -141,7 +141,7 @@ public class CookieCutterMojo extends AbstractMojo {
      * Registry pattern for open-closed to set, add, remove, expand the handlers outside of mojo
      * logic withouth changing setPlaceHolders code block.
      */
-    private Map<String, FileHandler> getFileHandlerRegistry() {
+    private Map<String, FileHandlerKind> getFileHandlerRegistry() {
         return Map.of("xml", this.xmlHandler, "yaml", this.yamlHandler, "yml", this.yamlHandler,
                 "json", this.jsonHandler, "java", this.javaHandler);
     }
@@ -186,7 +186,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private void setPlaceHolder(Mapping mapping) {
 
-        Map<String, FileHandler> handlersRegistry = getFileHandlerRegistry();
+        Map<String, FileHandlerKind> handlersRegistry = getFileHandlerRegistry();
 
         String file = mapping.getFile();
         String filePath = getTemplateDir() + "/" + file;

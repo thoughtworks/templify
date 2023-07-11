@@ -28,14 +28,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class XMLHandlerTest {
 
-    FileHandler processador = new XMLHandler();
+    FileHandlerKind processador = new XMLHandler();
     Faker faker = new Faker();
 
 

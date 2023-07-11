@@ -3,7 +3,7 @@ package com.twlabs.handlers;
 import java.util.HashMap;
 import java.util.Map;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 /**
  * Abstract class to handle options for file handlers.
@@ -23,7 +23,7 @@ import com.twlabs.interfaces.FileHandler;
  * @see com.twlabs.model.Metadata
  *
  */
-abstract class FileHandlerKind implements FileHandler {
+abstract class AbstractFileHandlerKind implements FileHandlerKind {
 
     public Map<String, Object> metadata = new HashMap<String, Object>();
     public Map<String, Object> spec = new HashMap<String, Object>();

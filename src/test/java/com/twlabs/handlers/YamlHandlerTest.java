@@ -17,12 +17,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.interfaces.FileHandlerKind;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class YamlHandlerTest {
 
-    FileHandler yamlHandler = new YamlHandler();
+    FileHandlerKind yamlHandler = new YamlHandler();
 
 
     Faker faker = new Faker();
