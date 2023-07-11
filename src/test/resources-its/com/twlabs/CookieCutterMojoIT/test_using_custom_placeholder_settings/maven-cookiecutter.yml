@@ -7,55 +7,45 @@ steps:
     metadata:
       type: xml
     spec:
-      files:
-        - pom.xml
-      placeholders:
-        - match: /project/groupId
-          replace: Cookiecutter.param.groupId
-        - match: /project/artifactId
-          replace: Cookiecutter.test.replace.map.artifactId
-        - match: /project/dependencies/dependency/scope[text()='test']
-          replace: Cookiecutter.replace.map.scopes
-
-  - kind: FileHandler
-    metadata:
-      type: xml
-    spec:
-      files:
-        - xmls/generic_1.xml
-      placeholders:
-        - match: /note/heading
-          replace: New Reminder
-
-  - kind: FileHandler
-    metadata:
-      type: xml
-    spec:
-      files:
-        - xmls/complex/generic_2.xml
-      placeholders:
-        - match: /bookstore/book/author[text()='Kurt Cagle']
-          replace: Cookiecutter.kurtCagle
-        - match: /bookstore/book/year[text()='2005']
-          replace: Cookiecutter.NewYear
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: Cookiecutter.param.groupId
+          - match: /project/artifactId
+            replace: Cookiecutter.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: Cookiecutter.replace.map.scopes
+      - files:
+          - xmls/generic_1.xml
+        placeholders:
+          - match: /note/heading
+            replace: New Reminder
+      - files:
+          - xmls/complex/generic_2.xml
+        placeholders:
+          - match: /bookstore/book/author[text()='Kurt Cagle']
+            replace: Cookiecutter.kurtCagle
+          - match: /bookstore/book/year[text()='2005']
+            replace: Cookiecutter.NewYear
 
   - kind: FileHandler
     metadata:
       type: yaml
     spec:
-      files:
-        - yamls/generic1.yml
-      placeholders:
-        - match: mappings[0].file
-          replace: newFile
-        - match: mappings[0].placeholders[0].query
-          replace: Cookiecutter.match.project.groupId
-        - match: mappings[0].placeholders[0].replace
-          replace: Cookiecutter.replace.map.groupId
-        - match: mappings[0].placeholders[1].query
-          replace: Cookiecutter.match.project.artifactId
-        - match: mappings[0].placeholders[1].replace
-          replace: Cookiecutter.replace.map.artifactId
+      - files:
+          - yamls/generic1.yml
+        placeholders:
+          - match: mappings[0].file
+            replace: newFile
+          - match: mappings[0].placeholders[0].query
+            replace: Cookiecutter.match.project.groupId
+          - match: mappings[0].placeholders[0].replace
+            replace: Cookiecutter.replace.map.groupId
+          - match: mappings[0].placeholders[1].query
+            replace: Cookiecutter.match.project.artifactId
+          - match: mappings[0].placeholders[1].replace
+            replace: Cookiecutter.replace.map.artifactId
 
   - kind: FileHandler
     metadata:

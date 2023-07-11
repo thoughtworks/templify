@@ -3,13 +3,13 @@ steps:
     metadata:
       type: xml
     spec:
-      files:
-        - pom.xml
-      placeholders:
-        - match: /project/groupId
-          replace: cookiecutter.groupId
-        - match: /project/artifactId
-          replace: cookiecutter.artifactId
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: cookiecutter.groupId
+          - match: /project/artifactId
+            replace: cookiecutter.artifactId
   - kind: FileHandler
     metadata:
       type: java

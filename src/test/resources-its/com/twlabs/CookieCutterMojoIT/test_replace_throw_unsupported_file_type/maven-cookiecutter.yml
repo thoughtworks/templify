@@ -3,12 +3,12 @@ steps:
     metadata:
       type: xml
     spec:
-      files:
-        - pom.unsupported
-      placeholders:
-        - match: /project/groupId
-          replace: Cookiecutter.param.groupId
-        - match: /project/artifactId
-          replace: Cookiecutter.test.replace.map.artifactId
-        - match: /project/dependencies/dependency/scope[text()='test']
-          replace: Cookiecutter.replace.map.scopes
+      - files:
+          - pom.unsupported
+        placeholders:
+          - match: /project/groupId
+            replace: Cookiecutter.param.groupId
+          - match: /project/artifactId
+            replace: Cookiecutter.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: Cookiecutter.replace.map.scopes

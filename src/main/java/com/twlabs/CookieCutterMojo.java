@@ -72,6 +72,9 @@ public class CookieCutterMojo extends AbstractMojo {
         Injector injector = Guice.createInjector(new ContextDependencyInjection());
         injector.injectMembers(this);
 
+        // create target/template dir
+        copyProjectTo(getTemplateDir());
+
         // load and validate config file before copy project
         // BUG settings are read from config file in template folder
         loadConfigFile();
@@ -80,9 +83,6 @@ public class CookieCutterMojo extends AbstractMojo {
         if (deleteTemplateIfexist(getTemplateDir())) {
             getLog().warn("Old template directory was found and it was removed!!");
         }
-
-        // create target/template dir
-        copyProjectTo(getTemplateDir());
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
         getLog().warn("Backstage template dir:" + getTemplateDir());
@@ -184,44 +184,49 @@ public class CookieCutterMojo extends AbstractMojo {
      * associated with the given step. The file handler is responsible for performing specific
      * actions related to the step, such as reading or writing data to a file.
      *
-     * @param fileHandlerStep The StepsKindTemplate object representing the step for which the file handler
-     *        needs to be processed.
+     * @param fileHandlerStep The StepsKindTemplate object representing the step for which the file
+     *        handler needs to be processed.
      * @throws IllegalArgumentException If the step parameter is null or invalid.
      */
-    private void processFileHandler(StepsKindTemplate fileHandlerStep) throws IllegalArgumentException {
+    private void processFileHandler(StepsKindTemplate fileHandlerStep)
+            throws IllegalArgumentException {
 
 
+        // nothing change from v1
         var fileHandlersRegistry = getFileHandlerRegistry();
 
         var typeVar = fileHandlerStep.getMetadata().getOrDefault("type", "unknown");
+        // in v1 was extension, now it's type, ex: xml, yaml
         String type = typeVar.toString();
 
+        // exists handler for this type?
         if (!fileHandlersRegistry.containsKey(type))
             throw new IllegalArgumentException(
                     String.format("Unsupported Kind: FileHandler type: %s", type));
 
-        // TODO how to use `var` to get the value?
-        List<String> files = (List<String>) fileHandlerStep.getSpec().getOrDefault("files", new ArrayList<>());
+        
+        List<Map<String, Object>> specs = fileHandlerStep.getSpecs();
 
-        // TODO how to use `var` to get the value?
-        // TODO may a mapper fits here
-        List<Map<String, String>> placeholders = (List<Map<String, String>>) fileHandlerStep.getSpec()
-                .getOrDefault("placeholders", new ArrayList<>());
+        for(Map<String, Object> spec : specs) {
 
-        for (String file : files) {
-            String filePath = getTemplateDir() + "/" + file;
-            getLog().warn("Start placeholder for: " + filePath);
+            List<String> files = (List<String>) spec.getOrDefault("files", new ArrayList<>());
+            List<Map<String, String>> placeholders = (List<Map<String, String>>) spec.getOrDefault("placeholders", new ArrayList<>());
+        
+            for (String file : files) {
+                String filePath = getTemplateDir() + "/" + file;
+                getLog().warn("Start placeholder for: " + filePath);
 
-            for (Map<String, String> placeholder : placeholders) {
-                String match = placeholder.get("match");
-                String replace = placeholder.get("replace");
-                try {
-                    fileHandlersRegistry.get(type).replace(filePath, match,
-                            this.config.getSettings().get("prefix") + replace
-                                    + this.config.getSettings().get("suffix"));
-                } catch (FileHandlerException e) {
-                    e.printStackTrace();
-                    getLog().error("Error to replace placeholders", e);
+                for (Map<String, String> placeholder : placeholders) {
+                    String match = placeholder.get("match");
+                    String replace = placeholder.get("replace");
+                    try {
+                        fileHandlersRegistry.get(type).replace(filePath, match,
+                                this.config.getSettings().get("prefix") + replace
+                                        + this.config.getSettings().get("suffix"));
+                    } catch (FileHandlerException e) {
+                        e.printStackTrace();
+                        getLog().error("Error to replace placeholders", e);
+                    }
                 }
             }
         }

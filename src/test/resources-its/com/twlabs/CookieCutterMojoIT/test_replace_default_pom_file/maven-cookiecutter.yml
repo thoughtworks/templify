@@ -1,14 +1,14 @@
 steps:
-  kind: FileHandler
-  medata:
-    type: xml
-  spec:
-    files:
-      - pom.xml
-    placeholders:
-      - query: /project/groupId
-        name: Cookiecutter.param.groupId
-      - query: /project/artifactId
-        name: Cookiecutter.test.replace.map.artifactId
-      - query: /project/dependencies/dependency/scope[text()='test']
-        name: Cookiecutter.replace.map.scopes
+  - kind: FileHandler
+    metadata:
+      type: xml
+    spec:
+      - files:
+          - pom.xml
+        placeholders:
+          - query: /project/groupId
+            name: Cookiecutter.param.groupId
+          - query: /project/artifactId
+            name: Cookiecutter.test.replace.map.artifactId
+          - query: /project/dependencies/dependency/scope[text()='test']
+            name: Cookiecutter.replace.map.scopes

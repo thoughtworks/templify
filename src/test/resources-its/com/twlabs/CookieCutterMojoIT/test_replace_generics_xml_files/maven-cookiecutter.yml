@@ -3,32 +3,24 @@ steps:
     metadata:
       type: xml
     spec:
-      files:
-        - pom.xml
-      placeholders:
-        - match: /project/groupId
-          replace: Cookiecutter.param.groupId
-        - match: /project/artifactId
-          replace: Cookiecutter.test.replace.map.artifactId
-        - match: /project/dependencies/dependency/scope[text()='test']
-          replace: Cookiecutter.replace.map.scopes
-  - kind: FileHandler
-    metadata:
-      type: xml
-    spec:
-      files:
-        - xmls/generic_1.xml
-      placeholders:
-        - match: /note/heading
-          replace: New Reminder
-  - kind: FileHandler
-    metadata:
-      type: xml
-    spec:
-      files:
-        - xmls/complex/generic_2.xml
-      placeholders:
-        - match: /bookstore/book/author[text()='Kurt Cagle']
-          replace: Cookiecutter.kurtCagle
-        - match: /bookstore/book/year[text()='2005']
-          replace: Cookiecutter.NewYear
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: Cookiecutter.param.groupId
+          - match: /project/artifactId
+            replace: Cookiecutter.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: Cookiecutter.replace.map.scopes
+      - files:
+          - xmls/generic_1.xml
+        placeholders:
+          - match: /note/heading
+            replace: New Reminder
+      - files:
+          - xmls/complex/generic_2.xml
+        placeholders:
+          - match: /bookstore/book/author[text()='Kurt Cagle']
+            replace: Cookiecutter.kurtCagle
+          - match: /bookstore/book/year[text()='2005']
+            replace: Cookiecutter.NewYear

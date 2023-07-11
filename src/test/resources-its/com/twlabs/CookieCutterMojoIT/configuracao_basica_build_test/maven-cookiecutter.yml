@@ -3,8 +3,8 @@ steps:
     metadata:
       type: xml
     spec:
-      files:
-        - pom.xml
-    placeholders:
-      - match: /project/groupId
-        replace: Cookiecutter.param.groupId
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: Cookiecutter.param.groupId

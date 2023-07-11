@@ -1,5 +1,6 @@
 package com.twlabs.model.settings;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,15 +24,7 @@ public class StepsKindTemplate {
     private String kind;
 
     private Map<String, Object> metadata;
-    private Map<String, Object> spec;
-
-    public Map<String, Object> getSpec() {
-        return spec;
-    }
-
-    public void setSpec(Map<String, Object> spec) {
-        this.spec = spec;
-    }
+    private List<Map<String, Object>> specs;
 
     public String getKind() {
         return kind;
@@ -48,5 +41,15 @@ public class StepsKindTemplate {
     public void setMetadata(Map<String, Object> metadata) {
         this.metadata = metadata;
     }
+
+    public List<Map<String, Object>> getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(List<Map<String, Object>> spec) {
+        this.specs = spec;
+    }
+
+
 
 }
