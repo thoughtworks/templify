@@ -13,6 +13,7 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.codehaus.plexus.util.FileUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -21,6 +22,7 @@ import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.PluginConfig;
 import com.twlabs.model.settings.StepsKindTemplate;
 
@@ -64,6 +66,8 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private PluginConfig config;
 
+    private PlaceholderSettings placeholder;
+
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
@@ -91,13 +95,7 @@ public class CookieCutterMojo extends AbstractMojo {
         if (this.config.getSettings().get("prefix") == "{{"
                 && this.config.getSettings().get("suffix") == "}}") {
             // "Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"
-            getLog().warn("Using default placeholder settings!! -> Prefix:"
-                    + this.config.getSettings().get("prefix") + " and Suffix: "
-                    + this.config.getSettings().get("suffix"));
         } else {
-            getLog().warn("Using custom placeholder settings!! -> Prefix:"
-                    + this.config.getSettings().get("prefix") + " and Suffix: "
-                    + this.config.getSettings().get("suffix"));
         }
 
         getLog().warn("Starting placheholders");
@@ -140,6 +138,8 @@ public class CookieCutterMojo extends AbstractMojo {
 
     private void loadConfigFile() {
 
+        final ObjectMapper mapper = new ObjectMapper();
+
         try {
             String configFile = getTemplateDir() + "/maven-cookiecutter.yml";
 
@@ -147,14 +147,35 @@ public class CookieCutterMojo extends AbstractMojo {
 
             this.config = reader.read(configFile);
 
+            Map<String, String> defaultPlaceholderSettings = new HashMap<>();
+            defaultPlaceholderSettings.put("prefix", "{{");
+            defaultPlaceholderSettings.put("suffix", "}}");
+
+
             if (this.config.getSettings() == null || this.config.getSettings().isEmpty()) {
                 Map<String, Object> defaultSettings = new HashMap<>();
-                defaultSettings.put("prefix", "{{");
-                defaultSettings.put("suffix", "}}");
+                defaultSettings.put("placeholder", defaultPlaceholderSettings);
                 this.config.setSettings(defaultSettings);
+
+                getLog().warn("Using default placeholder settings!! -> Prefix:" + "{{"
+                        + " and Suffix: " + "}}");
+
+                // TODO strange logic, needs refactory
+                this.placeholder = mapper.convertValue(this.config.getSettings().get("placeholder"),
+                        PlaceholderSettings.class);
+
+            } else {
+                this.placeholder = mapper.convertValue(this.config.getSettings().get("placeholder"),
+                        PlaceholderSettings.class);
+
+                getLog().warn("Using custom placeholder settings!! -> Prefix:"
+                        + this.placeholder.getPrefix() + " and Suffix: " + placeholder.getSuffix());
             }
 
-        } catch (Exception e) {
+
+        } catch (
+
+        Exception e) {
             getLog().error("Error to read the settings from the config file", e);;
             throw new RuntimeException("Error to read the settings from the config file");
         }
@@ -217,21 +238,42 @@ public class CookieCutterMojo extends AbstractMojo {
             List<Map<String, String>> placeholders = (List<Map<String, String>>) spec
                     .getOrDefault("placeholders", new ArrayList<>());
 
-            for (String file : files) {
-                String filePath = getTemplateDir() + "/" + file;
-                getLog().warn("Start placeholder for: " + filePath);
-
+            if ("java".equals(type)) {
                 for (Map<String, String> placeholder : placeholders) {
                     String match = placeholder.get("match");
                     String replace = placeholder.get("replace");
                     try {
-                        getLog().warn("Replace: " + match + " with: " + replace);
-                        fileHandlersRegistry.get(type).replace(baseDir + filePath, match,
-                                this.config.getSettings().get("prefix") + replace
-                                        + this.config.getSettings().get("suffix"));
+                        getLog().warn("Replace: " + match + " with: " + this.placeholder.getPrefix()
+                                + replace + this.placeholder.getSuffix());
+
+                        fileHandlersRegistry.get(type).replace(getTemplateDir() + "/" +baseDir, match,
+                                this.placeholder.getPrefix() + replace
+                                        + this.placeholder.getSuffix());
                     } catch (FileHandlerException e) {
                         e.printStackTrace();
                         getLog().error("Error to replace placeholders", e);
+                    }
+                }
+            } else {
+                for (String file : files) {
+                    String filePath = getTemplateDir() + "/" + file;
+                    getLog().warn("Start placeholder for: " + filePath);
+
+                    for (Map<String, String> placeholder : placeholders) {
+                        String match = placeholder.get("match");
+                        String replace = placeholder.get("replace");
+                        try {
+                            getLog().warn(
+                                    "Replace: " + match + " with: " + this.placeholder.getPrefix()
+                                            + replace + this.placeholder.getSuffix());
+
+                            fileHandlersRegistry.get(type).replace(filePath, match,
+                                    this.placeholder.getPrefix() + replace
+                                            + this.placeholder.getSuffix());
+                        } catch (FileHandlerException e) {
+                            e.printStackTrace();
+                            getLog().error("Error to replace placeholders", e);
+                        }
                     }
                 }
             }

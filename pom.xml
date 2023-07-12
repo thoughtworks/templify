@@ -18,6 +18,9 @@
         <pitest.version>1.12.0</pitest.version>
         <pitest.junit5.version>1.1.1</pitest.junit5.version>
         <failsafe.version>3.0.0</failsafe.version>
+
+        <!-- allow mvn verify -Dskip.surefire.tests -->
+        <skip.surefire.tests>${skipTests}</skip.surefire.tests>
     </properties>
 
     <dependencies>
@@ -291,6 +294,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <skipTests>${skip.surefire.tests}</skipTests>
                     <statelessTestsetInfoReporter
                         implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporterUnicode">
                                                 <printStacktraceOnError>true</printStacktraceOnError>

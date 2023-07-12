@@ -1,7 +1,7 @@
 steps:
   - kind: FileHandler
     metadata:
-      type: xml
+      type: unsupported
     spec:
       - files:
           - pom.unsupported
