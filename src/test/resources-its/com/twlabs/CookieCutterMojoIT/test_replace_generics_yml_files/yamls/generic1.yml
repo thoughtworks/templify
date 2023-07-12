@@ -19,4 +19,3 @@ mappings:
         name: Cookiecutter.NewYear
       - query: /bookstore/book/author[text()='replace ---- test']
         name: Cookiecutter.kurtCagle
-

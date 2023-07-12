@@ -91,7 +91,6 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_default_pom_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
         assertThat(result).isSuccessful();
@@ -129,7 +128,6 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_generics_xml_files(MavenExecutionResult result)
             throws FileHandlerException {
         assertThat(result).isSuccessful();
@@ -167,7 +165,6 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    @Disabled
     public void test_replace_generics_yml_files(MavenExecutionResult result)
             throws FileHandlerException {
 
@@ -233,7 +230,6 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
@@ -265,8 +261,8 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
-        assertThat(result).isFailure().out().plain().contains(
-                "Caused by: java.lang.IllegalArgumentException: Unsupported Kind: FileHandler type: unsupported");
+        assertThat(result).isFailure().out().error()
+                .contains("Unsupported Kind: FileHandler type: unsupported");
     }
 
 

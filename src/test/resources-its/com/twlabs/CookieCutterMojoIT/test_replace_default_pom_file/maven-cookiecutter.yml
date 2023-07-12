@@ -6,9 +6,9 @@ steps:
       - files:
           - pom.xml
         placeholders:
-          - query: /project/groupId
-            name: Cookiecutter.param.groupId
-          - query: /project/artifactId
-            name: Cookiecutter.test.replace.map.artifactId
-          - query: /project/dependencies/dependency/scope[text()='test']
-            name: Cookiecutter.replace.map.scopes
+          - match: /project/groupId
+            replace: cookiecutter.param.groupId
+          - match: /project/artifactId
+            replace: cookiecutter.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: cookiecutter.replace.map.scopes
