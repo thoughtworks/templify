@@ -220,9 +220,11 @@ public class CookieCutterMojo extends AbstractMojo {
         String type = typeVar.toString();
 
         // exists handler for this type?
-        if (!fileHandlersRegistry.containsKey(type))
-            throw new IllegalArgumentException(
-                    String.format("Unsupported Kind: FileHandler type: %s", type));
+        if (!fileHandlersRegistry.containsKey(type)) {
+            String msg = String.format("Unsupported Kind: FileHandler type: %s", type);
+            getLog().error(msg);
+            throw new IllegalArgumentException(String.format(msg));
+        }
 
 
         List<Map<String, Object>> specs = fileHandlerStep.getSpec();
@@ -246,8 +248,8 @@ public class CookieCutterMojo extends AbstractMojo {
                         getLog().warn("Replace: " + match + " with: " + this.placeholder.getPrefix()
                                 + replace + this.placeholder.getSuffix());
 
-                        fileHandlersRegistry.get(type).replace(getTemplateDir() + "/" +baseDir, match,
-                                this.placeholder.getPrefix() + replace
+                        fileHandlersRegistry.get(type).replace(getTemplateDir() + "/" + baseDir,
+                                match, this.placeholder.getPrefix() + replace
                                         + this.placeholder.getSuffix());
                     } catch (FileHandlerException e) {
                         e.printStackTrace();

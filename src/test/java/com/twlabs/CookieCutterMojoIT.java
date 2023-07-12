@@ -262,10 +262,10 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
-        assertThat(result).isFailure().out().plain()
+        assertThat(result).isFailure().out().error()
                 .contains("Unsupported Kind: FileHandler type: unsupported");
+                         //Unsupported Kind: FileHandler type: unsupported
     }
 
 
