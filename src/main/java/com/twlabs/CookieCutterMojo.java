@@ -250,7 +250,6 @@ public class CookieCutterMojo extends AbstractMojo {
                                 this.placeholder.getPrefix() + replace
                                         + this.placeholder.getSuffix());
                     } catch (FileHandlerException e) {
-                        e.printStackTrace();
                         getLog().error("Error to replace placeholders", e);
                     }
                 }
@@ -271,7 +270,6 @@ public class CookieCutterMojo extends AbstractMojo {
                                     this.placeholder.getPrefix() + replace
                                             + this.placeholder.getSuffix());
                         } catch (FileHandlerException e) {
-                            e.printStackTrace();
                             getLog().error("Error to replace placeholders", e);
                         }
                     }
