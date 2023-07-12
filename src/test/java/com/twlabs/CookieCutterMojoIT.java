@@ -231,7 +231,6 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
