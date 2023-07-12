@@ -165,7 +165,6 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    @Disabled
     public void test_replace_generics_yml_files(MavenExecutionResult result)
             throws FileHandlerException {
 
