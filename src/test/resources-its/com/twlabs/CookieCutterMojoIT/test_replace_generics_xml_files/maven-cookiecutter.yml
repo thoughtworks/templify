@@ -7,11 +7,11 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/groupId
-            replace: Cookiecutter.param.groupId
+            replace: cookiecutter.param.groupId
           - match: /project/artifactId
             replace: Cookiecutter.test.replace.map.artifactId
           - match: /project/dependencies/dependency/scope[text()='test']
-            replace: Cookiecutter.replace.map.scopes
+            replace: cookiecutter.replace.map.scopes
       - files:
           - xmls/generic_1.xml
         placeholders:
@@ -21,6 +21,6 @@ steps:
           - xmls/complex/generic_2.xml
         placeholders:
           - match: /bookstore/book/author[text()='Kurt Cagle']
-            replace: Cookiecutter.kurtCagle
+            replace: cookiecutter.kurtCagle
           - match: /bookstore/book/year[text()='2005']
-            replace: Cookiecutter.NewYear
+            replace: cookiecutter.NewYear

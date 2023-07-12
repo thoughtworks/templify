@@ -128,7 +128,6 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    @Disabled
     public void test_replace_generics_xml_files(MavenExecutionResult result)
             throws FileHandlerException {
         assertThat(result).isSuccessful();
