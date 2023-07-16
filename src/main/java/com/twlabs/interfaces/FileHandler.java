@@ -7,7 +7,17 @@ import com.twlabs.exceptions.FileHandlerException;
 /**
  * Interface to be implemented by the file handler class.
  */
-public interface FileHandlerKind {
+public interface FileHandler {
+
+    public static class Names {
+        public static final String JAVA = "java";
+        public static final String JSON = "json";
+        public static final String XML = "xml";
+        public static final String YAML = "yaml";
+        public static final String YML = "yml";
+    }
+
+
 
     /**
      * Finds all occurrences of a given query in a file specified by the file path.

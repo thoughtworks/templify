@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
 import io.github.yamlpath.YamlPath;
 
 /**
@@ -24,11 +24,11 @@ import io.github.yamlpath.YamlPath;
  * Note: The YamlHandler class requires the SnakeYAML library to be present in the classpath.
  * Note: This class assumes that the yaml|yml files being handled are valid and well-formed.
  * 
- * @see AbstractFileHandlerKind
- * @see FileHandlerKind
+ * @see AbstractFileHandler
+ * @see FileHandler
  * 
  */
-public class YamlHandler extends AbstractFileHandlerKind {
+public class YamlHandler extends AbstractFileHandler {
 
 
     @Override

@@ -22,7 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
 
 /**
  * This class represents an XML file handler that implements the FileHandler interface and extends the FileHandlerOptions class.
@@ -36,10 +36,10 @@ import com.twlabs.interfaces.FileHandlerKind;
  * 
  * Note: This class assumes that the xml files being handled are valid and well-formed.
  * 
- * @see AbstractFileHandlerKind
- * @see FileHandlerKind
+ * @see AbstractFileHandler
+ * @see FileHandler
  */
-public class XMLHandler extends AbstractFileHandlerKind {
+public class XMLHandler extends AbstractFileHandler {
 
 
     private Document readFile(Path path) {

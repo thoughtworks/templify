@@ -7,8 +7,20 @@ import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
+import com.twlabs.kinds.FileHandlerKind;
+import com.twlabs.kinds.KindExecutor;
+import com.twlabs.services.CreateTemplateRunner;
+import com.twlabs.services.RunnerTask;
+import com.twlabs.services.RunnerDefault;
 import com.twlabs.services.YamlConfigReader;
+import com.twlabs.services.tasks.CopyProjectTask;
+import com.twlabs.services.tasks.DeleteTemplateIfExistsTask;
+import com.twlabs.services.tasks.ExecuteStepsTask;
+import com.twlabs.services.tasks.LoadConfigurationTask;
+import static com.twlabs.services.RunnerTask.Names.*;
+import static com.twlabs.interfaces.FileHandler.Names.*;
+import static com.twlabs.kinds.KindExecutor.Names.*;
 
 /**
  * This class represents a module for configuring context dependency injection. It extends the
@@ -39,15 +51,33 @@ public class ContextDependencyInjection extends AbstractModule {
     @Override
     protected void configure() {
 
-        // file Handlers block
-        bind(FileHandlerKind.class).annotatedWith(Names.named("java")).to(JavaHandler.class);
-        bind(FileHandlerKind.class).annotatedWith(Names.named("json")).to(JsonHandler.class);
-        bind(FileHandlerKind.class).annotatedWith(Names.named("xml")).to(XMLHandler.class);
-        bind(FileHandlerKind.class).annotatedWith(Names.named("yaml")).to(YamlHandler.class);
-        bind(FileHandlerKind.class).annotatedWith(Names.named("yml")).to(YamlHandler.class);
+        // main logic entrypoint
+        bind(CreateTemplateRunner.class).to(RunnerDefault.class);
 
-        // services block
+        // file Handlers block
+        bind(FileHandler.class).annotatedWith(Names.named(JAVA)).to(JavaHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(JSON)).to(JsonHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(XML)).to(XMLHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(YAML)).to(YamlHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(YML)).to(YamlHandler.class);
+
+        // general services block and Kinds
         bind(ConfigReader.class).to(YamlConfigReader.class);
+        bind(KindExecutor.class).annotatedWith(Names.named(FILE_HANDLER_KIND))
+                .to(FileHandlerKind.class);
+
+        // runner tasks block
+        bind(RunnerTask.class).annotatedWith(Names.named(COPY_PROJECT_TASK))
+                .to(CopyProjectTask.class);
+
+        bind(RunnerTask.class).annotatedWith(Names.named(DELETE_TEMPLATE_FOLDER_TASK))
+                .to(DeleteTemplateIfExistsTask.class);
+
+        bind(RunnerTask.class).annotatedWith(Names.named(LOAD_PLUGIN_CONFIGURATION_TASK))
+                .to(LoadConfigurationTask.class);
+
+        bind(RunnerTask.class).annotatedWith(Names.named(EXECUTE_STEPS_TASK))
+                .to(ExecuteStepsTask.class);
     }
 }
 

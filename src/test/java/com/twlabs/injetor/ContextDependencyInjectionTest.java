@@ -15,7 +15,8 @@ import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
+import static com.twlabs.interfaces.FileHandler.Names.*;
 
 /**
  * BasicModuleTest
@@ -23,11 +24,6 @@ import com.twlabs.interfaces.FileHandlerKind;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class ContextDependencyInjectionTest {
 
-    private static final String YML = "yml";
-    private static final String YAML = "yaml";
-    private static final String XML = "xml";
-    private static final String JSON = "json";
-    private static final String JAVA = "java";
 
     private static final Injector CREATE_INJECTOR =
             Guice.createInjector(new ContextDependencyInjection());
@@ -43,8 +39,8 @@ public class ContextDependencyInjectionTest {
     public void test_injector_binds(String name, Class<?> impl) {
 
         Injector injector = CREATE_INJECTOR;
-        FileHandlerKind fileHandler =
-                injector.getInstance(Key.get(FileHandlerKind.class, Names.named(name)));
+        FileHandler fileHandler =
+                injector.getInstance(Key.get(FileHandler.class, Names.named(name)));
 
         assertThat(fileHandler).isNotNull().isInstanceOf(impl);
     }

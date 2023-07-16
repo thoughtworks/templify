@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import org.junit.jupiter.api.Disabled;
 import com.soebes.itf.jupiter.extension.MavenJupiterExtension;
 import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
@@ -19,12 +18,12 @@ import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
 import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
 
-    FileHandlerKind handler = new XMLHandler();
+    FileHandler handler = new XMLHandler();
 
     String POM =
             "./target/maven-it/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/project/target/template/pom.xml";
@@ -62,7 +61,6 @@ public class CookieCutterMojoIT {
 
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
-
         File resultadoPom = new File(POM);
 
         assertTrue(resultadoPom.exists() && resultadoPom.isFile(),
@@ -168,7 +166,7 @@ public class CookieCutterMojoIT {
     public void test_replace_generics_yml_files(MavenExecutionResult result)
             throws FileHandlerException {
 
-        FileHandlerKind yamlHandler = new YamlHandler();
+        FileHandler yamlHandler = new YamlHandler();
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
@@ -233,7 +231,7 @@ public class CookieCutterMojoIT {
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
-        FileHandlerKind jsonHandler = new JsonHandler();
+        FileHandler jsonHandler = new JsonHandler();
 
         assertThat(result).isSuccessful();
 
@@ -262,7 +260,7 @@ public class CookieCutterMojoIT {
     @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
         assertThat(result).isFailure().out().error()
-                .contains("Unsupported Kind: FileHandler type: unsupported");
+                .anyMatch(msg -> msg.contains("Unsupported Kind: FileHandler type: unsupported"));
     }
 
 
@@ -270,8 +268,8 @@ public class CookieCutterMojoIT {
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
         JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
-        assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+        assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
 
 
         String classpathTemplate_java = template_java + "/src/main/java";
@@ -293,16 +291,16 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_running_with_existing_template_directory(MavenExecutionResult result) {
-        assertThat(result).isSuccessful().out().warn()
-                .contains("Old template directory was found and it was removed!!");
+        assertThat(result).isSuccessful().out().info().anyMatch(
+                msg -> msg.contains("Old template directory was found and it was removed!!"));
 
     }
 
 
     @MavenTest
     public void test_using_default_placeholder_settings(MavenExecutionResult result) {
-        assertThat(result).isSuccessful().out().warn()
-                .contains("Using default placeholder settings!! -> Prefix:{{ and Suffix: }}");
+        assertThat(result).isSuccessful().out().warn().anyMatch(msg -> msg
+                .contains("Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"));
 
     }
 
@@ -316,13 +314,13 @@ public class CookieCutterMojoIT {
         String suffix = "}}";
 
         assertThat(result).isSuccessful().out().warn()
-                .contains("Using custom placeholder settings!! -> Prefix:" + prefix
-                        + " and Suffix: " + suffix);
+                .anyMatch(msg -> msg.contains("Using custom placeholder settings!! -> Prefix:"
+                        + prefix + " and Suffix: " + suffix));
 
         // JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
-        assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+        assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
 
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";

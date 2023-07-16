@@ -17,7 +17,7 @@ import java.util.Map;
  * @spec {Map} input for the step, it's a map of anything as well.
  *
  *       Note: It's important that each interface validate spec and metadata.
- * @see FileHandlerKind
+ * @see FileHandler
  */
 public class StepsKindTemplate {
 

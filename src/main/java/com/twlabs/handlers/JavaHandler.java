@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandlerKind;
+import com.twlabs.interfaces.FileHandler;
 
 /**
  * This class represents a JavaHandler, which is a type of FileHandler that implements the
@@ -32,10 +32,10 @@ import com.twlabs.interfaces.FileHandlerKind;
  * 
  * Note: This class assumes that the Java files being handled are valid and well-formed.
  * 
- * @see AbstractFileHandlerKind
- * @see FileHandlerKind
+ * @see AbstractFileHandler
+ * @see FileHandler
  */
-public class JavaHandler extends AbstractFileHandlerKind {
+public class JavaHandler extends AbstractFileHandler {
 
 
     private static final String DEFAULT_VALUE_PREFIX = "{{";
@@ -47,6 +47,7 @@ public class JavaHandler extends AbstractFileHandlerKind {
 
     public String findDir(String filePath, String query) throws FileHandlerException {
 
+        // FIX must remove coupling with metadata
         String suffix = (String) this.metadata.getOrDefault(SUFFIX_KEY, DEFAULT_VALUE_SUFFIX);
         String prefix = (String) this.metadata.getOrDefault(PREFIX_KEY, DEFAULT_VALUE_PREFIX);
 
