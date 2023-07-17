@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.twlabs.kinds.KindExecutor;
 import com.twlabs.model.settings.StepsKindTemplate;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
 
 /**
@@ -21,7 +21,7 @@ public class ExecuteStepsTask implements RunnerTask {
     private KindExecutor fileHandlerKind;
 
     @Override
-    public RunnerRequest execute(RunnerRequest request) {
+    public CreateTemplateRequest execute(CreateTemplateRequest request) {
 
         List<StepsKindTemplate> steps = request.getConfiguration().getSteps();
 

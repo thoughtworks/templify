@@ -12,7 +12,8 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.services.CreateTemplateRunner;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateRequest;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
@@ -44,13 +45,12 @@ public class CookieCutterMojo extends AbstractMojo {
         Injector injector = Guice.createInjector(new ContextDependencyInjection());
         injector.injectMembers(this);
 
-        RunnerRequest request = new RunnerRequest();
-        request.setBaseDir(this.baseDir);
-        request.setBuildDir(this.buildDir.getPath());
-        request.setTemplateDir(this.buildDir.getPath() + BUILD_TEMPLATE_DIR);
-        request.setLogger(getLog());
 
-        runner.execute(request);
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        requestBuilder.withBaseDir(this.baseDir).withBuildDir(this.buildDir.getPath())
+                .withTemplateDir(this.buildDir.getPath() + BUILD_TEMPLATE_DIR).withLogger(getLog());
+
+        runner.execute(requestBuilder.build());
 
         getLog().warn("Project build dir:" + this.buildDir.getPath());
         getLog().warn("Backstage template dir:" + getTemplateDir());

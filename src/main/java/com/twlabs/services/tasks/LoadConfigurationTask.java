@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.PluginConfig;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -22,7 +22,7 @@ public class LoadConfigurationTask implements RunnerTask {
     private ConfigReader reader;
 
     @Override
-    public RunnerRequest execute(RunnerRequest req) {
+    public CreateTemplateRequest execute(CreateTemplateRequest req) {
 
         final ObjectMapper mapper = new ObjectMapper();
 

@@ -12,5 +12,5 @@ public interface RunnerTask {
         public static final String EXECUTE_STEPS_TASK = "executeStepsTask";
     }
 
-    public RunnerRequest execute(RunnerRequest request);
+    public CreateTemplateRequest execute(CreateTemplateRequest request);
 }

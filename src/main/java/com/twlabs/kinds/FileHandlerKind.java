@@ -11,7 +11,7 @@ import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.StepsKindTemplate;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.logger.RunnerLogger;
 import static com.twlabs.interfaces.FileHandler.Names.*;
 
@@ -41,7 +41,7 @@ public class FileHandlerKind implements KindExecutor {
     private FileHandler javaHandler;
 
     @Override
-    public void execute(StepsKindTemplate fileHandlerKindStep, RunnerRequest req) {
+    public void execute(StepsKindTemplate fileHandlerKindStep, CreateTemplateRequest req) {
 
         RunnerLogger logger = req.getLogger();
 

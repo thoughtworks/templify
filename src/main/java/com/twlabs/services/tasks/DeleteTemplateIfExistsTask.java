@@ -2,7 +2,7 @@ package com.twlabs.services.tasks;
 
 import java.io.IOException;
 import org.codehaus.plexus.util.FileUtils;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
 
 /**
@@ -11,7 +11,7 @@ import com.twlabs.services.RunnerTask;
 public class DeleteTemplateIfExistsTask implements RunnerTask {
 
     @Override
-    public RunnerRequest execute(RunnerRequest request) {
+    public CreateTemplateRequest execute(CreateTemplateRequest request) {
         try {
             request.getLogger().info("Checking if the template dir exists" + request.getTemplateDir());
 

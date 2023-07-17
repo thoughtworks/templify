@@ -3,7 +3,7 @@ package com.twlabs.services.tasks;
 import java.io.File;
 import java.util.logging.Logger;
 import org.codehaus.plexus.util.FileUtils;
-import com.twlabs.services.RunnerRequest;
+import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
 
 /**
@@ -16,7 +16,7 @@ public class CopyProjectTask implements RunnerTask {
     private static Logger logger = Logger.getLogger(CopyProjectTask.class.getName());
 
     @Override
-    public RunnerRequest execute(RunnerRequest request) {
+    public CreateTemplateRequest execute(CreateTemplateRequest request) {
         try {
             CopyProjectTask.logger.info("CopyProjectTask");
             FileUtils.copyDirectoryStructure(request.getBaseDir(), new File(request.getTemplateDir()));

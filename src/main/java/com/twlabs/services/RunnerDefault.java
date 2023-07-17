@@ -32,7 +32,7 @@ public class RunnerDefault implements CreateTemplateRunner {
     RunnerTask executeSteps;
 
     @Override
-    public void execute(RunnerRequest request) {
+    public void execute(CreateTemplateRequest request) {
 
         List<RunnerTask> tasks = new LinkedList<>();
 
