@@ -1,10 +1,13 @@
 package com.twlabs.kinds;
 
+import static com.twlabs.interfaces.FileHandler.Names.JAVA;
+import static com.twlabs.interfaces.FileHandler.Names.JSON;
+import static com.twlabs.interfaces.FileHandler.Names.XML;
+import static com.twlabs.interfaces.FileHandler.Names.YAML;
+import static com.twlabs.interfaces.FileHandler.Names.YML;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.twlabs.exceptions.FileHandlerException;
@@ -13,7 +16,6 @@ import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.StepsKindTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.logger.RunnerLogger;
-import static com.twlabs.interfaces.FileHandler.Names.*;
 
 /**
  * Processes a step of kind FileHandler

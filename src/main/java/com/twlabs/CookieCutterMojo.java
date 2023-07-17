@@ -11,9 +11,8 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.twlabs.injetor.ContextDependencyInjection;
-import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
-import com.twlabs.services.CreateTemplateRequest;
+import com.twlabs.services.CreateTemplateRunner;
 
 
 @Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
@@ -45,10 +44,13 @@ public class CookieCutterMojo extends AbstractMojo {
         Injector injector = Guice.createInjector(new ContextDependencyInjection());
         injector.injectMembers(this);
 
-
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
-        requestBuilder.withBaseDir(this.baseDir).withBuildDir(this.buildDir.getPath())
-                .withTemplateDir(this.buildDir.getPath() + BUILD_TEMPLATE_DIR).withLogger(getLog());
+
+        requestBuilder
+                .withBaseDir(this.baseDir)
+                .withBuildDir(this.buildDir.getPath())
+                .withTemplateDir(this.buildDir.getPath() + BUILD_TEMPLATE_DIR)
+                .withLogger(getLog());
 
         runner.execute(requestBuilder.build());
 

@@ -6,9 +6,9 @@ import org.apache.maven.plugin.logging.Log;
 /**
  * LoggerFactory
  * 
- * This class is responsible for creating instances of RunnerLogger based on the provided parameters.
- * It provides two methods for creating a RunnerLogger object: one that takes a Log object as a parameter,
- * and one that doesn't take any parameters.
+ * This class is responsible for creating instances of RunnerLogger based on the provided
+ * parameters. It provides two methods for creating a RunnerLogger object: one that takes a Log
+ * object as a parameter, and one that doesn't take any parameters.
  */
 public class LoggerStrategyFactory {
 
@@ -20,7 +20,7 @@ public class LoggerStrategyFactory {
      * @param log The Log object to be used for creating the RunnerLogger.
      * @return A RunnerLogger object created using the provided Log object.
      */
-    public RunnerLogger create(Log log){
+    public RunnerLogger create(Log log) {
         return new MavenLogger(log);
     }
 
@@ -31,7 +31,7 @@ public class LoggerStrategyFactory {
      * 
      * @return A RunnerLogger object created using the default Java Logger.
      */
-    public RunnerLogger create(){
+    public RunnerLogger create() {
         return new JavaLogger(Logger.getLogger("com.twlabs"));
     }
 }
