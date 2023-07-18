@@ -7,7 +7,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.junit.jupiter.api.Test;
 
 
- 
+
 public class LoggerStrategyFactoryTest {
 
     private LoggerStrategyFactory factory = new LoggerStrategyFactory();
