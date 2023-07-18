@@ -2,8 +2,6 @@ package com.twlabs.services.tasks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.twlabs.interfaces.ConfigReader;

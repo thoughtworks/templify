@@ -33,7 +33,7 @@ public class CreateTemplateRequest {
     private CreateTemplateRequest() {}
 
     public String getConfigFilePath() {
-        return this.templateDir + MAVEN_COOKIECUTTER_YML;
+        return this.baseDir + MAVEN_COOKIECUTTER_YML;
     }
 
     public String getTemplateDir() {
