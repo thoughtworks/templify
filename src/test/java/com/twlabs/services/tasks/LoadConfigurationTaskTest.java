@@ -40,7 +40,7 @@ public class LoadConfigurationTaskTest {
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
-        String buildDir = baseDir +"target/";
+        String buildDir = baseDir + "target/";
         String templateDir = buildDir + BUILD_TEMPLATE_DIR;
 
         requestBuilder

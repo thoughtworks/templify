@@ -19,7 +19,8 @@ public class CopyProjectTask implements RunnerTask {
     public CreateTemplateRequest execute(CreateTemplateRequest request) {
         try {
             CopyProjectTask.logger.info("CopyProjectTask");
-            FileUtils.copyDirectoryStructure(request.getBaseDir(), new File(request.getTemplateDir()));
+            FileUtils.copyDirectoryStructure(request.getBaseDir(),
+                    new File(request.getTemplateDir()));
 
         } catch (Exception e) {
             CopyProjectTask.logger.severe(e.getMessage());
