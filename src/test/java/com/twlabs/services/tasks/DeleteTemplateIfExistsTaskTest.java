@@ -47,6 +47,27 @@ public class DeleteTemplateIfExistsTaskTest {
 
     }
 
+    @Test
+    public void test_do_nothing_with_no_previous_project(@TempDir Path tempDir) throws IOException {
+
+        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        String baseDir = tempDir.toFile().getAbsolutePath();
+        String tempTemplateDir = tempDir.toFile().getAbsolutePath();
+
+        requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target").withTemplateDir(tempTemplateDir);
+
+        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+
+        assertFalse(new File(tempTemplateDir).exists());
+        assertNotNull(execute);
+
+
+    }
+
+
+
 
 
     protected void createTempProject(Path tempDir) throws RuntimeException, IOException {
