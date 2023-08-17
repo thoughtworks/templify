@@ -3,19 +3,13 @@ package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import com.github.javafaker.Faker;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
 
@@ -25,36 +19,29 @@ import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
 public class DeleteTemplateIfExistsTaskTest {
 
 
-    private static final String TEST_PATH = "src/test/resources/tmp";
-
     private static Faker faker = new Faker();
-
-    LoadConfigurationTask task = new LoadConfigurationTask();
-    Injector injector = Guice.createInjector(new ContextDependencyInjection());
+    private static final String BUILD_TEMPLATE_DIR = "/template";
 
 
     @Test
-    public void test_delete_previous_project() {
-        injector.injectMembers(task);
+    public void test_delete_previous_project(@TempDir Path tempDir)
+            throws RuntimeException, IOException {
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
-
+        createTempProject(tempDir);
 
         DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
 
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
-        String buildDir = TEST_PATH;
+        String baseDir = tempDir.toFile().getAbsolutePath();
+        String tempTemplateDir = tempDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
 
-
-
-        requestBuilder.withBaseDir(new File(buildDir)).withBuildDir(buildDir)
-                .withTemplateDir(buildDir);
-
-
+        requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
+                .withTemplateDir(tempTemplateDir);
 
         CreateTemplateRequest execute = task.execute(requestBuilder.build());
 
-        assertFalse(new File(TEST_PATH).exists());
+        assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);
 
 
@@ -62,21 +49,16 @@ public class DeleteTemplateIfExistsTaskTest {
 
 
 
-    @BeforeAll
-    protected static void createTempProject() throws IOException {
+    protected void createTempProject(Path tempDir) throws RuntimeException, IOException {
 
-        Path tempDir = null;
-        Path baseDirPath = Paths.get(TEST_PATH);
-
+        Path baseDirPath = tempDir;
 
         if (!Files.exists(baseDirPath)) {
             tempDir = Files.createDirectory(baseDirPath);
-
         }
 
-
-
         for (int i = 0; i < 3; i++) {
+
             String tempFileName = faker.color().name();
             Path tempFile = Files.createTempFile(tempDir, tempFileName, ".java");
 
@@ -88,6 +70,7 @@ public class DeleteTemplateIfExistsTaskTest {
             String newFakeFolder = faker.dog().name();
 
             Path newTempDir = Files.createTempDirectory(tempDir, newFakeFolder);
+
             for (int j = 0; j < 2; j++) {
                 String newTempFileName = faker.cat().name();
                 Path newTempFile = Files.createTempFile(newTempDir, newTempFileName, ".java");

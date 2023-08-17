@@ -41,10 +41,12 @@ public class CookieCutterMojo extends AbstractMojo {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
-        Injector injector = Guice.createInjector(new ContextDependencyInjection()); injector.injectMembers(this);
+        Injector injector = Guice.createInjector(new ContextDependencyInjection());
+        injector.injectMembers(this);
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
+        // request
         requestBuilder
                 .withBaseDir(this.baseDir)
                 .withBuildDir(this.buildDir.getPath())
