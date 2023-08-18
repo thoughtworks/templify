@@ -7,11 +7,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
 import com.github.javafaker.Faker;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.logger.RunnerLogger;
 
 /**
  * DeleteTemplateIfExistsTaskTest
@@ -29,6 +32,10 @@ public class DeleteTemplateIfExistsTaskTest {
 
         createTempProject(tempDir);
 
+
+        RunnerLogger mock = Mockito.mock(RunnerLogger.class);
+
+
         DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
@@ -37,12 +44,13 @@ public class DeleteTemplateIfExistsTaskTest {
         String tempTemplateDir = tempDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
 
         requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
-                .withTemplateDir(tempTemplateDir);
+                .withTemplateDir(tempTemplateDir).withLogger(mock);
 
         CreateTemplateRequest execute = task.execute(requestBuilder.build());
 
         assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);
+        Mockito.verify(mock, Mockito.times(2)).info(Mockito.anyString());
 
 
     }
@@ -50,29 +58,32 @@ public class DeleteTemplateIfExistsTaskTest {
     @Test
     public void test_do_nothing_with_no_previous_project(@TempDir Path tempDir) throws IOException {
 
+
+        RunnerLogger mock = Mockito.mock(RunnerLogger.class);
+
         DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         String baseDir = tempDir.toFile().getAbsolutePath();
-        String tempTemplateDir = tempDir.toFile().getAbsolutePath();
+        String tempTemplateDir = tempDir.toFile().getAbsolutePath() + "/template";
 
-        requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target").withTemplateDir(tempTemplateDir);
+        requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
+                .withTemplateDir(tempTemplateDir).withLogger(mock);
 
         CreateTemplateRequest execute = task.execute(requestBuilder.build());
 
         assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);
+        Mockito.verify(mock, Mockito.times(1)).info(Mockito.anyString());
 
 
     }
 
 
 
-
-
     protected void createTempProject(Path tempDir) throws RuntimeException, IOException {
 
-        Path baseDirPath = tempDir;
+        Path baseDirPath = Paths.get(tempDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR);
 
         if (!Files.exists(baseDirPath)) {
             tempDir = Files.createDirectory(baseDirPath);

@@ -88,6 +88,10 @@ public class CreateTemplateRequest {
         this.buildDir = buildDir;
     }
 
+    public void setLogger(RunnerLogger logger) {
+        this.logger = logger;
+    }
+
     public void setLogger(Log logger) {
         this.logger = new LoggerStrategyFactory().create(logger);
     }
@@ -140,6 +144,12 @@ public class CreateTemplateRequest {
             this.request.setPlaceholder(placeholder);
             return this;
         }
+
+        public CreateTemplateRequestBuilder withLogger(RunnerLogger logger) {
+            this.request.setLogger(logger);
+            return this;
+        }
+
 
         public CreateTemplateRequestBuilder withLogger(Log logger) {
             this.request.setLogger(logger);
