@@ -2,13 +2,11 @@ package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
@@ -33,25 +31,9 @@ public class ExecuteStepsTaskTest {
         ExecuteStepsTask executeStepsTask = new ExecuteStepsTask();
 
         KindExecutor fileHandlerKind = mock(FileHandlerKind.class);
-
         executeStepsTask.setFileHandlerKind(fileHandlerKind);
 
-        String baseDir =
-                "src/test/resources-its/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/";
-
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
-
-        String buildDir = baseDir + "target/";
-
-        String tempTemplateDir = tmpDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
-
-        requestBuilder
-                .withBaseDir(new File(baseDir))
-                .withBuildDir(buildDir)
-                .withConfiguration(this.createConfigTest())
-                .withTemplateDir(tempTemplateDir);
-
-        CreateTemplateRequest execute = executeStepsTask.execute(requestBuilder.build());
+        CreateTemplateRequest execute = executeStepsTask.execute(createTemplateRequest(tmpDir));
 
         verify(fileHandlerKind, Mockito.times(1)).execute(Mockito.any(StepsKindTemplate.class),
                 Mockito.any(CreateTemplateRequest.class));
@@ -60,7 +42,27 @@ public class ExecuteStepsTaskTest {
 
     }
 
-    public PluginConfig createConfigTest() {
+    private CreateTemplateRequest createTemplateRequest(Path dir) {
+
+        String baseDir =
+                "src/test/resources-its/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/";
+
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        String buildDir = baseDir + "target/";
+
+        String tempTemplateDir = dir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
+
+        requestBuilder
+                .withBaseDir(new File(baseDir))
+                .withBuildDir(buildDir)
+                .withConfiguration(this.createConfigTest())
+                .withTemplateDir(tempTemplateDir);
+
+        return requestBuilder.build();
+    }
+
+    private PluginConfig createConfigTest() {
 
 
         StepsKindTemplate stepsKindTemplate = new StepsKindTemplate();
