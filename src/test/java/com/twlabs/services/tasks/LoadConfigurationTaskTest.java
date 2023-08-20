@@ -22,19 +22,19 @@ public class LoadConfigurationTaskTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_generic_java_project/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_json_handler_empty_pom/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_new_settings_v2/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_default_pom_file/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_generics_xml_files/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_generics_yml_files/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_java/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_json_file/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_running_with_existing_template_directory/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_using_custom_placeholder_settings/",
-            "src/test/resources-its/com/twlabs/CookieCutterMojoIT/test_using_default_placeholder_settings/",})
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_generic_java_project/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_json_handler_empty_pom/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_new_settings_v2/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_default_pom_file/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_yml_files/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_java/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_json_file/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_running_with_existing_template_directory/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_using_custom_placeholder_settings/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_using_default_placeholder_settings/",})
     public void test_configuration_default(String baseDir) {
         injector.injectMembers(task);
 

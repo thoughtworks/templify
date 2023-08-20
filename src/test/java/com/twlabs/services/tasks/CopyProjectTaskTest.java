@@ -20,7 +20,7 @@ public class CopyProjectTaskTest {
     public void test_copy_project_task(@TempDir Path tempDir) {
 
         String baseDir =
-                "src/test/resources-its/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/";
+                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 

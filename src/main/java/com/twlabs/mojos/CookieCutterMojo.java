@@ -1,4 +1,4 @@
-package com.twlabs;
+package com.twlabs.mojos;
 
 import java.io.File;
 import org.apache.maven.plugin.AbstractMojo;

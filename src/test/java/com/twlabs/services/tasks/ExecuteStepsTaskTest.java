@@ -31,7 +31,8 @@ public class ExecuteStepsTaskTest {
 
         CreateTemplateRequest execute = executeStepsTask.execute(createTemplateRequest(tmpDir));
 
-        verify(executeStepsTask.getFileHandlerKind(), Mockito.times(1)).execute(Mockito.any(StepsKindTemplate.class),
+        verify(executeStepsTask.getFileHandlerKind(), Mockito.times(1)).execute(
+                Mockito.any(StepsKindTemplate.class),
                 Mockito.any(CreateTemplateRequest.class));
 
         assertNotNull(execute);
@@ -41,7 +42,7 @@ public class ExecuteStepsTaskTest {
     private CreateTemplateRequest createTemplateRequest(Path dir) {
 
         String baseDir =
-                "src/test/resources-its/com/twlabs/CookieCutterMojoIT/configuracao_basica_build_test/";
+                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
