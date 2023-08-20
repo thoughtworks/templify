@@ -1,6 +1,8 @@
 package com.twlabs.injetor;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;

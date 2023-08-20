@@ -44,6 +44,7 @@ public class CookieCutterMojo extends AbstractMojo {
         Injector injector = Guice.createInjector(new ContextDependencyInjection());
         injector.injectMembers(this);
 
+
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         // request
