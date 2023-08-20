@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
-import com.twlabs.kinds.FileHandlerKind;
+import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
 import com.twlabs.model.settings.PluginConfig;
 import com.twlabs.model.settings.StepsKindTemplate;
 import com.twlabs.services.CreateTemplateRequest;
@@ -27,7 +27,7 @@ public class ExecuteStepsTaskTest {
     @Test
     public void test_execute_steps(@TempDir Path tmpDir) {
 
-        ExecuteStepsTask executeStepsTask = new ExecuteStepsTask(mock(FileHandlerKind.class));
+        ExecuteStepsTask executeStepsTask = new ExecuteStepsTask(mock(FileHandlerKindExecutor.class));
 
         CreateTemplateRequest execute = executeStepsTask.execute(createTemplateRequest(tmpDir));
 

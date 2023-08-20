@@ -1,4 +1,4 @@
-package com.twlabs.kinds;
+package com.twlabs.kinds.filehandler;
 
 import static com.twlabs.interfaces.FileHandler.Names.JAVA;
 import static com.twlabs.interfaces.FileHandler.Names.JSON;
@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
+import com.twlabs.kinds.KindExecutor;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.StepsKindTemplate;
 import com.twlabs.services.CreateTemplateRequest;
@@ -24,7 +25,7 @@ import com.twlabs.services.logger.RunnerLogger;
  * associated with the given step. The file handler is responsible for performing specific actions
  * related to the step, such as reading or writing data to a file.
  */
-public class FileHandlerKind implements KindExecutor {
+public class FileHandlerKindExecutor implements KindExecutor {
 
     @Inject
     @Named(YAML)
@@ -54,6 +55,7 @@ public class FileHandlerKind implements KindExecutor {
         PlaceholderSettings placeholder = req.getPlaceholder();
 
         var typeVar = fileHandlerKindStep.getMetadata().getOrDefault("type", "unknown");
+
         // in v1 was extension, now it's type, ex: xml, yaml
         String type = typeVar.toString();
 

@@ -10,8 +10,8 @@ import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.kinds.FileHandlerKind;
 import com.twlabs.kinds.KindExecutor;
+import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.RunnerDefault;
@@ -66,7 +66,7 @@ public class ContextDependencyInjection extends AbstractModule {
         // general services block and Kinds
         bind(ConfigReader.class).to(YamlConfigReader.class);
         bind(KindExecutor.class).annotatedWith(Names.named(FILE_HANDLER_KIND))
-                .to(FileHandlerKind.class);
+                .to(FileHandlerKindExecutor.class);
 
         // runner tasks block
         bind(RunnerTask.class).annotatedWith(Names.named(COPY_PROJECT_TASK))
