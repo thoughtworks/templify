@@ -21,15 +21,18 @@ public class FileHandlerKindModelFactory implements KindModelFactory<FileHandler
         FileHandlerKindModel model = new FileHandlerKindModel();
         FileHandlerKindModelMetadata metadata = null;
 
-        if (template.getSpec() != null) {
-            for (Map<String, Object> spec : template.getSpec()) {
-                specs.add(mapper.convertValue(spec, FileHandlerKindModelSpec.class));
-            }
+        if (template.getSpec() == null || template.getSpec().isEmpty())
+            throw new IllegalArgumentException("spec required.");
+
+        for (Map<String, Object> spec : template.getSpec()) {
+            specs.add(mapper.convertValue(spec, FileHandlerKindModelSpec.class));
         }
 
-        if (template.getMetadata() != null)
-            metadata =
-                    mapper.convertValue(template.getMetadata(), FileHandlerKindModelMetadata.class);
+        if (template.getMetadata() == null || template.getMetadata().isEmpty())
+            throw new IllegalArgumentException("metadata required.");
+
+        metadata =
+                mapper.convertValue(template.getMetadata(), FileHandlerKindModelMetadata.class);
 
         model.setSpec(specs);
         model.setMetadata(metadata);
