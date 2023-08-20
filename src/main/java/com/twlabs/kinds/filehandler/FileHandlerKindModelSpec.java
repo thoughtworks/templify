@@ -9,7 +9,6 @@ public class FileHandlerKindModelSpec {
 
     private List<String> files;
     private List<FileHandlerKindModelPlaceholder> placeholders;
-
     private String base_dir;
 
     public List<String> getFiles() {

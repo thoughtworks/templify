@@ -1,8 +1,16 @@
 package com.twlabs.injetor;
 
+import static com.twlabs.interfaces.FileHandler.Names.JAVA;
+import static com.twlabs.interfaces.FileHandler.Names.JSON;
+import static com.twlabs.interfaces.FileHandler.Names.XML;
+import static com.twlabs.interfaces.FileHandler.Names.YAML;
+import static com.twlabs.interfaces.FileHandler.Names.YML;
+import static com.twlabs.kinds.KindExecutor.Names.FILE_HANDLER_KIND;
+import static com.twlabs.services.RunnerTask.Names.COPY_PROJECT_TASK;
+import static com.twlabs.services.RunnerTask.Names.DELETE_TEMPLATE_FOLDER_TASK;
+import static com.twlabs.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
+import static com.twlabs.services.RunnerTask.Names.LOAD_PLUGIN_CONFIGURATION_TASK;
 import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import com.twlabs.handlers.JavaHandler;
 import com.twlabs.handlers.JsonHandler;
@@ -13,16 +21,13 @@ import com.twlabs.interfaces.FileHandler;
 import com.twlabs.kinds.KindExecutor;
 import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
 import com.twlabs.services.CreateTemplateRunner;
-import com.twlabs.services.RunnerTask;
 import com.twlabs.services.RunnerDefault;
+import com.twlabs.services.RunnerTask;
 import com.twlabs.services.YamlConfigReader;
 import com.twlabs.services.tasks.CopyProjectTask;
 import com.twlabs.services.tasks.DeleteTemplateIfExistsTask;
 import com.twlabs.services.tasks.ExecuteStepsTask;
 import com.twlabs.services.tasks.LoadConfigurationTask;
-import static com.twlabs.services.RunnerTask.Names.*;
-import static com.twlabs.interfaces.FileHandler.Names.*;
-import static com.twlabs.kinds.KindExecutor.Names.*;
 
 /**
  * This class represents a module for configuring context dependency injection. It extends the

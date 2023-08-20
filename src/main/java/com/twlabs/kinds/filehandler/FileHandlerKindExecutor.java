@@ -5,7 +5,6 @@ import static com.twlabs.interfaces.FileHandler.Names.JSON;
 import static com.twlabs.interfaces.FileHandler.Names.XML;
 import static com.twlabs.interfaces.FileHandler.Names.YAML;
 import static com.twlabs.interfaces.FileHandler.Names.YML;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.google.inject.Inject;
@@ -49,74 +48,81 @@ public class FileHandlerKindExecutor implements KindExecutor {
     @Override
     public void execute(StepsKindTemplate fileHandlerKindStep, CreateTemplateRequest req) {
 
-        FileHandlerKindModel build = fileHandlerKindModelFactory.build(fileHandlerKindStep);
-
-
-        var fileHandlersRegistry = getFileHandlerRegistry();
-
+        FileHandlerKindModel model = fileHandlerKindModelFactory.build(fileHandlerKindStep);
         RunnerLogger logger = req.getLogger();
         String templateDirectory = req.getTemplateDir();
         PlaceholderSettings placeholder = req.getPlaceholder();
 
-        String type = build.getMetadata().getType();
+        String type = model.getMetadata().getType();
 
-        // exists handler for this type?
-        if (!fileHandlersRegistry.containsKey(type)) {
+        if (!this.getFileHandlerRegistry().containsKey(type)) {
             String msg = String.format("Unsupported Kind: FileHandler type: %s", type);
             logger.warn(msg);
             throw new IllegalArgumentException(String.format(msg));
         }
 
+        for (FileHandlerKindModelSpec spec : model.getSpec()) {
 
-        List<Map<String, Object>> specs = fileHandlerKindStep.getSpec();
+            List<String> files = spec.getFiles();
 
-        for (Map<String, Object> spec : specs) {
+            String baseDir = spec.getBase_dir();
 
-            // BUG - JavaHandler does not have files
-            List<String> files = (List<String>) spec.getOrDefault("files", new ArrayList<>());
-
-            // BUG - When it's not java, it's empty
-            String baseDir = String.valueOf(spec.getOrDefault("base_dir", ""));
-
-            List<Map<String, String>> placeholders = (List<Map<String, String>>) spec
-                    .getOrDefault("placeholders", new ArrayList<>());
+            List<FileHandlerKindModelPlaceholder> placeholders = spec.getPlaceholders();
 
             if ("java".equals(type)) {
-                for (Map<String, String> placeholderIt : placeholders) {
-                    String match = placeholderIt.get("match");
-                    String replace = placeholderIt.get("replace");
-                    try {
-                        logger.warn("Replace: " + match + " with: " + placeholder.getPrefix()
-                                + replace + placeholder.getSuffix());
-
-                        fileHandlersRegistry.get(type).replace(templateDirectory + "/" + baseDir,
-                                match, placeholder.getPrefix() + replace + placeholder.getSuffix());
-                    } catch (FileHandlerException e) {
-                        logger.error("Error to replace placeholders", e);
-                        throw new RuntimeException(e);
-                    }
-                }
+                handleJavaType(logger, templateDirectory, placeholder, type,
+                        baseDir, placeholders);
             } else {
-                for (String file : files) {
-                    String filePath = templateDirectory + "/" + file;
-                    logger.warn("Start placeholder for: " + filePath);
+                handleNormalFileTypes(logger, templateDirectory, placeholder,
+                        type, files,
+                        placeholders);
+            }
+        }
+    }
 
-                    for (Map<String, String> placeholderIt : placeholders) {
-                        String match = placeholderIt.get("match");
-                        String replace = placeholderIt.get("replace");
-                        try {
-                            logger.warn("Replace: " + match + " with: " + placeholder.getPrefix()
-                                    + replace + placeholder.getSuffix());
+    private void handleNormalFileTypes(RunnerLogger logger, String templateDirectory,
+            PlaceholderSettings placeholder, String type,
+            List<String> files, List<FileHandlerKindModelPlaceholder> placeholders) {
 
-                            fileHandlersRegistry.get(type).replace(filePath, match,
-                                    placeholder.getPrefix() + replace + placeholder.getSuffix());
+        var fileHandlersRegistry = getFileHandlerRegistry();
 
-                        } catch (FileHandlerException e) {
-                            logger.error("Error to replace placeholders", e);
-                            throw new RuntimeException(e);
-                        }
-                    }
+        for (String file : files) {
+            String filePath = templateDirectory + "/" + file;
+            logger.warn("Start placeholder for: " + filePath);
+
+            for (FileHandlerKindModelPlaceholder placeholderIt : placeholders) {
+                String match = placeholderIt.getMatch();
+                String replace = placeholderIt.getReplace();
+                try {
+                    logger.warn("Replace: " + match + " with: " + placeholder.getPrefix()
+                            + replace + placeholder.getSuffix());
+
+                    fileHandlersRegistry.get(type).replace(filePath, match,
+                            placeholder.getPrefix() + replace + placeholder.getSuffix());
+
+                } catch (FileHandlerException e) {
+                    logger.error("Error to replace placeholders", e);
+                    throw new RuntimeException(e);
                 }
+            }
+        }
+    }
+
+    private void handleJavaType(RunnerLogger logger, String templateDirectory,
+            PlaceholderSettings placeholder, String type, String baseDir,
+            List<FileHandlerKindModelPlaceholder> placeholders) {
+        for (FileHandlerKindModelPlaceholder placeholderIt : placeholders) {
+            String match = placeholderIt.getMatch();
+            String replace = placeholderIt.getReplace();
+            try {
+                logger.warn("Replace: " + match + " with: " + placeholder.getPrefix()
+                        + replace + placeholder.getSuffix());
+
+                getFileHandlerRegistry().get(type).replace(templateDirectory + "/" + baseDir,
+                        match, placeholder.getPrefix() + replace + placeholder.getSuffix());
+            } catch (FileHandlerException e) {
+                logger.error("Error to replace placeholders", e);
+                throw new RuntimeException(e);
             }
         }
     }
