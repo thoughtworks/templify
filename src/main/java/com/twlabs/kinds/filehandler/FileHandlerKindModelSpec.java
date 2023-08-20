@@ -8,7 +8,9 @@ import java.util.List;
 public class FileHandlerKindModelSpec {
 
     private List<String> files;
-    private List<FileHandlerKindModelSpec> placeholders;
+    private List<FileHandlerKindModelPlaceholder> placeholders;
+
+    private String base_dir;
 
     public List<String> getFiles() {
         return files;
@@ -18,12 +20,22 @@ public class FileHandlerKindModelSpec {
         this.files = files;
     }
 
-    public List<FileHandlerKindModelSpec> getPlaceholders() {
+    public String getBase_dir() {
+        return base_dir;
+    }
+
+    public void setBase_dir(String base_dir) {
+        this.base_dir = base_dir;
+    }
+
+    public List<FileHandlerKindModelPlaceholder> getPlaceholders() {
         return placeholders;
     }
 
-    public void setPlaceholders(List<FileHandlerKindModelSpec> placeholders) {
+    public void setPlaceholders(List<FileHandlerKindModelPlaceholder> placeholders) {
         this.placeholders = placeholders;
     }
+
+
 }
 

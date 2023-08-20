@@ -43,21 +43,22 @@ public class FileHandlerKindExecutor implements KindExecutor {
     @Named(JAVA)
     private FileHandler javaHandler;
 
+    private FileHandlerKindModelFactory fileHandlerKindModelFactory =
+            new FileHandlerKindModelFactory();
+
     @Override
     public void execute(StepsKindTemplate fileHandlerKindStep, CreateTemplateRequest req) {
 
-        RunnerLogger logger = req.getLogger();
+        FileHandlerKindModel build = fileHandlerKindModelFactory.build(fileHandlerKindStep);
 
-        // nothing change from v1
+
         var fileHandlersRegistry = getFileHandlerRegistry();
 
+        RunnerLogger logger = req.getLogger();
         String templateDirectory = req.getTemplateDir();
         PlaceholderSettings placeholder = req.getPlaceholder();
 
-        var typeVar = fileHandlerKindStep.getMetadata().getOrDefault("type", "unknown");
-
-        // in v1 was extension, now it's type, ex: xml, yaml
-        String type = typeVar.toString();
+        String type = build.getMetadata().getType();
 
         // exists handler for this type?
         if (!fileHandlersRegistry.containsKey(type)) {
