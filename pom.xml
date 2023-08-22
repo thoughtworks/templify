@@ -341,6 +341,9 @@
                         </goals>
                         <phase>verify</phase>
                         <configuration>
+                            <excludes>
+                                <exclude>com/twlabs/mojos/*</exclude>
+                            </excludes>
                             <dataFile>${project.build.directory}/jacoco-output/merged.exec</dataFile>
                             <rules>
                                 <rule>
