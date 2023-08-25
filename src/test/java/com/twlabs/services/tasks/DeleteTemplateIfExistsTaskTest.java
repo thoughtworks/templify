@@ -3,6 +3,7 @@ package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ import org.mockito.Mockito;
 import com.github.javafaker.Faker;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -75,6 +77,39 @@ public class DeleteTemplateIfExistsTaskTest {
         assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);
         Mockito.verify(mock, Mockito.times(1)).info(Mockito.anyString());
+
+
+    }
+
+
+
+    @Test
+    public void test_throw_remove_directory_exceptions(@TempDir Path tempDir) throws IOException {
+
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+
+        FileSystem mockFs = Mockito.mock(FileSystem.class);
+
+        Mockito.doThrow(new IOException()).when(mockFs).fileExists(Mockito.anyString());
+
+        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask(mockFs); // new
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        String baseDir = tempDir.toFile().getAbsolutePath();
+        String tempTemplateDir = tempDir.toFile().getAbsolutePath() + "/template";
+
+
+        requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
+                .withTemplateDir(tempTemplateDir).withLogger(mockLogger);
+
+
+        RuntimeException ex = assertThrows(RuntimeException.class, () -> {
+            task.execute(requestBuilder.build());
+
+        });
+
+        Mockito.verify(mockLogger)
+                .error(Mockito.anyString());
 
 
     }
