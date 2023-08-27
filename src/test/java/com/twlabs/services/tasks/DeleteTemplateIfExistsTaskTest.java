@@ -85,14 +85,13 @@ public class DeleteTemplateIfExistsTaskTest {
 
     @Test
     public void test_throw_remove_directory_exceptions(@TempDir Path tempDir) throws IOException {
-
+        // Assigning 
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         FileSystem mockFs = Mockito.mock(FileSystem.class);
 
-        Mockito.doThrow(new IOException()).when(mockFs).fileExists(Mockito.anyString());
 
-        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask(mockFs); // new
+        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask(mockFs); 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         String baseDir = tempDir.toFile().getAbsolutePath();
@@ -103,13 +102,15 @@ public class DeleteTemplateIfExistsTaskTest {
                 .withTemplateDir(tempTemplateDir).withLogger(mockLogger);
 
 
-        RuntimeException ex = assertThrows(RuntimeException.class, () -> {
+        // Act
+        Mockito.doThrow(new IOException()).when(mockFs).fileExists(Mockito.anyString());
+        assertThrows(RuntimeException.class, () -> {
             task.execute(requestBuilder.build());
 
         });
 
-        Mockito.verify(mockLogger)
-                .error(Mockito.anyString());
+        // Assert
+        Mockito.verify(mockLogger).error(Mockito.anyString());
 
 
     }
