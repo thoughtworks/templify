@@ -1,10 +1,12 @@
 package com.twlabs.services.tasks;
 
 import java.io.File;
-import java.util.logging.Logger;
-import org.codehaus.plexus.util.FileUtils;
+import java.io.IOException;
+import org.apache.maven.plugin.MojoExecutionException;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
+import com.twlabs.services.fs.FileSystem;
+import com.twlabs.services.fs.FileSystemImpl;
 
 /**
  * Copy base dir to the template dir folder to the replaces
@@ -13,19 +15,35 @@ import com.twlabs.services.RunnerTask;
  */
 public class CopyProjectTask implements RunnerTask {
 
-    private static Logger logger = Logger.getLogger(CopyProjectTask.class.getName());
+
+
+    FileSystem fs;
+
+
+
+    public CopyProjectTask() {
+
+        fs = new FileSystemImpl();
+    }
+
+
+
+    public CopyProjectTask(FileSystem fs) {
+        this.fs = fs;
+    }
+
+
 
     @Override
     public CreateTemplateRequest execute(CreateTemplateRequest request) {
         try {
-            CopyProjectTask.logger.info("CopyProjectTask");
-            FileUtils.copyDirectoryStructure(request.getBaseDir(),
-                    new File(request.getTemplateDir()));
+            request.getLogger().info("CopyProjectTask");
+            fs.copyDirectoryStructure(request.getBaseDir(), new File(request.getTemplateDir()));
 
-        } catch (Exception e) {
-            CopyProjectTask.logger.severe(e.getMessage());
-            throw new RuntimeException(
-                    "Something went wrong while copying the project to the template folder.", e);
+        } catch (IOException e) {
+            request.getLogger()
+                    .error("Something went wrong while copying the project to the template folder");
+            throw new RuntimeException(e);
         }
 
         return request;
