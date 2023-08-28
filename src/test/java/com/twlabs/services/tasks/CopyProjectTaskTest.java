@@ -24,6 +24,9 @@ public class CopyProjectTaskTest {
     @Test
     public void test_copy_project_task(@TempDir Path tempDir) {
 
+
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+
         String baseDir =
                 "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
 
@@ -36,7 +39,7 @@ public class CopyProjectTaskTest {
         String tempTemplateDir = tempDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
 
         requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(buildDir)
-                .withTemplateDir(tempTemplateDir);
+                .withTemplateDir(tempTemplateDir).withLogger(mockLogger);
 
         CreateTemplateRequest execute = task.execute(requestBuilder.build());
 
@@ -44,6 +47,7 @@ public class CopyProjectTaskTest {
         assertTrue(new File(tempTemplateDir + "/pom.xml").exists());
         assertTrue(new File(tempTemplateDir).isDirectory());
         assertNotNull(execute);
+        Mockito.verify(mockLogger).info(Mockito.anyString());
 
 
     }
