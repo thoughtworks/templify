@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.File;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.twlabs.injetor.ContextDependencyInjection;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.logger.RunnerLogger;
 
 /**
  * LoadConfigurationTaskTest
@@ -38,6 +40,9 @@ public class LoadConfigurationTaskTest {
     public void test_configuration_default(String baseDir) {
         injector.injectMembers(task);
 
+
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         String buildDir = baseDir + "target/";
@@ -46,11 +51,13 @@ public class LoadConfigurationTaskTest {
         requestBuilder
                 .withBaseDir(new File(baseDir))
                 .withBuildDir(buildDir)
-                .withTemplateDir(templateDir);
+                .withTemplateDir(templateDir)
+                .withLogger(mockLogger);
 
         CreateTemplateRequest execute = task.execute(requestBuilder.build());
 
         assertNotNull(execute.getConfiguration());
+        Mockito.verify(mockLogger, Mockito.times(2)).warn(Mockito.anyString());
 
     }
 }
