@@ -52,7 +52,6 @@ public class FileHandlerKindExecutor implements KindExecutor {
         RunnerLogger logger = req.getLogger();
         String templateDirectory = req.getTemplateDir();
         PlaceholderSettings placeholder = req.getPlaceholder();
-
         String type = model.getMetadata().getType();
 
         if (!this.getFileHandlerRegistry().containsKey(type)) {
@@ -73,14 +72,13 @@ public class FileHandlerKindExecutor implements KindExecutor {
                 handleJavaType(logger, templateDirectory, placeholder, type,
                         baseDir, placeholders);
             } else {
-                handleNormalFileTypes(logger, templateDirectory, placeholder,
-                        type, files,
-                        placeholders);
+                handleFileTypes(logger, templateDirectory, placeholder,
+                        type, files, placeholders);
             }
         }
     }
 
-    private void handleNormalFileTypes(RunnerLogger logger, String templateDirectory,
+    private void handleFileTypes(RunnerLogger logger, String templateDirectory,
             PlaceholderSettings placeholder, String type,
             List<String> files, List<FileHandlerKindModelPlaceholder> placeholders) {
 
@@ -111,6 +109,7 @@ public class FileHandlerKindExecutor implements KindExecutor {
     private void handleJavaType(RunnerLogger logger, String templateDirectory,
             PlaceholderSettings placeholder, String type, String baseDir,
             List<FileHandlerKindModelPlaceholder> placeholders) {
+
         for (FileHandlerKindModelPlaceholder placeholderIt : placeholders) {
             String match = placeholderIt.getMatch();
             String replace = placeholderIt.getReplace();
