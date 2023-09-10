@@ -1,6 +1,7 @@
 package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.File;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -58,6 +59,40 @@ public class LoadConfigurationTaskTest {
 
         assertNotNull(execute.getConfiguration());
         Mockito.verify(mockLogger, Mockito.times(2)).warn(Mockito.anyString());
+
+    }
+
+
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",})
+    public void test_cofiguration_exception(String baseDir) {
+        injector.injectMembers(task);
+
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+        CreateTemplateRequest mockRequest = Mockito.mock(CreateTemplateRequest.class);
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder(mockRequest);
+
+        String buildDir = baseDir + "target/";
+        String templateDir = buildDir + BUILD_TEMPLATE_DIR;
+
+        requestBuilder
+                .withBaseDir(new File(baseDir))
+                .withBuildDir(buildDir)
+                .withTemplateDir(templateDir)
+                .withLogger(mockLogger);
+
+        Mockito.doReturn(null).when(mockRequest).getConfigFilePath();
+        Mockito.doReturn(mockLogger).when(mockRequest).getLogger();
+
+        assertThrows(RuntimeException.class, () -> {
+            task.execute(requestBuilder.build());
+        });
+
+        Mockito.verify(mockLogger).error(Mockito.anyString());
+
+
 
     }
 }
