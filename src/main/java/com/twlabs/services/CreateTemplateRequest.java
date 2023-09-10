@@ -115,6 +115,11 @@ public class CreateTemplateRequest {
             this.request = new CreateTemplateRequest();
         }
 
+        public CreateTemplateRequestBuilder(CreateTemplateRequest request) {
+
+            this.request = request;
+        }
+
         public CreateTemplateRequestBuilder withTemplateDir(String templateDir) {
             this.request.setTemplateDir(templateDir);
             return this;
