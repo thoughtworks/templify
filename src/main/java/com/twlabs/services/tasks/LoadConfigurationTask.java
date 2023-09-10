@@ -1,5 +1,6 @@
 package com.twlabs.services.tasks;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ public class LoadConfigurationTask implements RunnerTask {
         try {
 
             logger.warn("Template file: " + req.getConfigFilePath());
+
 
             // BUG settings are read from config file in template folder
             config = reader.read(req.getConfigFilePath());
@@ -64,11 +66,9 @@ public class LoadConfigurationTask implements RunnerTask {
             req.setConfiguration(config);
             return req;
 
-        } catch (
-
-        Exception e) {
-            logger.error("Error to read the settings from the config file", e);
-            throw new RuntimeException("Error to read the settings from the config file");
+        } catch (IOException | RuntimeException e) {
+            logger.error("Error to read the settings from the config file");
+            throw new RuntimeException(e);
         }
     }
 
