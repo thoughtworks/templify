@@ -1,6 +1,7 @@
 package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.File;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -91,8 +92,46 @@ public class LoadConfigurationTaskTest {
         });
 
         Mockito.verify(mockLogger).error(Mockito.anyString());
+    }
 
+
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/, Using default placeholder settings!! -> Prefix:{{ and Suffix: }}",
+        "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_using_custom_placeholder_settings/, Using custom placeholder settings!! -> Prefix:_{{ and Suffix: }}",
+    })
+    public void test_configuration_null_config_settings(String baseDir, String msg) {
+         injector.injectMembers(task);
+
+
+
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+
+        String buildDir = baseDir + "target/";
+        String templateDir = buildDir + BUILD_TEMPLATE_DIR;
+
+        requestBuilder
+                .withBaseDir(new File(baseDir))
+                .withBuildDir(buildDir)
+                .withTemplateDir(templateDir)
+                .withLogger(mockLogger);
+
+        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+
+
+
+        assertNotNull(execute.getConfiguration());
+        Mockito.verify(mockLogger).warn(
+                Mockito.eq(msg));
 
 
     }
+
+
+
+
 }
