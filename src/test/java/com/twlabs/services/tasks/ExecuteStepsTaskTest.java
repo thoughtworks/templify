@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
 import com.twlabs.model.settings.PluginConfig;
@@ -24,12 +26,18 @@ public class ExecuteStepsTaskTest {
 
     private static final String BUILD_TEMPLATE_DIR = "/template";
 
-    @Test
-    public void test_execute_steps(@TempDir Path tmpDir) {
 
-        ExecuteStepsTask executeStepsTask = new ExecuteStepsTask(mock(FileHandlerKindExecutor.class));
+    @ParameterizedTest
+    @CsvSource(value = {
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",
+    })
+    public void test_execute_steps(String baseDir, @TempDir Path tmpDir) {
 
-        CreateTemplateRequest execute = executeStepsTask.execute(createTemplateRequest(tmpDir));
+        ExecuteStepsTask executeStepsTask =
+                new ExecuteStepsTask(mock(FileHandlerKindExecutor.class));
+
+        CreateTemplateRequest execute =
+                executeStepsTask.execute(createTemplateRequest(tmpDir, baseDir));
 
         verify(executeStepsTask.getFileHandlerKind(), Mockito.times(1)).execute(
                 Mockito.any(StepsKindTemplate.class),
@@ -39,10 +47,9 @@ public class ExecuteStepsTaskTest {
 
     }
 
-    private CreateTemplateRequest createTemplateRequest(Path dir) {
 
-        String baseDir =
-                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
+    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir) {
+
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
