@@ -7,7 +7,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -17,6 +16,7 @@ import com.twlabs.model.settings.PluginConfig;
 import com.twlabs.model.settings.StepsKindTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.logger.RunnerLogger;
 
 /**
  * ExecuteStepsTaskTest
@@ -48,8 +48,24 @@ public class ExecuteStepsTaskTest {
     }
 
 
-    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir) {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",
+    })
+    public void test_execute_steps_unsuported_kind(String baseDir, @TempDir Path tmpDir) {
+        ExecuteStepsTask executeStepsTask =
+                new ExecuteStepsTask(Mockito.mock(FileHandlerKindExecutor.class));
 
+        CreateTemplateRequest execute =
+                executeStepsTask.execute(createTemplateRequest(tmpDir, baseDir, "unsupported"));
+
+
+        Mockito.verify(execute.getLogger(), Mockito.times(1)).error(Mockito.anyString());
+    }
+
+
+    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir, String kind) {
+         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
@@ -60,16 +76,28 @@ public class ExecuteStepsTaskTest {
         requestBuilder
                 .withBaseDir(new File(baseDir))
                 .withBuildDir(buildDir)
-                .withConfiguration(this.createConfigTest())
-                .withTemplateDir(tempTemplateDir);
+                .withConfiguration(this.createConfigTest(kind))
+                .withTemplateDir(tempTemplateDir)
+                .withLogger(mockLogger);
+
 
         return requestBuilder.build();
     }
+    
 
-    private PluginConfig createConfigTest() {
+    
+
+    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir) {
+    
+        return createTemplateRequest(dir, baseDir, "FileHandler");
+
+
+    }
+
+    private PluginConfig createConfigTest(String kind) {
 
         StepsKindTemplate stepsKindTemplate = new StepsKindTemplate();
-        stepsKindTemplate.setKind("FileHandler");
+        stepsKindTemplate.setKind(kind);
 
         List<StepsKindTemplate> steps = new ArrayList<>();
         steps.add(stepsKindTemplate);
