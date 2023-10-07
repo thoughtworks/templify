@@ -14,28 +14,38 @@ public class CreateTemplateRequestTest {
     @CsvSource({
             "/maven-cookiecutter.yml",
     })
-    public void test_getMavenCookiecutterYml_is_corret(String ymlFile){
-    
+    public void test_getMavenCookiecutterYml_is_corret(String ymlFile) {
+
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         assertEquals(ymlFile, requestBuilder.build().getMavenCookiecutterYml());
-
     }
 
 
     @ParameterizedTest
     @CsvSource({
             "fool/DestDir",
-
     })
-    public void test_getDestDir_is_corret(String destDir){
-    
+    public void test_getDestDir_is_corret(String destDir) {
+
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
         assertEquals(requestBuilder.withDestDir(destDir), requestBuilder);
         assertEquals(destDir, requestBuilder.build().getDestDir());
+    }
 
+
+    @ParameterizedTest
+    @CsvSource({
+            "foo/BuildDir",
+    })
+    public void test_getBuildDir_is_corret(String buildDir) {
+
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        assertEquals(requestBuilder.withBuildDir(buildDir), requestBuilder);
+        assertEquals(buildDir, requestBuilder.build().getBuildDir());
     }
 
 }
