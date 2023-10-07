@@ -23,4 +23,19 @@ public class CreateTemplateRequestTest {
 
     }
 
+
+    @ParameterizedTest
+    @CsvSource({
+            "fool/DestDir",
+
+    })
+    public void test_getDestDir_is_corret(String destDir){
+    
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        assertEquals(requestBuilder.withDestDir(destDir), requestBuilder);
+        assertEquals(destDir, requestBuilder.build().getDestDir());
+
+    }
+
 }
