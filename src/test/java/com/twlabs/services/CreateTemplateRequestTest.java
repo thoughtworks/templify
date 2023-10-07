@@ -1,9 +1,18 @@
 package com.twlabs.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.plugin.logging.SystemStreamLog;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import com.soebes.itf.jupiter.maven.MavenLog;
+import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.logger.LoggerStrategyFactory;
+import com.twlabs.services.logger.MavenLogger;
 
 /**
  * CreateTemplateRequestTest
@@ -47,5 +56,34 @@ public class CreateTemplateRequestTest {
         assertEquals(requestBuilder.withBuildDir(buildDir), requestBuilder);
         assertEquals(buildDir, requestBuilder.build().getBuildDir());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+    "match, replace",
+    })
+    public void test_withPlaceholder_is_corret(String placeholderMatch, String placeholderReplace) {
+
+        PlaceholderSettings placeholder = new PlaceholderSettings(placeholderMatch, placeholderReplace);
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        assertEquals(requestBuilder.withPlaceholder(placeholder), requestBuilder);
+        assertEquals(placeholder, requestBuilder.build().getPlaceholder());
+
+    
+    }
+
+    @Test
+    public void test_withRunnerLogger(){
+     
+    
+        MavenLogger logger = Mockito.mock(MavenLogger.class);
+        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+
+        assertEquals(requestBuilder.withLogger(logger), requestBuilder);
+
+        assertEquals(logger, requestBuilder.build().getLogger());
+
+    }
+
+
 
 }
