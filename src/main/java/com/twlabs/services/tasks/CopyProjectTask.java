@@ -2,7 +2,6 @@ package com.twlabs.services.tasks;
 
 import java.io.File;
 import java.io.IOException;
-import org.apache.maven.plugin.MojoExecutionException;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.fs.FileSystem;

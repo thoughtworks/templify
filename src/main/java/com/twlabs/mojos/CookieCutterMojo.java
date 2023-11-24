@@ -55,18 +55,5 @@ public class CookieCutterMojo extends AbstractMojo {
                 .withLogger(getLog());
 
         runner.execute(requestBuilder.build());
-
-        getLog().warn("Project build dir:" + this.buildDir.getPath());
-        getLog().warn("Backstage template dir:" + getTemplateDir());
-        getLog().warn("Reading settings from config file!");
-        getLog().warn("Starting placheholders");
-
-        getLog().warn("End to config placeholders");
-    }
-
-
-
-    private String getTemplateDir() {
-        return this.buildDir.getPath() + BUILD_TEMPLATE_DIR;
     }
 }

@@ -25,8 +25,9 @@ import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
 /**
- * This class represents an XML file handler that implements the FileHandler interface and extends the FileHandlerOptions class.
- * It provides methods to handle XML files, such as reading, writing, and manipulating XML data.
+ * This class represents an XML file handler that implements the FileHandler interface and extends
+ * the FileHandlerOptions class. It provides methods to handle XML files, such as reading, writing,
+ * and manipulating XML data.
  * 
  * Example usage:
  * 
@@ -93,7 +94,6 @@ public class XMLHandler extends AbstractFileHandler {
 
         boolean notFound = true;
         for (Map.Entry<String, String> entryNode : findNodeMap.entrySet()) {
-
 
             NodeList originalNodes;
             try {

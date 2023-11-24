@@ -1,21 +1,14 @@
 package com.twlabs.services;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import com.soebes.itf.jupiter.maven.MavenLog;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
-import com.twlabs.services.logger.LoggerStrategyFactory;
 import com.twlabs.services.logger.MavenLogger;
-import com.twlabs.services.logger.RunnerLogger;
 
 /**
  * CreateTemplateRequestTest
@@ -27,11 +20,7 @@ public class CreateTemplateRequestTest {
             "/maven-cookiecutter.yml",
     })
     public void test_getMavenCookiecutterYml_is_corret(String ymlFile) {
-
-
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
-
-        assertEquals(ymlFile, requestBuilder.build().getMavenCookiecutterYml());
+        assertEquals(ymlFile, CreateTemplateRequest.getMavenCookiecutterYml());
     }
 
 
