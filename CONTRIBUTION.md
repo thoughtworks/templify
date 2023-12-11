@@ -1,5 +1,9 @@
 # Contribution
 
+## Install
+
+This project uses a Makefile to run scripts. You can run `make help` to get the list of commands.
+
 ## How to contribute
 
 ### 1. Clone the repository

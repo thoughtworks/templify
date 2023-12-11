@@ -13,7 +13,8 @@ import com.twlabs.model.settings.PluginConfig;
 public interface ConfigReader {
 
     /**
-     * Reads a plugin configuration file (maven-cookiecutter.yaml|yml) and returns a PluginConfig object.
+     * Reads a plugin configuration file (maven-cookiecutter.yaml|yml) and returns a PluginConfig
+     * object.
      *
      * @param configFilePath The path to the plugin configuration file.
      * @return The PluginConfig object representing the configuration file.

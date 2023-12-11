@@ -19,6 +19,7 @@
         <pitest.junit5.version>1.1.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
         <failsafe.only>${skipTests}</failsafe.only>
+        <unit.only>${unitOnly}</unit.only>
 
     </properties>
 
@@ -367,7 +368,7 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>${pitest.version}</version>
                 <configuration>
-                    <skip>${pit.report.skip}</skip>
+                    <skip>${unit.only}</skip>
                     <targetClasses>
                         <param>com.twlabs.*</param>
                     </targetClasses>

@@ -30,8 +30,6 @@ import com.github.javafaker.Faker;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
 
-
-
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class XMLHandlerTest {
 

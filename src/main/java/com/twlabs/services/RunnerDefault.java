@@ -33,17 +33,21 @@ public class RunnerDefault implements CreateTemplateRunner {
 
     @Override
     public void execute(CreateTemplateRequest request) {
+        List<RunnerTask> tasks = getTasks();
 
+        for (RunnerTask task : tasks) {
+            request = task.execute(request);
+        }
+    }
+
+    private List<RunnerTask> getTasks() {
         List<RunnerTask> tasks = new LinkedList<>();
 
         tasks.add(this.deleteTemplateIfExists);
         tasks.add(this.copyProject);
         tasks.add(this.loadConfigurations);
         tasks.add(this.executeSteps);
-
-        for (int i = 0; i < tasks.size(); i++) {
-            request = tasks.get(i).execute(request);
-        }
+        return tasks;
     }
 
     public RunnerTask getCopyProject() {

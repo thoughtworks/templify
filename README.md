@@ -10,7 +10,7 @@
 
 ---
 
-# Plugin current status
+## Plugin current status
 The plugin is currently in development and is ready for early-stage adoption and validation.
 Today, the plugin supports:
 * XML 
@@ -19,15 +19,15 @@ Today, the plugin supports:
 * Java files and packages
 
 
-# Quickstart
+## Quickstart
 
-## Requirements
+### Requirements
 The basic requirements to use the cookiecutter-templater-for-backstage plugin are as follows:
 
 * JDK11+
 * Apache Maven 3.8.1
 
-## Configuration 
+### Configuration 
 The cookiecutter-templater-for-backstage plugin should be included in the pom.xml or settings.xml.
 
 ```xml
