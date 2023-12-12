@@ -1,10 +1,10 @@
 #!/bin/sh
 
 test(){
+    classes=""
     # for s in `git diff --name-only HEAD~`
     for s in `git diff --name-only`
     do
-        classes=""
         if [[ $s == *".java" ]]; then
             s=$(echo $s | tr '/' '.')
             s=$(echo ${s%.java})
