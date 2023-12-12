@@ -12,5 +12,12 @@ if [[ $s == *".java" ]]; then
   classes=$classes,$s
 fi
 done
-echo "Test Suite: " ${classes:1}
-mvn test -Dtest=${classes:1} -DunitOnly=true
+## if classes is not empty
+
+if [ -n "$classes" ]; then
+  echo " -> Test Suite: ${classes:1}"
+  mvn test -Dtest="${classes:1}" -DunitOnly=true
+else
+  echo " -> No modified java files found"
+fi
+
