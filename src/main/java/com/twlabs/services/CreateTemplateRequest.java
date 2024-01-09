@@ -1,6 +1,5 @@
 package com.twlabs.services;
 
-import static org.hamcrest.CoreMatchers.describedAs;
 import java.io.File;
 import org.apache.maven.plugin.logging.Log;
 import com.twlabs.model.settings.PlaceholderSettings;

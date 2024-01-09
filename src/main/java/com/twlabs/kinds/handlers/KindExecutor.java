@@ -1,6 +1,6 @@
-package com.twlabs.kinds;
+package com.twlabs.kinds.handlers;
 
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 
 /**
@@ -12,6 +12,6 @@ public interface KindExecutor {
         public static final String FILE_HANDLER_KIND = "FileHandler";
     }
 
-    public void execute(StepsKindTemplate step, CreateTemplateRequest settings);
+    public void execute(KindMappingTemplate step, CreateTemplateRequest settings);
 
 }

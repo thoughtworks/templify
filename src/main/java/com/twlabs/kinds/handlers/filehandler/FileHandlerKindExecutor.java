@@ -1,19 +1,22 @@
-package com.twlabs.kinds.filehandler;
+package com.twlabs.kinds.handlers.filehandler;
 
 import static com.twlabs.interfaces.FileHandler.Names.JAVA;
 import static com.twlabs.interfaces.FileHandler.Names.JSON;
 import static com.twlabs.interfaces.FileHandler.Names.XML;
 import static com.twlabs.interfaces.FileHandler.Names.YAML;
 import static com.twlabs.interfaces.FileHandler.Names.YML;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
 import java.util.List;
 import java.util.Map;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.twlabs.exceptions.FileHandlerException;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.kinds.KindExecutor;
+import com.twlabs.kinds.handlers.KindExecutor;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindModel.FileHandlerKindModelPlaceholder;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindModel.FileHandlerKindModelSpec;
 import com.twlabs.model.settings.PlaceholderSettings;
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -46,7 +49,7 @@ public class FileHandlerKindExecutor implements KindExecutor {
             new FileHandlerKindModelFactory();
 
     @Override
-    public void execute(StepsKindTemplate fileHandlerKindStep, CreateTemplateRequest req) {
+    public void execute(KindMappingTemplate fileHandlerKindStep, CreateTemplateRequest req) {
 
         FileHandlerKindModel model = fileHandlerKindModelFactory.build(fileHandlerKindStep);
         RunnerLogger logger = req.getLogger();

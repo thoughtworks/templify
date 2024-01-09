@@ -44,7 +44,6 @@ public class YamlConfigReader implements ConfigReader {
             Yaml yaml = new Yaml();
 
             InputStream inputStream = Files.newInputStream(Paths.get(yamlFilePath));
-
             result = yaml.loadAs(inputStream, type);
 
             if (result == null) {
@@ -63,4 +62,3 @@ public class YamlConfigReader implements ConfigReader {
         return this.<PluginConfig>mapYamlToType(configFilePath, PluginConfig.class);
     }
 }
-

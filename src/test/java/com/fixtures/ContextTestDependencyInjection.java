@@ -19,7 +19,7 @@ import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerDefault;
 import com.twlabs.services.RunnerTask;

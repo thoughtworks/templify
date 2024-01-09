@@ -1,4 +1,4 @@
-package com.twlabs.kinds.filehandler;
+package com.twlabs.kinds.handlers.filehandler;
 
 import static com.twlabs.interfaces.FileHandler.Names.JAVA;
 import static com.twlabs.interfaces.FileHandler.Names.JSON;
@@ -23,7 +23,7 @@ import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
 import com.twlabs.services.YamlConfigReader;
@@ -86,7 +86,7 @@ public class FileHandlerKindExecutorTest {
 
         req.getBaseDir().getAbsolutePath();
 
-        StepsKindTemplate stepsKindTemplate = req.getConfiguration().getSteps().get(0);
+        KindMappingTemplate stepsKindTemplate = req.getConfiguration().getSteps().get(0);
 
         doNothing().when(this.xmlHandler).replace(any(), any(), any());
 

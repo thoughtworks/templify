@@ -1,0 +1,7 @@
+steps:
+  - kind: RenameJavaPackage
+    metadata:
+      type: xml
+    spec:
+      old: micci.com.database
+      new: com.micci.database

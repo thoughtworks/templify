@@ -1,4 +1,4 @@
-package com.twlabs.kinds.filehandler;
+package com.twlabs.kinds.handlers.filehandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 
 /**
  * FileHandlerKindModelFactoryTest
@@ -20,7 +20,7 @@ public class FileHandlerKindModelFactoryTest {
     @Test
     public void test_should_map_spec_metadata_and_kind_correctly() {
 
-        StepsKindTemplate template = new StepsKindTemplate();
+        KindMappingTemplate template = new KindMappingTemplate();
         List<Map<String, Object>> specs = new ArrayList<>();
         Map<String, Object> metadata = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class FileHandlerKindModelFactoryTest {
     @Test
     public void should_throw_execption_if_missing_values() {
 
-        StepsKindTemplate template = new StepsKindTemplate();
+        KindMappingTemplate template = new KindMappingTemplate();
 
         template.setMetadata(null);
 

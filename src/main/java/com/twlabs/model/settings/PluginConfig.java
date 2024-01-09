@@ -3,25 +3,26 @@ package com.twlabs.model.settings;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.twlabs.kinds.api.KindMappingTemplate;
 
 public class PluginConfig {
 
-    public PluginConfig(List<StepsKindTemplate> steps) {
+    public PluginConfig(List<KindMappingTemplate> steps) {
         this.steps = steps;
     }
 
-    List<StepsKindTemplate> steps;
+    List<KindMappingTemplate> steps;
 
     Map<String, Object> settings = new HashMap<String, Object>();
 
     public PluginConfig() {}
 
 
-    public List<StepsKindTemplate> getSteps() {
+    public List<KindMappingTemplate> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<StepsKindTemplate> steps) {
+    public void setSteps(List<KindMappingTemplate> steps) {
         this.steps = steps;
     }
 

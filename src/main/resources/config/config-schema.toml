@@ -1,0 +1,10 @@
+[toml-schema]
+version = "1"
+
+[elements.name]
+type="string"
+
+[elements.color]
+type="table"
+    [elements.color.name]
+    type="string"

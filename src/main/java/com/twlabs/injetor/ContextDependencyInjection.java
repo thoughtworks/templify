@@ -5,7 +5,6 @@ import static com.twlabs.interfaces.FileHandler.Names.JSON;
 import static com.twlabs.interfaces.FileHandler.Names.XML;
 import static com.twlabs.interfaces.FileHandler.Names.YAML;
 import static com.twlabs.interfaces.FileHandler.Names.YML;
-import static com.twlabs.kinds.KindExecutor.Names.FILE_HANDLER_KIND;
 import static com.twlabs.services.RunnerTask.Names.COPY_PROJECT_TASK;
 import static com.twlabs.services.RunnerTask.Names.DELETE_TEMPLATE_FOLDER_TASK;
 import static com.twlabs.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
@@ -18,8 +17,8 @@ import com.twlabs.handlers.XMLHandler;
 import com.twlabs.handlers.YamlHandler;
 import com.twlabs.interfaces.ConfigReader;
 import com.twlabs.interfaces.FileHandler;
-import com.twlabs.kinds.KindExecutor;
-import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
+import com.twlabs.kinds.handlers.KindExecutor;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerDefault;
 import com.twlabs.services.RunnerTask;
@@ -70,7 +69,8 @@ public class ContextDependencyInjection extends AbstractModule {
 
         // general services block and Kinds
         bind(ConfigReader.class).to(YamlConfigReader.class);
-        bind(KindExecutor.class).annotatedWith(Names.named(FILE_HANDLER_KIND))
+        bind(KindExecutor.class)
+                .annotatedWith(Names.named(KindExecutor.Names.FILE_HANDLER_KIND))
                 .to(FileHandlerKindExecutor.class);
 
         // runner tasks block
@@ -87,5 +87,3 @@ public class ContextDependencyInjection extends AbstractModule {
                 .to(ExecuteStepsTask.class);
     }
 }
-
-

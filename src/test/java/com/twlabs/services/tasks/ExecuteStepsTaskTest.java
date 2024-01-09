@@ -11,9 +11,9 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
-import com.twlabs.kinds.filehandler.FileHandlerKindExecutor;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
 import com.twlabs.model.settings.PluginConfig;
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.services.CreateTemplateRequest;
 import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
 import com.twlabs.services.logger.RunnerLogger;
@@ -40,7 +40,7 @@ public class ExecuteStepsTaskTest {
                 executeStepsTask.execute(createTemplateRequest(tmpDir, baseDir));
 
         verify(executeStepsTask.getFileHandlerKind(), Mockito.times(1)).execute(
-                Mockito.any(StepsKindTemplate.class),
+                Mockito.any(KindMappingTemplate.class),
                 Mockito.any(CreateTemplateRequest.class));
 
         assertNotNull(execute);
@@ -65,7 +65,7 @@ public class ExecuteStepsTaskTest {
 
 
     private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir, String kind) {
-         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
+        RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
 
@@ -83,12 +83,11 @@ public class ExecuteStepsTaskTest {
 
         return requestBuilder.build();
     }
-    
 
-    
+
 
     private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir) {
-    
+
         return createTemplateRequest(dir, baseDir, "FileHandler");
 
 
@@ -96,10 +95,10 @@ public class ExecuteStepsTaskTest {
 
     private PluginConfig createConfigTest(String kind) {
 
-        StepsKindTemplate stepsKindTemplate = new StepsKindTemplate();
+        KindMappingTemplate stepsKindTemplate = new KindMappingTemplate();
         stepsKindTemplate.setKind(kind);
 
-        List<StepsKindTemplate> steps = new ArrayList<>();
+        List<KindMappingTemplate> steps = new ArrayList<>();
         steps.add(stepsKindTemplate);
 
         PluginConfig configuration = new PluginConfig();

@@ -28,6 +28,7 @@ import com.twlabs.interfaces.FileHandler;
 public class JsonHandler extends AbstractFileHandler {
 
 
+
     protected static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));
     }

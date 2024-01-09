@@ -1,6 +1,6 @@
-package com.twlabs.kinds;
+package com.twlabs.kinds.handlers;
 
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.api.KindMappingTemplate;
 
 /**
  * Convert StepsKindTemplate to specific kind model executor example: StepKindTemplate ->
@@ -11,6 +11,6 @@ import com.twlabs.model.settings.StepsKindTemplate;
  */
 public interface KindModelFactory<T> {
 
-    public T build(StepsKindTemplate template);
+    public T build(KindMappingTemplate template);
 
 }

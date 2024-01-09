@@ -1,4 +1,4 @@
-package com.twlabs.model.settings;
+package com.twlabs.kinds.api;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
  *       Note: It's important that each interface validate spec and metadata.
  * @see FileHandler
  */
-public class StepsKindTemplate {
+public class KindMappingTemplate {
 
     private String kind;
 

@@ -1,11 +1,13 @@
-package com.twlabs.kinds.filehandler;
+package com.twlabs.kinds.handlers.filehandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twlabs.kinds.KindModelFactory;
-import com.twlabs.model.settings.StepsKindTemplate;
+import com.twlabs.kinds.handlers.KindModelFactory;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindModel.FileHandlerKindModelMetadata;
+import com.twlabs.kinds.handlers.filehandler.FileHandlerKindModel.FileHandlerKindModelSpec;
+import com.twlabs.kinds.api.KindMappingTemplate;
 
 /**
  * FileHandlerKindModelFactory
@@ -15,7 +17,7 @@ public class FileHandlerKindModelFactory implements KindModelFactory<FileHandler
     final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public FileHandlerKindModel build(StepsKindTemplate template) {
+    public FileHandlerKindModel build(KindMappingTemplate template) {
 
         List<FileHandlerKindModelSpec> specs = new ArrayList<>();
         FileHandlerKindModel model = new FileHandlerKindModel();

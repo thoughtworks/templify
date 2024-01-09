@@ -55,6 +55,7 @@ public class JavaHandler extends AbstractFileHandler {
         if (!query.startsWith(prefix) && !query.endsWith(suffix)) {
             queryToTransform = query.replace(".", File.separator);
         }
+
         return this.find(filePath, queryToTransform).get(queryToTransform);
     }
 
