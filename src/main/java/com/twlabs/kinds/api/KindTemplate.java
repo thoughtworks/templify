@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.eventbus.Subscribe;
+import com.twlabs.services.logger.RunnerLogger;
 
 /**
  * KindTemplate is an abstract class that implements the Kind interface. It provides a basic
@@ -18,42 +20,72 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public abstract class KindTemplate<S extends Serializable>
         implements Kind<S> {
 
+    private Class<S> clazz;
+
+    private RunnerLogger logger;
+
     /**
-     * Creates a new KindTemplate object.
+     * Creates a new KindTemplate object with the specified class. Due to a limitation in Java
+     * generics, the class must be specified as a parameter. It is not possible to retrieve S.class.
      *
-     * @param map the KindMappingTemplate object used for mapping the kind
-     * @param kindName the name of the kind
-     * @param clazz the Class object representing the type of the kind
-     * @throws NullPointerException if map or kindName is null
+     * @param clazz the class to be used for the KindTemplate object
+     * @throws IllegalArgumentException if the clazz parameter is null
      */
-    public KindTemplate(KindMappingTemplate map, Class<S> clazz) {
-
-        if (!clazz.isAnnotationPresent(KindMetadata.class)) {
-            throw new IllegalArgumentException("The class "
-                    + clazz.getSimpleName()
-                    + " is not annotated with KindMetadata.");
+    public KindTemplate(Class<S> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("class parameter cannot be null");
         }
+        this.clazz = clazz;
+    }
 
-        String kindName = clazz.getAnnotation(KindMetadata.class).name();
+    public KindTemplate() { }
 
-        if (map.getKind() == null || !kindName.equalsIgnoreCase(map.getKind())) {
-            throw new IllegalArgumentException(
-                    String.format("Invalid Kind for %s: %s", clazz.getName(), map.getKind()));
-        }
+    private boolean shouldProcessEvent(KindHandlerEvent event) {
+        if (this.clazz == null)
+            this.clazz = (Class<S>) this.getClass().getAnnotation(KindHandler.class).spec();
+
+        String annotationKindName = this.getClass().getAnnotation(KindHandler.class).name();
+
+        return this.clazz.isAnnotationPresent(KindHandler.class) &&
+                annotationKindName.equalsIgnoreCase(event.getKindName());
+    }
+
+    private void map(KindHandlerEvent event) {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        KindMappingTemplate mappingTemplate = event.getMappingTemplate();
 
-        this.name = map.getKind();
-
+        this.name = mappingTemplate.getKind();
         this.specs = new ArrayList<>();
+        this.metadata = new HashMap<>();
 
-        for (Map<String, Object> spec : map.getSpec()) {
+        for (Map<String, Object> spec : mappingTemplate.getSpec()) {
             specs.add(objectMapper.convertValue(spec, clazz));
         }
 
-        this.metadata = new HashMap<>();
-        for (Map.Entry<String, Object> entry : map.getMetadata().entrySet()) {
+        for (Map.Entry<String, Object> entry : mappingTemplate.getMetadata().entrySet()) {
             this.metadata.put(entry.getKey(), (String) entry.getValue());
+        }
+    }
+
+    private void clean() {
+        this.name = null;
+        this.logger = null;
+        this.specs = new ArrayList<>();
+        this.metadata = new HashMap<>();
+    }
+
+    @Subscribe
+    synchronized public void subscribeKindHandlerEvent(final KindHandlerEvent event) {
+        this.logger = event.getRequest().getLogger();
+
+        if (this.shouldProcessEvent(event)) {
+            this.logger.info("Event accepted.");
+            this.map(event);
+            this.execute();
+            this.clean();
+        } else {
+            this.logger.info("Event ignored.");
         }
     }
 
@@ -89,7 +121,4 @@ public abstract class KindTemplate<S extends Serializable>
     public String getName() {
         return this.name;
     }
-
-    protected KindTemplate() {}
-
 }

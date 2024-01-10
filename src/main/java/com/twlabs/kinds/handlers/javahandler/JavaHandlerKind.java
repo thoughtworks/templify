@@ -1,22 +1,20 @@
 package com.twlabs.kinds.handlers.javahandler;
 
+import com.twlabs.kinds.api.KindHandler;
 import com.twlabs.kinds.api.KindTemplate;
-import com.twlabs.kinds.api.KindMappingTemplate;
-import com.twlabs.kinds.api.KindMetadata;
 
 
-@KindMetadata(name = "JavaHandler")
+@KindHandler(name = "JavaHandler", spec = JavaHandlerSpec.class)
 public class JavaHandlerKind extends KindTemplate<JavaHandlerSpec> {
-
-    private JavaHandlerKind(KindMappingTemplate map) {
-        super(map, JavaHandlerSpec.class);
-    }
 
     @Override
     public boolean execute() {
 
+        // this.getMetadata();
+        // this.getSpecs();
+        // LOGIC HERE...
 
-        return false;
+        return true;
     }
 
 }

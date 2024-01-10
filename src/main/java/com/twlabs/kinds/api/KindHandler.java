@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface KindMetadata {
+public @interface KindHandler {
     public String name() default "";
+
+    public Class<?> spec() default Object.class;
 }

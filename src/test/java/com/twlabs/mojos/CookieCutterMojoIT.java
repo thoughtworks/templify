@@ -256,7 +256,6 @@ public class CookieCutterMojoIT {
     }
 
 
-
     @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
         assertThat(result).isFailure().out().error()
