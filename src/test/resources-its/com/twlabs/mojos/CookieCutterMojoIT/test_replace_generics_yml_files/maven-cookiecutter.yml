@@ -1,7 +1,6 @@
 steps:
-  - kind: FileHandler
-    metadata:
-      type: xml
+  - kind: XmlHandler
+    apiVersion: v1
     spec:
       - files:
           - pom.xml
@@ -24,11 +23,9 @@ steps:
             replace: cookiecutter.kurtCagle
           - match: /bookstore/book/year[text()='2005']
             replace: cookiecutter.NewYear
-     
-  - kind: FileHandler
-    metadata:
-      type: yaml
-    spec:        
+  - kind: YmlHandler
+    apiVersion: v1
+    spec:
       - files:
           - yamls/generic1.yml
         placeholders:

@@ -1,18 +1,25 @@
 package com.twlabs.kinds.api;
 
-import com.twlabs.services.CreateTemplateRequest;
+import com.twlabs.services.CreateTemplateCommand;
 
 public class KindHandlerEvent {
 
     private String kindName;
     private KindMappingTemplate mappingTemplate;
-    private CreateTemplateRequest request;
+    private CreateTemplateCommand request;
+    private String apiVersion;
+
 
     public KindHandlerEvent(KindMappingTemplate mappingTemplate,
-            CreateTemplateRequest request) {
+            CreateTemplateCommand request) {
         this.kindName = mappingTemplate.getKind();
+        this.apiVersion = mappingTemplate.getApiVersion();
         this.mappingTemplate = mappingTemplate;
         this.request = request;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
     }
 
     public String getKindName() {
@@ -23,7 +30,7 @@ public class KindHandlerEvent {
         return mappingTemplate;
     }
 
-    public CreateTemplateRequest getRequest() {
+    public CreateTemplateCommand getRequest() {
         return request;
     }
 }

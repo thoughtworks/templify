@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import com.twlabs.model.settings.PlaceholderSettings;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.logger.MavenLogger;
 
 /**
@@ -20,7 +20,7 @@ public class CreateTemplateRequestTest {
             "/maven-cookiecutter.yml",
     })
     public void test_getMavenCookiecutterYml_is_corret(String ymlFile) {
-        assertEquals(ymlFile, CreateTemplateRequest.getMavenCookiecutterYml());
+        assertEquals(ymlFile, CreateTemplateCommand.getMavenCookiecutterYml());
     }
 
 

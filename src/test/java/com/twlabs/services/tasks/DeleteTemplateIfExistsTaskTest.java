@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 import com.github.javafaker.Faker;
-import com.twlabs.services.CreateTemplateRequest;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -48,7 +48,7 @@ public class DeleteTemplateIfExistsTaskTest {
         requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
                 .withTemplateDir(tempTemplateDir).withLogger(mock);
 
-        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand execute = task.execute(requestBuilder.build());
 
         assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);
@@ -72,7 +72,7 @@ public class DeleteTemplateIfExistsTaskTest {
         requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(baseDir + "/target")
                 .withTemplateDir(tempTemplateDir).withLogger(mock);
 
-        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand execute = task.execute(requestBuilder.build());
 
         assertFalse(new File(tempTemplateDir).exists());
         assertNotNull(execute);

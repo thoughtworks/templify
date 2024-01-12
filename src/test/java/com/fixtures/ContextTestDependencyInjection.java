@@ -1,10 +1,10 @@
 package com.fixtures;
 
-import static com.twlabs.interfaces.FileHandler.Names.JAVA;
-import static com.twlabs.interfaces.FileHandler.Names.JSON;
-import static com.twlabs.interfaces.FileHandler.Names.XML;
-import static com.twlabs.interfaces.FileHandler.Names.YAML;
-import static com.twlabs.interfaces.FileHandler.Names.YML;
+import static com.twlabs.kinds.api.FileHandler.Names.JAVA;
+import static com.twlabs.kinds.api.FileHandler.Names.JSON;
+import static com.twlabs.kinds.api.FileHandler.Names.XML;
+import static com.twlabs.kinds.api.FileHandler.Names.YAML;
+import static com.twlabs.kinds.api.FileHandler.Names.YML;
 import static com.twlabs.services.RunnerTask.Names.COPY_PROJECT_TASK;
 import static com.twlabs.services.RunnerTask.Names.DELETE_TEMPLATE_FOLDER_TASK;
 import static com.twlabs.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
@@ -13,13 +13,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import com.twlabs.handlers.JavaHandler;
-import com.twlabs.handlers.JsonHandler;
-import com.twlabs.handlers.XMLHandler;
-import com.twlabs.handlers.YamlHandler;
-import com.twlabs.interfaces.ConfigReader;
-import com.twlabs.interfaces.FileHandler;
-import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
+import com.twlabs.kinds.api.FileHandler;
+import com.twlabs.kinds.handlers.javahandler.JavaHandler;
+import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
+import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
+import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
+import com.twlabs.model.settings.ConfigReader;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerDefault;
 import com.twlabs.services.RunnerTask;
@@ -36,8 +35,6 @@ public class ContextTestDependencyInjection extends AbstractModule {
 
     @Override
     protected void configure() {
-
-        bind(FileHandlerKindExecutor.class).toInstance(new FileHandlerKindExecutor());
 
         // main logic entrypoint
         bind(CreateTemplateRunner.class).to(RunnerDefault.class);

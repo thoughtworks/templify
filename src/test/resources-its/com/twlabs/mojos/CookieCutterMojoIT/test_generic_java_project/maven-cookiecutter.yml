@@ -1,7 +1,6 @@
 steps:
-  - kind: FileHandler
-    metadata:
-      type: xml
+  - kind: XmlHandler
+    apiVersion: v1
     spec:
       - files:
           - pom.xml
@@ -10,11 +9,10 @@ steps:
             replace: cookiecutter.groupId
           - match: /project/artifactId
             replace: cookiecutter.artifactId
-  - kind: FileHandler
-    metadata:
-      type: java
+  - kind: JavaHandler
+    apiVersion: v1
     spec:
-      - base_dir: src/main/java
-        placeholders:
+      - placeholders:
           - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
             replace: cookiecutter.package
+        baseDir: twlabs.com

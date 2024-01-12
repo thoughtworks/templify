@@ -1,7 +1,7 @@
 package com.twlabs.services.tasks;
 
 import java.io.IOException;
-import com.twlabs.services.CreateTemplateRequest;
+import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.fs.FileSystemImpl;
@@ -26,7 +26,7 @@ public class DeleteTemplateIfExistsTask implements RunnerTask {
 
 
     @Override
-    public CreateTemplateRequest execute(CreateTemplateRequest request) {
+    public CreateTemplateCommand execute(CreateTemplateCommand request) {
 
 
         try {

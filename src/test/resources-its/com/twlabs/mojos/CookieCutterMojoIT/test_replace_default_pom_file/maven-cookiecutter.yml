@@ -1,7 +1,6 @@
 steps:
-  - kind: FileHandler
-    metadata:
-      type: xml
+  - kind: XmlHandler
+    apiVersion: v1
     spec:
       - files:
           - pom.xml

@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import com.twlabs.interfaces.ConfigReader;
+import com.twlabs.model.settings.ConfigReader;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.model.settings.PluginConfig;
-import com.twlabs.services.CreateTemplateRequest;
+import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -23,7 +23,7 @@ public class LoadConfigurationTask implements RunnerTask {
     private RunnerLogger logger;
 
     @Override
-    public CreateTemplateRequest execute(CreateTemplateRequest req) {
+    public CreateTemplateCommand execute(CreateTemplateCommand req) {
 
         PluginConfig config = null;
         logger = req.getLogger();

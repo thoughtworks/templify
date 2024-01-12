@@ -22,6 +22,7 @@ import java.util.Map;
 public class KindMappingTemplate {
 
     private String kind;
+    private String apiVersion;
 
     private Map<String, Object> metadata;
     private List<Map<String, Object>> spec;
@@ -48,6 +49,14 @@ public class KindMappingTemplate {
 
     public void setSpec(List<Map<String, Object>> spec) {
         this.spec = spec;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
     }
 
 

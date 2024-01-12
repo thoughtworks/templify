@@ -16,8 +16,9 @@ import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
-import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.kinds.api.FileHandler;
+import com.twlabs.kinds.api.FileHandlerException;
+import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class YamlHandlerTest {

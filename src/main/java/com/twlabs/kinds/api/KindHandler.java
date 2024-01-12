@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import com.twlabs.kinds.handlers.base.KindDefaultSpec;
 
 /**
  * KindMetadata
@@ -11,7 +12,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface KindHandler {
-    public String name() default "";
+    public String name();
 
-    public Class<?> spec() default Object.class;
+    public Class<?> specClass() default KindDefaultSpec.class;
+
+    public String apiVersion() default "v1";
+
 }

@@ -22,7 +22,7 @@ public interface CreateTemplateRunner {
      * 
      * @param request The request object containing the necessary information for creating the template.
      */
-    public void execute(CreateTemplateRequest request);
+    public void execute(CreateTemplateCommand request);
 
 }
 

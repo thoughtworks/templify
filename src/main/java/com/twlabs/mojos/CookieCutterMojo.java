@@ -10,8 +10,8 @@ import org.apache.maven.plugins.annotations.Parameter;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.twlabs.injetor.ContextDependencyInjection;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.CreateTemplateRunner;
 
 

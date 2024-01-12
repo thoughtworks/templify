@@ -2,7 +2,7 @@ package com.twlabs.services.tasks;
 
 import java.io.File;
 import java.io.IOException;
-import com.twlabs.services.CreateTemplateRequest;
+import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.fs.FileSystemImpl;
@@ -34,7 +34,7 @@ public class CopyProjectTask implements RunnerTask {
 
 
     @Override
-    public CreateTemplateRequest execute(CreateTemplateRequest request) {
+    public CreateTemplateCommand execute(CreateTemplateCommand request) {
         try {
             request.getLogger().info("CopyProjectTask");
             fs.copyDirectoryStructure(request.getBaseDir(), new File(request.getTemplateDir()));

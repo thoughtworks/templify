@@ -8,9 +8,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.twlabs.injetor.ContextDependencyInjection;
-import com.twlabs.services.CreateTemplateRequest;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.services.CreateTemplateCommand;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -55,7 +55,7 @@ public class LoadConfigurationTaskTest {
                 .withTemplateDir(templateDir)
                 .withLogger(mockLogger);
 
-        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand execute = task.execute(requestBuilder.build());
 
         assertNotNull(execute.getConfiguration());
         Mockito.verify(mockLogger, Mockito.times(2)).warn(Mockito.anyString());
@@ -71,7 +71,7 @@ public class LoadConfigurationTaskTest {
         injector.injectMembers(task);
 
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
-        CreateTemplateRequest mockRequest = Mockito.mock(CreateTemplateRequest.class);
+        CreateTemplateCommand mockRequest = Mockito.mock(CreateTemplateCommand.class);
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder(mockRequest);
 
         String buildDir = baseDir + "target/";
@@ -119,7 +119,7 @@ public class LoadConfigurationTaskTest {
                 .withTemplateDir(templateDir)
                 .withLogger(mockLogger);
 
-        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand execute = task.execute(requestBuilder.build());
 
 
 

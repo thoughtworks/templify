@@ -1,14 +1,9 @@
 steps:
-  - kind: FileHandler
-    metadata:
-      type: unsupported
+  - kind: unsupportedKind
+    apiVersion: v1
     spec:
       - files:
           - pom.unsupported
         placeholders:
-          - match: /project/groupId
-            replace: cookiecutter.param.groupId
-          - match: /project/artifactId
-            replace: cookiecutter.test.replace.map.artifactId
-          - match: /project/dependencies/dependency/scope[text()='test']
-            replace: cookiecutter.replace.map.scopes
+          - match: foo
+            replace: bar

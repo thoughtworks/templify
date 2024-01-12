@@ -17,10 +17,9 @@ public interface Kind<S extends Serializable> {
      * Executes the kind with the given kind specifications.
      * 
      * @param kindSpec the list of kind specifications
-     * @return true if the execution is successful, false otherwise
      * @throws RuntimeException if there is an error during execution
      */
-    public boolean execute() throws RuntimeException;
+    public void execute() throws RuntimeException;
 
 
     /**
@@ -41,7 +40,7 @@ public interface Kind<S extends Serializable> {
      * Retrieves the name of the kind.
      * 
      * @return the name of the kind
-    */
+     */
     public String getName();
 
 }

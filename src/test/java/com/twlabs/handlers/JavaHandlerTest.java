@@ -17,7 +17,8 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import com.github.javafaker.Faker;
-import com.twlabs.exceptions.FileHandlerException;
+import com.twlabs.kinds.api.FileHandlerException;
+import com.twlabs.kinds.handlers.javahandler.JavaHandler;
 
 
 

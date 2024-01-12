@@ -1,6 +1,6 @@
 package com.twlabs.kinds.handlers.javahandler;
 
-import com.twlabs.kinds.api.KindDefaultSpec;
+import com.twlabs.kinds.handlers.base.KindDefaultSpec;
 
 /**
  * JavaHandlerSpec

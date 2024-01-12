@@ -9,8 +9,8 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
-import com.twlabs.services.CreateTemplateRequest;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -41,7 +41,7 @@ public class CopyProjectTaskTest {
         requestBuilder.withBaseDir(new File(baseDir)).withBuildDir(buildDir)
                 .withTemplateDir(tempTemplateDir).withLogger(mockLogger);
 
-        CreateTemplateRequest execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand execute = task.execute(requestBuilder.build());
 
         assertTrue(new File(tempTemplateDir).exists());
         assertTrue(new File(tempTemplateDir + "/pom.xml").exists());

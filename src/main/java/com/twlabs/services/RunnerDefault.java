@@ -32,7 +32,7 @@ public class RunnerDefault implements CreateTemplateRunner {
     RunnerTask executeSteps;
 
     @Override
-    public void execute(CreateTemplateRequest request) {
+    public void execute(CreateTemplateCommand request) {
         List<RunnerTask> tasks = getTasks();
 
         for (RunnerTask task : tasks) {
@@ -81,6 +81,4 @@ public class RunnerDefault implements CreateTemplateRunner {
     public void setExecuteSteps(RunnerTask executeSteps) {
         this.executeSteps = executeSteps;
     }
-
-
 }

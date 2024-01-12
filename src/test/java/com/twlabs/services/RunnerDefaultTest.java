@@ -25,7 +25,7 @@ public class RunnerDefaultTest {
         runnerDefault.setExecuteSteps(mock(ExecuteStepsTask.class));
         runnerDefault.setLoadConfigurations(mock(LoadConfigurationTask.class));
         runnerDefault.setDeleteTemplateIfExists(mock(DeleteTemplateIfExistsTask.class));
-        runnerDefault.execute(mock(CreateTemplateRequest.class));
+        runnerDefault.execute(mock(CreateTemplateCommand.class));
 
         InOrder inOrder =
                 Mockito.inOrder(runnerDefault.getDeleteTemplateIfExists(),

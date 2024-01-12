@@ -11,11 +11,13 @@ import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
-import com.twlabs.kinds.handlers.filehandler.FileHandlerKindExecutor;
 import com.twlabs.model.settings.PluginConfig;
+import com.google.common.eventbus.EventBus;
+import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
-import com.twlabs.services.CreateTemplateRequest;
-import com.twlabs.services.CreateTemplateRequest.CreateTemplateRequestBuilder;
+import com.twlabs.kinds.api.KindsEventBus;
+import com.twlabs.services.CreateTemplateCommand;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -34,14 +36,13 @@ public class ExecuteStepsTaskTest {
     public void test_execute_steps(String baseDir, @TempDir Path tmpDir) {
 
         ExecuteStepsTask executeStepsTask =
-                new ExecuteStepsTask(mock(FileHandlerKindExecutor.class));
+                new ExecuteStepsTask(mock(EventBus.class));
 
-        CreateTemplateRequest execute =
+        CreateTemplateCommand execute =
                 executeStepsTask.execute(createTemplateRequest(tmpDir, baseDir));
 
-        verify(executeStepsTask.getFileHandlerKind(), Mockito.times(1)).execute(
-                Mockito.any(KindMappingTemplate.class),
-                Mockito.any(CreateTemplateRequest.class));
+        verify(executeStepsTask.getEventBus(), Mockito.times(1)).post(
+                Mockito.any(KindHandlerEvent.class));
 
         assertNotNull(execute);
 
@@ -53,10 +54,11 @@ public class ExecuteStepsTaskTest {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",
     })
     public void test_execute_steps_unsuported_kind(String baseDir, @TempDir Path tmpDir) {
-        ExecuteStepsTask executeStepsTask =
-                new ExecuteStepsTask(Mockito.mock(FileHandlerKindExecutor.class));
 
-        CreateTemplateRequest execute =
+        ExecuteStepsTask executeStepsTask =
+                new ExecuteStepsTask(Mockito.spy(KindsEventBus.getInstance()));
+
+        CreateTemplateCommand execute =
                 executeStepsTask.execute(createTemplateRequest(tmpDir, baseDir, "unsupported"));
 
 
@@ -64,7 +66,7 @@ public class ExecuteStepsTaskTest {
     }
 
 
-    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir, String kind) {
+    private CreateTemplateCommand createTemplateRequest(Path dir, String baseDir, String kind) {
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
@@ -86,7 +88,7 @@ public class ExecuteStepsTaskTest {
 
 
 
-    private CreateTemplateRequest createTemplateRequest(Path dir, String baseDir) {
+    private CreateTemplateCommand createTemplateRequest(Path dir, String baseDir) {
 
         return createTemplateRequest(dir, baseDir, "FileHandler");
 

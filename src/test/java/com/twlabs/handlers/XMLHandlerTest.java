@@ -27,8 +27,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
-import com.twlabs.exceptions.FileHandlerException;
-import com.twlabs.interfaces.FileHandler;
+import com.twlabs.kinds.api.FileHandler;
+import com.twlabs.kinds.api.FileHandlerException;
+import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class XMLHandlerTest {

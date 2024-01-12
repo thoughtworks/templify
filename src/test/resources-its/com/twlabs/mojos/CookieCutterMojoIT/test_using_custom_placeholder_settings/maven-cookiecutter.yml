@@ -3,9 +3,8 @@ settings:
     prefix: "_{{"
     suffix: "}}"
 steps:
-  - kind: FileHandler
-    metadata:
-      type: xml
+  - kind: XmlHandler
+    apiVersion: v1
     spec:
       - files:
           - pom.xml
@@ -29,9 +28,8 @@ steps:
           - match: /bookstore/book/year[text()='2005']
             replace: Cookiecutter.NewYear
 
-  - kind: FileHandler
-    metadata:
-      type: yaml
+  - kind: XmlHandler
+    apiVersion: v1
     spec:
       - files:
           - yamls/generic1.yml
@@ -47,11 +45,10 @@ steps:
           - match: mappings[0].placeholders[1].replace
             replace: Cookiecutter.replace.map.artifactId
 
-  - kind: FileHandler
-    metadata:
-      type: java
+  - kind: JavaHandler
+    apiVersion: v1
     spec:
-      - base_dir: src/main/java
+      - baseDir: src/main/java
         placeholders:
           - match: com.myPackage
             replace: cookiecutter.package

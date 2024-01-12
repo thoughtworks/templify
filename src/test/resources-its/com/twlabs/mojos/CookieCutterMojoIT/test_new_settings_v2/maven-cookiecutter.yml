@@ -1,5 +1,6 @@
 steps:
-  - kind: FileHandler
+  - kind: XmlHandler
+    apiVersion: v1
     metadata:
       prefix: "{{"
       suffix: "}}"

@@ -1,9 +1,8 @@
 package com.twlabs.kinds.api;
 
-import java.util.logging.LogManager;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 import com.google.common.eventbus.EventBus;
-import com.twlabs.kinds.handlers.javahandler.JavaHandlerKind;
 
 /**
  * KindsEventBus
@@ -15,16 +14,30 @@ public class KindsEventBus {
 
     private EventBus bus;
 
-    private EventBus registerHandlers(EventBus bus) {
+    private EventBus registerHandlers(EventBus bus)
+            throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
+
         LOG.info("Registering KindsEventBus handlers");
-        bus.register(new JavaHandlerKind());
+        LOG.info("Registering " + UnsupportedKindHandler.class);
+        bus.register(new UnsupportedKindHandler());
+
+        for (Class<?> className : KindFinder.getAll()) {
+            LOG.info("Registering " + className);
+            bus.register(className.getDeclaredConstructor().newInstance());
+        }
+
         return bus;
     }
 
     private KindsEventBus() {
         LOG.info("KindsEventBus is initializing");
         EventBus eventBus = new EventBus();
-        this.bus = this.registerHandlers(eventBus);
+        try {
+            this.bus = this.registerHandlers(eventBus);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize KindsEventBus", e);
+        }
     }
 
     synchronized public static EventBus getInstance() {
