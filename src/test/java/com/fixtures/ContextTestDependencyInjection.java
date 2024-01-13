@@ -18,7 +18,7 @@ import com.twlabs.kinds.handlers.javahandler.JavaHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
-import com.twlabs.model.settings.ConfigReader;
+import com.twlabs.config.ConfigReader;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerDefault;
 import com.twlabs.services.RunnerTask;

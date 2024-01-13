@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
-import com.twlabs.model.settings.PlaceholderSettings;
+import com.twlabs.config.PlaceholderSettings;
 import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
 import com.twlabs.services.logger.MavenLogger;
 

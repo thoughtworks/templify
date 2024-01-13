@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import com.twlabs.model.settings.ConfigReader;
-import com.twlabs.model.settings.PlaceholderSettings;
-import com.twlabs.model.settings.PluginConfig;
+import com.twlabs.config.ConfigReader;
+import com.twlabs.config.PlaceholderSettings;
+import com.twlabs.config.PluginConfig;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.RunnerTask;
 import com.twlabs.services.logger.RunnerLogger;
@@ -32,8 +32,7 @@ public class LoadConfigurationTask implements RunnerTask {
             logger.warn("Template file: " + req.getConfigFilePath());
 
             // BUG settings are read from config file in template folder
-            config = reader.read(req.getConfigFilePath());
-            config = setConfigSettings(config);
+            config = validateConfigSettings(reader.read(req.getConfigFilePath()));
 
             req.setPlaceholder(getConfigPlaceHolders(config));
             req.setConfiguration(config);
@@ -54,7 +53,7 @@ public class LoadConfigurationTask implements RunnerTask {
 
 
 
-    private PluginConfig setConfigSettings(PluginConfig config) {
+    private PluginConfig validateConfigSettings(PluginConfig config) {
 
         if (!(config.getSettings() == null || config.getSettings().isEmpty())) {
             logger.warn("Using custom placeholder settings!! -> Prefix:"
@@ -75,10 +74,6 @@ public class LoadConfigurationTask implements RunnerTask {
         logger.warn("Using default placeholder settings!! -> Prefix:" + "{{"
                 + " and Suffix: " + "}}");
 
-
-
         return config;
-
-
     }
 }

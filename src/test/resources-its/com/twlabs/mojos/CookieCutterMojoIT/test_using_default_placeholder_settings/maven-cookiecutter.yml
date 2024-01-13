@@ -44,7 +44,7 @@ steps:
   - kind: JavaHandler
     apiVersion: v1
     spec:
-      - base_dir: src/main/java
+      - baseDir: src/main/java
         placeholders:
           - match: com.myPackage
             replace: cookiecutter.package

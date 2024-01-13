@@ -14,7 +14,7 @@ import com.twlabs.kinds.api.Kind;
 import com.twlabs.kinds.api.KindHandler;
 import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
-import com.twlabs.model.settings.PlaceholderSettings;
+import com.twlabs.config.PlaceholderSettings;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -27,6 +27,14 @@ import com.twlabs.services.logger.RunnerLogger;
  */
 public abstract class KindHandlerBase<S extends Serializable>
         implements Kind<S> {
+
+
+    // TODO TypeReference may resolves the Jackson problem with generics
+    // protected KindHandlerBase() {
+    // Type genericSuperclass = this.getClass().getGenericSuperclass();
+    // this._type = (Class<S>) ((ParameterizedType)genericSuperclass).getActualTypeArguments()[0];
+    // System.out.println("type from supper" +_type);
+    // }
 
     private boolean shouldProcessEvent(KindHandlerEvent event) {
         KindHandler annotation = this.getClass().getAnnotation(KindHandler.class);

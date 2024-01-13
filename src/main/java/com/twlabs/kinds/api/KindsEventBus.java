@@ -1,5 +1,6 @@
 package com.twlabs.kinds.api;
 
+import com.google.common.eventbus.EventBusWithExceptionHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 import com.google.common.eventbus.EventBus;
@@ -12,9 +13,9 @@ public class KindsEventBus {
     private static KindsEventBus instance;
     private final static Logger LOG = Logger.getLogger(KindsEventBus.class.getName());
 
-    private EventBus bus;
+    private EventBusWithExceptionHandler bus;
 
-    private EventBus registerHandlers(EventBus bus)
+    private EventBusWithExceptionHandler registerHandlers(EventBusWithExceptionHandler bus)
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
 
@@ -32,7 +33,7 @@ public class KindsEventBus {
 
     private KindsEventBus() {
         LOG.info("KindsEventBus is initializing");
-        EventBus eventBus = new EventBus();
+        EventBusWithExceptionHandler eventBus = new EventBusWithExceptionHandler();
         try {
             this.bus = this.registerHandlers(eventBus);
         } catch (Exception e) {

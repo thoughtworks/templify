@@ -12,16 +12,17 @@ public class UnsupportedKindHandler {
     public void handleDeadEvent(KindHandlerEvent event) {
         final String kindName = event.getKindName() + event.getApiVersion();
 
-        for (Class<?> controller : KindFinder.getAll()) {
-            KindHandler request = controller.getAnnotation(KindHandler.class);
-            String mapping = request.name() + request.apiVersion();
+        for (Class<?> kh : KindFinder.getAll()) {
+            KindHandler annotation = kh.getAnnotation(KindHandler.class);
+            String mapping = annotation.name() + annotation.apiVersion();
+
+            event.getRequest().getLogger().info("Unsupported kind handler received: " + kindName);
+            event.getRequest().getLogger().info("kind handler find: " + mapping);
+
             if (kindName.equals(mapping))
                 return;
-            else
-                break;
         }
 
-        RunnerLogger logger = event.getRequest().getLogger();
-        logger.error("Unsupported kind handler received: " + event.getKindName());
+        throw new RuntimeException("Unsupported kind handler received: " + event.getKindName());
     }
 }

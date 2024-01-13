@@ -5,8 +5,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.yaml.snakeyaml.Yaml;
-import com.twlabs.model.settings.ConfigReader;
-import com.twlabs.model.settings.PluginConfig;
+import com.jayway.jsonpath.spi.mapper.MappingException;
+import com.twlabs.config.ConfigReader;
+import com.twlabs.config.PluginConfig;
 
 public class YamlConfigReader implements ConfigReader {
 

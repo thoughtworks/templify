@@ -10,7 +10,7 @@ help: # Show help for each of the Makefile recipes.
 	
 .PHONY: scripts
 dev: # Build and install mvn packages locally.
-	- mvn install
+	- mvn clean install
 
 build: # Build the jar file.
 	- mvn package

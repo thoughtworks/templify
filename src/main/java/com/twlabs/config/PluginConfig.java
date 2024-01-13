@@ -1,4 +1,4 @@
-package com.twlabs.model.settings;
+package com.twlabs.config;
 
 import java.util.HashMap;
 import java.util.List;

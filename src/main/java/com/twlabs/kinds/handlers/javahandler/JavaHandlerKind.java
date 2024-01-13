@@ -6,7 +6,7 @@ import com.twlabs.kinds.api.KindHandler;
 import com.twlabs.kinds.handlers.base.KindHandlerBase;
 import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 import com.twlabs.kinds.handlers.base.KindPlaceholder;
-import com.twlabs.model.settings.PlaceholderSettings;
+import com.twlabs.config.PlaceholderSettings;
 import com.twlabs.services.logger.RunnerLogger;
 
 

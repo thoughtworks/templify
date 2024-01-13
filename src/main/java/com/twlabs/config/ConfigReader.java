@@ -1,4 +1,4 @@
-package com.twlabs.model.settings;
+package com.twlabs.config;
 
 import java.io.IOException;
 

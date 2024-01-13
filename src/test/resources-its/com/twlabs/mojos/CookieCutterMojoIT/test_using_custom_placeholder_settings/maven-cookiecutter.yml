@@ -28,7 +28,7 @@ steps:
           - match: /bookstore/book/year[text()='2005']
             replace: Cookiecutter.NewYear
 
-  - kind: XmlHandler
+  - kind: YmlHandler
     apiVersion: v1
     spec:
       - files:

@@ -25,32 +25,32 @@ public class CookieCutterMojoIT {
 
     FileHandler handler = new XMLHandler();
 
-    String POM =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/project/target/template/pom.xml";
+    String fixturesFolder = "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/";
+
+    String POM = fixturesFolder + "configuracao_basica_build_test/project/target/template/pom.xml";
 
     String json_handler_test =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_json_handler_empty_pom/project/target/template/env.json";
+            fixturesFolder + "test_json_handler_empty_pom/project/target/template/env.json";
+
     String templateDir_default_pom =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_default_pom_file/project/target/template";
+            fixturesFolder + "test_replace_default_pom_file/project/target/template";
 
     String templateDir_generics_xmls =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/project/target/template";
+            fixturesFolder + "test_replace_generics_xml_files/project/target/template";
 
     String templateDir_generics_ymls =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_yml_files/project/target/template";
+            fixturesFolder + "test_replace_generics_yml_files/project/target/template";
 
     String unsupportFileType =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/project/target/template";
+            fixturesFolder + "test_replace_throw_unsupported_file_type/project/target/template";
 
-    String template_json =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_json_file/project/target/template";
+    String template_json = fixturesFolder + "test_replace_json_file/project/target/template";
 
 
-    String template_java =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_replace_java/project/target/template";
+    String template_java = fixturesFolder + "test_replace_java/project/target/template";
 
     String template_custom_placeholder =
-            "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/test_using_custom_placeholder_settings/project/target/template";
+            fixturesFolder + "test_using_custom_placeholder_settings/project/target/template";
 
 
 
@@ -68,7 +68,7 @@ public class CookieCutterMojoIT {
 
     }
 
-    // @MavenTest
+    @MavenTest
     public void test_json_handler_empty_pom(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
@@ -220,8 +220,7 @@ public class CookieCutterMojoIT {
     }
 
 
-
-    // @MavenTest
+    @MavenTest
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
@@ -250,14 +249,14 @@ public class CookieCutterMojoIT {
     }
 
 
-    // @MavenTest
+    @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
         assertThat(result).isFailure().out().error()
-                .anyMatch(msg -> msg.contains("Unsupported Kind: FileHandler type: unsupported"));
+                .anyMatch(msg -> msg.contains("Unsupported kind handler received"));
     }
 
 
-    // @MavenTest
+    @MavenTest
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
         JavaHandler javaHandler = new JavaHandler();
         assertThat(result).isSuccessful();
@@ -282,7 +281,7 @@ public class CookieCutterMojoIT {
     }
 
 
-    // @MavenTest
+    @MavenTest
     public void test_running_with_existing_template_directory(MavenExecutionResult result) {
         assertThat(result).isSuccessful().out().info().anyMatch(
                 msg -> msg.contains("Old template directory was found and it was removed!!"));
@@ -290,7 +289,7 @@ public class CookieCutterMojoIT {
     }
 
 
-    // @MavenTest
+    @MavenTest
     public void test_using_default_placeholder_settings(MavenExecutionResult result) {
         assertThat(result).isSuccessful().out().warn().anyMatch(msg -> msg
                 .contains("Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"));
@@ -299,7 +298,7 @@ public class CookieCutterMojoIT {
 
 
 
-    // @MavenTest
+    @MavenTest
     public void test_using_custom_placeholder_settings(MavenExecutionResult result)
             throws FileHandlerException {
 

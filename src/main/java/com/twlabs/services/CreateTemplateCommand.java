@@ -2,8 +2,8 @@ package com.twlabs.services;
 
 import java.io.File;
 import org.apache.maven.plugin.logging.Log;
-import com.twlabs.model.settings.PlaceholderSettings;
-import com.twlabs.model.settings.PluginConfig;
+import com.twlabs.config.PlaceholderSettings;
+import com.twlabs.config.PluginConfig;
 import com.twlabs.services.logger.LoggerStrategyFactory;
 import com.twlabs.services.logger.RunnerLogger;
 

@@ -1,4 +1,4 @@
-package com.twlabs.model.settings;
+package com.twlabs.config;
 
 import java.io.Serializable;
 
@@ -26,16 +26,8 @@ public class PlaceholderSettings implements Serializable {
         return suffix;
     }
 
-    public void setSuffix(String match) {
-        this.suffix = match;
-    }
-
     public String getPrefix() {
         return prefix;
-    }
-
-    public void setPrefix(String replace) {
-        this.prefix = replace;
     }
 
 }
