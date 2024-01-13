@@ -25,7 +25,7 @@ import com.twlabs.services.logger.RunnerLogger;
  * @param <S> the type of the specs
  * @param <M> the type of the metadata
  */
-public abstract class KindTemplate<S extends Serializable>
+public abstract class KindHandlerBase<S extends Serializable>
         implements Kind<S> {
 
     private boolean shouldProcessEvent(KindHandlerEvent event) {

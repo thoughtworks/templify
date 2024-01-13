@@ -3,15 +3,15 @@ package com.twlabs.kinds.handlers.javahandler;
 import java.util.List;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.api.KindHandler;
+import com.twlabs.kinds.handlers.base.KindHandlerBase;
 import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 import com.twlabs.kinds.handlers.base.KindPlaceholder;
-import com.twlabs.kinds.handlers.base.KindTemplate;
 import com.twlabs.model.settings.PlaceholderSettings;
 import com.twlabs.services.logger.RunnerLogger;
 
 
 @KindHandler(name = "JavaHandler", specClass = JavaHandlerSpec.class)
-public class JavaHandlerKind extends KindTemplate<JavaHandlerSpec> {
+public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
 
     private JavaHandler javaHandler = new JavaHandler();
 
