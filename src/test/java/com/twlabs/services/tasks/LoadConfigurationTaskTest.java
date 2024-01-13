@@ -2,6 +2,8 @@ package com.twlabs.services.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.spy;
 import java.io.File;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -55,10 +57,13 @@ public class LoadConfigurationTaskTest {
                 .withTemplateDir(templateDir)
                 .withLogger(mockLogger);
 
-        CreateTemplateCommand execute = task.execute(requestBuilder.build());
+        CreateTemplateCommand spyCommand = spy(requestBuilder.build());
 
-        assertNotNull(execute.getConfiguration());
+        CreateTemplateCommand resultCommand = task.execute(spyCommand);
+
+        assertNotNull(resultCommand.getConfiguration());
         Mockito.verify(mockLogger, Mockito.times(2)).warn(Mockito.anyString());
+        Mockito.verify(spyCommand, Mockito.times(1)).setPlaceholder(any());
 
     }
 

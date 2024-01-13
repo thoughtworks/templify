@@ -23,20 +23,20 @@ public class LoadConfigurationTask implements RunnerTask {
     private RunnerLogger logger;
 
     @Override
-    public CreateTemplateCommand execute(CreateTemplateCommand req) {
+    public CreateTemplateCommand execute(CreateTemplateCommand command) {
 
         PluginConfig config = null;
-        logger = req.getLogger();
+        logger = command.getLogger();
 
         try {
-            logger.warn("Template file: " + req.getConfigFilePath());
+            logger.warn("Template file: " + command.getConfigFilePath());
 
             // BUG settings are read from config file in template folder
-            config = validateConfigSettings(reader.read(req.getConfigFilePath()));
+            config = validateConfigSettings(reader.read(command.getConfigFilePath()));
 
-            req.setPlaceholder(getConfigPlaceHolders(config));
-            req.setConfiguration(config);
-            return req;
+            command.setPlaceholder(getConfigPlaceHolders(config));
+            command.setConfiguration(config);
+            return command;
 
         } catch (IOException | RuntimeException e) {
             logger.error("Error to read the settings from the config file");
@@ -55,7 +55,7 @@ public class LoadConfigurationTask implements RunnerTask {
 
     private PluginConfig validateConfigSettings(PluginConfig config) {
 
-        if (!(config.getSettings() == null || config.getSettings().isEmpty())) {
+        if (!(config.getSettings().isEmpty())) {
             logger.warn("Using custom placeholder settings!! -> Prefix:"
                     + getConfigPlaceHolders(config).getPrefix() + " and Suffix: "
                     + getConfigPlaceHolders(config).getSuffix());

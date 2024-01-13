@@ -13,9 +13,6 @@ public class PluginConfig {
 
     Map<String, Object> settings = new HashMap<String, Object>();
 
-    public PluginConfig() {}
-
-
     public List<KindMappingTemplate> getSteps() {
         return steps;
     }
@@ -23,7 +20,6 @@ public class PluginConfig {
     public void setSteps(List<KindMappingTemplate> steps) {
         this.steps = steps;
     }
-
 
     public Map<String, Object> getSettings() {
         return settings;
