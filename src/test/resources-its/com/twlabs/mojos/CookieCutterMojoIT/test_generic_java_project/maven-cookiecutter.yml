@@ -15,4 +15,4 @@ steps:
       - placeholders:
           - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
             replace: cookiecutter.package
-        baseDir: twlabs.com
+        baseDir: src/main/java
