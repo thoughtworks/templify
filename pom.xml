@@ -539,6 +539,7 @@
                 <configuration>
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                     <siteReportName>mutation-tests-report</siteReportName>
+                    <skip>${unit.only}</skip>
                 </configuration>
                 <reportSets>
                     <reportSet>

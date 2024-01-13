@@ -82,7 +82,7 @@ public abstract class KindHandlerBase<S extends Serializable>
         }
     }
 
-    protected void executeDefaultFileHandlers(FileHandler fileHandler,
+    public void executeDefaultFileHandlers(FileHandler fileHandler,
             KindHandlerCommand<S> command) {
 
         command.getLogger().info("Executing:" + fileHandler.getClass().getName());

@@ -8,15 +8,9 @@ import com.twlabs.kinds.api.KindsEventBus;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.RunnerTask;
 
-/**
- * ExecuteStepsTask
- */
 public class ExecuteStepsTask implements RunnerTask {
 
-
     private EventBus eventBus = KindsEventBus.getInstance();
-
-    public ExecuteStepsTask() {}
 
     public ExecuteStepsTask(EventBus bus) {
         this.eventBus = bus;
@@ -34,9 +28,4 @@ public class ExecuteStepsTask implements RunnerTask {
 
         return request;
     }
-
-    public EventBus getEventBus() {
-        return eventBus;
-    }
-
 }

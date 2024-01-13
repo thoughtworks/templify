@@ -11,8 +11,7 @@ public class PlaceholderSettings implements Serializable {
     String prefix;
 
     public boolean isEmpty() {
-        return this.suffix == null || this.prefix == null || this.prefix.isEmpty()
-                || this.suffix.isEmpty();
+        return this.suffix == null || this.prefix == null || this.suffix.trim().isEmpty() || this.prefix.trim().isEmpty();
     }
 
     public PlaceholderSettings() {}

@@ -12,6 +12,7 @@ import static com.twlabs.services.RunnerTask.Names.LOAD_PLUGIN_CONFIGURATION_TAS
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.twlabs.kinds.api.FileHandler;
+import com.twlabs.kinds.api.KindsEventBus;
 import com.twlabs.kinds.handlers.javahandler.JavaHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
@@ -79,6 +80,6 @@ public class ContextDependencyInjection extends AbstractModule {
                 .to(LoadConfigurationTask.class);
 
         bind(RunnerTask.class).annotatedWith(Names.named(EXECUTE_STEPS_TASK))
-                .to(ExecuteStepsTask.class);
+                .toInstance(new ExecuteStepsTask(KindsEventBus.getInstance()));
     }
 }

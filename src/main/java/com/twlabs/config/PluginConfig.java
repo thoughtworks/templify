@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Map;
 import com.twlabs.kinds.api.KindMappingTemplate;
 
+// DTO class for the values of the maven-cookiecuter.yml
+// Used by Jackson mapper
 public class PluginConfig {
-
-    public PluginConfig(List<KindMappingTemplate> steps) {
-        this.steps = steps;
-    }
 
     List<KindMappingTemplate> steps;
 

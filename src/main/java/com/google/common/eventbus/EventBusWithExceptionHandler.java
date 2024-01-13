@@ -1,8 +1,5 @@
 package com.google.common.eventbus;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.SubscriberExceptionContext;
-
 /**
  * EventBusWithExceptionHandler
  */
