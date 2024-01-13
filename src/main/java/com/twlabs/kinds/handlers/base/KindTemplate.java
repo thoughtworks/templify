@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.Subscribe;
 import com.twlabs.kinds.api.DefaultSpecification;
@@ -29,86 +28,67 @@ import com.twlabs.services.logger.RunnerLogger;
 public abstract class KindTemplate<S extends Serializable>
         implements Kind<S> {
 
-    private RunnerLogger logger;
-
-    private CreateTemplateCommand request;
-
-    public KindTemplate() {}
-
     private boolean shouldProcessEvent(KindHandlerEvent event) {
-        boolean isKindHandler = this.getClass().isAnnotationPresent(KindHandler.class);
-        if (isKindHandler) {
-            String checkKindAndVersion = this.getClass().getAnnotation(KindHandler.class).name()
-                    + this.getClass().getAnnotation(KindHandler.class).apiVersion();
-
+        KindHandler annotation = this.getClass().getAnnotation(KindHandler.class);
+        if (annotation != null) {
+            String checkKindAndVersion = annotation.name() + annotation.apiVersion();
             return checkKindAndVersion.equals(event.getKindName() + event.getApiVersion());
         }
-
-        return isKindHandler;
+        return false;
     }
 
-    private void map(KindHandlerEvent event) {
+    private KindHandlerCommand<S> mapEventToCommand(KindHandlerEvent event) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
         KindMappingTemplate mappingTemplate = event.getMappingTemplate();
+        String name = mappingTemplate.getKind();
+        List<S> specs = new ArrayList<>();
+        Map<String, String> metadata = new HashMap<>();
+        CreateTemplateCommand request = event.getRequest();
 
-        this.name = mappingTemplate.getKind();
-        this.specs = new ArrayList<>();
-        this.metadata = new HashMap<>();
-        this.request = event.getRequest();
         Class<?> specClass = this.getClass().getAnnotation(KindHandler.class).specClass();
 
         for (Map<String, Object> spec : mappingTemplate.getSpec()) {
-            specs.add(getSpecification(objectMapper, specClass, spec));
+            specs.add(getSpecification(specClass, spec));
         }
 
         if (mappingTemplate.getMetadata() != null) {
             for (Map.Entry<String, Object> entry : mappingTemplate.getMetadata().entrySet()) {
-                this.metadata.put(entry.getKey(), (String) entry.getValue());
+                metadata.put(entry.getKey(), (String) entry.getValue());
             }
         }
+
+        return new KindHandlerCommand<S>(name, metadata, specs, request);
     }
 
-    private S getSpecification(ObjectMapper objectMapper, Class<?> specClass,
-            Map<String, Object> spec) {
-        return (S) objectMapper.convertValue(spec, specClass);
-    }
-
-    private void clean() {
-        this.name = null;
-        this.logger = null;
-        this.specs = new ArrayList<>();
-        this.metadata = new HashMap<>();
+    private S getSpecification(Class<?> specClass, Map<String, Object> spec) {
+        return (S) new ObjectMapper().convertValue(spec, specClass);
     }
 
     @Subscribe
-    synchronized public void subscribeKindHandlerEvent(final KindHandlerEvent event) {
-        this.logger = event.getRequest().getLogger();
-
+    synchronized public void subscribeToKindHandlerEvent(final KindHandlerEvent event) {
         if (this.shouldProcessEvent(event)) {
-            this.logger.info("Event accepted.");
-            this.map(event);
-            this.execute();
-            this.clean();
+            event.getRequest().getLogger().info("Event accepted.");
+            this.execute(this.mapEventToCommand(event));
         } else {
-            this.logger.warn("Event ignored.");
+            event.getRequest().getLogger().warn("Event ignored.");
         }
     }
 
-    protected void executeDefaultFileHandlers(FileHandler fileHandler) {
+    protected void executeDefaultFileHandlers(FileHandler fileHandler,
+            KindHandlerCommand<S> command) {
 
-        this.getLogger().info("Executing:" + fileHandler.getClass().getName());
-        String templateDirectory = this.getRequest().getTemplateDir();
-        PlaceholderSettings placeholder = this.getRequest().getPlaceholder();
+        command.getLogger().info("Executing:" + fileHandler.getClass().getName());
+        String templateDirectory = command.getRequest().getTemplateDir();
+        PlaceholderSettings placeholder = command.getRequest().getPlaceholder();
 
-        for (final S spec : this.getSpecs()) {
+        for (final S spec : command.getSpecs()) {
             if (spec instanceof DefaultSpecification) {
                 DefaultSpecification defaultSpec = (DefaultSpecification) spec;
-                this.handleFiles(this.getLogger(), templateDirectory, placeholder,
+                this.handleFiles(command.getLogger(), templateDirectory, placeholder,
                         defaultSpec.getFiles(),
                         defaultSpec.getPlaceholders(), fileHandler);
             } else {
-                this.getLogger().error(
+                command.getLogger().error(
                         "In order to use the utils executeDefaultFileHandler your KindHandler must: \n"
                                 +
                                 "1. It's specification object must implement the DefaultSpecification interface. \n"
@@ -144,47 +124,4 @@ public abstract class KindTemplate<S extends Serializable>
             }
         }
     }
-
-    private String name;
-
-    private List<S> specs;
-
-    private Map<String, String> metadata;
-
-    /**
-     * Returns the metadata associated with this KindTemplate.
-     * 
-     * @return the metadata
-     */
-    public Optional<Map<String, String>> getMetadata() {
-        return Optional.ofNullable(this.metadata);
-    }
-
-    /**
-     * Returns the list of specs associated with this KindTemplate.
-     * 
-     * @return the list of specs
-     */
-    public List<S> getSpecs() {
-        return this.specs;
-    }
-
-    /**
-     * Returns the kind of this KindTemplate.
-     * 
-     * @return the kind
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    public RunnerLogger getLogger() {
-        return logger;
-    }
-
-    public CreateTemplateCommand getRequest() {
-        return request;
-    }
-
-
 }

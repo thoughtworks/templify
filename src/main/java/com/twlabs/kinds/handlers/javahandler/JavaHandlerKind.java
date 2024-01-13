@@ -3,6 +3,7 @@ package com.twlabs.kinds.handlers.javahandler;
 import java.util.List;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.api.KindHandler;
+import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 import com.twlabs.kinds.handlers.base.KindPlaceholder;
 import com.twlabs.kinds.handlers.base.KindTemplate;
 import com.twlabs.model.settings.PlaceholderSettings;
@@ -15,15 +16,15 @@ public class JavaHandlerKind extends KindTemplate<JavaHandlerSpec> {
     private JavaHandler javaHandler = new JavaHandler();
 
     @Override
-    public void execute() {
+    public void execute(KindHandlerCommand<JavaHandlerSpec> command) {
 
-        this.getLogger().info("Executing JavaHandlerKind.");
+        command.getLogger().info("Executing JavaHandlerKind.");
 
-        String templateDirectory = this.getRequest().getTemplateDir();
-        PlaceholderSettings placeholder = this.getRequest().getPlaceholder();
+        String templateDirectory = command.getRequest().getTemplateDir();
+        PlaceholderSettings placeholder = command.getRequest().getPlaceholder();
 
-        for (final JavaHandlerSpec spec : this.getSpecs()) {
-            handleJavaType(this.getLogger(), templateDirectory, placeholder, spec.getBaseDir(),
+        for (final JavaHandlerSpec spec : command.getSpecs()) {
+            handleJavaType(command.getLogger(), templateDirectory, placeholder, spec.getBaseDir(),
                     spec.getPlaceholders());
         }
     }

@@ -44,7 +44,6 @@ public class JavaHandlerTest {
     @Test
     public void find_file() throws FileHandlerException {
 
-
         String query = "com.myPackage.br";
 
         String file = javaHandler.findDir(staticBaseDir + "", query);
