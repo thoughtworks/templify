@@ -3,6 +3,8 @@ package com.twlabs.services.tasks;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -45,12 +47,16 @@ public class ExecuteStepsTaskTest {
         EventBus mockEventBus = mock(EventBus.class);
         ExecuteStepsTask executeStepsTask = new ExecuteStepsTask(mockEventBus);
 
+        CreateTemplateCommand spyCommand =
+                TestUtils.createSpyTemplateRequestWithMockedKind(tmpDir, baseDir,
+                        XML_HANDLER);
+
         // Act
-        CreateTemplateCommand execute = executeStepsTask
-                .execute(TestUtils.createTemplateRequestWithMockedKind(tmpDir, baseDir, XML_HANDLER));
+        CreateTemplateCommand execute = executeStepsTask.execute(spyCommand);
 
         // Assert
         assertNotNull(execute);
+        verify(execute.getLogger(), times(1)).info(contains("Producing KindHandlerEvent:"));
         verify(mockEventBus, times(1))
                 .post(argThat(
                         (KindHandlerEvent event) -> event.getKindName().equals(XML_HANDLER)));
@@ -69,7 +75,8 @@ public class ExecuteStepsTaskTest {
         // Act
         assertThrows(RuntimeException.class, () -> {
             executeStepsTask.execute(
-                    TestUtils.createTemplateRequestWithMockedKind(tmpDir, baseDir, UNSUPPORTED_KIND));
+                    TestUtils.createSpyTemplateRequestWithMockedKind(tmpDir, baseDir,
+                            UNSUPPORTED_KIND));
         });
 
         // Assert
@@ -81,7 +88,8 @@ public class ExecuteStepsTaskTest {
 
     // Testing Utils class pattern - provides reusable utils, mock data and methods
     static private class TestUtils {
-        static private CreateTemplateCommand createTemplateRequestWithMockedKind(Path dir, String baseDir,
+        static private CreateTemplateCommand createSpyTemplateRequestWithMockedKind(Path dir,
+                String baseDir,
                 String kind) {
             RunnerLogger mockLogger = mock(RunnerLogger.class);
 
@@ -94,15 +102,15 @@ public class ExecuteStepsTaskTest {
             requestBuilder
                     .withBaseDir(new File(baseDir))
                     .withBuildDir(buildDir)
-                    .withConfiguration(TestUtils.createConfigTest(kind))
+                    .withConfiguration(TestUtils.createSpyConfigTest(kind))
                     .withTemplateDir(tempTemplateDir)
                     .withLogger(mockLogger);
 
 
-            return requestBuilder.build();
+            return spy(requestBuilder.build());
         }
 
-        static private PluginConfig createConfigTest(String kind) {
+        static private PluginConfig createSpyConfigTest(String kind) {
 
             KindMappingTemplate stepsKindTemplate = new KindMappingTemplate();
             stepsKindTemplate.setKind(kind);
@@ -113,7 +121,7 @@ public class ExecuteStepsTaskTest {
             PluginConfig configuration = new PluginConfig();
             configuration.setSteps(steps);
 
-            return configuration;
+            return spy(configuration);
         }
     }
 

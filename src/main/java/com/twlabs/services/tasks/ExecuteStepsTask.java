@@ -22,7 +22,7 @@ public class ExecuteStepsTask implements RunnerTask {
         List<KindMappingTemplate> steps = request.getConfiguration().getSteps();
 
         for (KindMappingTemplate step : steps) {
-            request.getLogger().warn("Producing KindHandlerEvent: " + step.getKind());
+            request.getLogger().info("Producing KindHandlerEvent: " + step.getKind());
             eventBus.post(new KindHandlerEvent(step, request));
         }
 

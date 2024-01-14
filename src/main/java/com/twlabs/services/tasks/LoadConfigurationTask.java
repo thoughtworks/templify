@@ -32,7 +32,7 @@ public class LoadConfigurationTask implements RunnerTask {
             logger.warn("Template file: " + command.getConfigFilePath());
 
             // BUG settings are read from config file in template folder
-            config = validateConfigSettings(reader.read(command.getConfigFilePath()));
+            config = validateConfigSettings(inflatePluginConfig(command));
 
             command.setPlaceholder(getConfigPlaceHolders(config));
             command.setConfiguration(config);
@@ -42,6 +42,10 @@ public class LoadConfigurationTask implements RunnerTask {
             logger.error("Error to read the settings from the config file");
             throw new RuntimeException(e);
         }
+    }
+
+    private PluginConfig inflatePluginConfig(CreateTemplateCommand command) throws IOException {
+        return reader.read(command.getConfigFilePath());
     }
 
     private PlaceholderSettings getConfigPlaceHolders(PluginConfig config) {

@@ -1,5 +1,6 @@
 package com.twlabs.services.tasks;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -62,6 +63,8 @@ public class LoadConfigurationTaskTest {
         CreateTemplateCommand resultCommand = task.execute(spyCommand);
 
         assertNotNull(resultCommand.getConfiguration());
+        assertThat(resultCommand.getConfiguration().getSettings()).containsKeys("placeholder");
+
         Mockito.verify(mockLogger, Mockito.times(2)).warn(Mockito.anyString());
         Mockito.verify(spyCommand, Mockito.times(1)).setPlaceholder(any());
 
