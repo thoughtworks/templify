@@ -13,7 +13,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.twlabs.di.ContextDependencyInjection;
 import com.twlabs.services.CreateTemplateCommand;
-import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -47,7 +47,7 @@ public class LoadConfigurationTaskTest {
 
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         String buildDir = baseDir + "target/";
         String templateDir = buildDir + BUILD_TEMPLATE_DIR;
@@ -80,7 +80,7 @@ public class LoadConfigurationTaskTest {
 
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
         CreateTemplateCommand mockRequest = Mockito.mock(CreateTemplateCommand.class);
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder(mockRequest);
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder(mockRequest);
 
         String buildDir = baseDir + "target/";
         String templateDir = buildDir + BUILD_TEMPLATE_DIR;
@@ -115,7 +115,7 @@ public class LoadConfigurationTaskTest {
 
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
 
         String buildDir = baseDir + "target/";

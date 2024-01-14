@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 import com.twlabs.services.CreateTemplateCommand;
-import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -30,7 +30,7 @@ public class CopyProjectTaskTest {
         String baseDir =
                 "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         CopyProjectTask task = new CopyProjectTask();
 
@@ -62,7 +62,7 @@ public class CopyProjectTaskTest {
         String baseDir =
                 "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/";
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         CopyProjectTask task = new CopyProjectTask(mockFs);
 

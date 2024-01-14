@@ -11,7 +11,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.twlabs.di.ContextDependencyInjection;
-import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.CreateTemplateRunner;
 
 
@@ -45,7 +45,7 @@ public class CookieCutterMojo extends AbstractMojo {
         injector.injectMembers(this);
 
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         // request
         requestBuilder

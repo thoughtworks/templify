@@ -14,7 +14,7 @@ import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 import com.github.javafaker.Faker;
 import com.twlabs.services.CreateTemplateCommand;
-import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.fs.FileSystem;
 import com.twlabs.services.logger.RunnerLogger;
 
@@ -40,7 +40,7 @@ public class DeleteTemplateIfExistsTaskTest {
 
         DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         String baseDir = tempDir.toFile().getAbsolutePath();
         String tempTemplateDir = tempDir.toFile().getAbsolutePath() + BUILD_TEMPLATE_DIR;
@@ -64,7 +64,7 @@ public class DeleteTemplateIfExistsTaskTest {
         RunnerLogger mock = Mockito.mock(RunnerLogger.class);
 
         DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask();
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         String baseDir = tempDir.toFile().getAbsolutePath();
         String tempTemplateDir = tempDir.toFile().getAbsolutePath() + "/template";
@@ -85,14 +85,14 @@ public class DeleteTemplateIfExistsTaskTest {
 
     @Test
     public void test_throw_remove_directory_exceptions(@TempDir Path tempDir) throws IOException {
-        // Assigning 
+        // Assigning
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         FileSystem mockFs = Mockito.mock(FileSystem.class);
 
 
-        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask(mockFs); 
-        CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+        DeleteTemplateIfExistsTask task = new DeleteTemplateIfExistsTask(mockFs);
+        CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
         String baseDir = tempDir.toFile().getAbsolutePath();
         String tempTemplateDir = tempDir.toFile().getAbsolutePath() + "/template";

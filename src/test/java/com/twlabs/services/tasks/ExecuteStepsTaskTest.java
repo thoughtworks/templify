@@ -22,7 +22,7 @@ import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.kinds.api.KindsEventBus;
 import com.twlabs.services.CreateTemplateCommand;
-import com.twlabs.services.CreateTemplateCommand.CreateTemplateRequestBuilder;
+import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -93,7 +93,7 @@ public class ExecuteStepsTaskTest {
                 String kind) {
             RunnerLogger mockLogger = mock(RunnerLogger.class);
 
-            CreateTemplateRequestBuilder requestBuilder = new CreateTemplateRequestBuilder();
+            CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
             String buildDir = baseDir + TARGET;
 

@@ -96,10 +96,6 @@ public class CreateTemplateCommand {
         this.logger = new LoggerStrategyFactory().create(logger);
     }
 
-    public void setLogger() {
-        this.logger = new LoggerStrategyFactory().create();
-    }
-
     public RunnerLogger getLogger() {
         if (this.logger == null)
             this.logger = new LoggerStrategyFactory().create();
@@ -107,15 +103,15 @@ public class CreateTemplateCommand {
         return this.logger;
     }
 
-    public static class CreateTemplateRequestBuilder {
+    public static class CreateTemplateCommandBuilder {
 
         private CreateTemplateCommand request;
 
-        public CreateTemplateRequestBuilder() {
+        public CreateTemplateCommandBuilder() {
             this.request = new CreateTemplateCommand();
         }
 
-        public CreateTemplateRequestBuilder(CreateTemplateCommand request) {
+        public CreateTemplateCommandBuilder(CreateTemplateCommand request) {
 
             this.request = request;
         }
@@ -128,7 +124,7 @@ public class CreateTemplateCommand {
          * @return the CreateTemplateRequestBuilder instance with the template directory set
          * @throws IllegalArgumentException if the templateDir is null or empty
          */
-        public CreateTemplateRequestBuilder withTemplateDir(String templateDir)
+        public CreateTemplateCommandBuilder withTemplateDir(String templateDir)
                 throws IllegalArgumentException {
             if (templateDir == null || templateDir.isEmpty()) {
                 throw new IllegalArgumentException("Template directory cannot be null or empty");
@@ -146,7 +142,7 @@ public class CreateTemplateCommand {
          * @return the CreateTemplateRequestBuilder instance
          * @throws IllegalArgumentException if the baseDir is null
          */
-        public CreateTemplateRequestBuilder withBaseDir(File baseDir)
+        public CreateTemplateCommandBuilder withBaseDir(File baseDir)
                 throws IllegalArgumentException {
             if (baseDir == null) {
                 throw new IllegalArgumentException("Base directory cannot be null");
@@ -163,23 +159,23 @@ public class CreateTemplateCommand {
          *        generated
          * @return the CreateTemplateRequestBuilder object
          */
-        public CreateTemplateRequestBuilder withBuildDir(String buildDir) {
+        public CreateTemplateCommandBuilder withBuildDir(String buildDir) {
             this.request.setBuildDir(buildDir);
             return this;
         }
 
 
-        public CreateTemplateRequestBuilder withDestDir(String destDir) {
+        public CreateTemplateCommandBuilder withDestDir(String destDir) {
             this.request.setDestDir(destDir);
             return this;
         }
 
-        public CreateTemplateRequestBuilder withConfiguration(PluginConfig configuration) {
+        public CreateTemplateCommandBuilder withConfiguration(PluginConfig configuration) {
             this.request.setConfiguration(configuration);
             return this;
         }
 
-        public CreateTemplateRequestBuilder withPlaceholder(PlaceholderSettings placeholder) {
+        public CreateTemplateCommandBuilder withPlaceholder(PlaceholderSettings placeholder) {
             this.request.setPlaceholder(placeholder);
             return this;
         }
@@ -191,7 +187,7 @@ public class CreateTemplateCommand {
          * @return the CreateTemplateRequestBuilder with the logger set
          *
          */
-        public CreateTemplateRequestBuilder withLogger(RunnerLogger logger) {
+        public CreateTemplateCommandBuilder withLogger(RunnerLogger logger) {
             this.request.setLogger(logger);
             return this;
         }
@@ -204,7 +200,7 @@ public class CreateTemplateCommand {
          * @return the CreateTemplateRequestBuilder with the logger set
          *
          */
-        public CreateTemplateRequestBuilder withLogger(Log logger) {
+        public CreateTemplateCommandBuilder withLogger(Log logger) {
             this.request.setLogger(logger);
             return this;
         }

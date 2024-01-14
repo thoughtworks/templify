@@ -402,6 +402,7 @@
                 <version>${pitest.version}</version>
                 <configuration>
                     <skip>${unit.only}</skip>
+                    <withHistory>true</withHistory>
                     <targetClasses>
                         <param>com.twlabs.*</param>
                     </targetClasses>
