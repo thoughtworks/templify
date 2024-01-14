@@ -1,5 +1,5 @@
 
-package com.twlabs.handlers;
+package com.twlabs.kinds.handlers.yamlhandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,14 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayNameGeneration;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
-import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class YamlHandlerTest {

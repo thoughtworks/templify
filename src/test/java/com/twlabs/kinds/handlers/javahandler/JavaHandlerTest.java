@@ -1,4 +1,4 @@
-package com.twlabs.handlers;
+package com.twlabs.kinds.handlers.javahandler;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Test;
 import com.github.javafaker.Faker;
 import com.twlabs.kinds.api.FileHandlerException;
-import com.twlabs.kinds.handlers.javahandler.JavaHandler;
 
 
 

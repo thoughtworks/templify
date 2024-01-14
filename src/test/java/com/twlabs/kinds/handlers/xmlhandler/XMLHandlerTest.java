@@ -1,4 +1,4 @@
-package com.twlabs.handlers;
+package com.twlabs.kinds.handlers.xmlhandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,7 +29,6 @@ import org.w3c.dom.NodeList;
 import com.github.javafaker.Faker;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
-import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 public class XMLHandlerTest {

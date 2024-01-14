@@ -1,4 +1,4 @@
-package com.twlabs.kinds.handlers.yamlhandler;
+package com.twlabs.kinds.handlers.xmlhandler;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -11,22 +11,21 @@ import org.junit.jupiter.api.Test;
 import com.twlabs.kinds.handlers.base.KindDefaultSpec;
 import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 
-public class YamlHandlerKindTest {
+public class XmlHandlerKindTest {
 
     @Test
     void test_execute() {
         // Arrange
-        YamlHandlerKind spyYamlHandlerKind = spy(new YamlHandlerKind());
+        XmlHandlerKind spyXMLHandlerKind = spy(new XmlHandlerKind());
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
-        doNothing().when(spyYamlHandlerKind).executeDefaultFileHandlers(any(YamlHandler.class),
+        doNothing().when(spyXMLHandlerKind).executeDefaultFileHandlers(any(XMLHandler.class),
                 eq(mockCommand));
 
         // Act
-        spyYamlHandlerKind.execute(mockCommand);
+        spyXMLHandlerKind.execute(mockCommand);
 
         // Assert
-        verify(spyYamlHandlerKind, times(1))
-                .executeDefaultFileHandlers(any(YamlHandler.class), eq(mockCommand));
+        verify(spyXMLHandlerKind, times(1))
+                .executeDefaultFileHandlers(any(XMLHandler.class), eq(mockCommand));
     }
 }
-

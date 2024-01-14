@@ -1,4 +1,4 @@
-package com.twlabs.handlers;
+package com.twlabs.kinds.handlers.jsonhandler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import com.github.javafaker.Faker;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
-import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 
 /**
  * JsonHandlerTest
