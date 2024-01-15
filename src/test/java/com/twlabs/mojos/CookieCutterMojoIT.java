@@ -17,13 +17,13 @@ import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
-import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
+import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
 
-    FileHandler handler = new XMLHandler();
+    FileHandler handler = new XmlFileHandler();
 
     String fixturesFolder = "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/";
 

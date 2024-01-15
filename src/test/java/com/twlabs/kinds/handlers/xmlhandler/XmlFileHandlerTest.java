@@ -31,9 +31,9 @@ import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
-public class XMLHandlerTest {
+public class XmlFileHandlerTest {
 
-    FileHandler processador = new XMLHandler();
+    FileHandler processador = new XmlFileHandler();
     Faker faker = new Faker();
 
 

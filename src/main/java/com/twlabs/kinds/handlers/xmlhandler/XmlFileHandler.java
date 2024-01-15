@@ -41,7 +41,7 @@ import com.twlabs.kinds.handlers.base.AbstractFileHandler;
  * @see AbstractFileHandler
  * @see FileHandler
  */
-public class XMLHandler extends AbstractFileHandler {
+public class XmlFileHandler extends AbstractFileHandler {
 
 
     private Document readFile(Path path) {

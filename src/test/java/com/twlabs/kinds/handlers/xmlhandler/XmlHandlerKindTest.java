@@ -45,7 +45,7 @@ public class XmlHandlerKindTest {
         // Arrange
         XmlHandlerKind spyXMLHandlerKind = spy(new XmlHandlerKind());
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
-        doNothing().when(spyXMLHandlerKind).executeDefaultFileHandlers(any(XMLHandler.class),
+        doNothing().when(spyXMLHandlerKind).executeDefaultFileHandlers(any(XmlFileHandler.class),
                 eq(mockCommand));
 
         // Act
@@ -53,7 +53,7 @@ public class XmlHandlerKindTest {
 
         // Assert
         verify(spyXMLHandlerKind, times(1))
-                .executeDefaultFileHandlers(any(XMLHandler.class), eq(mockCommand));
+                .executeDefaultFileHandlers(any(XmlFileHandler.class), eq(mockCommand));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class XmlHandlerKindTest {
         // Create an instance of XmlHandlerKind and spy on it.
         XmlHandlerKind spyXMLHandlerKind = spy(new XmlHandlerKind());
 
-        doNothing().when(spyXMLHandlerKind).executeDefaultFileHandlers(any(XMLHandler.class),
+        doNothing().when(spyXMLHandlerKind).executeDefaultFileHandlers(any(XmlFileHandler.class),
                 any(KindHandlerCommand.class));
         // ----------- Act -------
         // Execute the subscriber method directly with a pre-built event.
@@ -91,7 +91,7 @@ public class XmlHandlerKindTest {
         // TODO improve asserts with argThat and Matchers
         // Assert
         verify(spyXMLHandlerKind, times(1))
-                .executeDefaultFileHandlers(any(XMLHandler.class), any(KindHandlerCommand.class));
+                .executeDefaultFileHandlers(any(XmlFileHandler.class), any(KindHandlerCommand.class));
 
         verify(spyXMLHandlerKind, times(1))
                 .convertEventToCommand(any(KindHandlerEvent.class));

@@ -16,7 +16,7 @@ import com.google.inject.name.Names;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
-import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
+import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
 import com.twlabs.config.ConfigReader;
 import com.twlabs.services.CreateTemplateRunner;
@@ -45,7 +45,7 @@ public class ContextTestDependencyInjection extends AbstractModule {
         bind(FileHandler.class).annotatedWith(Names.named(JSON))
                 .toInstance(spy(JsonFileHandler.class));
         bind(FileHandler.class).annotatedWith(Names.named(XML))
-                .toInstance(spy(XMLHandler.class));
+                .toInstance(spy(XmlFileHandler.class));
         bind(FileHandler.class).annotatedWith(Names.named(YAML))
                 .toInstance(spy(YamlHandler.class));
         bind(FileHandler.class).annotatedWith(Names.named(YML))

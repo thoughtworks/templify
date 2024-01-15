@@ -12,7 +12,7 @@ public class XmlHandlerKind extends KindHandlerBase<KindDefaultSpec> {
 
     @Override
     public void execute(KindHandlerCommand<KindDefaultSpec> command) throws RuntimeException {
-        this.executeDefaultFileHandlers(new XMLHandler(), command);
+        this.executeDefaultFileHandlers(new XmlFileHandler(), command);
     }
 
 }
