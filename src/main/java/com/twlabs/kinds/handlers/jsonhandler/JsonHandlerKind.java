@@ -8,8 +8,8 @@ import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 /**
  * JsonKindHandler
  */
-@KindHandler(name = JsonKindHandler.NAME)
-public class JsonKindHandler extends KindHandlerBase<KindDefaultSpec> {
+@KindHandler(name = JsonHandlerKind.NAME)
+public class JsonHandlerKind extends KindHandlerBase<KindDefaultSpec> {
 
     public static final String NAME = "JsonHandler";
 

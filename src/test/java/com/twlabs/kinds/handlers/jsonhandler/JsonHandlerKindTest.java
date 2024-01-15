@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import com.twlabs.kinds.handlers.base.KindDefaultSpec;
 import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 
-public class JsonKindHandlerTest {
+public class JsonHandlerKindTest {
     @Test
     void test_execute() {
         // Arrange
-        JsonKindHandler spyJsonHandlerKind = spy(new JsonKindHandler());
+        JsonHandlerKind spyJsonHandlerKind = spy(new JsonHandlerKind());
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
         doNothing().when(spyJsonHandlerKind).executeDefaultFileHandlers(any(JsonFileHandler.class),
                 eq(mockCommand));
