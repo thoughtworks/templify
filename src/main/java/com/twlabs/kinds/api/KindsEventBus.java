@@ -23,7 +23,7 @@ public class KindsEventBus {
         LOG.info("Registering " + UnsupportedKindHandler.class);
         bus.register(new UnsupportedKindHandler());
 
-        for (Class<?> className : KindFinder.getAll()) {
+        for (Class<?> className : KindFinder.getAllKindHandlersByReflections()) {
             LOG.info("Registering " + className);
             bus.register(className.getDeclaredConstructor().newInstance());
         }

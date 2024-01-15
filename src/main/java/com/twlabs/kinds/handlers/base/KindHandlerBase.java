@@ -36,7 +36,7 @@ public abstract class KindHandlerBase<S extends Serializable>
     // System.out.println("type from supper" +_type);
     // }
 
-    private boolean shouldProcessEvent(KindHandlerEvent event) {
+    public boolean shouldProcessEvent(KindHandlerEvent event) {
         KindHandler annotation = this.getClass().getAnnotation(KindHandler.class);
         if (annotation != null) {
             String checkKindAndVersion = annotation.name() + annotation.apiVersion();
@@ -45,13 +45,14 @@ public abstract class KindHandlerBase<S extends Serializable>
         return false;
     }
 
-    private KindHandlerCommand<S> mapEventToCommand(KindHandlerEvent event) {
+    // TODO The command and event have the same responsibility; perhaps we can delete one.
+    public KindHandlerCommand<S> convertEventToCommand(KindHandlerEvent event) {
 
         KindMappingTemplate mappingTemplate = event.getMappingTemplate();
         String name = mappingTemplate.getKind();
         List<S> specs = new ArrayList<>();
         Map<String, String> metadata = new HashMap<>();
-        CreateTemplateCommand request = event.getRequest();
+        CreateTemplateCommand request = event.getCommand();
 
         Class<?> specClass = this.getClass().getAnnotation(KindHandler.class).specClass();
 
@@ -75,10 +76,10 @@ public abstract class KindHandlerBase<S extends Serializable>
     @Subscribe
     synchronized public void subscribeToKindHandlerEvent(final KindHandlerEvent event) {
         if (this.shouldProcessEvent(event)) {
-            event.getRequest().getLogger().info("Event accepted.");
-            this.execute(this.mapEventToCommand(event));
+            event.getCommand().getLogger().info("Event accepted.");
+            this.execute(this.convertEventToCommand(event));
         } else {
-            event.getRequest().getLogger().warn("Event ignored.");
+            event.getCommand().getLogger().warn("Event ignored.");
         }
     }
 

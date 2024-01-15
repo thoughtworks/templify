@@ -8,10 +8,10 @@ import org.reflections.Reflections;
  */
 public abstract class KindFinder {
 
-    public static Set<Class<?>> getAll() {
-        Reflections reflections = new Reflections("com.twlabs.kinds");
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(KindHandler.class);
-        return annotated;
+    private static final Reflections REFLECTIONS_TWLABS_KINDS = new Reflections("com.twlabs.kinds");
+
+    public static Set<Class<?>> getAllKindHandlersByReflections() {
+        return REFLECTIONS_TWLABS_KINDS.getTypesAnnotatedWith(KindHandler.class);
     }
 
 }

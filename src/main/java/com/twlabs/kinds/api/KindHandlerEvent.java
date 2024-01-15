@@ -6,7 +6,7 @@ public class KindHandlerEvent {
 
     private String kindName;
     private KindMappingTemplate mappingTemplate;
-    private CreateTemplateCommand request;
+    private CreateTemplateCommand command;
     private String apiVersion;
 
 
@@ -15,7 +15,7 @@ public class KindHandlerEvent {
         this.kindName = mappingTemplate.getKind();
         this.apiVersion = mappingTemplate.getApiVersion();
         this.mappingTemplate = mappingTemplate;
-        this.request = request;
+        this.command = request;
     }
 
     public String getApiVersion() {
@@ -30,7 +30,7 @@ public class KindHandlerEvent {
         return mappingTemplate;
     }
 
-    public CreateTemplateCommand getRequest() {
-        return request;
+    public CreateTemplateCommand getCommand() {
+        return command;
     }
 }
