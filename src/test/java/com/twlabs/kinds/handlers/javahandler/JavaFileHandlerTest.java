@@ -23,9 +23,9 @@ import com.twlabs.kinds.api.FileHandlerException;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
 // JavaHandlerTest#test_change_java_package
-public class JavaHandlerTest {
+public class JavaFileHandlerTest {
 
-    JavaHandler javaHandler = new JavaHandler();
+    JavaFileHandler javaHandler = new JavaFileHandler();
 
     static String query = "";
     static String baseDir = "src/test/resources/processador/java/dynamic";

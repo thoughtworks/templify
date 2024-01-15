@@ -1,5 +1,6 @@
 package com.twlabs.kinds.handlers.javahandler;
 
+import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,11 +17,11 @@ import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.handlers.base.AbstractFileHandler;
 
 /**
- * This class represents a JavaHandler, which is a type of FileHandler that implements the
+ * This class represents a JavaFileHandler, which is a type of FileHandler that implements the
  * FileHandlerOptions interface.
  * 
- * The JavaHandler class provides functionality for handling Java files, including reading, writing,
- * and manipulating Java code.
+ * The JavaFileHandler class provides functionality for handling Java files, including reading,
+ * writing, and manipulating Java code.
  * 
  * This class extends the FileHandlerOptions class, which provides additional options and settings
  * for file handling.
@@ -28,7 +29,7 @@ import com.twlabs.kinds.handlers.base.AbstractFileHandler;
  * Usage:
  * 
  * <pre>
- * JavaHandler handler = new JavaHandler();
+ * JavaFileHandler handler = new JavaFileHandler();
  * </pre>
  * 
  * Note: This class assumes that the Java files being handled are valid and well-formed.
@@ -36,7 +37,7 @@ import com.twlabs.kinds.handlers.base.AbstractFileHandler;
  * @see AbstractFileHandler
  * @see FileHandler
  */
-public class JavaHandler extends AbstractFileHandler {
+public class JavaFileHandler extends AbstractFileHandler {
 
 
     private static final String DEFAULT_VALUE_PREFIX = "{{";

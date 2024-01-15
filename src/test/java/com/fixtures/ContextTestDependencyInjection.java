@@ -14,7 +14,7 @@ import static org.mockito.Mockito.spy;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.twlabs.kinds.api.FileHandler;
-import com.twlabs.kinds.handlers.javahandler.JavaHandler;
+import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
@@ -41,7 +41,7 @@ public class ContextTestDependencyInjection extends AbstractModule {
 
         // file Handlers block
         bind(FileHandler.class).annotatedWith(Names.named(JAVA))
-                .toInstance(mock(JavaHandler.class));
+                .toInstance(mock(JavaFileHandler.class));
         bind(FileHandler.class).annotatedWith(Names.named(JSON))
                 .toInstance(spy(JsonHandler.class));
         bind(FileHandler.class).annotatedWith(Names.named(XML))

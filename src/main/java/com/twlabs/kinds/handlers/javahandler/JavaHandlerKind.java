@@ -1,19 +1,19 @@
 package com.twlabs.kinds.handlers.javahandler;
 
 import java.util.List;
+import com.twlabs.config.PlaceholderSettings;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.api.KindHandler;
 import com.twlabs.kinds.handlers.base.KindHandlerBase;
 import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 import com.twlabs.kinds.handlers.base.KindPlaceholder;
-import com.twlabs.config.PlaceholderSettings;
 import com.twlabs.services.logger.RunnerLogger;
 
 
 @KindHandler(name = "JavaHandler", specClass = JavaHandlerSpec.class)
 public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
 
-    private JavaHandler javaHandler = new JavaHandler();
+    private JavaFileHandler javaHandler = new JavaFileHandler();
 
     @Override
     public void execute(KindHandlerCommand<JavaHandlerSpec> command) {

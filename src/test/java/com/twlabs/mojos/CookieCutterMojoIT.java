@@ -15,7 +15,7 @@ import com.soebes.itf.jupiter.extension.MavenTest;
 import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
-import com.twlabs.kinds.handlers.javahandler.JavaHandler;
+import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
@@ -199,7 +199,7 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_replace_java(MavenExecutionResult result) throws FileHandlerException {
-        JavaHandler javaHandler = new JavaHandler();
+        JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
@@ -258,7 +258,7 @@ public class CookieCutterMojoIT {
 
     @MavenTest
     public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
-        JavaHandler javaHandler = new JavaHandler();
+        JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
@@ -309,7 +309,7 @@ public class CookieCutterMojoIT {
                 .anyMatch(msg -> msg.contains("Using custom placeholder settings!! -> Prefix:"
                         + prefix + " and Suffix: " + suffix));
 
-        // JavaHandler javaHandler = new JavaHandler();
+        // JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));

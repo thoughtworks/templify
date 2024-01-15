@@ -13,4 +13,3 @@ public class JavaHandlerSpec extends KindDefaultSpec {
         return baseDir;
     }
 }
-

@@ -13,7 +13,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.name.Names;
 import com.twlabs.kinds.api.FileHandler;
-import com.twlabs.kinds.handlers.javahandler.JavaHandler;
+import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
@@ -29,7 +29,7 @@ public class ContextDependencyInjectionTest {
             Guice.createInjector(new ContextDependencyInjection());
 
     private static Stream<Arguments> namedFileHandlers() {
-        return Stream.of(Arguments.of(JAVA, JavaHandler.class),
+        return Stream.of(Arguments.of(JAVA, JavaFileHandler.class),
                 Arguments.of(JSON, JsonHandler.class), Arguments.of(XML, XMLHandler.class),
                 Arguments.of(YAML, YamlHandler.class), Arguments.of(YML, YamlHandler.class));
     }
