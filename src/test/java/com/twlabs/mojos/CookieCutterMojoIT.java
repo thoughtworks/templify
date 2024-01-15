@@ -16,7 +16,7 @@ import com.soebes.itf.jupiter.maven.MavenExecutionResult;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
-import com.twlabs.kinds.handlers.jsonhandler.JsonHandler;
+import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XMLHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
 
@@ -224,7 +224,7 @@ public class CookieCutterMojoIT {
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
-        FileHandler jsonHandler = new JsonHandler();
+        FileHandler jsonHandler = new JsonFileHandler();
 
         assertThat(result).isSuccessful();
 

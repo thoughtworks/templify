@@ -15,7 +15,7 @@ public class JsonKindHandler extends KindHandlerBase<KindDefaultSpec> {
 
     @Override
     public void execute(KindHandlerCommand<KindDefaultSpec> command) throws RuntimeException {
-        this.executeDefaultFileHandlers(new JsonHandler(), command);
+        this.executeDefaultFileHandlers(new JsonFileHandler(), command);
     }
 
 

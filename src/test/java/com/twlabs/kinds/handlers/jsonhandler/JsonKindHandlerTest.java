@@ -17,7 +17,7 @@ public class JsonKindHandlerTest {
         // Arrange
         JsonKindHandler spyJsonHandlerKind = spy(new JsonKindHandler());
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
-        doNothing().when(spyJsonHandlerKind).executeDefaultFileHandlers(any(JsonHandler.class),
+        doNothing().when(spyJsonHandlerKind).executeDefaultFileHandlers(any(JsonFileHandler.class),
                 eq(mockCommand));
 
         // Act
@@ -25,7 +25,7 @@ public class JsonKindHandlerTest {
 
         // Assert
         verify(spyJsonHandlerKind, times(1))
-                .executeDefaultFileHandlers(any(JsonHandler.class), eq(mockCommand));
+                .executeDefaultFileHandlers(any(JsonFileHandler.class), eq(mockCommand));
     }
 }
 

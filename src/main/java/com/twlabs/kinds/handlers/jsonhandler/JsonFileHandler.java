@@ -26,7 +26,7 @@ import com.twlabs.kinds.handlers.base.AbstractFileHandler;
  * @see AbstractFileHandler
  * @see FileHandler
  */
-public class JsonHandler extends AbstractFileHandler {
+public class JsonFileHandler extends AbstractFileHandler {
 
 
 

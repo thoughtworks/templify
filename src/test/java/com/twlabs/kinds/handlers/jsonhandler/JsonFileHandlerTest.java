@@ -21,9 +21,9 @@ import com.twlabs.kinds.api.FileHandlerException;
  * JsonHandlerTest
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class JsonHandlerTest {
+public class JsonFileHandlerTest {
 
-    FileHandler jsonHandler = new JsonHandler();
+    FileHandler jsonHandler = new JsonFileHandler();
     Faker faker = new Faker();
     final String teste_json = "src/test/resources/processador/json/teste.json";
     final String teste_empty_json = "src/test/resources/processador/json/empty.json";
