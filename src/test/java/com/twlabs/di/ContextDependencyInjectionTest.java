@@ -16,7 +16,7 @@ import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
-import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
+import com.twlabs.kinds.handlers.yamlhandler.YamlFileHandler;
 
 /**
  * BasicModuleTest
@@ -31,7 +31,7 @@ public class ContextDependencyInjectionTest {
     private static Stream<Arguments> namedFileHandlers() {
         return Stream.of(Arguments.of(JAVA, JavaFileHandler.class),
                 Arguments.of(JSON, JsonFileHandler.class), Arguments.of(XML, XmlFileHandler.class),
-                Arguments.of(YAML, YamlHandler.class), Arguments.of(YML, YamlHandler.class));
+                Arguments.of(YAML, YamlFileHandler.class), Arguments.of(YML, YamlFileHandler.class));
     }
 
     @ParameterizedTest

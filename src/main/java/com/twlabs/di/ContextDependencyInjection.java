@@ -16,7 +16,7 @@ import com.twlabs.kinds.api.KindsEventBus;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
-import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
+import com.twlabs.kinds.handlers.yamlhandler.YamlFileHandler;
 import com.twlabs.config.ConfigReader;
 import com.twlabs.services.CreateTemplateRunner;
 import com.twlabs.services.RunnerDefault;
@@ -63,8 +63,8 @@ public class ContextDependencyInjection extends AbstractModule {
         bind(FileHandler.class).annotatedWith(Names.named(JAVA)).to(JavaFileHandler.class);
         bind(FileHandler.class).annotatedWith(Names.named(JSON)).to(JsonFileHandler.class);
         bind(FileHandler.class).annotatedWith(Names.named(XML)).to(XmlFileHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named(YAML)).to(YamlHandler.class);
-        bind(FileHandler.class).annotatedWith(Names.named(YML)).to(YamlHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(YAML)).to(YamlFileHandler.class);
+        bind(FileHandler.class).annotatedWith(Names.named(YML)).to(YamlFileHandler.class);
 
         // general services block and Kinds
         bind(ConfigReader.class).to(YamlConfigReader.class);

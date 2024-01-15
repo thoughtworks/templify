@@ -18,7 +18,7 @@ public class YamlHandlerKindTest {
         // Arrange
         YamlHandlerKind spyYamlHandlerKind = spy(new YamlHandlerKind());
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
-        doNothing().when(spyYamlHandlerKind).executeDefaultFileHandlers(any(YamlHandler.class),
+        doNothing().when(spyYamlHandlerKind).executeDefaultFileHandlers(any(YamlFileHandler.class),
                 eq(mockCommand));
 
         // Act
@@ -26,7 +26,7 @@ public class YamlHandlerKindTest {
 
         // Assert
         verify(spyYamlHandlerKind, times(1))
-                .executeDefaultFileHandlers(any(YamlHandler.class), eq(mockCommand));
+                .executeDefaultFileHandlers(any(YamlFileHandler.class), eq(mockCommand));
     }
 }
 

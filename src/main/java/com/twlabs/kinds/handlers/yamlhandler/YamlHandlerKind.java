@@ -12,6 +12,6 @@ public class YamlHandlerKind extends KindHandlerBase<KindDefaultSpec> {
 
     @Override
     public void execute(KindHandlerCommand<KindDefaultSpec> command) throws RuntimeException {
-        this.executeDefaultFileHandlers(new YamlHandler(), command);
+        this.executeDefaultFileHandlers(new YamlFileHandler(), command);
     }
 }

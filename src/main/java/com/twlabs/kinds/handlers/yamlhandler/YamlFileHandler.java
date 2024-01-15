@@ -29,7 +29,7 @@ import io.github.yamlpath.YamlPath;
  * @see FileHandler
  * 
  */
-public class YamlHandler extends AbstractFileHandler {
+public class YamlFileHandler extends AbstractFileHandler {
 
 
     @Override

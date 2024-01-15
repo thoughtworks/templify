@@ -18,7 +18,7 @@ import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
 import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
 import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
-import com.twlabs.kinds.handlers.yamlhandler.YamlHandler;
+import com.twlabs.kinds.handlers.yamlhandler.YamlFileHandler;
 
 @MavenJupiterExtension
 public class CookieCutterMojoIT {
@@ -161,7 +161,7 @@ public class CookieCutterMojoIT {
     public void test_replace_generics_yml_files(MavenExecutionResult result)
             throws FileHandlerException {
 
-        FileHandler yamlHandler = new YamlHandler();
+        FileHandler yamlHandler = new YamlFileHandler();
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()

@@ -20,9 +20,9 @@ import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
 
 @DisplayNameGeneration(ReplaceUnderscores.class)
-public class YamlHandlerTest {
+public class YamlFileHandlerTest {
 
-    FileHandler yamlHandler = new YamlHandler();
+    FileHandler yamlHandler = new YamlFileHandler();
 
 
     Faker faker = new Faker();
