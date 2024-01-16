@@ -33,6 +33,7 @@ public class XmlHandlerKindTest {
 
     Injector injector = Guice.createInjector(new ContextDependencyInjection());
 
+
     @Test
     void test_execute_should_call_execute_default_file_handler_mock() {
         // Arrange
@@ -101,7 +102,7 @@ public class XmlHandlerKindTest {
                 .shouldProcessEvent(any(KindHandlerEvent.class));
 
         verify(spyCreateTemplateCommand.getLogger()).info(contains("Event accepted."));
-        verify(spyCreateTemplateCommand.getLogger()).info(contains("Convert Event to Command."));
+        verify(spyCreateTemplateCommand.getLogger()).info(contains("Converting Event to Command."));
     }
 
 
