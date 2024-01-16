@@ -1,0 +1,4 @@
+#backstage-template-condition-infra-elk-condition-start
+docker-infra-elk:
+	NETWORK_NAME=$(NETWORK_NAME) docker-compose -f $(DEMO_PATH)/docker-compose.infra-elk.yml $(CMD)
+#backstage-template-condition-infra-elk-condition-end

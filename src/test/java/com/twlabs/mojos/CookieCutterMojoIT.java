@@ -324,6 +324,25 @@ public class CookieCutterMojoIT {
                         + classpathTemplate_java);
     }
 
+    @MavenTest
+    public void test_using_custom_placeholder_settings_and_default_handler(MavenExecutionResult result) {
+
+        String prefix = "{%";
+        String suffix = "%}";
+        String type = "unknown";
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Using custom placeholder settings!! -> Prefix:" + prefix + " and Suffix: " + suffix);
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("No handler found for type: " + type + ". Defaulting to PlainTextHandler");
+
+                        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+    }
+
 
 
 }
