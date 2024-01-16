@@ -14,5 +14,4 @@ public class XmlHandlerKind extends KindHandlerBase<KindDefaultSpec> {
     public void execute(KindHandlerCommand<KindDefaultSpec> command) throws RuntimeException {
         this.executeDefaultFileHandlers(new XmlFileHandler(), command);
     }
-
 }

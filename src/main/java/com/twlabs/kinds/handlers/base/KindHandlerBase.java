@@ -47,6 +47,7 @@ public abstract class KindHandlerBase<S extends Serializable>
 
     // TODO The command and event have the same responsibility; perhaps we can delete one.
     public KindHandlerCommand<S> convertEventToCommand(KindHandlerEvent event) {
+        event.getCommand().getLogger().info("Converting Event to Command.");
 
         KindMappingTemplate mappingTemplate = event.getMappingTemplate();
         String name = mappingTemplate.getKind();
@@ -74,7 +75,7 @@ public abstract class KindHandlerBase<S extends Serializable>
     }
 
     @Subscribe
-    synchronized public void subscribeToKindHandlerEvent(final KindHandlerEvent event) {
+    public void subscribeToKindHandlerEvent(KindHandlerEvent event) {
         if (this.shouldProcessEvent(event)) {
             event.getCommand().getLogger().info("Event accepted.");
             this.execute(this.convertEventToCommand(event));
