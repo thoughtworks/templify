@@ -30,7 +30,7 @@ public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
     }
 
 
-    private void handleJavaType(RunnerLogger logger, String templateDirectory,
+    protected void handleJavaType(RunnerLogger logger, String templateDirectory,
             PlaceholderSettings placeholder, String baseDir,
             List<KindPlaceholder> placeholdersNew) {
 

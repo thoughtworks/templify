@@ -2,8 +2,8 @@
 
 test(){
     classes=""
-    # for s in `git diff --name-only HEAD~`
-    for s in `git diff --name-only`
+    for s in `git diff --name-only HEAD~`
+    # for s in `git diff --name-only`
     do
         if [[ $s == *".java" ]]; then
             s=$(echo $s | tr '/' '.')
