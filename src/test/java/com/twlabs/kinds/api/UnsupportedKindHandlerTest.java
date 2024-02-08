@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.twlabs.kinds.handlers.javahandler.JavaHandlerKind;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.logger.LoggerStrategyFactory;
 import com.twlabs.services.logger.RunnerLogger;
@@ -48,17 +49,11 @@ public class UnsupportedKindHandlerTest {
 
     }
 
-
-    @KindHandler(name = "kind_test", apiVersion = "apiVersion_test")
-    static class KindHandlerStup {
-        KindHandlerStup() {}
-    }
-
     @Test
     void test_should_never_log_no_kindHandler_found_for_x_and_not_thrown() {
         // ARRANGE:
-        doReturn("kind_test").when(template).getKind();
-        doReturn("apiVersion_test").when(template).getApiVersion();
+        doReturn(JavaHandlerKind.NAME).when(template).getKind();
+        doReturn("v1").when(template).getApiVersion();
 
         KindHandlerEvent event = new KindHandlerEvent(template, command);
 

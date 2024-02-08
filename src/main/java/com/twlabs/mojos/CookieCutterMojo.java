@@ -10,7 +10,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.di.CoreModule;
 import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.CreateTemplateRunner;
 
@@ -41,7 +41,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
         getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 
-        Injector injector = Guice.createInjector(new ContextDependencyInjection());
+        Injector injector = Guice.createInjector(new CoreModule());
         injector.injectMembers(this);
 
 

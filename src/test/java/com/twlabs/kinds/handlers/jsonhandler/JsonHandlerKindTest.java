@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.di.CoreModule;
 import com.twlabs.kinds.api.FileHandler;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.handlers.base.KindDefaultSpec;
@@ -40,7 +40,7 @@ public class JsonHandlerKindTest {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_java/";
 
     private LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
-    Injector injector = Guice.createInjector(new ContextDependencyInjection());
+    Injector injector = Guice.createInjector(new CoreModule());
 
     private CreateTemplateCommand spyCreateTemplateCommand;
     private RunnerLogger spyLogger;

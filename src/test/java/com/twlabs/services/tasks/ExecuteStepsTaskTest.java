@@ -1,9 +1,12 @@
 package com.twlabs.services.tasks;
 
+import static com.twlabs.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -12,16 +15,24 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.EventBusWithExceptionHandler;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.twlabs.config.PluginConfig;
 import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
-import com.twlabs.kinds.api.KindsEventBus;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
+import com.twlabs.services.RunnerTask;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
@@ -37,26 +48,49 @@ public class ExecuteStepsTaskTest {
     private static final String XML_HANDLER = "XmlHandler";
     private static final String BUILD_TEMPLATE_DIR = "/template";
 
+    @Inject
+    @Named(EXECUTE_STEPS_TASK)
+    RunnerTask spyExecuteStepsTask;
+
+    @Inject
+    EventBus spyEventBus;
+
+    class ModuleTest extends AbstractModule {
+
+        @Override
+        protected void configure() {
+            bind(EventBus.class).toInstance(spy(EventBusWithExceptionHandler.class));
+            bind(RunnerTask.class).annotatedWith(Names.named(EXECUTE_STEPS_TASK))
+                    .to(ExecuteStepsTask.class);
+
+        }
+
+    }
+
+    @BeforeEach
+    public void setup() {
+        Injector injector = Guice.createInjector(new ModuleTest());
+        injector.injectMembers(this);
+        spyExecuteStepsTask = spy(spyExecuteStepsTask);
+    }
 
     @ParameterizedTest
     @CsvSource(value = {PROJECT_BASIC_CONFIGS})
     public void test_execute_steps(String baseDir, @TempDir Path tmpDir) {
 
-        // Arrange
-        EventBus mockEventBus = mock(EventBus.class);
-        ExecuteStepsTask executeStepsTask = new ExecuteStepsTask(mockEventBus);
-
+        // ARRANGE:
+        doNothing().when(spyEventBus).post(any());
         CreateTemplateCommand spyCommand =
                 TestUtils.createSpyTemplateRequestWithMockedKind(tmpDir, baseDir,
                         XML_HANDLER);
 
-        // Act
-        CreateTemplateCommand execute = executeStepsTask.execute(spyCommand);
+        // ACT:
+        CreateTemplateCommand execute = spyExecuteStepsTask.execute(spyCommand);
 
-        // Assert
+        // ASSERT:
         assertNotNull(execute);
         verify(execute.getLogger(), times(1)).info(contains("Producing KindHandlerEvent:"));
-        verify(mockEventBus, times(1))
+        verify(spyEventBus, times(1))
                 .post(argThat(
                         (KindHandlerEvent event) -> event.getKindName().equals(XML_HANDLER)));
     }
@@ -66,19 +100,14 @@ public class ExecuteStepsTaskTest {
     @CsvSource(value = {PROJECT_BASIC_CONFIGS})
     public void test_execute_steps_unsuported_kind(String baseDir, @TempDir Path tmpDir) {
 
-        // Arrange
-        EventBus spyEventBus = spy(KindsEventBus.getInstance());
-        ExecuteStepsTask executeStepsTask =
-                new ExecuteStepsTask(spyEventBus);
-
-        // Act
+        // ACT:
         assertThrows(RuntimeException.class, () -> {
-            executeStepsTask.execute(
+            spyExecuteStepsTask.execute(
                     TestUtils.createSpyTemplateRequestWithMockedKind(tmpDir, baseDir,
                             UNSUPPORTED_KIND));
         });
 
-        // Assert
+        // ASSERT:
         verify(spyEventBus, times(1))
                 .post(argThat(
                         (KindHandlerEvent event) -> event.getKindName().equals(UNSUPPORTED_KIND)));

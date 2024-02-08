@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.twlabs.config.PlaceholderSettings;
-import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.di.CoreModule;
 import com.twlabs.kinds.api.FileHandlerException;
 import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
@@ -38,7 +38,7 @@ public class JavaHandlerKindTest {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_java/";
 
     private LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
-    Injector injector = Guice.createInjector(new ContextDependencyInjection());
+    Injector injector = Guice.createInjector(new CoreModule());
 
     private CreateTemplateCommand spyCreateTemplateCommand;
     private JavaFileHandler spyJavaFileHandler;

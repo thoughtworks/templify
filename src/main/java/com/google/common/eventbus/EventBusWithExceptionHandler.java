@@ -1,9 +1,34 @@
 package com.google.common.eventbus;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Logger;
+import com.twlabs.kinds.api.Kind;
+import com.twlabs.kinds.api.KindFinder;
+import com.twlabs.kinds.api.UnsupportedKindHandler;
+
 /**
  * EventBusWithExceptionHandler
  */
 public class EventBusWithExceptionHandler extends EventBus {
+
+    private final static Logger LOG =
+            Logger.getLogger(EventBusWithExceptionHandler.class.getName());
+
+    public EventBusWithExceptionHandler()
+            throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
+        super();
+
+        LOG.info("Registering KindsEventBus handlers");
+        LOG.info("Registering " + UnsupportedKindHandler.class);
+        this.register(new UnsupportedKindHandler());
+
+        for (Kind<?> kind : new KindFinder().getAllKindHandlers()) {
+            LOG.info("Registering " + kind.getClass());
+            this.register(kind.getClass().getDeclaredConstructor().newInstance());
+        }
+
+    }
 
     /**
      * Overrides the handleSubscriberException method from the parent class.

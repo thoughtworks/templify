@@ -1,17 +1,33 @@
 package com.twlabs.kinds.api;
 
+import java.util.HashSet;
 import java.util.Set;
-import org.reflections.Reflections;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
+import com.twlabs.di.KindHandlersModule;
+import com.twlabs.kinds.handlers.KindHandlersIndex;
 
 /**
  * KindFinder
  */
-public abstract class KindFinder {
+public class KindFinder {
 
-    private static final Reflections REFLECTIONS_TWLABS_KINDS = new Reflections("com.twlabs.kinds");
+    public Set<Kind<?>> getAllKindHandlers() {
 
-    public static Set<Class<?>> getAllKindHandlersByReflections() {
-        return REFLECTIONS_TWLABS_KINDS.getTypesAnnotatedWith(KindHandler.class);
+        Injector injector = Guice.createInjector(new KindHandlersModule());
+
+        Set<Kind<?>> kindHandlers = new HashSet<>();
+
+        Set<String> registeredKindsNames = KindHandlersIndex.getRegisteredKinds();
+
+        for (String kindName : registeredKindsNames) {
+            kindHandlers.add(injector.getInstance(Key.get(Kind.class, Names.named(kindName))));
+        }
+
+        return kindHandlers;
+
     }
 
 }

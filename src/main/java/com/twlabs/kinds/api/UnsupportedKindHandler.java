@@ -11,10 +11,9 @@ public class UnsupportedKindHandler {
     public void handleDeadEvent(KindHandlerEvent event) {
         final String kindName = event.getKindName() + event.getApiVersion();
 
-        for (Class<?> kh : KindFinder.getAllKindHandlersByReflections()) {
-            KindHandler annotation = kh.getAnnotation(KindHandler.class);
+        for (Kind<?> kh : new KindFinder().getAllKindHandlers()) {
+            KindHandler annotation = kh.getClass().getAnnotation(KindHandler.class);
             String mapping = annotation.name() + annotation.apiVersion();
-
 
             if (kindName.equals(mapping))
                 return;

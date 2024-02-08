@@ -13,7 +13,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.di.CoreModule;
 import com.twlabs.kinds.api.KindHandlerEvent;
 import com.twlabs.kinds.api.KindMappingTemplate;
 import com.twlabs.kinds.handlers.base.KindDefaultSpec;
@@ -30,7 +30,7 @@ public class XmlHandlerKindTest {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/";
     LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
 
-    Injector injector = Guice.createInjector(new ContextDependencyInjection());
+    Injector injector = Guice.createInjector(new CoreModule());
 
 
     @Test

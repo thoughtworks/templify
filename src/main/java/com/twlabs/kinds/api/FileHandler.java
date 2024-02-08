@@ -13,6 +13,7 @@ public interface FileHandler {
         public static final String XML = "xml";
         public static final String YAML = "yaml";
         public static final String YML = "yml";
+        public static final String PLAIN_TEXT = "plain_text";
     }
 
     /**

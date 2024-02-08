@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 public class KindFinderTest {
 
     @Test
-    void test_get_all_by_reflections_should_return_at_least_one() {
-        Set<Class<?>> allByReflections = KindFinder.getAllKindHandlersByReflections();
-        assertNotNull(allByReflections);
-        assertThat(allByReflections).hasSizeGreaterThan(0);
+    void test_get_all_registered_kinds() {
+        Set<Kind<?>> allRegistedKinds = new KindFinder().getAllKindHandlers();
+        assertNotNull(allRegistedKinds);
+        assertThat(allRegistedKinds).hasSizeGreaterThan(0);
     }
 }
 

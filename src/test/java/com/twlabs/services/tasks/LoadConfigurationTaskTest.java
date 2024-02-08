@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.twlabs.di.ContextDependencyInjection;
+import com.twlabs.di.CoreModule;
 import com.twlabs.services.CreateTemplateCommand;
 import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.logger.RunnerLogger;
@@ -24,7 +24,7 @@ public class LoadConfigurationTaskTest {
     private static final String BUILD_TEMPLATE_DIR = "/template";
 
     LoadConfigurationTask task = new LoadConfigurationTask();
-    Injector injector = Guice.createInjector(new ContextDependencyInjection());
+    Injector injector = Guice.createInjector(new CoreModule());
 
     @ParameterizedTest
     @CsvSource(value = {

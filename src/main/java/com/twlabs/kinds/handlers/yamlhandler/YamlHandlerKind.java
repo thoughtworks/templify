@@ -8,7 +8,7 @@ import com.twlabs.kinds.handlers.base.KindHandlerCommand;
 @KindHandler(name = YamlHandlerKind.NAME)
 public class YamlHandlerKind extends KindHandlerBase<KindDefaultSpec> {
 
-    static final String NAME = "YmlHandler";
+    public static final String NAME = "YmlHandler";
 
     @Override
     public void execute(KindHandlerCommand<KindDefaultSpec> command) throws RuntimeException {

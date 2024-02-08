@@ -10,9 +10,10 @@ import com.twlabs.kinds.handlers.base.KindPlaceholder;
 import com.twlabs.services.logger.RunnerLogger;
 
 
-@KindHandler(name = "JavaHandler", specClass = JavaHandlerSpec.class)
+@KindHandler(name = JavaHandlerKind.NAME, specClass = JavaHandlerSpec.class)
 public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
 
+    public static final String NAME = "JavaHandler";
     private JavaFileHandler javaHandler;
 
     public JavaHandlerKind() {
