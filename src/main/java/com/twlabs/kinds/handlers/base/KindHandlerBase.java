@@ -38,11 +38,8 @@ public abstract class KindHandlerBase<S extends Serializable>
 
     public boolean shouldProcessEvent(KindHandlerEvent event) {
         KindHandler annotation = this.getClass().getAnnotation(KindHandler.class);
-        if (annotation != null) {
-            String checkKindAndVersion = annotation.name() + annotation.apiVersion();
-            return checkKindAndVersion.equals(event.getKindName() + event.getApiVersion());
-        }
-        return false;
+        String checkKindAndVersion = annotation.name() + annotation.apiVersion();
+        return checkKindAndVersion.equals(event.getKindName() + event.getApiVersion());
     }
 
     // TODO The command and event have the same responsibility; perhaps we can delete one.
@@ -87,25 +84,15 @@ public abstract class KindHandlerBase<S extends Serializable>
     public void executeDefaultFileHandlers(FileHandler fileHandler,
             KindHandlerCommand<S> command) {
 
-        command.getLogger().info("Executing:" + fileHandler.getClass().getName());
+        command.getLogger().info("Executing: " + fileHandler.getClass().getName());
         String templateDirectory = command.getRequest().getTemplateDir();
         PlaceholderSettings placeholder = command.getRequest().getPlaceholder();
 
         for (final S spec : command.getSpecs()) {
-            if (spec instanceof DefaultSpecification) {
-                DefaultSpecification defaultSpec = (DefaultSpecification) spec;
-                this.handleFiles(command.getLogger(), templateDirectory, placeholder,
-                        defaultSpec.getFiles(),
-                        defaultSpec.getPlaceholders(), fileHandler);
-            } else {
-                command.getLogger().error(
-                        "In order to use the utils executeDefaultFileHandler your KindHandler must: \n"
-                                +
-                                "1. It's specification object must implement the DefaultSpecification interface. \n"
-                                +
-                                "2.  Or It's have to use the DefaultSpecification class.");
-
-            }
+            DefaultSpecification defaultSpec = (DefaultSpecification) spec;
+            this.handleFiles(command.getLogger(), templateDirectory, placeholder,
+                    defaultSpec.getFiles(),
+                    defaultSpec.getPlaceholders(), fileHandler);
         }
     }
 

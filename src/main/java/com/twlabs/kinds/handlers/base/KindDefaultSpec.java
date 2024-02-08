@@ -18,6 +18,13 @@ public class KindDefaultSpec implements DefaultSpecification {
     private List<String> files;
     private List<KindPlaceholder> placeholders;
 
+    public KindDefaultSpec(List<String> files, List<KindPlaceholder> placeholders) {
+        this.files = files;
+        this.placeholders = placeholders;
+    }
+
+    public KindDefaultSpec() {}
+
     public List<String> getFiles() {
         return files;
     }

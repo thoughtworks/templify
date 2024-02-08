@@ -15,12 +15,11 @@ public class UnsupportedKindHandler {
             KindHandler annotation = kh.getAnnotation(KindHandler.class);
             String mapping = annotation.name() + annotation.apiVersion();
 
-            event.getCommand().getLogger().info("Unsupported kind handler received: " + kindName);
-            event.getCommand().getLogger().info("kind handler find: " + mapping);
 
             if (kindName.equals(mapping))
                 return;
         }
+        event.getCommand().getLogger().info("No KindHandler found for: " + kindName);
 
         throw new RuntimeException("Unsupported kind handler received: " + event.getKindName());
     }

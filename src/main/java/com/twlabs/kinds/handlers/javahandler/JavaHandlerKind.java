@@ -13,7 +13,15 @@ import com.twlabs.services.logger.RunnerLogger;
 @KindHandler(name = "JavaHandler", specClass = JavaHandlerSpec.class)
 public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
 
-    private JavaFileHandler javaHandler = new JavaFileHandler();
+    private JavaFileHandler javaHandler;
+
+    public JavaHandlerKind() {
+        this.javaHandler = new JavaFileHandler();
+    }
+
+    public JavaHandlerKind(JavaFileHandler javaHandler) {
+        this.javaHandler = javaHandler;
+    }
 
     @Override
     public void execute(KindHandlerCommand<JavaHandlerSpec> command) {
@@ -24,6 +32,7 @@ public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
         PlaceholderSettings placeholder = command.getRequest().getPlaceholder();
 
         for (final JavaHandlerSpec spec : command.getSpecs()) {
+            command.getLogger().info("Executing spec: " + spec.getBaseDir());
             handleJavaType(command.getLogger(), templateDirectory, placeholder, spec.getBaseDir(),
                     spec.getPlaceholders());
         }

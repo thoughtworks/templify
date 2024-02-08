@@ -11,11 +11,11 @@ public class KindHandlerEvent {
 
 
     public KindHandlerEvent(KindMappingTemplate mappingTemplate,
-            CreateTemplateCommand request) {
+            CreateTemplateCommand command) {
         this.kindName = mappingTemplate.getKind();
         this.apiVersion = mappingTemplate.getApiVersion();
         this.mappingTemplate = mappingTemplate;
-        this.command = request;
+        this.command = command;
     }
 
     public String getApiVersion() {

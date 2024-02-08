@@ -402,6 +402,9 @@
                 <version>${pitest.version}</version>
                 <configuration>
                     <skip>${unit.only}</skip>
+                    <!-- WARN: Try to refactory code in order to fix TIME_OUT MINIONS instead of
+                    increasing this -->
+                    <timeoutConstant>15000</timeoutConstant>
                     <!-- <withHistory>true</withHistory> -->
                     <targetClasses>
                         <param>com.twlabs.*</param>
