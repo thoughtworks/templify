@@ -212,7 +212,7 @@
       <plugin>
         <groupId>com.soebes.itf.jupiter.extension</groupId>
         <artifactId>itf-maven-plugin</artifactId>
-        <version>${itf-maven-plugin.version}</version>
+        <version>${itf.version}</version>
         <executions>
           <execution>
             <id>installing</id>
@@ -282,28 +282,6 @@
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>${repos.snapshot.id}</id>
-      <url>${repos.snapshot.url}</url>
-    </repository>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>${repos.release.id}</id>
-      <url>${repos.release.url}</url>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -332,7 +310,7 @@
     <dependency>
       <groupId>org.junit.vintage</groupId>
       <artifactId>junit-vintage-engine</artifactId>
-      <version>5.9.2</version>
+      <version>5.10.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -348,7 +326,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.9.2</version>
+      <version>5.10.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -364,7 +342,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.9.2</version>
+      <version>5.10.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -384,7 +362,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
-      <version>5.9.2</version>
+      <version>5.10.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -396,7 +374,7 @@
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-extension-maven</artifactId>
-      <version>0.12.0</version>
+      <version>0.13.1</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -408,20 +386,26 @@
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-assertj</artifactId>
-      <version>0.12.0</version>
+      <version>0.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.soebes.itf.jupiter.extension</groupId>
       <artifactId>itf-jupiter-extension</artifactId>
-      <version>0.12.0</version>
+      <version>0.13.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>3.20.2</version>
+      <version>3.25.3</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>byte-buddy</artifactId>
+          <groupId>net.bytebuddy</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.pitest</groupId>
@@ -437,16 +421,16 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
-          <artifactId>byte-buddy</artifactId>
-          <groupId>net.bytebuddy</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>byte-buddy-agent</artifactId>
           <groupId>net.bytebuddy</groupId>
         </exclusion>
         <exclusion>
           <artifactId>objenesis</artifactId>
           <groupId>org.objenesis</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>byte-buddy</artifactId>
+          <groupId>net.bytebuddy</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -505,15 +489,13 @@
     <jacoco.package.line.coveredratio>0.80</jacoco.package.line.coveredratio>
     <javafaker.version>1.0.2</javafaker.version>
     <surefire.report.printStderrOnError>true</surefire.report.printStderrOnError>
-    <repos.release.url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</repos.release.url>
     <slf4j.version>2.0.12</slf4j.version>
-    <maven.shade.conf.mainClass>com.twlabs.cli.CheckSum</maven.shade.conf.mainClass>
+    <maven.shade.conf.mainClass>com.twlabs.cli.Hello</maven.shade.conf.mainClass>
     <pit.conf.siteReportName>mutation-tests-report</pit.conf.siteReportName>
     <pitest.version>1.15.2</pitest.version>
     <pit.conf.excludedTestClasses>com.twlabs.*MojoIT</pit.conf.excludedTestClasses>
     <failsafe.only>${skipTests}</failsafe.only>
     <maven-surefire-junit5-tree-reporter.version>1.2.1</maven-surefire-junit5-tree-reporter.version>
-    <itf-maven-plugin.version>0.12.0</itf-maven-plugin.version>
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
     <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
     <surefire.report.printStacktraceOnFailure>true</surefire.report.printStacktraceOnFailure>
@@ -524,28 +506,25 @@
     <guice.version>7.0.0</guice.version>
     <surefire.report.printStderrOnSuccess>false</surefire.report.printStderrOnSuccess>
     <surefire.report.printStderrOnFailure>true</surefire.report.printStderrOnFailure>
-    <itf.version>0.12.0</itf.version>
-    <repos.snapshot.id>artifact-registry</repos.snapshot.id>
+    <itf.version>0.13.1</itf.version>
     <mojo-executor>2.4.0</mojo-executor>
     <picocli.version>4.7.5</picocli.version>
     <pit.conf.targetClasses>com.twlabs.*</pit.conf.targetClasses>
-    <repos.snapshot.url>artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</repos.snapshot.url>
-    <assertj.version>3.20.2</assertj.version>
+    <assertj.version>3.25.3</assertj.version>
+    <commons-io.version>2.15.1</commons-io.version>
     <pit.conf.targetTests>com.twlabs.*Test</pit.conf.targetTests>
     <toml4j.version>0.7.2</toml4j.version>
+    <snakeyaml.version>2.2</snakeyaml.version>
     <com.google.cloud.artifactregistry.version>2.2.0</com.google.cloud.artifactregistry.version>
     <jackson-dataformat-yaml.version>2.15.0</jackson-dataformat-yaml.version>
     <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
-    <repos.release.snapshots.enabled>false</repos.release.snapshots.enabled>
     <maven.compiler.target>11</maven.compiler.target>
     <picocli-codegen.version>4.7.5</picocli-codegen.version>
     <surefire.report.printStdoutOnError>true</surefire.report.printStdoutOnError>
     <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
     <reflections.version>0.10.2</reflections.version>
-    <commons-io>2.11.0</commons-io>
     <maven-core>3.9.6</maven-core>
-    <repos.snapshot.releases.enabled>false</repos.snapshot.releases.enabled>
-    <junit.version>5.9.2</junit.version>
+    <junit.version>5.10.2</junit.version>
     <maven-surefire-report-plugin.version>3.0.0</maven-surefire-report-plugin.version>
     <mojo.executor.version>2.4.0</mojo.executor.version>
     <maven.compiler.source>11</maven.compiler.source>
@@ -563,17 +542,13 @@
     <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
     <json-path.version>2.9.0</json-path.version>
     <plexus-component-metadata.version>2.1.1</plexus-component-metadata.version>
-    <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
     <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
-    <repos.release.releases.enabled>true</repos.release.releases.enabled>
+    <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
     <surefire.report.printStacktraceOnError>true</surefire.report.printStacktraceOnError>
     <jackson-databind.version>2.15.0</jackson-databind.version>
-    <repos.snapshot.snapshots.enabled>true</repos.snapshot.snapshots.enabled>
     <unit.only>${unitOnly}</unit.only>
     <dist.repository>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</dist.repository>
-    <commons-lang3>3.12.0</commons-lang3>
-    <repos.release.id>artifact-registry-release</repos.release.id>
-    <snakeyaml>2.0</snakeyaml>
+    <commons-lang3>3.14.0</commons-lang3>
     <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
     <surefire.report.theme>UNICODE</surefire.report.theme>
   </properties>

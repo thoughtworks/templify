@@ -22,10 +22,9 @@
         <pitest.version>1.15.2</pitest.version>
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
-        <junit.version>5.9.2</junit.version>
-        <assertj.version>3.20.2</assertj.version>
-        <itf.version>0.12.0</itf.version>
-        <itf-maven-plugin.version>0.12.0</itf-maven-plugin.version>
+        <junit.version>5.10.2</junit.version>
+        <assertj.version>3.25.3</assertj.version>
+        <itf.version>0.13.1</itf.version>
         <mojo.executor.version>2.4.0</mojo.executor.version>
 
         <!-- Dependencies versions -->
@@ -33,12 +32,12 @@
         <maven-project>2.2.1</maven-project>
         <doxia.site.version>1.11.1</doxia.site.version>
         <maven-core>3.9.6</maven-core>
-        <commons-io>2.11.0</commons-io>
+        <commons-io.version>2.15.1</commons-io.version>
         <json-path.version>2.9.0</json-path.version>
-        <snakeyaml>2.0</snakeyaml>
+        <snakeyaml.version>2.2</snakeyaml.version>
         <yaml-path.version>0.0.8</yaml-path.version>
         <mojo-executor>2.4.0</mojo-executor>
-        <commons-lang3>3.12.0</commons-lang3>
+        <commons-lang3>3.14.0</commons-lang3>
         <jackson-databind.version>2.15.0</jackson-databind.version>
         <jackson-dataformat-yaml.version>2.15.0</jackson-dataformat-yaml.version>
         <slf4j.version>2.0.12</slf4j.version>
@@ -60,6 +59,7 @@
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <picocli-codegen.version>4.7.5</picocli-codegen.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+        <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
 
         <!-- PIT -->
         <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
@@ -67,12 +67,12 @@
         <pit.conf.targetTests>com.twlabs.*Test</pit.conf.targetTests>
         <pit.conf.excludedClasses>com.twlabs.*Mojo</pit.conf.excludedClasses>
         <pit.conf.excludedTestClasses>com.twlabs.*MojoIT</pit.conf.excludedTestClasses>
-        <!-- WARN: Try to refactory code in order to fix TIME_OUT MINIONS instead of increasing this -->
+        <!-- INFO: Try to refactory code in order to fix TIME_OUT MINIONS instead of increasing this -->
         <pit.conf.withHistory>true</pit.conf.withHistory>
         <pit.conf.siteReportName>mutation-tests-report</pit.conf.siteReportName>
 
         <!-- Maven Shade -->
-        <maven.shade.conf.mainClass>com.twlabs.cli.CheckSum</maven.shade.conf.mainClass>
+        <maven.shade.conf.mainClass>com.twlabs.cli.Hello</maven.shade.conf.mainClass>
 
         <!-- Jacoco -->
         <jacoco.package.line.coveredratio>0.80</jacoco.package.line.coveredratio>
@@ -96,18 +96,6 @@
         <dist.snapshotRepository>
             artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</dist.snapshotRepository>
 
-        <repos.snapshot.url>
-            artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</repos.snapshot.url>
-        <repos.snapshot.releases.enabled>false</repos.snapshot.releases.enabled>
-        <repos.snapshot.snapshots.enabled>true</repos.snapshot.snapshots.enabled>
-        <repos.snapshot.id>artifact-registry</repos.snapshot.id>
-
-        <repos.release.id>artifact-registry-release</repos.release.id>
-        <repos.release.url>
-            artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</repos.release.url>
-        <repos.release.releases.enabled>true</repos.release.releases.enabled>
-        <repos.release.snapshots.enabled>false</repos.release.snapshots.enabled>
-        <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
     </properties>
 
     <dependencies>
@@ -228,7 +216,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commons-io}</version>
+            <version>${commons-io.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
@@ -263,7 +251,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>${snakeyaml}</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
@@ -587,7 +575,7 @@
             <plugin>
                 <groupId>com.soebes.itf.jupiter.extension</groupId>
                 <artifactId>itf-maven-plugin</artifactId>
-                <version>${itf-maven-plugin.version}</version>
+                <version>${itf.version}</version>
                 <executions>
                     <execution>
                         <id>installing</id>
@@ -716,28 +704,5 @@
             <url>${dist.snapshotRepository}</url>
         </snapshotRepository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>${repos.snapshot.id}</id>
-            <url>${repos.snapshot.url}</url>
-            <releases>
-                <enabled>${repos.snapshot.releases.enabled}</enabled>
-            </releases>
-            <snapshots>
-                <enabled>${repos.snapshot.snapshots.enabled}</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>${repos.release.id}</id>
-            <url>${repos.release.url}</url>
-            <releases>
-                <enabled>${repos.release.releases.enabled}</enabled>
-            </releases>
-            <snapshots>
-                <enabled>${repos.release.snapshots.enabled}</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
 </project>
