@@ -9,22 +9,118 @@
     <name>cookiecutter-templater-maven-plugin Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <properties>
+        <!-- General Properties -->
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <maven.plugin.libs.version>3.8.1</maven.plugin.libs.version>
+        <!-- Maven command's input variables -->
+        <unit.only>${unitOnly}</unit.only>
+        <failsafe.only>${skipTests}</failsafe.only>
+
+        <!-- Testing -->
         <pitest.version>1.15.2</pitest.version>
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
-        <failsafe.only>${skipTests}</failsafe.only>
-        <unit.only>${unitOnly}</unit.only>
+        <junit.version>5.9.2</junit.version>
+        <assertj.version>3.20.2</assertj.version>
+        <itf.version>0.12.0</itf.version>
+        <itf-maven-plugin.version>0.12.0</itf-maven-plugin.version>
+        <mojo.executor.version>2.4.0</mojo.executor.version>
 
+        <!-- Dependencies versions -->
+        <maven.plugin.libs.version>3.9.6</maven.plugin.libs.version>
+        <maven-project>2.2.1</maven-project>
+        <doxia.site.version>1.11.1</doxia.site.version>
+        <maven-core>3.9.6</maven-core>
+        <commons-io>2.11.0</commons-io>
+        <json-path.version>2.9.0</json-path.version>
+        <snakeyaml>2.0</snakeyaml>
+        <yaml-path.version>0.0.8</yaml-path.version>
+        <mojo-executor>2.4.0</mojo-executor>
+        <commons-lang3>3.12.0</commons-lang3>
+        <jackson-databind.version>2.15.0</jackson-databind.version>
+        <jackson-dataformat-yaml.version>2.15.0</jackson-dataformat-yaml.version>
+        <slf4j.version>2.0.12</slf4j.version>
+        <guice.version>7.0.0</guice.version>
+        <mockito-core.version>5.4.0</mockito-core.version>
+        <toml4j.version>0.7.2</toml4j.version>
+        <reflections.version>0.10.2</reflections.version>
+        <guava.version>33.0.0-jre</guava.version>
+        <picocli.version>4.7.5</picocli.version>
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
+        <maven-surefire-junit5-tree-reporter.version>1.2.1</maven-surefire-junit5-tree-reporter.version>
+        <javafaker.version>1.0.2</javafaker.version>
+        <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
+        <plexus-component-metadata.version>2.1.1</plexus-component-metadata.version>
+        <maven-surefire-report-plugin.version>3.0.0</maven-surefire-report-plugin.version>
+        <com.google.cloud.artifactregistry.version>2.2.0</com.google.cloud.artifactregistry.version>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+        <picocli-codegen.version>4.7.5</picocli-codegen.version>
+        <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
+
+        <!-- PIT -->
+        <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
+        <pit.conf.targetClasses>com.twlabs.*</pit.conf.targetClasses>
+        <pit.conf.targetTests>com.twlabs.*Test</pit.conf.targetTests>
+        <pit.conf.excludedClasses>com.twlabs.*Mojo</pit.conf.excludedClasses>
+        <pit.conf.excludedTestClasses>com.twlabs.*MojoIT</pit.conf.excludedTestClasses>
+        <!-- WARN: Try to refactory code in order to fix TIME_OUT MINIONS instead of increasing this -->
+        <pit.conf.withHistory>true</pit.conf.withHistory>
+        <pit.conf.siteReportName>mutation-tests-report</pit.conf.siteReportName>
+
+        <!-- Maven Shade -->
+        <maven.shade.conf.mainClass>com.twlabs.cli.CheckSum</maven.shade.conf.mainClass>
+
+        <!-- Jacoco -->
+        <jacoco.package.line.coveredratio>0.80</jacoco.package.line.coveredratio>
+
+
+        <!-- Maven surefire -->
+        <surefire.report.printStacktraceOnError>true</surefire.report.printStacktraceOnError>
+        <surefire.report.printStacktraceOnFailure>true</surefire.report.printStacktraceOnFailure>
+        <surefire.report.printStdoutOnError>true</surefire.report.printStdoutOnError>
+        <surefire.report.printStdoutOnSuccess>false</surefire.report.printStdoutOnSuccess>
+        <surefire.report.printStderrOnError>true</surefire.report.printStderrOnError>
+        <surefire.report.printStderrOnFailure>true</surefire.report.printStderrOnFailure>
+        <surefire.report.printStdoutOnFailure>true</surefire.report.printStdoutOnFailure>
+        <surefire.report.printStderrOnSuccess>false</surefire.report.printStderrOnSuccess>
+        <surefire.report.theme>UNICODE</surefire.report.theme>
+        <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
+        <surefire.report.reportFormat>plain</surefire.report.reportFormat>
+
+
+        <!-- Repositories and Distributions -->
+        <dist.repository>
+            artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</dist.repository>
+        <dist.snapshotRepository>
+            artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</dist.snapshotRepository>
+
+        <repos.snapshot.url>
+            artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</repos.snapshot.url>
+        <repos.snapshot.releases.enabled>false</repos.snapshot.releases.enabled>
+        <repos.snapshot.snapshots.enabled>true</repos.snapshot.snapshots.enabled>
+        <repos.snapshot.id>artifact-registry</repos.snapshot.id>
+
+        <repos.release.id>artifact-registry-release</repos.release.id>
+        <repos.release.url>
+            artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</repos.release.url>
+        <repos.release.releases.enabled>true</repos.release.releases.enabled>
+        <repos.release.snapshots.enabled>false</repos.release.snapshots.enabled>
+        <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
+        </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-artifact -->
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
@@ -32,31 +128,42 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-plugin-api -->
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>${maven.plugin.libs.version}</version> <!-- Versão do tutorial é a 3.6.3 -->
+            <version>${maven.plugin.libs.version}</version>
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-core -->
         <dependency>
-            <groupId>org.apache.maven.plugin-tools</groupId>
-            <artifactId>maven-plugin-annotations</artifactId>
-            <version>${maven.plugin.libs.version}</version> <!-- Versão do tutorial é a 3.6.0-->
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>${maven.plugin.libs.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-project</artifactId>
-            <version>2.2.1</version>
+            <version>${maven-project}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+        https://mvnrepository.com/artifact/org.apache.maven.plugin-tools/maven-plugin-annotations -->
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-annotations.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.9.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -64,7 +171,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -72,82 +179,68 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- teste-->
 
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-extension-maven</artifactId>
-            <version>0.12.0</version>
+            <version>${itf.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-assertj</artifactId>
-            <version>0.12.0</version>
+            <version>${itf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-jupiter-extension</artifactId>
-            <version>0.12.0</version>
+            <version>${itf.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.20.2</version>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.doxia/doxia-site-renderer -->
+
         <dependency>
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-site-renderer</artifactId>
-            <version>1.11.1</version>
+            <version>${doxia.site.version}</version>
         </dependency>
 
-        <!--Executar
-        plugin no mojo -->
         <dependency>
             <groupId>org.twdata.maven</groupId>
             <artifactId>mojo-executor</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-            <version>3.2.5</version>
-            <scope>provided</scope>
+            <version>${mojo-executor}</version>
         </dependency>
 
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>${commons-io}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.4.0</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+            <version>${javafaker.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.yaml</groupId>
@@ -167,76 +260,75 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
+            <version>${commons-lang3}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
+            <version>${snakeyaml}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.yaml-path</groupId>
             <artifactId>yaml-path</artifactId>
-            <version>0.0.8</version>
+            <version>${yaml-path.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.0</version>
-        </dependency>
-
-        <!--
-        https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.15.0</version>
+            <version>${jackson-dataformat-yaml.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>7.0.0</version>
+            <version>${guice.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.4.0</version>
+            <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.moandjiezana.toml</groupId>
             <artifactId>toml4j</artifactId>
-            <version>0.7.2</version>
+            <version>${toml4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
+            <version>${reflections.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>33.0.0-jre</version>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+            <version>${picocli.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>2.0.11</version>
+            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -244,8 +336,9 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.11</version>
+            <version>${slf4j.version}</version>
         </dependency>
+
 
     </dependencies>
 
@@ -256,12 +349,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>${maven-plugin-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.12.1</version>
+                    <version>${maven-site-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -269,7 +362,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.9</version>
+                <version>${jacoco-maven-plugin.version}</version>
                 <!-- <configuration> -->
                 <!--     <excludes> -->
                 <!--         <exclude>com/twlabs/mojos/*</exclude> -->
@@ -386,7 +479,7 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.80</minimum>
+                                            <minimum>${jacoco.package.line.coveredratio}</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -402,21 +495,19 @@
                 <version>${pitest.version}</version>
                 <configuration>
                     <skip>${unit.only}</skip>
-                    <!-- WARN: Try to refactory code in order to fix TIME_OUT MINIONS instead of
-                    increasing this -->
-                    <timeoutConstant>15000</timeoutConstant>
-                    <!-- <withHistory>true</withHistory> -->
+                    <timeoutConstant>${pit.conf.timeoutConstant}</timeoutConstant>
+                    <withHistory>${pit.conf.withHistory}</withHistory>
                     <targetClasses>
-                        <param>com.twlabs.*</param>
+                        <param>${pit.conf.targetClasses}</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.twlabs.*Test</param>
+                        <param>${pit.conf.targetTests}</param>
                     </targetTests>
                     <excludedClasses>
-                        <param>com.twlabs.*Mojo</param>
+                        <param>${pit.conf.excludedClasses}</param>
                     </excludedClasses>
                     <excludedTestClasses>
-                        <param>com.twlabs.*MojoIT</param>
+                        <param>${pit.conf.excludedTestClasses}</param>
                     </excludedTestClasses>
                 </configuration>
                 <dependencies>
@@ -441,20 +532,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>me.fabriciorby</groupId>
                         <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
-                        <version>1.2.1</version>
+                        <version>${maven-surefire-junit5-tree-reporter.version}</version>
                     </dependency>
                 </dependencies>
                 <configuration>
                     <skipTests>${failsafe.only}</skipTests>
-                    <reportFormat>plain</reportFormat>
+                    <reportFormat>${surefire.report.reportFormat}</reportFormat>
                     <argLine>${surefire.jacoco.args}</argLine>
                     <consoleOutputReporter>
-                        <disable>false</disable>
+                        <disable>${surefire.report.consoleOutputReporter}</disable>
                     </consoleOutputReporter>
                     <excludes>
                         <exclude>**/**IT.java</exclude>
@@ -463,24 +554,29 @@
                     </excludes>
                     <statelessTestsetInfoReporter
                         implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporterUnicode">
-                                    <printStacktraceOnError>true</printStacktraceOnError>
-                                    <printStacktraceOnFailure>true</printStacktraceOnFailure>
-                                    <printStdoutOnError>true</printStdoutOnError>                <printStdoutOnSuccess>
-                        false</printStdoutOnSuccess>             <printStderrOnError>true</printStderrOnError>    
-                                <printStderrOnFailure>true</printStderrOnFailure>              <printStdoutOnFailure>
-                        true</printStdoutOnFailure>        <printStderrOnSuccess>false</printStderrOnSuccess><theme>
-                        UNICODE</theme></statelessTestsetInfoReporter>
+                        <theme> ${surefire.report.theme} </theme>             <printStacktraceOnError>
+                        ${surefire.report.printStacktraceOnError}</printStacktraceOnError>
+                                    <printStacktraceOnFailure>
+                        ${surefire.report.printStacktraceOnFailure}
+                        </printStacktraceOnFailure>
+                                    <printStdoutOnError>${surefire.report.printStdoutOnError}</printStdoutOnError>   
+                                     <printStdoutOnSuccess>${surefire.report.printStdoutOnSuccess}</printStdoutOnSuccess> 
+                                    <printStderrOnError>${surefire.report.printStderrOnError}</printStderrOnError>    
+                                 <printStderrOnFailure>${surefire.report.printStderrOnFailure}</printStderrOnFailure>     
+                                <printStdoutOnFailure>${surefire.report.printStdoutOnFailure}</printStdoutOnFailure>     
+                           <printStderrOnSuccess>${surefire.report.printStderrOnSuccess}</printStderrOnSuccess>
+                    </statelessTestsetInfoReporter>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-component-metadata</artifactId>
-                <version>2.1.1</version>
+                <version>${plexus-component-metadata.version}</version>
             </plugin>
             <plugin>
                 <groupId>com.soebes.itf.jupiter.extension</groupId>
                 <artifactId>itf-maven-plugin</artifactId>
-                <version>0.12.0</version>
+                <version>${itf-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>installing</id>
@@ -510,27 +606,55 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-surefire-report-plugin.version}</version>
             </plugin>
-
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>info.picocli</groupId>
+                            <artifactId>picocli-codegen</artifactId>
+                            <version>${picocli-codegen.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
-
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven-shade-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${maven.shade.conf.mainClass}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
                 <groupId>com.google.cloud.artifactregistry</groupId>
                 <artifactId>artifactregistry-maven-wagon</artifactId>
-                <version>2.2.0</version>
+                <version>${com.google.cloud.artifactregistry.version}</version>
             </extension>
         </extensions>
 
@@ -540,7 +664,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-surefire-report-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <id>integration-tests</id>
@@ -556,7 +680,7 @@
                 <version>${pitest.version}</version>
                 <configuration>
                     <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <siteReportName>mutation-tests-report</siteReportName>
+                    <siteReportName>${pit.conf.siteReportName}</siteReportName>
                     <skip>${unit.only}</skip>
                 </configuration>
                 <reportSets>
@@ -573,34 +697,34 @@
     <distributionManagement>
         <repository>
             <id>artifact-registry</id>
-            <url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+            <url>${dist.repository}</url>
         </repository>
 
         <snapshotRepository>
             <id>artifact-registry</id>
-            <url>artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</url>
+            <url>${dist.snapshotRepository}</url>
         </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
-            <id>artifact-registry</id>
-            <url>artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</url>
+            <id>${repos.snapshot.id}</id>
+            <url>${repos.snapshot.url}</url>
             <releases>
-                <enabled>false</enabled>
+                <enabled>${repos.snapshot.releases.enabled}</enabled>
             </releases>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>${repos.snapshot.snapshots.enabled}</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>artifact-registry-release</id>
-            <url>artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+            <id>${repos.release.id}</id>
+            <url>${repos.release.url}</url>
             <releases>
-                <enabled>true</enabled>
+                <enabled>${repos.release.releases.enabled}</enabled>
             </releases>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>${repos.release.snapshots.enabled}</enabled>
             </snapshots>
         </repository>
 

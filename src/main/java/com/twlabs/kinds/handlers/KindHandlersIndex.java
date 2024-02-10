@@ -12,7 +12,7 @@ import com.twlabs.kinds.handlers.yamlhandler.YamlHandlerKind;
  */
 public class KindHandlersIndex {
 
-    public static Set<String> getRegisteredKinds() {
+    public Set<String> getRegisteredKinds() {
         return Set.of(
 
                 JsonHandlerKind.NAME,

@@ -20,7 +20,7 @@ public class KindFinder {
 
         Set<Kind<?>> kindHandlers = new HashSet<>();
 
-        Set<String> registeredKindsNames = KindHandlersIndex.getRegisteredKinds();
+        Set<String> registeredKindsNames = new KindHandlersIndex().getRegisteredKinds();
 
         for (String kindName : registeredKindsNames) {
             kindHandlers.add(injector.getInstance(Key.get(Kind.class, Names.named(kindName))));
