@@ -77,7 +77,6 @@
         <!-- Jacoco -->
         <jacoco.package.line.coveredratio>0.80</jacoco.package.line.coveredratio>
 
-
         <!-- Maven surefire -->
         <surefire.report.printStacktraceOnError>true</surefire.report.printStacktraceOnError>
         <surefire.report.printStacktraceOnFailure>true</surefire.report.printStacktraceOnFailure>
@@ -90,7 +89,6 @@
         <surefire.report.theme>UNICODE</surefire.report.theme>
         <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
         <surefire.report.reportFormat>plain</surefire.report.reportFormat>
-
 
         <!-- Repositories and Distributions -->
         <dist.repository>
@@ -113,12 +111,6 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-artifact -->
         <dependency>
@@ -153,6 +145,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
@@ -168,7 +161,7 @@
             <scope>test</scope>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -176,6 +169,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
@@ -183,6 +177,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.soebes.itf.jupiter.extension/itf-extension-maven -->
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-extension-maven</artifactId>
@@ -190,18 +185,24 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.soebes.itf.jupiter.extension/itf-assertj -->
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-assertj</artifactId>
             <version>${itf.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--
+        https://mvnrepository.com/artifact/com.soebes.itf.jupiter.extension/itf-jupiter-extension -->
         <dependency>
             <groupId>com.soebes.itf.jupiter.extension</groupId>
             <artifactId>itf-jupiter-extension</artifactId>
             <version>${itf.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
@@ -209,25 +210,26 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.doxia/doxia-site-renderer -->
         <dependency>
             <groupId>org.apache.maven.doxia</groupId>
             <artifactId>doxia-site-renderer</artifactId>
             <version>${doxia.site.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.twdata.maven/mojo-executor -->
         <dependency>
             <groupId>org.twdata.maven</groupId>
             <artifactId>mojo-executor</artifactId>
             <version>${mojo-executor}</version>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io}</version>
         </dependency>
-
 
         <!-- https://mvnrepository.com/artifact/com.github.javafaker/javafaker -->
         <dependency>
@@ -242,6 +244,7 @@
             </exclusions>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.pitest/pitest-parent -->
         <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-parent</artifactId>
@@ -256,36 +259,50 @@
             <version>${commons-lang3}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${snakeyaml}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.yaml-path/yaml-path -->
         <dependency>
             <groupId>io.github.yaml-path</groupId>
             <artifactId>yaml-path</artifactId>
             <version>${yaml-path.version}</version>
         </dependency>
 
+        <!--
+        https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson-dataformat-yaml.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -293,24 +310,28 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.moandjiezana.toml/toml4j -->
         <dependency>
             <groupId>com.moandjiezana.toml</groupId>
             <artifactId>toml4j</artifactId>
             <version>${toml4j.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/info.picocli/picocli -->
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
@@ -332,9 +353,7 @@
             <version>${slf4j.version}</version>
         </dependency>
 
-
     </dependencies>
-
 
     <build>
         <pluginManagement>
@@ -389,7 +408,6 @@
                                 ${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report</outputDirectory>
                         </configuration>
                     </execution>
-
 
                     <!-- Configuring jacoco unit integration coverage data -->
                     <execution>
@@ -720,7 +738,6 @@
                 <enabled>${repos.release.snapshots.enabled}</enabled>
             </snapshots>
         </repository>
-
     </repositories>
 
 </project>
