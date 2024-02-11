@@ -35,8 +35,6 @@
         <snakeyaml.version>2.2</snakeyaml.version>
         <yaml-path.version>0.0.8</yaml-path.version>
         <jackson-databind.version>2.16.1</jackson-databind.version>
-        <jackson-dataformat-yaml.version>2.16.1</jackson-dataformat-yaml.version>
-        <slf4j.version>2.0.12</slf4j.version>
         <guice.version>7.0.0</guice.version>
         <mockito-core.version>5.10.0</mockito-core.version>
         <toml4j.version>0.7.2</toml4j.version>
@@ -211,14 +209,6 @@
             <version>${yaml-path.version}</version>
         </dependency>
 
-        <!--
-        https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson-dataformat-yaml.version}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
         <dependency>
             <groupId>com.google.inject</groupId>
@@ -246,21 +236,6 @@
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
             <version>${picocli.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
         </dependency>
 
     </dependencies>
