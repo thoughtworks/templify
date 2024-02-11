@@ -1,7 +1,7 @@
 package com.twlabs.services.logger;
 
 import org.apache.maven.plugin.logging.Log;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**

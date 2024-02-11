@@ -2,7 +2,7 @@
 # .DEFAULT_GOAL := help
 .DEFAULT_GOAL := build
 
-.PHONY: scripts test cov tdd help clean
+.PHONY: scripts test cov tdd help clean check
 
 help: # Show help for each of the Makefile recipes.
 	@echo 'Available commands:'
@@ -30,3 +30,7 @@ clean: # Remove all build files
 	-rm -rf ./reports
 	-rm -rf ./coverage
 	-mvn clean
+
+check: # Build the jar file.
+	- mvn dependency:analyze
+
