@@ -30,13 +30,10 @@
         <!-- Dependencies versions -->
         <maven.plugin.libs.version>3.9.6</maven.plugin.libs.version>
         <maven-project>2.2.1</maven-project>
-        <doxia.site.version>1.11.1</doxia.site.version>
         <commons-io.version>2.15.1</commons-io.version>
         <json-path.version>2.9.0</json-path.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <yaml-path.version>0.0.8</yaml-path.version>
-        <mojo-executor>2.4.0</mojo-executor>
-        <commons-lang3>3.14.0</commons-lang3>
         <jackson-databind.version>2.16.1</jackson-databind.version>
         <jackson-dataformat-yaml.version>2.16.1</jackson-dataformat-yaml.version>
         <slf4j.version>2.0.12</slf4j.version>
@@ -125,14 +122,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -174,20 +163,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.maven.doxia/doxia-site-renderer -->
-        <dependency>
-            <groupId>org.apache.maven.doxia</groupId>
-            <artifactId>doxia-site-renderer</artifactId>
-            <version>${doxia.site.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.twdata.maven/mojo-executor -->
-        <dependency>
-            <groupId>org.twdata.maven</groupId>
-            <artifactId>mojo-executor</artifactId>
-            <version>${mojo-executor}</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -206,21 +181,6 @@
                     <artifactId>snakeyaml</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.pitest/pitest-parent -->
-        <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-parent</artifactId>
-            <version>${pitest.version}</version>
-            <type>pom</type>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
