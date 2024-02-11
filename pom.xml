@@ -54,6 +54,8 @@
         <picocli-codegen.version>4.7.5</picocli-codegen.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
         <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
+        <plexus-utils.version>4.0.0</plexus-utils.version>
+        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
 
         <!-- PIT -->
         <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
@@ -90,7 +92,6 @@
         <dist.snapshotRepository>
             artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</dist.snapshotRepository>
 
-        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
     </properties>
 
     <dependencies>
@@ -112,12 +113,19 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.codehaus.plexus/plexus-utils -->
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>${plexus-utils.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
