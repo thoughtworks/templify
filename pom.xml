@@ -22,7 +22,7 @@
         <pitest.version>1.15.2</pitest.version>
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
-        <junit.version>5.10.2</junit.version>
+        <junit.version>5.10.1</junit.version>
         <assertj.version>3.25.3</assertj.version>
         <itf.version>0.13.1</itf.version>
         <mojo.executor.version>2.4.0</mojo.executor.version>
@@ -64,7 +64,7 @@
         <pit.conf.excludedClasses>com.twlabs.*Mojo</pit.conf.excludedClasses>
         <pit.conf.excludedTestClasses>com.twlabs.*MojoIT</pit.conf.excludedTestClasses>
         <!-- INFO: Try to refactory code in order to fix TIME_OUT MINIONS instead of increasing this -->
-        <pit.conf.withHistory>true</pit.conf.withHistory>
+        <pit.conf.withHistory>false</pit.conf.withHistory>
         <pit.conf.siteReportName>mutation-tests-report</pit.conf.siteReportName>
 
         <!-- Maven Shade -->
@@ -116,7 +116,7 @@
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -415,6 +415,7 @@
                     </excludedTestClasses>
                 </configuration>
                 <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin -->
                     <dependency>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-junit5-plugin</artifactId>
@@ -438,6 +439,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <dependencies>
+                    <!--
+                    https://mvnrepository.com/artifact/me.fabriciorby/maven-surefire-junit5-tree-reporter -->
                     <dependency>
                         <groupId>me.fabriciorby</groupId>
                         <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
