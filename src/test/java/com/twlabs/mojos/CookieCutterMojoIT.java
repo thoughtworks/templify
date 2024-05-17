@@ -27,7 +27,7 @@ public class CookieCutterMojoIT {
 
     String fixturesFolder = "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/";
 
-    String POM = fixturesFolder + "configuracao_basica_build_test/project/target/template/pom.xml";
+    String POM = fixturesFolder + "basic_usage_example/project/target/template/pom.xml";
 
     String json_handler_test =
             fixturesFolder + "test_json_handler_empty_pom/project/target/template/env.json";
@@ -55,7 +55,7 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void configuracao_basica_build_test(MavenExecutionResult result) {
+    public void test_basic_usage_example(MavenExecutionResult result) {
 
         assertThat(result).isSuccessful();
 
@@ -325,19 +325,22 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    public void test_using_custom_placeholder_settings_and_default_handler(MavenExecutionResult result) {
+    public void test_using_custom_placeholder_settings_and_default_handler(
+            MavenExecutionResult result) {
 
         String prefix = "{%";
         String suffix = "%}";
         String type = "unknown";
 
         assertThat(result).isSuccessful().out().warn()
-                .contains("Using custom placeholder settings!! -> Prefix:" + prefix + " and Suffix: " + suffix);
+                .contains("Using custom placeholder settings!! -> Prefix:" + prefix
+                        + " and Suffix: " + suffix);
 
         assertThat(result).isSuccessful().out().warn()
-                .contains("No handler found for type: " + type + ". Defaulting to PlainTextHandler");
+                .contains(
+                        "No handler found for type: " + type + ". Defaulting to PlainTextHandler");
 
-                        assertThat(result).isSuccessful();
+        assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
 

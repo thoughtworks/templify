@@ -28,7 +28,7 @@ public class LoadConfigurationTaskTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_generic_java_project/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_json_handler_empty_pom/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_new_settings_v2/",
@@ -74,7 +74,7 @@ public class LoadConfigurationTaskTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/",})
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/",})
     public void test_cofiguration_exception(String baseDir) {
         injector.injectMembers(task);
 
@@ -105,7 +105,7 @@ public class LoadConfigurationTaskTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/, Using default placeholder settings!! -> Prefix:{{ and Suffix: }}",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/, Using default placeholder settings!! -> Prefix:{{ and Suffix: }}",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_using_custom_placeholder_settings/, Using custom placeholder settings!! -> Prefix:_{{ and Suffix: }}",
     })
     public void test_configuration_null_config_settings(String baseDir, String msg) {

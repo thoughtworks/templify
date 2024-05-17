@@ -18,7 +18,7 @@ public class YamlConfigReaderTest {
     @ParameterizedTest
     @CsvSource(value = {
             "src/test/resources/config/yaml/config.yml",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/configuracao_basica_build_test/maven-cookiecutter.yml",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/maven-cookiecutter.yml",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_generic_java_project/maven-cookiecutter.yml",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_json_handler_empty_pom/maven-cookiecutter.yml",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_new_settings_v2/maven-cookiecutter.yml",

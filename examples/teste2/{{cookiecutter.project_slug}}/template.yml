@@ -1,7 +1,0 @@
-mappings:
-  - file: pom.xml
-    placeholders:
-      - query: /project/groupId
-        name: Cookiecutter.param.groupId
-      - query: /project/artifactId
-        name: Cookiecutter.test.replace.map.artifactId
