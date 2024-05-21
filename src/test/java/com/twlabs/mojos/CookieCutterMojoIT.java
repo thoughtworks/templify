@@ -30,7 +30,7 @@ public class CookieCutterMojoIT {
     String POM = fixturesFolder + "basic_usage_example/project/target/template/pom.xml";
 
     String json_handler_test =
-            fixturesFolder + "test_json_handler_empty_pom/project/target/template/env.json";
+            fixturesFolder + "basic_json_example/project/target/template/env.json";
 
     String templateDir_default_pom =
             fixturesFolder + "test_replace_default_pom_file/project/target/template";
@@ -69,7 +69,7 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    public void test_json_handler_empty_pom(MavenExecutionResult result)
+    public void basic_json_example(MavenExecutionResult result)
             throws IOException, FileHandlerException {
 
         assertThat(result).isSuccessful();
@@ -257,7 +257,7 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void test_generic_java_project(MavenExecutionResult result) throws FileHandlerException {
+    public void generic_java_project_example(MavenExecutionResult result) throws FileHandlerException {
         JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg

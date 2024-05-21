@@ -29,8 +29,8 @@ public class LoadConfigurationTaskTest {
     @ParameterizedTest
     @CsvSource(value = {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_generic_java_project/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_json_handler_empty_pom/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/generic_java_project_example/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_json_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_new_settings_v2/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_default_pom_file/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/",
