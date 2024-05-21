@@ -31,7 +31,7 @@ public class LoadConfigurationTaskTest {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/generic_java_project_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_json_example/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_new_settings_v2/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/using_metadata_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_default_pom_file/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_yml_files/",
