@@ -33,7 +33,7 @@ public class CookieCutterMojoIT {
             fixturesFolder + "basic_json_example/project/target/template/env.json";
 
     String templateDir_default_pom =
-            fixturesFolder + "test_replace_default_pom_file/project/target/template";
+            fixturesFolder + "basic_default_options_example/project/target/template";
 
     String templateDir_generics_xmls =
             fixturesFolder + "test_replace_generics_xml_files/project/target/template";
@@ -84,7 +84,7 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    public void test_replace_default_pom_file(MavenExecutionResult result)
+    public void basic_default_options_example(MavenExecutionResult result)
             throws IOException, FileHandlerException {
         assertThat(result).isSuccessful();
 
