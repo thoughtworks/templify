@@ -27,7 +27,7 @@ public class XmlHandlerKindTest {
     private static final String TARGET = "target/";
     private static final String BUILD_TEMPLATE_DIR = "/template";
     private static final String FIXTURE_GENERIC_XML_FILES =
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/";
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_xml_example/";
     LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
 
     Injector injector = Guice.createInjector(new CoreModule());

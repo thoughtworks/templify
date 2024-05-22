@@ -29,13 +29,13 @@ public class LoadConfigurationTaskTest {
     @ParameterizedTest
     @CsvSource(value = {
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/generic_java_project_example/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/java_project_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_json_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/using_metadata_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_default_options_example/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_xml_files/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_generics_yml_files/",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_java/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_xml_example/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_yml_example/",
+            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_java_example/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_json_file/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_replace_throw_unsupported_file_type/",
             "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_running_with_existing_template_directory/",

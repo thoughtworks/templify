@@ -36,10 +36,10 @@ public class CookieCutterMojoIT {
             fixturesFolder + "basic_default_options_example/project/target/template";
 
     String templateDir_generics_xmls =
-            fixturesFolder + "test_replace_generics_xml_files/project/target/template";
+            fixturesFolder + "basic_xml_example/project/target/template";
 
     String templateDir_generics_ymls =
-            fixturesFolder + "test_replace_generics_yml_files/project/target/template";
+            fixturesFolder + "basic_yml_example/project/target/template";
 
     String unsupportFileType =
             fixturesFolder + "test_replace_throw_unsupported_file_type/project/target/template";
@@ -47,7 +47,7 @@ public class CookieCutterMojoIT {
     String template_json = fixturesFolder + "test_replace_json_file/project/target/template";
 
 
-    String template_java = fixturesFolder + "test_replace_java/project/target/template";
+    String template_java = fixturesFolder + "basic_java_example/project/target/template";
 
     String template_custom_placeholder =
             fixturesFolder + "test_using_custom_placeholder_settings/project/target/template";
@@ -121,7 +121,7 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void test_replace_generics_xml_files(MavenExecutionResult result)
+    public void basic_xml_example(MavenExecutionResult result)
             throws FileHandlerException {
         assertThat(result).isSuccessful();
 
@@ -158,7 +158,7 @@ public class CookieCutterMojoIT {
     }
 
     @MavenTest
-    public void test_replace_generics_yml_files(MavenExecutionResult result)
+    public void basic_yml_example(MavenExecutionResult result)
             throws FileHandlerException {
 
         FileHandler yamlHandler = new YamlFileHandler();
@@ -198,7 +198,7 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void test_replace_java(MavenExecutionResult result) throws FileHandlerException {
+    public void basic_java_example(MavenExecutionResult result) throws FileHandlerException {
         JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
@@ -257,7 +257,7 @@ public class CookieCutterMojoIT {
 
 
     @MavenTest
-    public void generic_java_project_example(MavenExecutionResult result) throws FileHandlerException {
+    public void java_project_example(MavenExecutionResult result) throws FileHandlerException {
         JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
