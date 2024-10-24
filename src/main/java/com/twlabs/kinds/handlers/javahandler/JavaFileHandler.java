@@ -1,6 +1,7 @@
 package com.twlabs.kinds.handlers.javahandler;
 
 import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
+import com.twlabs.kinds.handlers.plaintexthandler.PlainTextHandler;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -107,7 +108,7 @@ public class JavaFileHandler extends AbstractFileHandler {
 
 
 
-    private boolean modifyFileContents(Path classPath, String oldDir, String newContent)
+    private boolean modifyFileContents(Path classPath, String oldContent, String newContent)
             throws FileHandlerException {
         AtomicBoolean filesModified = new AtomicBoolean(false);
 
@@ -116,8 +117,8 @@ public class JavaFileHandler extends AbstractFileHandler {
                 try {
                     String fileContent = new String(Files.readAllBytes(regularFile));
 
-                    if (fileContent.contains(oldDir)) {
-                        fileContent = fileContent.replaceAll(oldDir, newContent);
+                    if (fileContent.contains(oldContent)) {
+                        fileContent = fileContent.replaceAll(oldContent, newContent);
                         Files.write(regularFile, fileContent.getBytes());
                         filesModified.set(true);
                     }
@@ -214,6 +215,67 @@ public class JavaFileHandler extends AbstractFileHandler {
         for (Map.Entry<String, String> entry : queryValueMap.entrySet()) {
             replace(filePath, entry.getKey(), entry.getValue());
         }
+    }
+
+
+
+    protected static Map<String, String> findJavaFiles(String baseDir, String originalDir)
+            throws FileHandlerException {
+        Map<String, String> javaFiles = new HashMap<>();
+        File rootDir = new File(baseDir);
+
+        if (!rootDir.exists()) {
+            throw new FileHandlerException(
+                    "Java Directory not found: " + rootDir.getAbsolutePath());
+        }
+
+        if (!rootDir.isDirectory()) {
+            throw new FileHandlerException(
+                    "Java Directory is not a directory: " + rootDir.getAbsolutePath());
+        }
+
+        File[] files = rootDir.listFiles();
+
+        if (files == null) {
+            throw new FileHandlerException(
+                    "Java Directory is not accessible: " + rootDir.getAbsolutePath());
+        }
+
+        for (File file : files) {
+            if (file.isDirectory()) {
+                javaFiles.putAll(findJavaFiles(file.getAbsolutePath(), originalDir));
+            } else if (file.getName().endsWith(".java")) {
+                try {
+                    String absolutePath = file.getCanonicalPath();
+                    String relativePath = absolutePath
+                            .substring(new File(originalDir).getCanonicalPath().length() + 1);
+                    javaFiles.put(relativePath, file.getName());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return javaFiles;
+    }
+
+
+    protected static Map<String, String> findJavaFiles(String baseDir) throws FileHandlerException {
+        return findJavaFiles(baseDir, baseDir);
+
+    }
+
+
+
+    protected Map<String, String> findJavaFileContent(Path javaFile, String query)
+            throws FileHandlerException {
+        PlainTextHandler plainText = new PlainTextHandler();
+        return plainText.find(javaFile.toFile().getAbsolutePath(), query);
+    }
+
+    protected void replaceJavaFileContent(Path javaFile, String query, String value) {
+        PlainTextHandler plainText = new PlainTextHandler();
+        plainText.replace(javaFile.toFile().getAbsolutePath(), query, value);
+
     }
 
 

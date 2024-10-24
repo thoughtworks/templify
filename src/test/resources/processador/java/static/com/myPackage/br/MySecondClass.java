@@ -15,7 +15,7 @@ import com.github.javafaker.Faker;
 /**
  * MyClass
  */
-public class MyClass {
+public class MySecondClass {
 
 
 }

@@ -1,4 +1,4 @@
-package com.myPackage.br;
+package com.otherPackage.br;
 
 
 import java.util.Comparator;
@@ -15,7 +15,7 @@ import com.github.javafaker.Faker;
 /**
  * MyClass
  */
-public class MyClass {
+public class OtherClass {
 
 
 }

@@ -1,5 +1,6 @@
 package com.twlabs.kinds.handlers.javahandler;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,14 +31,13 @@ public class JavaFileHandlerTest {
     static String query = "";
     static String baseDir = "src/test/resources/processador/java/dynamic";
     static String staticBaseDir = "src/test/resources/processador/java/static";
+    static String java_test = staticBaseDir + "/com/otherPackage/br/OtherClass.java";
 
     Faker faker = new Faker();
 
     @AfterAll
     public static void cleanFolders() throws IOException {
-
         FileUtils.deleteDirectory(new File(baseDir));
-
     }
 
     @Test
@@ -186,6 +186,41 @@ public class JavaFileHandlerTest {
     }
 
 
+    @Test
+    public void test_find_java_files() throws FileHandlerException {
+
+        Map<String, String> javaFiles = javaHandler.findJavaFiles(staticBaseDir);
+
+        assertTrue(javaFiles.size() > 0);
+        assertTrue(javaFiles.containsKey("com/myPackage/br/MyClass.java"));
+        assertTrue(javaFiles.containsKey("com/otherPackage/br/OtherClass.java"));
+        assertTrue(javaFiles.containsKey("com/myPackage/br/MySecondClass.java"));
+
+    }
+
+    @Test
+    public void test_replace_content_java_file()
+            throws FileHandlerException, IOException {
+        final Path javaFile = fileForTest();
+        String query = "org.junit.jupiter.api";
+        String value = "CookieCutter";
+
+        Map<String, String> beforeChange = javaHandler.findJavaFileContent(javaFile, query);
+
+        javaHandler.replaceJavaFileContent(javaFile, query, value);
+
+        Map<String, String> afterChange = javaHandler.findJavaFileContent(javaFile, value);
+
+        assertThat(beforeChange).isNotNull().isNotEmpty().containsKey(query).containsValue("4");
+        assertThat(afterChange).isNotNull().isNotEmpty().containsKey(value).containsValue("4");
+
+
+        afterChange = javaHandler.findJavaFileContent(javaFile, query);
+        assertThat(afterChange).isNotNull().isEmpty();
+
+    }
+
+
 
     private void createFakeProject(String baseDir, String query) throws IOException {
 
@@ -228,5 +263,12 @@ public class JavaFileHandlerTest {
 
     }
 
+    private Path fileForTest() throws IOException {
+        String fileName = faker.lorem().word().toLowerCase();
+        final Path fileForTest = Files.createTempFile(fileName, ".java");
+        FileUtils.copyFile(Paths.get(java_test).toFile(), fileForTest.toFile());
+        return fileForTest;
+
+    }
 
 }
