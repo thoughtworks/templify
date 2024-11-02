@@ -9,13 +9,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.api.Test;
 import com.github.javafaker.Faker;
 import com.twlabs.kinds.api.FileHandlerException;
@@ -198,25 +205,63 @@ public class JavaFileHandlerTest {
 
     }
 
-    @Test
-    public void test_replace_content_java_file()
+
+    @ParameterizedTest
+    @CsvSource({
+            "'/Main.java', 'com.myPackage.br', '1'",
+            "'/Main.java','com.otherPackage.br', '1' ",
+            "'/com/otherPackage/br/OtherClass.java', 'org.junit.jupiter.api', '4' ",
+            "'/com/myPackage/br/MyClass.java','com.myPackage.br' , '2' ",
+            "'/com/myPackage/br/MySecondClass.java', 'java.util', '3' ",
+    })
+    public void test_replace_content_java_file(String filePath, String query, String qtd)
             throws FileHandlerException, IOException {
-        final Path javaFile = fileForTest();
-        String query = "org.junit.jupiter.api";
-        String value = "CookieCutter";
+        final Path javaFile = fileForTest(staticBaseDir + filePath);
+        String replaceFor = "CookieCutter";
 
         Map<String, String> beforeChange = javaHandler.findJavaFileContent(javaFile, query);
 
-        javaHandler.replaceJavaFileContent(javaFile, query, value);
+        javaHandler.replaceJavaFileContent(javaFile, query, replaceFor);
 
-        Map<String, String> afterChange = javaHandler.findJavaFileContent(javaFile, value);
+        Map<String, String> afterChange = javaHandler.findJavaFileContent(javaFile, replaceFor);
 
-        assertThat(beforeChange).isNotNull().isNotEmpty().containsKey(query).containsValue("4");
-        assertThat(afterChange).isNotNull().isNotEmpty().containsKey(value).containsValue("4");
+        assertThat(beforeChange).isNotNull().isNotEmpty().containsKey(query).containsValue(qtd);
+        assertThat(afterChange).isNotNull().isNotEmpty().containsKey(replaceFor).containsValue(qtd);
 
 
         afterChange = javaHandler.findJavaFileContent(javaFile, query);
         assertThat(afterChange).isNotNull().isEmpty();
+
+    }
+
+
+    @ParameterizedTest
+
+    @CsvSource({
+            "'com.myPackage.br', 'Main.java,com/myPackage/br/MyClass.java,com/myPackage/br/MySecondClass.java,com/otherPackage/br/OtherClass.java', '4'",
+            "'com.otherPackage.br', 'Main.java,com/otherPackage/br/OtherClass.java' , '2'"})
+    public void test_find_java_files_with_match_content(String match, String filesList,
+            String count)
+            throws FileHandlerException, IOException {
+        List<String> expectedFiles = Arrays.asList(filesList.trim().split(","));
+
+        Map<String, String> staticFiles = javaHandler.findJavaFiles(staticBaseDir);
+
+
+        Map<String, String> result =
+                javaHandler.findJavaFilesWithMatchContent(staticFiles, match);
+
+        int aux = 0;
+        for (Map.Entry<String, String> entry : result.entrySet()) {
+            String currentPath = entry.getKey();
+            String currentFile = entry.getValue();
+
+            aux++;
+            assertTrue(expectedFiles.contains(currentFile),
+                    "File " + currentFile + " not contains in " + expectedFiles);
+        }
+        assertTrue(aux == Integer.parseInt(count),
+                "Should be " + count + " files found but was " + aux);
 
     }
 
@@ -263,10 +308,10 @@ public class JavaFileHandlerTest {
 
     }
 
-    private Path fileForTest() throws IOException {
+    private Path fileForTest(String path) throws IOException {
         String fileName = faker.lorem().word().toLowerCase();
         final Path fileForTest = Files.createTempFile(fileName, ".java");
-        FileUtils.copyFile(Paths.get(java_test).toFile(), fileForTest.toFile());
+        FileUtils.copyFile(Paths.get(path).toFile(), fileForTest.toFile());
         return fileForTest;
 
     }

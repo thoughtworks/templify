@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
@@ -249,7 +250,7 @@ public class JavaFileHandler extends AbstractFileHandler {
                     String absolutePath = file.getCanonicalPath();
                     String relativePath = absolutePath
                             .substring(new File(originalDir).getCanonicalPath().length() + 1);
-                    javaFiles.put(relativePath, file.getName());
+                    javaFiles.put(relativePath, absolutePath);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -259,7 +260,7 @@ public class JavaFileHandler extends AbstractFileHandler {
     }
 
 
-    protected static Map<String, String> findJavaFiles(String baseDir) throws FileHandlerException {
+    protected Map<String, String> findJavaFiles(String baseDir) throws FileHandlerException {
         return findJavaFiles(baseDir, baseDir);
 
     }
@@ -276,6 +277,27 @@ public class JavaFileHandler extends AbstractFileHandler {
         PlainTextHandler plainText = new PlainTextHandler();
         plainText.replace(javaFile.toFile().getAbsolutePath(), query, value);
 
+    }
+
+
+
+    protected Map<String, String> findJavaFilesWithMatchContent(Map<String, String> javaFilesMap,
+            String match) {
+        Map<String, String> javaFiles = new HashMap<>();
+        for (Map.Entry<String, String> javaFilePath : javaFilesMap.entrySet()) {
+            try {
+                String path = javaFilePath.getValue();
+                String relativePath = javaFilePath.getKey();
+                Map<String, String> content = findJavaFileContent(Paths.get(path), match);
+                if (!content.containsValue("0") && content.containsKey(match)) {
+                    javaFiles.put(path, relativePath);
+                }
+
+            } catch (FileHandlerException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return javaFiles;
     }
 
 
