@@ -114,27 +114,39 @@ public class JavaFileHandler extends AbstractFileHandler {
             throws FileHandlerException {
         AtomicBoolean filesModified = new AtomicBoolean(false);
 
-        try {
-            Files.walk(classPath).filter(Files::isRegularFile).forEach(regularFile -> {
-                try {
-                    String fileContent = new String(Files.readAllBytes(regularFile));
+        Map<String, String> getAllJavaFiles = findJavaFiles(classPath.toString());
+        List<Path> javaFiles = new ArrayList<Path>();
+        for (Map.Entry<String, String> entry : getAllJavaFiles.entrySet()) {
+            javaFiles.add(Paths.get(entry.getValue()));
 
-                    if (fileContent.contains(oldContent)) {
-                        fileContent = fileContent.replaceAll(oldContent, newContent);
-                        Files.write(regularFile, fileContent.getBytes());
-                        filesModified.set(true);
-                    }
-
-
-                } catch (IOException e) {
-                    throw new RuntimeException(
-                            "Error while modify files contents: " + classPath.toString(), e);
-                }
-
-            });
-        } catch (IOException | RuntimeException e) {
-            throw new FileHandlerException("Error while walking file: " + classPath.toString(), e);
         }
+
+        List<Path> resultBeforeChange = findJavaFilesWithMatchContent(javaFiles, oldContent);
+
+        replaceJavaFilesContent(resultBeforeChange, oldContent, newContent);
+
+        List<Path> resultAfterChange = findJavaFilesWithMatchContent(javaFiles, newContent);
+
+        if (resultBeforeChange.size() == resultAfterChange.size()) {
+            filesModified.set(true);
+        }
+
+        /**
+         * try { Files.walk(classPath).filter(Files::isRegularFile).forEach(regularFile -> { try {
+         * String fileContent = new String(Files.readAllBytes(regularFile));
+         * 
+         * if (fileContent.contains(oldContent)) { fileContent = fileContent.replaceAll(oldContent,
+         * newContent); Files.write(regularFile, fileContent.getBytes()); filesModified.set(true); }
+         * 
+         * 
+         * } catch (IOException e) { throw new RuntimeException( "Error while modify files contents:
+         * " + classPath.toString(), e); }
+         * 
+         * }); } catch (IOException | RuntimeException e) { throw new FileHandlerException("Error
+         * while walking file: " + classPath.toString(), e);
+         * 
+         * }
+         */
 
         return filesModified.get();
 
@@ -301,8 +313,9 @@ public class JavaFileHandler extends AbstractFileHandler {
 
 
 
-    public void replaceJavaFilesContet(List<Path> javaFilesForTest, String query, String replace) {
-        for (Path javaFilePath : javaFilesForTest) {
+    protected void replaceJavaFilesContent(List<Path> javaFilesPaths, String query,
+            String replace) {
+        for (Path javaFilePath : javaFilesPaths) {
             replaceJavaFileContent(javaFilePath, query, replace);
         }
     }

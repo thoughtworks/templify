@@ -283,7 +283,7 @@ public class JavaFileHandlerTest {
         List<Path> allJavaFileToChange =
                 javaHandler.findJavaFilesWithMatchContent(javaFilesForTest, query);
 
-        javaHandler.replaceJavaFilesContet(javaFilesForTest, query, replace);
+        javaHandler.replaceJavaFilesContent(javaFilesForTest, query, replace);
 
         List<Path> allJavaFilesAfterChange =
                 javaHandler.findJavaFilesWithMatchContent(javaFilesForTest, replace);
