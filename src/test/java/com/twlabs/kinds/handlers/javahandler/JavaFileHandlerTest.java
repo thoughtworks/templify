@@ -236,7 +236,6 @@ public class JavaFileHandlerTest {
 
 
     @ParameterizedTest
-
     @CsvSource({
             "'com.myPackage.br', 'Main.java,com/myPackage/br/MyClass.java,com/myPackage/br/MySecondClass.java,com/otherPackage/br/OtherClass.java', '4'",
             "'com.otherPackage.br', 'Main.java,com/otherPackage/br/OtherClass.java' , '2'"})
@@ -244,21 +243,22 @@ public class JavaFileHandlerTest {
             String count)
             throws FileHandlerException, IOException {
         List<String> expectedFiles = Arrays.asList(filesList.trim().split(","));
+        Path baseDir = Paths.get(staticBaseDir);
+
 
         Map<String, String> staticFiles = javaHandler.findJavaFiles(staticBaseDir);
 
 
-        Map<String, String> result =
+        List<Path> result =
                 javaHandler.findJavaFilesWithMatchContent(staticFiles, match);
 
         int aux = 0;
-        for (Map.Entry<String, String> entry : result.entrySet()) {
-            String currentPath = entry.getKey();
-            String currentFile = entry.getValue();
+        for (Path path : result) {
+            Path relativePath = baseDir.toAbsolutePath().relativize(path);
 
+            assertTrue(expectedFiles.contains(relativePath.toString()),
+                    "Should be " + expectedFiles + " but was " + relativePath.toString());
             aux++;
-            assertTrue(expectedFiles.contains(currentFile),
-                    "File " + currentFile + " not contains in " + expectedFiles);
         }
         assertTrue(aux == Integer.parseInt(count),
                 "Should be " + count + " files found but was " + aux);

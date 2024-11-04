@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -281,16 +282,16 @@ public class JavaFileHandler extends AbstractFileHandler {
 
 
 
-    protected Map<String, String> findJavaFilesWithMatchContent(Map<String, String> javaFilesMap,
+    protected List<Path> findJavaFilesWithMatchContent(Map<String, String> javaFilesMap,
             String match) {
-        Map<String, String> javaFiles = new HashMap<>();
+        List<Path> javaFiles = new ArrayList<Path>();
         for (Map.Entry<String, String> javaFilePath : javaFilesMap.entrySet()) {
             try {
                 String path = javaFilePath.getValue();
                 String relativePath = javaFilePath.getKey();
                 Map<String, String> content = findJavaFileContent(Paths.get(path), match);
                 if (!content.containsValue("0") && content.containsKey(match)) {
-                    javaFiles.put(path, relativePath);
+                    javaFiles.add(Paths.get(path));
                 }
 
             } catch (FileHandlerException e) {
