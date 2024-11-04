@@ -282,16 +282,14 @@ public class JavaFileHandler extends AbstractFileHandler {
 
 
 
-    protected List<Path> findJavaFilesWithMatchContent(Map<String, String> javaFilesMap,
+    protected List<Path> findJavaFilesWithMatchContent(List<Path> javaFilesList,
             String match) {
         List<Path> javaFiles = new ArrayList<Path>();
-        for (Map.Entry<String, String> javaFilePath : javaFilesMap.entrySet()) {
+        for (Path javaFilePath : javaFilesList) {
             try {
-                String path = javaFilePath.getValue();
-                String relativePath = javaFilePath.getKey();
-                Map<String, String> content = findJavaFileContent(Paths.get(path), match);
+                Map<String, String> content = findJavaFileContent(javaFilePath, match);
                 if (!content.containsValue("0") && content.containsKey(match)) {
-                    javaFiles.add(Paths.get(path));
+                    javaFiles.add(javaFilePath);
                 }
 
             } catch (FileHandlerException e) {
@@ -299,6 +297,14 @@ public class JavaFileHandler extends AbstractFileHandler {
             }
         }
         return javaFiles;
+    }
+
+
+
+    public void replaceJavaFilesContet(List<Path> javaFilesForTest, String query, String replace) {
+        for (Path javaFilePath : javaFilesForTest) {
+            replaceJavaFileContent(javaFilePath, query, replace);
+        }
     }
 
 

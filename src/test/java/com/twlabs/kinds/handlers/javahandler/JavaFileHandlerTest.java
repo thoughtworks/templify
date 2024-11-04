@@ -248,9 +248,14 @@ public class JavaFileHandlerTest {
 
         Map<String, String> staticFiles = javaHandler.findJavaFiles(staticBaseDir);
 
+        List<Path> javaFilesForTest = new ArrayList<Path>();
+        for (Map.Entry<String, String> entry : staticFiles.entrySet()) {
+            javaFilesForTest.add(Paths.get(entry.getValue()));
+
+        }
 
         List<Path> result =
-                javaHandler.findJavaFilesWithMatchContent(staticFiles, match);
+                javaHandler.findJavaFilesWithMatchContent(javaFilesForTest, match);
 
         int aux = 0;
         for (Path path : result) {
@@ -265,6 +270,31 @@ public class JavaFileHandlerTest {
 
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "'com.myPackage.br', 'CookieCutter'",
+            "'com.otherPackage.br', 'CookieCutter",
+    })
+    public void test_replace_content_java_fileS(String query, String replace)
+            throws FileHandlerException, IOException {
+
+        List<Path> javaFilesForTest = pathForTest(staticBaseDir);
+
+        List<Path> allJavaFileToChange =
+                javaHandler.findJavaFilesWithMatchContent(javaFilesForTest, query);
+
+        javaHandler.replaceJavaFilesContet(javaFilesForTest, query, replace);
+
+        List<Path> allJavaFilesAfterChange =
+                javaHandler.findJavaFilesWithMatchContent(javaFilesForTest, replace);
+
+        assertTrue(allJavaFilesAfterChange.size() == allJavaFileToChange.size(),
+                "Should be " + allJavaFileToChange.size() + " files found but was "
+                        + allJavaFilesAfterChange.size());
+
+        assertThat(allJavaFilesAfterChange).containsExactlyElementsOf(allJavaFileToChange);
+
+    }
 
 
     private void createFakeProject(String baseDir, String query) throws IOException {
@@ -306,6 +336,20 @@ public class JavaFileHandlerTest {
         }
 
 
+    }
+
+
+    private List<Path> pathForTest(String path) throws FileHandlerException, IOException {
+
+        Map<String, String> javaFiles = javaHandler.findJavaFiles(path);
+
+        List<Path> javaFilesForTest = new ArrayList<Path>();
+        for (Map.Entry<String, String> javaFile : javaFiles.entrySet()) {
+            String javaFilePath = javaFile.getValue();
+            javaFilesForTest.add(fileForTest(javaFilePath));
+        }
+
+        return javaFilesForTest;
     }
 
     private Path fileForTest(String path) throws IOException {
