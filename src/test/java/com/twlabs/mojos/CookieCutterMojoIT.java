@@ -27,7 +27,7 @@ public class CookieCutterMojoIT {
 
     String fixturesFolder = "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/";
 
-    String POM = fixturesFolder + "basic_usage_example/project/target/template/pom.xml";
+    String POM = fixturesFolder + "test_basic_usage_example/project/target/template/pom.xml";
 
     String json_handler_test =
             fixturesFolder + "basic_json_example/project/target/template/env.json";
@@ -48,6 +48,9 @@ public class CookieCutterMojoIT {
 
 
     String template_java = fixturesFolder + "basic_java_example/project/target/template";
+
+    String template_java_project = fixturesFolder + "java_project_example/project/target/template";
+
 
     String template_custom_placeholder =
             fixturesFolder + "test_using_custom_placeholder_settings/project/target/template";
@@ -264,7 +267,7 @@ public class CookieCutterMojoIT {
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
 
 
-        String classpathTemplate_java = template_java + "/src/main/java";
+        String classpathTemplate_java = template_java_project + "/src/main/java";
         String packageQuery = "br.com.client.sfc.datalake.sfcdatatransferdatalake";
         String packageNewName = "{{cookiecutter.package}}";
 
@@ -337,12 +340,15 @@ public class CookieCutterMojoIT {
                         + " and Suffix: " + suffix);
 
         assertThat(result).isSuccessful().out().warn()
-                .contains(
-                        "No handler found for type: " + type + ". Defaulting to PlainTextHandler");
+                .contains("Replace: #backstage-template-condition-infra-elk-condition-end with: "
+                        + prefix + " endif " + suffix);
 
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+
+        assertThat(result).isSuccessful().out().info()
+                .contains("Producing KindHandlerEvent: PlainTextHandler");
 
     }
 

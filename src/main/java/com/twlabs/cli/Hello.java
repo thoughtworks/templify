@@ -17,8 +17,4 @@ class Hello implements Callable<Integer> {
         return 0;
     }
 
-    public static void main(String... args) {
-        int exitCode = new CommandLine(new Hello()).execute(args);
-        System.exit(exitCode);
-    }
 }

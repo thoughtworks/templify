@@ -28,7 +28,7 @@ public class CopyProjectTaskTest {
         RunnerLogger mockLogger = Mockito.mock(RunnerLogger.class);
 
         String baseDir =
-                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/";
+                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_basic_usage_example/";
 
         CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
@@ -60,7 +60,7 @@ public class CopyProjectTaskTest {
         FileSystem mockFs = Mockito.mock(FileSystem.class);
 
         String baseDir =
-                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_usage_example/";
+                "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_basic_usage_example/";
 
         CreateTemplateCommandBuilder requestBuilder = new CreateTemplateCommandBuilder();
 
