@@ -54,8 +54,8 @@
         <picocli-codegen.version>4.7.5</picocli-codegen.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
         <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
-        <plexus-utils.version>4.0.0</plexus-utils.version>
-        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
+        <plexus-utils.version>3.5.1</plexus-utils.version>
+        <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
 
         <!-- PIT -->
         <pit.conf.timeoutConstant>15000</pit.conf.timeoutConstant>
@@ -517,50 +517,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-report-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>info.picocli</groupId>
-                            <artifactId>picocli-codegen</artifactId>
-                            <version>${picocli-codegen.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                    <compilerArgs>
-                        <arg>-Aproject=${project.groupId}/${project.artifactId}</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <dependencyReducedPomLocation>
-                                ${build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
-                            <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${maven.shade.conf.mainClass}</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-dependency-plugin.version}</version>
             </plugin>
         </plugins>
         <extensions>
