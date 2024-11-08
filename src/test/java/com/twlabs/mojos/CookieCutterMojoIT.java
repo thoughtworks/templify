@@ -266,6 +266,8 @@ public class CookieCutterMojoIT {
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
                 .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
 
+        assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
+                .contains("Executing JavaHandlerKind."));
 
         String classpathTemplate_java = template_java_project + "/src/main/java";
         String packageQuery = "br.com.client.sfc.datalake.sfcdatatransferdatalake";
@@ -278,6 +280,9 @@ public class CookieCutterMojoIT {
         assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
                 "It was not found directory: " + packageNewName + " on path: "
                         + classpathTemplate_java);
+
+        assertThat(result).isSuccessful().out().warn().anyMatch(msg -> msg
+                .contains("Replace: " + packageQuery + " with: " + packageNewName));
 
 
 
