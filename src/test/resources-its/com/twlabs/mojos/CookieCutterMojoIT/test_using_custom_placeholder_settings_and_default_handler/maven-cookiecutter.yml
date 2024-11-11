@@ -7,10 +7,9 @@ steps:
     apiVersion: v1
     spec:
       - files:
-          - Makefile
+          - MakeFile
         placeholders:
           - match: "#backstage-template-condition-infra-elk-condition-start"
             replace: " if values.infra is defined and 'elk' in values.infra "
           - match: "#backstage-template-condition-infra-elk-condition-end"
             replace: " endif "
-
