@@ -36,7 +36,8 @@ public class CopyProjectTask implements RunnerTask {
     @Override
     public CreateTemplateCommand execute(CreateTemplateCommand request) {
         try {
-            request.getLogger().info("CopyProjectTask");
+            request.getLogger().info("CopyProjectTask: \n FROM: " + request.getBaseDir() + "\n TO: "
+                    + request.getTemplateDir());
             fs.copyDirectoryStructure(request.getBaseDir(), new File(request.getTemplateDir()));
 
         } catch (IOException e) {

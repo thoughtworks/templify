@@ -1,5 +1,6 @@
 package com.twlabs.kinds.handlers.base;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +102,7 @@ public abstract class KindHandlerBase<S extends Serializable>
             List<String> files, List<KindPlaceholder> placeholders, FileHandler handler) {
 
         for (String file : files) {
-            String filePath = templateDirectory + "/" + file;
+            String filePath = templateDirectory + File.separator + file;
             logger.warn("Start placeholder for: " + filePath);
 
             for (KindPlaceholder placeholderIt : placeholders) {
