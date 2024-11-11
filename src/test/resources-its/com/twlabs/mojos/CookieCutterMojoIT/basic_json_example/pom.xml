@@ -31,7 +31,7 @@
                 <version>@project.version@</version>
                 <executions>
                     <execution>
-                        <id>configuracao_basica_build_test</id>
+                        <id>basic_json_example</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>cutter</goal>
