@@ -84,6 +84,11 @@ public class CookieCutterMojoIT {
 
         assertTrue(resultadoJson.exists() && resultadoJson.isFile(),
                 "env.json was not copied to the template folder.");
+
+        assertThat(result).isSuccessful().out().info()
+                .contains("Producing KindHandlerEvent: JsonHandler");
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Replace: $['name'] with: {{Cookiecutter.name}}");
     }
 
     @MavenTest

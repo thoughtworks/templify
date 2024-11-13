@@ -1,9 +1,9 @@
 steps:
-  - kind: XmlHandler
+  - kind: JsonHandler
     apiVersion: v1
     spec:
       - files:
-          - pom.xml
+          - env.json
         placeholders:
-          - match: /project/groupId
-            replace: Cookiecutter.param.groupId
+          - match: $['name']
+            replace: Cookiecutter.name
