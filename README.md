@@ -2,7 +2,7 @@
 
 ---
 
-# Cookiecutter Templater for Backstage
+# Cookiecutter Templater
 
 <!--toc:start-->
 - [Cookiecutter Templater for Backstage](#cookiecutter-templater-for-backstage)
@@ -29,13 +29,13 @@ Today, the plugin supports:
 ## Quickstart
 
 ### Requirements
-The basic requirements to use the cookiecutter-templater-for-backstage plugin are as follows:
+The basic requirements to use the cookiecutter-templater plugin are as follows:
 
 * JDK11+
 * Apache Maven 3.9.1
 
 ### Configuration 
-The cookiecutter-templater-for-backstage plugin should be included in the pom.xml or settings.xml.
+The cookiecutter-templater-for plugin should be included in the pom.xml or settings.xml.
 
 ```xml
 <repository>
