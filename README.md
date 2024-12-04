@@ -2,15 +2,15 @@
 
 ---
 
-# Cookiecutter Templater
+# Templifly
 
 <!--toc:start-->
-- [Cookiecutter Templater for Backstage](#cookiecutter-templater-for-backstage)
+- [Templifly](#templifly)
 <!--toc:end-->
 
 ## Description
 
-The Cookiecutter plugin is designed to make mapping keys at project configuration in a simple way. By mapping key files—such as XML, JSON, YAML, and even Java code — CookieCutter plugin allows you to define and automate template replacements in a flexible and centralized way. 
+The Templifly plugin is designed to make mapping keys at project configuration in a simple way. By mapping key files—such as XML, JSON, YAML, and even Java code — Templifly plugin allows you to define and automate template replacements in a flexible and centralized way. 
 
 Instead of manually editing repetitive elements across files, you can now manage everything in a single configuration file. Placholders are automatically replaced with the correct values, making the setup process faster, more reliable, and less error-prone. This plugin supports structured data formats like XML and JSON and can handle custom elements in Java files or even plain text, allowing for a custom setup for unique requirements.
 
@@ -29,27 +29,27 @@ Today, the plugin supports:
 ## Quickstart
 
 ### Requirements
-The basic requirements to use the cookiecutter-templater plugin are as follows:
+The basic requirements to use the Templifly-templater plugin are as follows:
 
 * JDK11+
 * Apache Maven 3.9.1
 
 ### Configuration 
-The cookiecutter-templater-for plugin should be included in the pom.xml or settings.xml.
+The Templifly-templater-for plugin should be included in the pom.xml or settings.xml.
 
 ```xml
 <repository>
     <id>artifact-registry-release</id>
-    <url>https://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</url>
+    <url>https://us-east1-maven.pkg.dev/templifly-templater-879f/twlabs-release</url>
 </repository>
 ```
 
 ## Getting Started
 To start using the plugin, you are going to need to adjust the configuration file. 
-The configuration file is `maven-cookiecutter.yml`. After the adjusment of the configurationfile, you will need to run the command below:
+The configuration file is `maven-templifly.yml`. After the adjusment of the configurationfile, you will need to run the command below:
 
 ```
-mvn com.twlabs:cookiecutter-templater-maven-plugin:cutter
+mvn com.twlabs:templifly-templater-maven-plugin:cutter
 ```
 
 ### Usage of the configuration file.
@@ -94,7 +94,7 @@ This configuration allows the plugin to:
 
 
 ### More Information
-For detailed documentation and advanced configuration options, please refer to our [Cookiecutter Wiki](wiki/)
+For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](wiki/)
 
 
 
