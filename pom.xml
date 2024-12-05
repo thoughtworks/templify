@@ -40,7 +40,6 @@
         <toml4j.version>0.7.2</toml4j.version>
         <reflections.version>0.10.2</reflections.version>
         <guava.version>33.0.0-jre</guava.version>
-        <picocli.version>4.7.5</picocli.version>
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <maven-plugin-plugin.version>3.8.1</maven-plugin-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
@@ -51,7 +50,6 @@
         <maven-surefire-report-plugin.version>3.0.0</maven-surefire-report-plugin.version>
         <com.google.cloud.artifactregistry.version>2.2.0</com.google.cloud.artifactregistry.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
-        <picocli-codegen.version>4.7.5</picocli-codegen.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
         <maven-plugin-annotations.version>3.11.0</maven-plugin-annotations.version>
         <plexus-utils.version>3.5.1</plexus-utils.version>
@@ -237,13 +235,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/info.picocli/picocli -->
-        <dependency>
-            <groupId>info.picocli</groupId>
-            <artifactId>picocli</artifactId>
-            <version>${picocli.version}</version>
         </dependency>
 
     </dependencies>
