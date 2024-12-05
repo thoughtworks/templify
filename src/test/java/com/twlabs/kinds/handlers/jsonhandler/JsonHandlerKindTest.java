@@ -37,7 +37,7 @@ public class JsonHandlerKindTest {
     private static final String TARGET = "target/";
     private static final String BUILD_TEMPLATE_DIR = "/template";
     private static final String FIXTURE_JAVA_REPLACE =
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/basic_java_example/";
+            "src/test/resources-its/com/twlabs/mojos/TemplifyIT/basic_java_example/";
 
     private LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
     Injector injector = Guice.createInjector(new CoreModule());
@@ -141,4 +141,3 @@ public class JsonHandlerKindTest {
 
     }
 }
-

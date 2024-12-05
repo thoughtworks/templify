@@ -1,5 +1,6 @@
 package com.twlabs.mojos;
 
+import com.twlabs.mojos.TemplifyMojo;
 import java.io.File;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -15,8 +16,8 @@ import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.CreateTemplateRunner;
 
 
-@Mojo(name = "cutter", defaultPhase = LifecyclePhase.NONE)
-public class CookieCutterMojo extends AbstractMojo {
+@Mojo(name = "templify", defaultPhase = LifecyclePhase.NONE)
+public class TemplifyMojo extends AbstractMojo {
 
     private static final String BUILD_TEMPLATE_DIR = "/template";
 
@@ -39,7 +40,7 @@ public class CookieCutterMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException, MojoFailureException {
 
-        getLog().info("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+        getLog().info("Brace yourself! starting Templify maven plugin!!");
 
         Injector injector = Guice.createInjector(new CoreModule());
         injector.injectMembers(this);

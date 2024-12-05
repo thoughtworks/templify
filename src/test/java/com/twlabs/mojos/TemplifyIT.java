@@ -4,6 +4,7 @@ import static com.soebes.itf.extension.assertj.MavenITAssertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.twlabs.mojos.TemplifyIT;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,11 +22,11 @@ import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
 import com.twlabs.kinds.handlers.yamlhandler.YamlFileHandler;
 
 @MavenJupiterExtension
-public class CookieCutterMojoIT {
+public class TemplifyIT {
 
     FileHandler handler = new XmlFileHandler();
 
-    String fixturesFolder = "./target/maven-it/com/twlabs/mojos/CookieCutterMojoIT/";
+    String fixturesFolder = "./target/maven-it/com/twlabs/mojos/TemplifyIT/";
 
     String POM = fixturesFolder + "test_basic_usage_example/project/target/template/pom.xml";
 
@@ -63,7 +64,7 @@ public class CookieCutterMojoIT {
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
         File resultadoPom = new File(POM);
 
         assertTrue(resultadoPom.exists() && resultadoPom.isFile(),
@@ -78,7 +79,7 @@ public class CookieCutterMojoIT {
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
         File resultadoJson = new File(json_handler_test);
 
@@ -97,7 +98,7 @@ public class CookieCutterMojoIT {
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
 
         final Path fileTemplatePom = Paths.get(templateDir_default_pom + "/pom.xml");
@@ -173,7 +174,7 @@ public class CookieCutterMojoIT {
         assertThat(result).isSuccessful();
 
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
         final Path fileTemplateGeneric1 =
                 Paths.get(templateDir_generics_ymls + "/yamls/generic1.yml");
@@ -210,7 +211,7 @@ public class CookieCutterMojoIT {
         JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
         String classpathTemplate_java = template_java + "/src/main/java";
         String packageQuery = "com.myPackage";
@@ -269,7 +270,7 @@ public class CookieCutterMojoIT {
         JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
+                .contains("Brace yourself! starting Templify maven plugin!!"));
 
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
                 .contains("Executing JavaHandlerKind."));
@@ -325,7 +326,7 @@ public class CookieCutterMojoIT {
         // JavaFileHandler javaHandler = new JavaFileHandler();
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!"));
+                .contains("Brace yourself! starting Templify maven plugin!!"));
 
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
@@ -355,7 +356,7 @@ public class CookieCutterMojoIT {
 
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info()
-                .contains("Brace yourself! starting cookiecutter-templater-maven-plugin!!");
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
         assertThat(result).isSuccessful().out().info()
                 .contains("Producing KindHandlerEvent: PlainTextHandler");
