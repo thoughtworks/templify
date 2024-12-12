@@ -34,7 +34,7 @@
                         <id>test_using_default_placeholder_settings_and_default_handler</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>cutter</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>

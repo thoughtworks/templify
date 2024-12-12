@@ -34,7 +34,7 @@
                         <id>test_replace_json_file</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>cutter</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>

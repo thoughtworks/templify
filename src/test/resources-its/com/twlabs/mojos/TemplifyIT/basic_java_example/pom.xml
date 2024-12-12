@@ -33,7 +33,7 @@
                         <id>basic_java_example</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>cutter</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>

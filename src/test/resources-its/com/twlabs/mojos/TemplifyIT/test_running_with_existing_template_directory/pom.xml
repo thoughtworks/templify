@@ -34,7 +34,7 @@
                         <id>test_running_with_existing_template_directory</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>cutter</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>

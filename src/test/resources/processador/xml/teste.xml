@@ -44,7 +44,7 @@
                         <id>configuracao_basica_build_test</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>cutter</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>
