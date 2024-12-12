@@ -19,8 +19,8 @@ steps:
           - submodule/submoduleB/pom.xml
         placeholders:
           - match: /project/groupId
-            replace: Cookiecutter.param.groupId
+            replace: templify.param.groupId
           - match: /project/artifactId
-            replace: Cookiecutter.test.replace.map.artifactId
+            replace: templify.test.replace.map.artifactId
           - match: /project/dependencies/dependency/scope[text()='test']
-            replace: Cookiecutter.replace.map.scopes
+            replace: templify.replace.map.scopes

@@ -134,8 +134,8 @@ public class XmlFileHandlerTest {
 
     @ParameterizedTest
     @CsvSource({"/project/artifactId, param.artifactId",
-            "/project/groupId, Cookiecutter.test.param",
-            "/project/dependencies/dependency/scope[text()='no_test'], Cookiecutter.test.change.one.scope"})
+            "/project/groupId, templify.test.param",
+            "/project/dependencies/dependency/scope[text()='no_test'], templify.test.change.one.scope"})
     public void test_replace_just_one_tag(String query, String newValue)
             throws XPathExpressionException, IOException, FileHandlerException {
         final Path originalFile = fileForTest();
@@ -145,7 +145,7 @@ public class XmlFileHandlerTest {
 
         // change the valeu of scopes, it is a more complex xpath :)
         if (query.equals("/project/dependencies/dependency/scope[text()='no_test']")) {
-            query = "/project/dependencies/dependency/scope[text()='Cookiecutter.test.change.one.scope']";
+            query = "/project/dependencies/dependency/scope[text()='templify.test.change.one.scope']";
         }
 
         assertTrue(checkExpectedLenght(query, 1, originalFile.toAbsolutePath()), "Values mismatch");
@@ -158,7 +158,7 @@ public class XmlFileHandlerTest {
 
 
     @ParameterizedTest
-    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], Cookiecutter.scope.param"})
+    @CsvSource({"/project/dependencies/dependency/scope[text()='test'], templify.scope.param"})
     public void test_replace_more_tags(String query, String newValue)
             throws XPathExpressionException, IOException, FileHandlerException {
         final Path originalFile = fileForTest();
@@ -189,13 +189,13 @@ public class XmlFileHandlerTest {
         final Path originalFile = fileForTest();
 
         String groupIdQuery = "/project/groupId";
-        String groupIdNewName = "Cookiecutter.test.replace.map.groupId";
+        String groupIdNewName = "templify.test.replace.map.groupId";
 
         String artifactIdQuery = "/project/artifactId";
-        String artifactIdNewName = "Cookiecutter.test.replace.map.artifactId";
+        String artifactIdNewName = "templify.test.replace.map.artifactId";
 
         String scopesQuery = "/project/dependencies/dependency/scope[text()='test']";
-        String scopesNewName = "Cookiecutter.replace.map.scopes";
+        String scopesNewName = "templify.replace.map.scopes";
 
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put(groupIdQuery, groupIdNewName);

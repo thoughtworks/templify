@@ -4,10 +4,10 @@ metadata:
   name: example
 placeholders:
   - query: /project/groupId
-    name: Cookiecutter.param.groupId
+    name: templify.param.groupId
   - query: /project/artifactId
-    name: Cookiecutter.test.replace.map.artifactId
+    name: templify.test.replace.map.artifactId
   - query: /project/dependencies/dependency/scope[text()='test']
-    name: Cookiecutter.replace.map.scopes
+    name: templify.replace.map.scopes
 
    

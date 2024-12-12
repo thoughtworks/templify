@@ -84,7 +84,7 @@ public class JavaFileHandlerTest {
 
         assertTrue(Files.exists(newTempFile));
 
-        String replace = "CookieCutter.newPackage";
+        String replace = "templify.newPackage";
 
         System.out.println("baseDir: " + baseDir + " packageFolder: " + packageFolder + " replace: "
                 + replace);
@@ -163,13 +163,13 @@ public class JavaFileHandlerTest {
         Map<String, String> replaceMap = new HashMap<>();
 
         String query = "firstTest";// faker.dog().name();
-        String name = "cookieCutter1"; // faker.lorem().word();
+        String name = "templify1"; // faker.lorem().word();
         replaceMap.put(query, name);
 
         createFakeProject(baseDir, query);
 
         String queryTest2 = "secondTest";// faker.color().name();
-        String nameCookie2 = "CookieCutter2"; // "faker.lorem().word();
+        String nameCookie2 = "templify2"; // "faker.lorem().word();
         replaceMap.put(queryTest2, nameCookie2);
 
         createFakeProject(baseDir, queryTest2);
@@ -217,7 +217,7 @@ public class JavaFileHandlerTest {
     public void test_replace_content_java_file(String filePath, String query, String qtd)
             throws FileHandlerException, IOException {
         final Path javaFile = fileForTest(staticBaseDir + filePath);
-        String replaceFor = "CookieCutter";
+        String replaceFor = "templify";
 
         Map<String, String> beforeChange = javaHandler.findJavaFileContent(javaFile, query);
 
@@ -272,8 +272,8 @@ public class JavaFileHandlerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "'com.myPackage.br', 'CookieCutter'",
-            "'com.otherPackage.br', 'CookieCutter",
+            "'com.myPackage.br', 'templify'",
+            "'com.otherPackage.br', 'templify",
     })
     public void test_replace_content_java_fileS(String query, String replace)
             throws FileHandlerException, IOException {

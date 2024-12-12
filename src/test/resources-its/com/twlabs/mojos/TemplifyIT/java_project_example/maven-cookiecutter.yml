@@ -6,13 +6,13 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/groupId
-            replace: cookiecutter.groupId
+            replace: templify.groupId
           - match: /project/artifactId
-            replace: cookiecutter.artifactId
+            replace: templify.artifactId
   - kind: JavaHandler
     apiVersion: v1
     spec:
       - placeholders:
           - match: br.com.client.sfc.datalake.sfcdatatransferdatalake
-            replace: cookiecutter.package
+            replace: templify.package
         baseDir: src/main/java

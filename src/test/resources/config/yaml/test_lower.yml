@@ -7,7 +7,7 @@ mappings:
   - file: pom.xml
     placeholders:
       - query: com.api.new
-        name: CookieCutter.TemPlate
+        name: templify.TemPlate
       - query: DONt-CHange.HErE
         name: Need-tOBE--LoWer.Not.HerE
 

@@ -20,11 +20,11 @@ public class CreateTemplateCommandTest {
 
     @ParameterizedTest
     @CsvSource({
-            "/maven-cookiecutter.yml",
+            "/maven-templify.yml",
     })
-    @DisplayName("CreateTemplateCommand.getMavenCookiecutterYml() must return maven-cookiecutter.yml")
-    public void test_get_maven_cookiecutter_yml_should_be_maven_cookiecutter_yml(String ymlFile) {
-        assertEquals(ymlFile, CreateTemplateCommand.getMavenCookiecutterYml());
+    @DisplayName("CreateTemplateCommand.getMaventemplifyYml() must return maven-templify.yml")
+    public void test_get_maven_templify_yml_should_be_maven_templify_yml(String ymlFile) {
+        assertEquals(ymlFile, CreateTemplateCommand.getMaventemplifyYml());
     }
 
 

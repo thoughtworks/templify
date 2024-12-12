@@ -106,7 +106,7 @@ public class LoadConfigurationTaskTest {
     @ParameterizedTest
     @CsvSource(value = {
             "src/test/resources-its/com/twlabs/mojos/TemplifyIT/test_basic_usage_example/, Using default placeholder settings!! -> Prefix:{{ and Suffix: }}",
-            "src/test/resources-its/com/twlabs/mojos/CookieCutterMojoIT/test_using_custom_placeholder_settings/, Using custom placeholder settings!! -> Prefix:_{{ and Suffix: }}",
+            "src/test/resources-its/com/twlabs/mojos/templifyMojoIT/test_using_custom_placeholder_settings/, Using custom placeholder settings!! -> Prefix:_{{ and Suffix: }}",
     })
     public void test_configuration_null_config_settings(String baseDir, String msg) {
         injector.injectMembers(task);

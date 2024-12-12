@@ -3,10 +3,10 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.twlabs</groupId>
-    <artifactId>cookiecutter-templater-maven-plugin</artifactId>
+    <artifactId>templify-templater-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <version>2.0.0-SNAPSHOT</version>
-    <name>cookiecutter-templater-maven-plugin Maven Mojo</name>
+    <name>templify-templater-maven-plugin Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <properties>
         <!-- General Properties -->
@@ -86,9 +86,9 @@
 
         <!-- Repositories and Distributions -->
         <dist.repository>
-            artifactregistry://us-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-release</dist.repository>
+            artifactregistry://us-east1-maven.pkg.dev/templify-templater-879f/twlabs-release</dist.repository>
         <dist.snapshotRepository>
-            artifactregistry://southamerica-east1-maven.pkg.dev/cookiecutter-templater-879f/twlabs-snapshot</dist.snapshotRepository>
+            artifactregistry://southamerica-east1-maven.pkg.dev/templify-templater-879f/twlabs-snapshot</dist.snapshotRepository>
 
     </properties>
 

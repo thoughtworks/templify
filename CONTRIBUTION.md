@@ -91,7 +91,7 @@ classDiagram
     note for ExecuteStepsTask "task accountable for process each StepKind."
 
     LoadConfigurationTask <|-- RunnerTask
-    note for LoadConfigurationTask "task accountable for reading the maven-cookiecutter.yml."
+    note for LoadConfigurationTask "task accountable for reading the maven-templify.yml."
 
     class RunnerDefault{
         +execute()
@@ -114,7 +114,7 @@ classDiagram
     class DeleteTemplateIfExistsTask{
         +execute()
     }
-    class CookieCutterMojo{
+    class templifyMojo{
         +execute()
     }
 
@@ -122,5 +122,5 @@ classDiagram
     RunnerDefault ..> RunnerTask
     RunnerDefault ..> RunnerTask
     RunnerDefault ..> RunnerTask
-    CookieCutterMojo ..> CreateTemplateRunner
+    templifyMojo ..> CreateTemplateRunner
 ```

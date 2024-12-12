@@ -6,4 +6,4 @@ steps:
           - env.json
         placeholders:
           - match: $['name']
-            replace: Cookiecutter.name
+            replace: templify.name

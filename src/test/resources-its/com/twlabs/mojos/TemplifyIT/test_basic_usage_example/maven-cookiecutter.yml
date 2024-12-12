@@ -6,4 +6,4 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/groupId
-            replace: Cookiecutter.param.groupId
+            replace: templify.param.groupId

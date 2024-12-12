@@ -10,11 +10,11 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/groupId
-            replace: Cookiecutter.param.groupId
+            replace: templify.param.groupId
           - match: /project/artifactId
-            replace: Cookiecutter.test.replace.map.artifactId
+            replace: templify.test.replace.map.artifactId
           - match: /project/dependencies/dependency/scope[text()='test']
-            replace: Cookiecutter.replace.map.scopes
+            replace: templify.replace.map.scopes
       - files:
           - xmls/generic_1.xml
         placeholders:
@@ -24,9 +24,9 @@ steps:
           - xmls/complex/generic_2.xml
         placeholders:
           - match: /bookstore/book/author[text()='Kurt Cagle']
-            replace: Cookiecutter.kurtCagle
+            replace: templify.kurtCagle
           - match: /bookstore/book/year[text()='2005']
-            replace: Cookiecutter.NewYear
+            replace: templify.NewYear
 
   - kind: YmlHandler
     apiVersion: v1
@@ -37,13 +37,13 @@ steps:
           - match: mappings[0].file
             replace: newFile
           - match: mappings[0].placeholders[0].query
-            replace: Cookiecutter.match.project.groupId
+            replace: templify.match.project.groupId
           - match: mappings[0].placeholders[0].replace
-            replace: Cookiecutter.replace.map.groupId
+            replace: templify.replace.map.groupId
           - match: mappings[0].placeholders[1].query
-            replace: Cookiecutter.match.project.artifactId
+            replace: templify.match.project.artifactId
           - match: mappings[0].placeholders[1].replace
-            replace: Cookiecutter.replace.map.artifactId
+            replace: templify.replace.map.artifactId
 
   - kind: JavaHandler
     apiVersion: v1
@@ -51,4 +51,4 @@ steps:
       - baseDir: src/main/java
         placeholders:
           - match: com.myPackage
-            replace: cookiecutter.package
+            replace: templify.package

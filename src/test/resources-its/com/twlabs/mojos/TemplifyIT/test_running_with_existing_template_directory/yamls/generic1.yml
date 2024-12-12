@@ -2,11 +2,11 @@ mappings:
   - file: pom.xml
     placeholders:
       - query: /project/groupId
-        name: Cookiecutter.param.groupId
+        name: templify.param.groupId
       - query: /project/artifactId
-        name: Cookiecutter.test.replace.map.artifactId
+        name: templify.test.replace.map.artifactId
       - query: /project/dependencies/dependency/scope[text()='test']
-        name: Cookiecutter.replace.map.scopes
+        name: templify.replace.map.scopes
   - file: xmls/generic_1.xml
     placeholders:
       - query: /note/heading
@@ -14,9 +14,9 @@ mappings:
   - file: xmls/complex/generic_2.xml
     placeholders:
       - query: /bookstore/book/author[text()='Kurt Cagle']
-        name: Cookiecutter.kurtCagle
+        name: templify.kurtCagle
       - query: /bookstore/book/year[text()='2005']
-        name: Cookiecutter.NewYear
+        name: templify.NewYear
       - query: /bookstore/book/author[text()='replace ---- test']
-        name: Cookiecutter.kurtCagle
+        name: templify.kurtCagle
 

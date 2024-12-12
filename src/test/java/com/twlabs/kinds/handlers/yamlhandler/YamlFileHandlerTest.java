@@ -32,9 +32,9 @@ public class YamlFileHandlerTest {
     @ParameterizedTest
     @CsvSource({"metadata.name, example", "kind, Deployment",
             "placeholders[0].query, /project/groupId",
-            "placeholders[0].name, Cookiecutter.param.groupId",
+            "placeholders[0].name, templify.param.groupId",
             "placeholders[2].query, /project/dependencies/dependency/scope[text()='test']",
-            "placeholders[2].name, Cookiecutter.replace.map.scopes"})
+            "placeholders[2].name, templify.replace.map.scopes"})
     public void test_find_simple_names_must_return_values(String query, String expected)
             throws FileHandlerException {
         assertThat(this.yamlHandler.find(test_yaml, query).get(query)).isNotNull().isNotEmpty()

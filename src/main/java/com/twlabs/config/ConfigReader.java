@@ -4,15 +4,15 @@ import java.io.IOException;
 
 
 /**
- * Interface to read maven-cookiecutter.yaml|yml file. Apply relevant validations.
+ * Interface to read maven-templify.yaml|yml file. Apply relevant validations.
  *
- * Create a PluginConfig object that represents the values in maven-cookiecutter.yaml|yml
+ * Create a PluginConfig object that represents the values in maven-templify.yaml|yml
  *
  */
 public interface ConfigReader {
 
     /**
-     * Reads a plugin configuration file (maven-cookiecutter.yaml|yml) and returns a PluginConfig
+     * Reads a plugin configuration file (maven-templify.yaml|yml) and returns a PluginConfig
      * object.
      *
      * @param configFilePath The path to the plugin configuration file.

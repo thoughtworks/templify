@@ -89,7 +89,7 @@ public class TemplifyIT {
         assertThat(result).isSuccessful().out().info()
                 .contains("Producing KindHandlerEvent: JsonHandler");
         assertThat(result).isSuccessful().out().warn()
-                .contains("Replace: $['name'] with: {{Cookiecutter.name}}");
+                .contains("Replace: $['name'] with: {{templify.name}}");
     }
 
     @MavenTest
@@ -105,14 +105,14 @@ public class TemplifyIT {
 
 
         String groupIdQuery = "/project/groupId";
-        String groupIdNewName = "{{cookiecutter.param.groupId}}";
+        String groupIdNewName = "{{templify.param.groupId}}";
 
         String artifactIdQuery = "/project/artifactId";
-        String artifactIdNewName = "{{cookiecutter.test.replace.map.artifactId}}";
+        String artifactIdNewName = "{{templify.test.replace.map.artifactId}}";
 
         String scopesQuery =
-                "/project/dependencies/dependency/scope[text()='{{cookiecutter.replace.map.scopes}}']";
-        String scopesNewName = "{{cookiecutter.replace.map.scopes}}";
+                "/project/dependencies/dependency/scope[text()='{{templify.replace.map.scopes}}']";
+        String scopesNewName = "{{templify.replace.map.scopes}}";
 
         Map<String, String> actual =
                 handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
@@ -150,11 +150,11 @@ public class TemplifyIT {
         final Path fileTemplateGeneric2 =
                 Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
 
-        String authorQuery = "/bookstore/book/author[text()='{{cookiecutter.kurtCagle}}']";
-        String autorNewName = "{{cookiecutter.kurtCagle}}";
+        String authorQuery = "/bookstore/book/author[text()='{{templify.kurtCagle}}']";
+        String autorNewName = "{{templify.kurtCagle}}";
 
-        String yearQuery = "/bookstore/book/year[text()='{{cookiecutter.NewYear}}']";
-        String yearNewName = "{{cookiecutter.NewYear}}";
+        String yearQuery = "/bookstore/book/year[text()='{{templify.NewYear}}']";
+        String yearNewName = "{{templify.NewYear}}";
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), authorQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(autorNewName);
@@ -184,10 +184,10 @@ public class TemplifyIT {
         String fileNewName = "{{newFile}}";
 
         String groupIdQuery = "mappings[0].placeholders[0].query";
-        String groupIdQueryNewName = "{{cookiecutter.query.project.groupId}}";
+        String groupIdQueryNewName = "{{templify.query.project.groupId}}";
 
         String groupIdQueryName = "mappings[0].placeholders[0].name";
-        String groupIdNewName = "{{cookiecutter.replace.map.groupId}}";
+        String groupIdNewName = "{{templify.replace.map.groupId}}";
 
         Map<String, String> actual =
                 yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), fileQuery);
@@ -215,10 +215,10 @@ public class TemplifyIT {
 
         String classpathTemplate_java = template_java + "/src/main/java";
         String packageQuery = "com.myPackage";
-        String packageNewName = "{{cookiecutter.package}}";
+        String packageNewName = "{{templify.package}}";
 
         Map<String, String> filePathMap = javaHandler.find(classpathTemplate_java, packageNewName);
-        // src/main/java+/{{cookiecutter.package}}
+        // src/main/java+/{{templify.package}}
 
         assertFalse(filePathMap.containsKey(packageQuery),
                 "Directory " + filePathMap.get(packageQuery) + " was not moved");
@@ -242,10 +242,10 @@ public class TemplifyIT {
 
 
         String nameQuery = "$['name']";
-        String nameNewName = "{{cookiecutter.name}}";
+        String nameNewName = "{{templify.name}}";
 
         String ageQuery = "$['age']";
-        String ageNewName = "{{cookiecutter.age}}";
+        String ageNewName = "{{templify.age}}";
 
 
         Map<String, String> actual =
@@ -277,7 +277,7 @@ public class TemplifyIT {
 
         String classpathTemplate_java = template_java_project + "/src/main/java";
         String packageQuery = "br.com.client.sfc.datalake.sfcdatatransferdatalake";
-        String packageNewName = "{{cookiecutter.package}}";
+        String packageNewName = "{{templify.package}}";
 
         Map<String, String> filePathMap = javaHandler.find(classpathTemplate_java, packageNewName);
 
@@ -331,7 +331,7 @@ public class TemplifyIT {
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
         // String packageQuery = "com.myPackage";
-        String packageNewName = prefix + "cookiecutter.package" + suffix;
+        String packageNewName = prefix + "templify.package" + suffix;
 
         assertTrue(Files.isDirectory(Paths.get(classpathTemplate_java + "/" + packageNewName)),
                 "It was not found directory: " + packageNewName + " on path: "

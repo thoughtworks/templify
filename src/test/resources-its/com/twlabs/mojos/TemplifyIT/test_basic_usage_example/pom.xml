@@ -27,7 +27,7 @@
             <!-- You can remove this plugin, it's used to test Maven Mojos -->
             <plugin>
                 <groupId>com.twlabs</groupId>
-                <artifactId>cookiecutter-templater-maven-plugin</artifactId>
+                <artifactId>templify-templater-maven-plugin</artifactId>
                 <version>@project.version@</version>
                 <executions>
                     <execution>

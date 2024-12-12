@@ -8,20 +8,20 @@ import com.twlabs.services.logger.LoggerStrategyFactory;
 import com.twlabs.services.logger.RunnerLogger;
 
 /**
- * Initializes the Maven Cookiecutter with the given configuration.
+ * Initializes the Maven templify with the given configuration.
  *
  * @field templateDir the directory where the generated template will be created.
  * @field baseDir the base directory of the base project.
  * @field buildDir directory where the intermediate build files will be stored
  * @field destDir directory where the final generated project will be stored
- * @field configuration location of the maven-cookiecutter.yml.
+ * @field configuration location of the maven-templify.yml.
  * @field placeholder settings for the template variables
  * @field logger for logging messages during the generation process
  * @throws IllegalArgumentException if any of the parameters are null or empty
  */
 public class CreateTemplateCommand {
 
-    private static final String MAVEN_COOKIECUTTER_YML = "/maven-cookiecutter.yml";
+    private static final String MAVEN_templify_YML = "/maven-templify.yml";
     private String templateDir;
     private File baseDir;
     private String buildDir;
@@ -33,7 +33,7 @@ public class CreateTemplateCommand {
     private CreateTemplateCommand() {}
 
     public String getConfigFilePath() {
-        return this.baseDir + MAVEN_COOKIECUTTER_YML;
+        return this.baseDir + MAVEN_templify_YML;
     }
 
     public String getTemplateDir() {
@@ -52,8 +52,8 @@ public class CreateTemplateCommand {
         this.configuration = configuration;
     }
 
-    public static String getMavenCookiecutterYml() {
-        return MAVEN_COOKIECUTTER_YML;
+    public static String getMaventemplifyYml() {
+        return MAVEN_templify_YML;
     }
 
     public PlaceholderSettings getPlaceholder() {

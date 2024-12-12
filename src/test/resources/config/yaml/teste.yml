@@ -7,7 +7,7 @@ mappings:
   - file: pom.xml
     placeholders:
       - query: /project/groupId
-        name: Cookiecutter.param.groupId
+        name: templify.param.groupId
 
   - file: ./config/file.properties
     placeholders:

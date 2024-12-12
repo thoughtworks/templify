@@ -6,8 +6,8 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/groupId
-            replace: cookiecutter.param.groupId
+            replace: templify.param.groupId
           - match: /project/artifactId
-            replace: cookiecutter.test.replace.map.artifactId
+            replace: templify.test.replace.map.artifactId
           - match: /project/dependencies/dependency/scope[text()='test']
-            replace: cookiecutter.replace.map.scopes
+            replace: templify.replace.map.scopes
