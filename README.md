@@ -1,4 +1,4 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/twlabs/templify-Templater-for-Backstage/tree/main.svg?style=svg&circle-token=32f338c23bd26fde500c4e1aaf59bfd5b7b04c6f)](https://dl.circleci.com/status-badge/redirect/gh/twlabs/templify-Templater-for-Backstage/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/twlabs/Templify/tree/main.svg?style=svg&circle-token=CCIPRJ_VesRXYEAdUpsozb3XCje5v_4896d0db8ec8b99c7c40e1944718a58b8a1c5ad6)](https://dl.circleci.com/status-badge/redirect/gh/twlabs/Templify/tree/main)
 
 ---
 
