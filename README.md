@@ -94,7 +94,7 @@ This configuration allows the plugin to:
 
 
 ### More Information
-For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](wiki/)
+For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](https://github.com/twlabs/Templify/wiki)
 
 
 
