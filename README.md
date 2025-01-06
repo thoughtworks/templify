@@ -4,15 +4,9 @@
 
 # Templifly
 
-<!--toc:start-->
-- [Templifly](#templifly)
-<!--toc:end-->
+Templifly is a Maven plugin designed to simplify the process of managing and automating template-based configurations in your projects. By mapping key files—such as XML, JSON, YAML, Java code, or even plain text—Templifly allows you to define placeholders and automate their replacement in a centralized and flexible way.
 
-## Description
-
-The Templifly plugin is designed to make mapping keys at project configuration in a simple way. By mapping key files—such as XML, JSON, YAML, and even Java code — Templifly plugin allows you to define and automate template replacements in a flexible and centralized way. 
-
-Instead of manually editing repetitive elements across files, you can now manage everything in a single configuration file. Placholders are automatically replaced with the correct values, making the setup process faster, more reliable, and less error-prone. This plugin supports structured data formats like XML and JSON and can handle custom elements in Java files or even plain text, allowing for a custom setup for unique requirements.
+Instead of manually editing repetitive elements across files, you can manage everything through a single configuration file. Placeholders are automatically replaced with the appropriate values during the build process, making your setup faster, more reliable, and less error-prone. This plugin supports structured data formats like XML and JSON and can handle custom elements in Java files, offering flexibility for unique project requirements.
 
 ---
 
