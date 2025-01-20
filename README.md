@@ -27,16 +27,6 @@ The basic requirements to use the Templifly-templater plugin are as follows:
 * JDK11+
 * Apache Maven 3.9.1
 
-### Configuration 
-The Templifly-templater-for plugin should be included in the pom.xml or settings.xml.
-
-```xml
-<repository>
-    <id>artifact-registry-release</id>
-    <url>https://us-east1-maven.pkg.dev/templifly-templater-879f/twlabs-release</url>
-</repository>
-```
-
 ## Getting Started
 To start using the plugin, you are going to need to adjust the configuration file. 
 The configuration file is `maven-templifly.yml`. After the adjusment of the configurationfile, you will need to run the command below:
@@ -88,14 +78,3 @@ This configuration allows the plugin to:
 
 ### More Information
 For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](https://github.com/twlabs/Templify/wiki)
-
-
-
-
-
-
-
-
-
-
-
