@@ -25,7 +25,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.twlabs</groupId>
+                <groupId>com.thoughtworks</groupId>
                 <artifactId>templify-templater-maven-plugin</artifactId>
                 <version>@project.version@</version>
                 <executions>

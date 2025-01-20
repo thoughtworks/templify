@@ -26,7 +26,7 @@
         <plugins>
             <!-- You can remove this plugin, it's used to test Maven Mojos -->
             <plugin>
-                <groupId>com.twlabs</groupId>
+                <groupId>com.thoughtworks</groupId>
                 <artifactId>templify-templater-maven-plugin</artifactId>
                 <version>@project.version@</version>
                 <executions>
