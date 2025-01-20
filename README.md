@@ -1,4 +1,4 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thoughtworks/templify/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/thoughtworks/templify/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thoughtworks/templify/tree/main.svg?style=svg&circle-token=CCIPRJ_JALbdF6f7RFSsAd8FRRpag_36bad9f9d6133e7691370efb2b4a558f8e5269be)](https://dl.circleci.com/status-badge/redirect/gh/thoughtworks/templify/tree/main)
 ---
 
 # Templifly
