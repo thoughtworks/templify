@@ -4,10 +4,10 @@ title: "[Issue]: "
 assignees:
   - luiz-micci
   - peppetwer
-description: Description
+description: Elaborate about your issue.
 body:
   - type: textarea
-    id: description
+    id: desc
     validations:
       required: true
   - type: markdown
