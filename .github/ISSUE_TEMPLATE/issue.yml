@@ -4,3 +4,13 @@ title: "[Issue]: "
 assignees:
   - luiz-micci
   - peppetwer
+description: Description
+body:
+  - type: textarea
+    id: description
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |-
+        ## Thanks for collaborate 🙏
