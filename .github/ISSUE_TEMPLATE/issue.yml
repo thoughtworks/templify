@@ -1,0 +1,6 @@
+name: 🔧 Just a issue.
+labels: ["issue"]
+title: "[Issue]: "
+assignees:
+  - luiz-micci
+  - peppetwer
