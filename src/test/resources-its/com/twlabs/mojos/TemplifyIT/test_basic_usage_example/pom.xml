@@ -27,14 +27,14 @@
             <!-- You can remove this plugin, it's used to test Maven Mojos -->
             <plugin>
                 <groupId>com.thoughtworks</groupId>
-                <artifactId>templify-templater-maven-plugin</artifactId>
+                <artifactId>templify</artifactId>
                 <version>@project.version@</version>
                 <executions>
                     <execution>
                         <id>basic_usage_example</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>templify</goal>
+                            <goal>create</goal>
                         </goals>
                     </execution>
                 </executions>

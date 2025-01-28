@@ -27,14 +27,14 @@
         <plugins>
             <plugin>
                 <groupId>com.thoughtworks</groupId>
-                <artifactId>templify-templater-maven-plugin</artifactId>
+                <artifactId>templify</artifactId>
                 <version>@project.version@</version>
                 <executions>
                     <execution>
                         <id>test_running_with_existing_template_directory</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>templify</goal>
+                            <goal>create</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -16,7 +16,7 @@ import com.twlabs.services.CreateTemplateCommand.CreateTemplateCommandBuilder;
 import com.twlabs.services.CreateTemplateRunner;
 
 
-@Mojo(name = "templify", defaultPhase = LifecyclePhase.NONE)
+@Mojo(name = "create", defaultPhase = LifecyclePhase.NONE)
 public class TemplifyMojo extends AbstractMojo {
 
     private static final String BUILD_TEMPLATE_DIR = "/template";
