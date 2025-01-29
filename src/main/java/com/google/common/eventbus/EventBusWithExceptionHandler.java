@@ -2,9 +2,9 @@ package com.google.common.eventbus;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
-import com.twlabs.kinds.api.Kind;
-import com.twlabs.kinds.api.KindFinder;
-import com.twlabs.kinds.api.UnsupportedKindHandler;
+import com.thoughtworks.kinds.api.Kind;
+import com.thoughtworks.kinds.api.KindFinder;
+import com.thoughtworks.kinds.api.UnsupportedKindHandler;
 
 /**
  * EventBusWithExceptionHandler

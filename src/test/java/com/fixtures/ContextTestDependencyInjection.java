@@ -1,32 +1,32 @@
 package com.fixtures;
 
-import static com.twlabs.kinds.api.FileHandler.Names.JAVA;
-import static com.twlabs.kinds.api.FileHandler.Names.JSON;
-import static com.twlabs.kinds.api.FileHandler.Names.XML;
-import static com.twlabs.kinds.api.FileHandler.Names.YAML;
-import static com.twlabs.kinds.api.FileHandler.Names.YML;
-import static com.twlabs.services.RunnerTask.Names.COPY_PROJECT_TASK;
-import static com.twlabs.services.RunnerTask.Names.DELETE_TEMPLATE_FOLDER_TASK;
-import static com.twlabs.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
-import static com.twlabs.services.RunnerTask.Names.LOAD_PLUGIN_CONFIGURATION_TASK;
+import static com.thoughtworks.kinds.api.FileHandler.Names.JAVA;
+import static com.thoughtworks.kinds.api.FileHandler.Names.JSON;
+import static com.thoughtworks.kinds.api.FileHandler.Names.XML;
+import static com.thoughtworks.kinds.api.FileHandler.Names.YAML;
+import static com.thoughtworks.kinds.api.FileHandler.Names.YML;
+import static com.thoughtworks.services.RunnerTask.Names.COPY_PROJECT_TASK;
+import static com.thoughtworks.services.RunnerTask.Names.DELETE_TEMPLATE_FOLDER_TASK;
+import static com.thoughtworks.services.RunnerTask.Names.EXECUTE_STEPS_TASK;
+import static com.thoughtworks.services.RunnerTask.Names.LOAD_PLUGIN_CONFIGURATION_TASK;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
-import com.twlabs.kinds.api.FileHandler;
-import com.twlabs.kinds.handlers.javahandler.JavaFileHandler;
-import com.twlabs.kinds.handlers.jsonhandler.JsonFileHandler;
-import com.twlabs.kinds.handlers.xmlhandler.XmlFileHandler;
-import com.twlabs.kinds.handlers.yamlhandler.YamlFileHandler;
-import com.twlabs.config.ConfigReader;
-import com.twlabs.services.CreateTemplateRunner;
-import com.twlabs.services.RunnerDefault;
-import com.twlabs.services.RunnerTask;
-import com.twlabs.services.YamlConfigReader;
-import com.twlabs.services.tasks.CopyProjectTask;
-import com.twlabs.services.tasks.DeleteTemplateIfExistsTask;
-import com.twlabs.services.tasks.ExecuteStepsTask;
-import com.twlabs.services.tasks.LoadConfigurationTask;
+import com.thoughtworks.kinds.api.FileHandler;
+import com.thoughtworks.kinds.handlers.javahandler.JavaFileHandler;
+import com.thoughtworks.kinds.handlers.jsonhandler.JsonFileHandler;
+import com.thoughtworks.kinds.handlers.xmlhandler.XmlFileHandler;
+import com.thoughtworks.kinds.handlers.yamlhandler.YamlFileHandler;
+import com.thoughtworks.config.ConfigReader;
+import com.thoughtworks.services.CreateTemplateRunner;
+import com.thoughtworks.services.RunnerDefault;
+import com.thoughtworks.services.RunnerTask;
+import com.thoughtworks.services.YamlConfigReader;
+import com.thoughtworks.services.tasks.CopyProjectTask;
+import com.thoughtworks.services.tasks.DeleteTemplateIfExistsTask;
+import com.thoughtworks.services.tasks.ExecuteStepsTask;
+import com.thoughtworks.services.tasks.LoadConfigurationTask;
 
 /**
  * ContextTestDependencyInjection
