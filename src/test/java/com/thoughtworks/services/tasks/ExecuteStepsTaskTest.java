@@ -43,7 +43,7 @@ public class ExecuteStepsTaskTest {
 
     private static final String TARGET = "target/";
     private static final String PROJECT_BASIC_CONFIGS =
-            "src/test/resources-its/com/twlabs/mojos/TemplifyIT/basic_usage_example/";
+            "src/test/resources-its/com/thoughtworks/mojos/TemplifyIT/basic_usage_example/";
     private static final String UNSUPPORTED_KIND = "unsupportedKind";
     private static final String XML_HANDLER = "XmlHandler";
     private static final String BUILD_TEMPLATE_DIR = "/template";

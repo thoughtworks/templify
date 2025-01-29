@@ -7,7 +7,7 @@
         <maven.compiler.source>8</maven.compiler.source>
     </properties>
 
-    <groupId>com.twlabs.oss</groupId>
+    <groupId>com.thoughtworks.oss</groupId>
     <artifactId>basic-usage-example</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>

@@ -20,7 +20,7 @@ import com.thoughtworks.kinds.api.FileHandlerException;
  * Common options are attributes of Options, for ex placeholder suffix and preffix Any different
  * options must be added to extension map that is a <String, String>
  *
- * @see com.twlabs.model.Metadata
+ * @see com.thoughtworks.model.Metadata
  *
  */
 public abstract class AbstractFileHandler implements FileHandler {

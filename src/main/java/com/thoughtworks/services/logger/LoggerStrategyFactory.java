@@ -32,6 +32,6 @@ public class LoggerStrategyFactory {
      * @return A RunnerLogger object created using the default Java Logger.
      */
     public RunnerLogger create() {
-        return new JavaLogger(Logger.getLogger("com.twlabs"));
+        return new JavaLogger(Logger.getLogger("com.thoughtworks"));
     }
 }

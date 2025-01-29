@@ -259,11 +259,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
-                <!-- <configuration> -->
-                <!--     <excludes> -->
-                <!--         <exclude>com/twlabs/mojos/*</exclude> -->
-                <!--     </excludes> -->
-                <!-- </configuration> -->
                 <executions>
                     <!-- Configuring jacoco unit test coverage data -->
                     <execution>
