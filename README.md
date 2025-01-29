@@ -32,7 +32,7 @@ To start using the plugin, you are going to need to adjust the configuration fil
 The configuration file is `maven-templifly.yml`. After the adjusment of the configurationfile, you will need to run the command below:
 
 ```
-mvn com.thoughtworks:templifly:create
+mvn com.thoughtworks:templify:create
 ```
 
 ### Usage of the configuration file.
