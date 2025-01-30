@@ -32,7 +32,7 @@ To start using the plugin, you are going to need to adjust the configuration fil
 The configuration file is `maven-templifly.yml`. After the adjusment of the configurationfile, you will need to run the command below:
 
 ```
-mvn com.twlabs:templifly-templater-maven-plugin:cutter
+mvn com.thoughtworks:templify:create
 ```
 
 ### Usage of the configuration file.
@@ -77,4 +77,4 @@ This configuration allows the plugin to:
 
 
 ### More Information
-For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](https://github.com/twlabs/Templify/wiki)
+For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](https://github.com/thoughtworks/Templify/wiki)
