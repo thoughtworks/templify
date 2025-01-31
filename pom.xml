@@ -5,7 +5,7 @@
     <groupId>com.thoughtworks</groupId>
     <artifactId>templify</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>templify templater maven plugin</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -84,11 +84,6 @@
         <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
         <surefire.report.reportFormat>plain</surefire.report.reportFormat>
 
-        <!-- Repositories and Distributions -->
-        <dist.repository>
-            artifactregistry://us-east1-maven.pkg.dev/templify-templater-879f/thoughtworks-release</dist.repository>
-        <dist.snapshotRepository>
-            artifactregistry://southamerica-east1-maven.pkg.dev/templify-templater-879f/thoughtworks-snapshot</dist.snapshotRepository>
 
     </properties>
 
@@ -504,6 +499,29 @@
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>${maven-surefire-report-plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -548,17 +566,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <distributionManagement>
-        <repository>
-            <id>artifact-registry</id>
-            <url>${dist.repository}</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>artifact-registry</id>
-            <url>${dist.snapshotRepository}</url>
-        </snapshotRepository>
-    </distributionManagement>
-
 </project>
