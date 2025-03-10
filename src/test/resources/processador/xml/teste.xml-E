@@ -2,11 +2,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <properties>
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.compiler.source>8</maven.compiler.source>
-    </properties>
-
 
     <groupId>org.apache.maven.plugin.my.unit</groupId>
     <artifactId>project-to-test</artifactId>
@@ -21,20 +16,35 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.9.2</version>
+            <scope>no_test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.alguma.coisa</groupId>
+            <artifactId>junit-test-unit</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
+
 
     <build>
         <plugins>
             <plugin>
-                <groupId>com.thoughtworks.templify</groupId>
-                <artifactId>templify</artifactId>
+                <groupId>com.thoughtworks</groupId>
+                <artifactId>templify-templater-maven-plugin</artifactId>
                 <version>@project.version@</version>
                 <executions>
                     <execution>
-                        <id>test_replace_json_file</id>
+                        <id>configuracao_basica_build_test</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>create</goal>
+                            <goal>templify</goal>
                         </goals>
                     </execution>
                 </executions>

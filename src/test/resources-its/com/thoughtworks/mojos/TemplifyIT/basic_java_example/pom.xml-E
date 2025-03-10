@@ -3,10 +3,9 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <properties>
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
     </properties>
-
 
     <groupId>org.apache.maven.plugin.my.unit</groupId>
     <artifactId>project-to-test</artifactId>
@@ -26,12 +25,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.thoughtworks.templify</groupId>
+                <groupId>com.thoughtworks</groupId>
                 <artifactId>templify</artifactId>
                 <version>@project.version@</version>
                 <executions>
                     <execution>
-                        <id>test_replace_json_file</id>
+                        <id>basic_java_example</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>create</goal>
