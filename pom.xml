@@ -2,11 +2,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.thoughtworks</groupId>
+    <groupId>com.thoughtworks.templify</groupId>
     <artifactId>templify</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>templify templater maven plugin</name>
+    <description>A Maven plugin for automating template-based configurations and placeholder replacements across XML, JSON, Java, and more</description>
     <url>http://maven.apache.org</url>
     <properties>
         <!-- General Properties -->
@@ -566,4 +567,28 @@
             </plugin>
         </plugins>
     </reporting>
+    <scm>
+        <url>https://github.com/thoughtworks/templify</url>
+        <connection>scm:git:git://github.com/thoughtworks/templify.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:thoughtworks/templify.git</developerConnection>
+    </scm>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>BeppeTW</id>
+            <name>Beppe</name>
+            <email>giuseppe.pereira@thoughtworks.com</email>
+        </developer>
+        <developer>
+            <id>Luiz-Micci</id>
+            <name>Miccieli</name>
+            <email>lui.miccieli@thoughtworks.com</email>
+        </developer>
+    </developers>
 </project>
