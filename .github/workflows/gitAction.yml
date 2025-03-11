@@ -33,10 +33,11 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_PUBLIC_KEY: ${{ vars.GPG_PUBLIC_KEY }}
+           
         run: |
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
           echo "$GPG_PASSPHRASE" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --sign-key "$GPG_PUBLIC_KEY"
-          echo "GPG_TTY=$(tty)" >> $GITHUB_ENV
+          echo "MAVEN_GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
 
       - name: Build and Test
         run: mvn -X clean install site
