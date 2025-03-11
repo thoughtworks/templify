@@ -10,8 +10,7 @@
     <description>A Maven plugin for automating template-based configurations and placeholder replacements across XML, JSON, Java, and more</description>
     <url>http://maven.apache.org</url>
     <properties>
-        <!-- env GPG--> 
-        <gpg.keyname>${env.GPG_PUBLIC_KEY}</gpg.keyname>
+
         
         <!-- General Properties -->
         <maven.compiler.target>11</maven.compiler.target>
