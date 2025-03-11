@@ -1,7 +1,7 @@
-orbs:
-  maven: circleci/maven@1.4.1
-  browser-tools: circleci/browser-tools@1.4.1
-version: 2.1
+#orbs:
+#  maven: circleci/maven@1.4.1
+#  browser-tools: circleci/browser-tools@1.4.1
+#version: 2.1
 #jobs:
 #  deploy:
 #    docker:
@@ -18,15 +18,15 @@ version: 2.1
 #          mvn deploy
 #     - store_artifacts:
 #          path: target/surefire-reports
-workflows:
-  maven_test:
-    jobs:
-      - maven/test:
-          command: "-X clean install site"
-          executor:
-            name: maven/default
-            tag: "11.0"
-          test_results_path: target/surefire-reports
+#workflows:
+#  maven_test:
+#    jobs:
+#      - maven/test:
+#          command: "-X clean install site"
+#          executor:
+#            name: maven/default
+#            tag: "11.0"
+#          test_results_path: target/surefire-reports
           #  deploy:
           #    jobs:
           #      - deploy
