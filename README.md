@@ -1,3 +1,4 @@
+[![Build and Deploy](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml/badge.svg)](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml) 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/thoughtworks/templify/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/thoughtworks/templify/tree/main)
 ---
 
