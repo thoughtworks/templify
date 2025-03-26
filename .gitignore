@@ -12,3 +12,4 @@ target/
 !./src/test/resources-its/com/twlabs/mojos/TemplifyIT/test_using_custom_placeholder_settings/target/template
 .secrets
 .variables
+.actrc
