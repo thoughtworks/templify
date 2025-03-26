@@ -8,8 +8,12 @@ on:
     branches:
       - main
 
+  schedule:
+    - cron: "20 4 * * *"
+
 jobs:
   build:
+    environment: maven-central
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,8 +22,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
-          java-version: '11'
+          distribution: "adopt"
+          java-version: "11"
 
       - name: Cache Maven packages
         uses: actions/cache@v4
@@ -27,18 +31,32 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
-     
+
+      - name: Configure Maven settings
+        run: |
+          mkdir -p ~/.m2
+          cat <<EOF > ~/.m2/settings.xml
+          <settings>
+            <servers>
+              <server>
+                <id>central</id>
+                <username>${{ secrets.USERNAME }}</username>
+                <password>${{ secrets.PASSWORD }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
+
       - name: Import GPG key
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           GPG_PUBLIC_KEY: ${{ vars.GPG_PUBLIC_KEY }}
-           
+
         run: |
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
           echo "$GPG_PASSPHRASE" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --sign-key "$GPG_PUBLIC_KEY"
           echo "MAVEN_GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
 
       - name: Build and Test
-        run: mvn -X clean install site
-    
+        run: mvn -X clean deploy
