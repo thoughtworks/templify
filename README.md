@@ -1,81 +1,123 @@
-[![Build and Deploy](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml/badge.svg)](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml) 
+# Templify 
+
+**Standardize and accelerate the creation of templates-based projects using definining placeholders across any kind of project**
+
+Templify is a Maven plugin that helps you generate templates-based from a predefined project using a YAML-based configuration. It supports advanced transformations such as XPath-based replacement in XML files – ideal for managing complex project scaffolding and enforcing consistency.
+
+![Build](https://github.com/thoughtworks/templify/actions/workflows/build.yml/badge.svg)
 
 ---
 
-# Templifly
+## What does it do?
 
-Templifly is a Maven plugin designed to simplify the process of managing and automating template-based configurations in your projects. By mapping key files—such as XML, JSON, YAML, Java code, or even plain text—Templifly allows you to define placeholders and automate their replacement in a centralized and flexible way.
+Templify automates the generation of templates by:
 
-Instead of manually editing repetitive elements across files, you can manage everything through a single configuration file. Placeholders are automatically replaced with the appropriate values during the build process, making your setup faster, more reliable, and less error-prone. This plugin supports structured data formats like XML and JSON and can handle custom elements in Java files, offering flexibility for unique project requirements.
+- Reading a YAML config file (`maven-templify.yml`)
+- Loading project files from a directory
+- Applying structured transformations (like XPath replacements in XML)
+- Outputting a complete, placeholders templates-based ready to integrate with your Backstage, Jinja and so on 
 
 ---
 
-## Plugin current status
-The plugin is currently in development and is ready for early-stage adoption and validation.
-Today, the plugin supports:
-* XML 
-* YAML 
-* JSON
-* Plain text
-* Java files and packages
+## Who is it for?
 
+Templify is built for:
 
-## Quickstart
+- **Base Platform teams** creating reusable service templates
+- **Developers** automating repetitive setup tasks
+- **Organizations** seeking consistent project standards and faster delivery
 
-### Requirements
-The basic requirements to use the Templifly-templater plugin are as follows:
+---
 
-* JDK11+
-* Apache Maven 3.9.1
+## How it works
 
-## Getting Started
-To start using the plugin, you are going to need to adjust the configuration file. 
-The configuration file is `maven-templifly.yml`. After the adjusment of the configurationfile, you will need to run the command below:
+You define:
 
+- A **template folder** containing your base project
+- A **YAML config file** that describes:
+  - Which files to transform
+  - How to match content (XPath for XML)
+  - What to replace
+
+Templify will process the files and generate a project in a specified destination.
+
+---
+
+## 🧪 Example usage
+
+### 1. Prepare your config file
+
+`maven-templify.yml`:
+
+```yaml
+steps:
+  - kind: XmlHandler
+    apiVersion: v1
+    spec:
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: templify.param.groupId
+          - match: /project/artifactId
+            replace: templify.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: templify.replace.map.scopes
+      - files:
+          - xmls/generic_1.xml
+        placeholders:
+          - match: /note/heading
+            replace: New Reminder
+      - files:
+          - xmls/complex/generic_2.xml
+        placeholders:
+          - match: /bookstore/book/author[text()='Kurt Cagle']
+            replace: templify.kurtCagle
+          - match: /bookstore/book/year[text()='2005']
+            replace: templify.NewYear
 ```
+
+---
+
+### 2. Run the plugin
+
+```bash
 mvn com.thoughtworks.templify:templify:create
 ```
 
-### Usage of the configuration file.
-As mentioned, the plugin supports some file types and we are going to explain the configuration for each supported types.
-But first let understand the configuration file structure.
+-
 
-#### Configuration file structure
-The configuration file is in a `Yaml` type and has the following structure:
+## 📁 Template folder structure
+
 ```
-settings
-└── placeholder
-|   └── prefix
-|   └── suffix 
-steps
-└── - kind
-|     └── apiVersion
-|     └── spec
-|         └── - files
-|         └── placeholders
-|             └── - match
-|             └── replace
+
+📁 target/template/
+├── pom.xml
+├── xmls/
+│   ├── generic_1.xml
+│   └── complex/generic_2.xml
+└── other project files...
 ```
-#### 1. **settings**
-   - **placeholder**: Configures how placeholders are identified within files.
-      - **prefix**: Specifies the prefix marking the start of a placeholder.
-      - **suffix**: Specifies the suffix marking the end of a placeholder.
-   - This setup lets the plugin locate variables needing replacement in the template files and if it is not defined the default prefix and sufix at the placeholder will be `{{` and `}}`.
-#### 2. **steps**
-   - A list of actions, with each item defining a specific configuration step.
-   - **kind**: Identifies the type of action to perform at this step. Ex: XmlHandler, YmlHandler, JavaHandler...
-   - **apiVersion**: Defines the API version used for executing this action. today we have only the `v1`
-   - **spec**: Contains instructions for the step, including files and placeholders to be processed.
-      - **files**: Lists the files and paths that will be processed for replacements. The path should be informed from the root of the project
-      - **placeholders**: Specifies the replacement operations in each file.
-         - **match**: The text or pattern the plugin will locate within the file.
-         - **replace**: The text that will replace the `match`.
 
-### Summary of How It Works
-This configuration allows the plugin to:
-- Identify variables with placeholders using the specified `prefix` and `suffix`.
-- Execute specific steps (`steps`) to replace values in designated files according to the `placeholders` rules in each step.
+Templify will copy this structure to the `target/template` folder and apply the transformations defined in `maven-templify.yml`.
 
+---
 
-### More Information
-For detailed documentation and advanced configuration options, please refer to our [Templifly Wiki](https://github.com/thoughtworks/Templify/wiki)
+## 🧠 What makes it powerful?
+
+- 🎯 **XPath JSONPath, YAMLPath, JAva Procjects and Plain Text support** for precise targeting your project nodes
+- 🔄 **Batch transformations** across multiple files
+- 💼 **Custom parameter references** (e.g., `templify.param.groupId`)
+- 🧩 **Composable templates** for different types of services or modules
+
+---
+
+## 📚 Learn More
+
+- [Templify Wiki](https://github.com/thoughtworks/templify/wiki)
+
+--
+
+## 🙌 Contributing
+
+Spotted a bug or have a new use case in mind? We welcome contributions, ideas, and questions. Open an [issue](https://github.com/thoughtworks/templify/issues) or submit a PR!
