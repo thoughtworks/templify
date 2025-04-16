@@ -87,7 +87,7 @@ mvn com.thoughtworks.templify:templify:create
 
 -
 
-## 📁 Template folder structure
+## Template folder structure
 
 ```
 
@@ -103,7 +103,7 @@ Templify will copy this structure to the `target/template` folder and apply the 
 
 ---
 
-## 🧠 What makes it powerful?
+## What makes it powerful?
 
 - 🎯 **XPath JSONPath, YAMLPath, JAva Procjects and Plain Text support** for precise targeting your project nodes
 - 🔄 **Batch transformations** across multiple files
@@ -112,12 +112,12 @@ Templify will copy this structure to the `target/template` folder and apply the 
 
 ---
 
-## 📚 Learn More
+## Learn More
 
 - [Templify Wiki](https://github.com/thoughtworks/templify/wiki)
 
 --
 
-## 🙌 Contributing
+## Contributing
 
 Spotted a bug or have a new use case in mind? We welcome contributions, ideas, and questions. Open an [issue](https://github.com/thoughtworks/templify/issues) or submit a PR!
