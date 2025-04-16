@@ -4,7 +4,7 @@
 
 Templify is a Maven plugin that helps you generate templates-based from a predefined project using a YAML-based configuration. It supports advanced transformations such as XPath-based replacement in XML files – ideal for managing complex project scaffolding and enforcing consistency.
 
-![Build](https://github.com/thoughtworks/templify/actions/workflows/build.yml/badge.svg)
+[![Build and Deploy](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml/badge.svg)](https://github.com/thoughtworks/templify/actions/workflows/gitAction.yml) 
 
 ---
 
