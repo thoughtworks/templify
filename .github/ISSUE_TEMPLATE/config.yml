@@ -2,5 +2,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Ask a question or start a discussion
-    url: https://github.com/GiuseppeMP/templify/wiki
+    url: https://github.com/thoughtworks/templify/wiki
     about: Use the Github discussions
