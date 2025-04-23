@@ -1,8 +1,36 @@
 # Contribution
 
-## Install
+## Requirements
 
-This project uses a Makefile to run scripts. You can run `make help` to get the list of commands.
+1. Maven 3.9.6+
+2. Java JDK 11
+
+## Install and Testing Locally
+
+`mvn clean install`
+
+The project uses JUnit with Mutation tests and IT tests.
+
+1. [Jupiter aka Junit5](https://junit.org/junit5/)
+2. [PIT](https://pitest.org/)
+3. [Maven IT extenstion](https://github.com/khmarbaise/maven-it-extension)
+
+Before adding new code, make sure to add test cases for it so that the maintainers can provide guidance and simulate the same scenarios.
+
+### Unit Tests
+
+1. They're just conventional JUnit tests.
+2. Avoid excessive mocks.
+3. Try to use the AAA structure, stands for: Arrange, Act, Assert
+4. Ensure all the mutations were killed and covered.
+
+### Integration Tests
+
+1. Make sure to add your project scenario to the `resources-it` folder.
+2. Include your IT scenario in the class `TemplifyIT`. (This class is responsible for executing the Maven plugin build for the project scenarios)
+3. Ensure the tests are marked as `@MavenTest` and have meaningful asserts.
+
+If you face any issue about the 
 
 ## How to contribute
 
