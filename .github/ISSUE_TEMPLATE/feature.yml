@@ -1,17 +1,15 @@
 name: 💡 Feature or Enhancement Request
-labels: ["feature", "enhancement"]
-title: "[Feature]: "
+labels: ["feature", "enhancement", "new"]
 assignees:
   - luiz-micci
   - peppetwer
-
-description: Tell us about a problem you'd like to solve using the Cookiecutter templater Plugin
+description: Tell us about a problem you'd like to solve
 body:
   - type: textarea
     id: problem
     attributes:
       label: Problem Statement
-      description: What problem could Cookiecutter Templater solve that it doesn't?
+      description: What problem could it solve that it doesn't?
     validations:
       required: true
   - type: textarea

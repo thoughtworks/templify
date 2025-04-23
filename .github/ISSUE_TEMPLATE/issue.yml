@@ -1,14 +1,13 @@
-name: 🔧 Just a issue.
-labels: ["issue"]
-title: "[Issue]: "
+name: 🔧 General Issue
+labels: ["issue", "new"]
 assignees:
   - luiz-micci
   - peppetwer
-description: Elaborate about your issue.
+description: Elaborate about your issue
 body:
   - type: textarea
     attributes:
-      label: Issue description
+      label: Description
     id: desc
     validations:
       required: true

@@ -1,48 +1,67 @@
 # Contribution
 
-## Install
+## Requirements
 
-This project uses a Makefile to run scripts. You can run `make help` to get the list of commands.
+1. Maven 3.9.6+
+2. Java JDK 11
+
+## Install and Testing Locally
+
+`mvn clean install`
+
+The project uses JUnit with Mutation tests and IT tests.
+
+1. [Jupiter aka Junit5](https://junit.org/junit5/)
+2. [PIT](https://pitest.org/)
+3. [Maven IT extenstion](https://github.com/khmarbaise/maven-it-extension)
+
+Before adding new code, make sure to add test cases for it so that the maintainers can provide guidance and simulate the same scenarios.
+
+### Unit Tests
+
+1. They're just conventional JUnit tests.
+2. Avoid excessive mocks.
+3. Try to use the AAA structure, stands for: Arrange, Act, Assert
+4. Ensure all the mutations were killed and covered.
+
+### Integration Tests
+
+1. Make sure to add your project scenario to the `resources-it` folder.
+2. Include your IT scenario in the class `TemplifyIT`. (This class is responsible for executing the Maven plugin build for the project scenarios)
+3. Ensure the tests are marked as `@MavenTest` and have meaningful asserts.
+
+If you face any issue about the 
 
 ## How to contribute
 
-### 1. Clone the repository
+### 1. Fork and clone this repository.
 
-Now clone the repository from GitHub to your computer.
+https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project
 
-### 2. Create a branch
-
-This repository not supports forking. So, create a branch named accord what you want to contribute to.
+### 2. Create a branch to add your changes
 
 ```
-git checkout -b <add-your-new-branch-name>
+git switch -C <add-your-new-branch-name>
 ```
 
 For example:
 
 ```
-git checkout -b add-alonzo-church
+git switch -C update-readme
 ```
 
 ### 3. Commit your changes
 
-Now open `Contributors.md` file in a text editor, add your name to it. Don't add it at the beginning or end of the file. Put it anywhere in between. Now, save the file.
+This repository uses the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard. 
 
-
-If you go to the project directory and execute the command `git status`, you'll see there are changes. Add those changes to the branch you just created using the `git add` command:
+For example:
+    -
+```
+git commit -m "feat: add new feature" 
+git commit -m "docs: correct spelling of CHANGELOG" 
+git commit -m "feat(api)!: send an email to the customer when a product is shipped" 
 
 ```
-git add Contributors.md
-```
-
-Now commit those changes using the `git commit` command:
-
-```
-git commit -m "Add <your-name> to Contributors list"
-```
-
-Replacing `<your-name>` with your name.
-
 
 ### 4. Push to the original branch
 
@@ -67,10 +86,9 @@ Soon I'll be merging all your changes into the main branch of this project. You 
 
 Congrats!  
 
-You just completed the standard `clone -> branch -> commits -> PR_` workflow that you'll often encounter as a contributor!
+You just completed the standard `fork/clone -> branch -> commits -> PR_` workflow that you'll often encounter as a contributor!
 
 ## Architecture
-
 
 
 ```mermaid
