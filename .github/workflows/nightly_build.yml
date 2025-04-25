@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "20 4 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   snapshot_build:
     name: Nightly Snapshot
