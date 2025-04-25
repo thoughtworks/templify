@@ -5,6 +5,9 @@ on:
     branches-ignore:
       - "main"
 
+permissions:
+  contents: read
+
 jobs:
   run-steps:
     runs-on: ubuntu-latest
