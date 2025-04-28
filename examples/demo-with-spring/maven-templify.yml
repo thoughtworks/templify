@@ -1,7 +1,7 @@
 settings:
   placeholder:
-    prefix: "{{cookiecutter."
-    suffix: "}}"
+    prefix: "{{ cookiecutter."
+    suffix: " }}"
 
 steps:
   - kind: XmlHandler
@@ -11,15 +11,15 @@ steps:
           - pom.xml
         placeholders:
           - match: /project/artifactId
-            replace: project-name
+            replace: project_name
           - match: /project/groupId
-            replace: group-id
+            replace: group_id
           - match: /project/version
-            replace: project-version
+            replace: project_version
           - match: /project/name
-            replace: project-name
+            replace: project_name
           - match: /project/description
-            replace: project-description
+            replace: project_description
 
   - kind: PlainTextHandler
     apiVersion: v1
@@ -29,18 +29,18 @@ steps:
           - src/test/java/com/example/demo_with_spring/hello/HelloControllerTest.java
         placeholders:
           - match: "/hello"
-            replace: "get-mapping"
+            replace: "get_mapping"
           - match: "Hello World"
-            replace: "return-get"
+            replace: "return_get"
 
   - kind: JavaHandler
     apiVersion: v1
     spec:
       - placeholders:
-          - match: com.example.demo_with_spring.hello
-            replace: template-demo-package
+          - match: com.example.demo_with_spring
+            replace: template_demo_package
         baseDir: src/main/java
       - placeholders:
-          - match: com.example.demo_with_spring.hello
-            replace: template-demo-package
+          - match: com.example.demo_with_spring
+            replace: template_demo_package
         baseDir: src/test/java

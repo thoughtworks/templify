@@ -1,8 +1,0 @@
-{
-    "project-name": "PROJECT NAME FROM TEMPLATE",
-    "group-id": "project.new.id",
-    "project-description": "This is very new fancy description",
-    "template-demo-package": "project.package",
-    "get-mapping": "/project-get",
-    "return-get": "My new Hello World!"
-}
