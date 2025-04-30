@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,6 +47,9 @@ public class DirectoryHandlerTest {
         assertThat(result).isTrue();
 
         assertThat(Files.exists(Paths.get(targetDirectory))).isTrue();
+        boolean deleteResult = this.directoryHandler.deleteDirectory(targetDirectory);
+        assertThat(deleteResult).isTrue();
+        assertThat(Files.exists(Paths.get(targetDirectory))).isFalse();
     }
 
     @ParameterizedTest
@@ -95,6 +99,20 @@ public class DirectoryHandlerTest {
     }
 
     @ParameterizedTest
+    @CsvSource({ "'src/test/resources/processador/directory/static/folder', 'br/com/projeto'",
+            "src/test/resources/processador/directory/static/folder, ''", })
+    public void test_get_right_path_to_delete(String sourcePath, String query) throws FileHandlerException {
+        String pathResult = this.directoryHandler.getDirectoryToBeDeleted(sourcePath, query);
+
+        String firstFolder = query.split(Pattern.quote(File.separator))[0];
+        String expected = sourcePath + File.separator + firstFolder;
+
+        assertThat(Files.exists(Paths.get(pathResult))).isTrue();
+        assertThat(pathResult).isEqualTo(expected);
+
+    }
+
+    @ParameterizedTest
     @CsvSource({
             "'src/test/resources/processador/directory/static/folder', 'br/com/projeto', '{{placeholder}}' ",
     })
@@ -107,6 +125,8 @@ public class DirectoryHandlerTest {
 
         String result = testReplaceDirectory + File.separator + newValue;
         assertThat(this.directoryHandler.isDirectoryExists(result)).isTrue();
+
+        this.directoryHandler.deleteDirectory(testReplaceDirectory);
 
     }
 

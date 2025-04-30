@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.thoughtworks.kinds.api.FileHandlerException;
 import com.thoughtworks.kinds.handlers.base.AbstractFileHandler;
@@ -34,7 +35,9 @@ public class DirectoryHandler extends AbstractFileHandler {
         String pathToReplace = filePath + File.separator + newValue;
 
         if (copyDirectory(pathMapSource.get(query), pathToReplace)) {
-            return;
+            String pathToBeDeleted = getDirectoryToBeDeleted(filePath, query);
+            if (deleteDirectory(pathToBeDeleted))
+                return;
         }
 
         throw new FileHandlerException("Error while replacing directory: " + pathMapSource.get(query));
@@ -47,7 +50,7 @@ public class DirectoryHandler extends AbstractFileHandler {
         throw new UnsupportedOperationException("Unimplemented method 'replace'");
     }
 
-    public boolean copyDirectory(String sourceDirectory, String targetDirectory)
+    protected boolean copyDirectory(String sourceDirectory, String targetDirectory)
             throws FileHandlerException {
         if (isDirectoryExists(sourceDirectory) == false) {
             throw new FileHandlerException("Source directory not found or is not a directory: " + sourceDirectory);
@@ -82,13 +85,13 @@ public class DirectoryHandler extends AbstractFileHandler {
 
     }
 
-    public boolean isDirectoryExists(String sourcePath) {
+    protected boolean isDirectoryExists(String sourcePath) {
         Path path = Paths.get(sourcePath);
 
         return Files.exists(path) && Files.isDirectory(path);
     }
 
-    public boolean deleteDirectory(String sourcePath) {
+    protected boolean deleteDirectory(String sourcePath) {
 
         if (isDirectoryExists(sourcePath)) {
             File rootDir = new File(sourcePath);
@@ -108,5 +111,14 @@ public class DirectoryHandler extends AbstractFileHandler {
         }
 
         return false;
+    }
+
+    public String getDirectoryToBeDeleted(String sourcePath, String query) {
+
+        String firstFolder = query.split(Pattern.quote(File.separator))[0];
+        String pathResult = sourcePath + File.separator + firstFolder;
+
+        return pathResult;
+
     }
 }
