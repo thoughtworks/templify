@@ -16,7 +16,8 @@ public class DirectoryHandler extends AbstractFileHandler {
 
     public Map<String, String> find(String directoryPath, String query) throws FileHandlerException {
 
-        String path = directoryPath + File.separator + query;
+        String path = Paths.get(directoryPath).resolve(query).toString();
+        // directoryPath + File.separator + query;
 
         if (isDirectoryExists(path))
             return Map.of(query, path);

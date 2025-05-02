@@ -333,4 +333,25 @@ public class TemplifyIT {
         assertThat(result).isSuccessful().out().warn().contains("Replace: com/myPackage with: {{teste}}");
     }
 
+    @MavenTest
+    public void test_complex_directory(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting Templify maven plugin!!");
+        assertThat(result).isSuccessful().out().info()
+                .contains("Producing KindHandlerEvent: DirectoryHandler");
+
+        assertThat(result).isSuccessful().out().info()
+                .contains("[DirectoryHandlerKind] Executing spec with baseDir: xml");
+        assertThat(result).isSuccessful().out().info().contains(
+                "[DirectoryHandlerKind] Executing spec with baseDir: yml");
+        assertThat(result).isSuccessful().out().warn().contains("Replace: projectA with: {{im_a_template}}");
+        assertThat(result).isSuccessful().out().warn().contains("Replace: projectB with: {{im_a_template_for_b}}");
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Replace: directory/rename_me with: {{template_renamed}}");
+
+        assertThat(result).isSuccessful().out().warn()
+                .contains("Replace: projectA with: {{im_a_template_for_a_for_yml}}");
+
+    }
+
 }
