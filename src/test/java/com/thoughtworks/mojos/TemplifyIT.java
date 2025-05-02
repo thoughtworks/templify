@@ -29,33 +29,26 @@ public class TemplifyIT {
 
     String POM = fixturesFolder + "test_basic_usage_example/project/target/template/pom.xml";
 
-    String json_handler_test =
-            fixturesFolder + "basic_json_example/project/target/template/env.json";
+    String json_handler_test = fixturesFolder + "basic_json_example/project/target/template/env.json";
 
-    String templateDir_default_pom =
-            fixturesFolder + "basic_default_options_example/project/target/template";
+    String templateDir_default_pom = fixturesFolder + "basic_default_options_example/project/target/template";
 
-    String templateDir_generics_xmls =
-            fixturesFolder + "basic_xml_example/project/target/template";
+    String templateDir_generics_xmls = fixturesFolder + "basic_xml_example/project/target/template";
 
-    String templateDir_generics_ymls =
-            fixturesFolder + "basic_yml_example/project/target/template";
+    String templateDir_generics_ymls = fixturesFolder + "basic_yml_example/project/target/template";
 
-    String unsupportFileType =
-            fixturesFolder + "test_replace_throw_unsupported_file_type/project/target/template";
+    String unsupportFileType = fixturesFolder + "test_replace_throw_unsupported_file_type/project/target/template";
 
     String template_json = fixturesFolder + "test_replace_json_file/project/target/template";
-
 
     String template_java = fixturesFolder + "basic_java_example/project/target/template";
 
     String template_java_project = fixturesFolder + "java_project_example/project/target/template";
 
+    String template_custom_placeholder = fixturesFolder
+            + "test_using_custom_placeholder_settings/project/target/template";
 
-    String template_custom_placeholder =
-            fixturesFolder + "test_using_custom_placeholder_settings/project/target/template";
-
-
+    String template_directory = fixturesFolder + "test_directory/project/target/template";
 
     @MavenTest
     public void test_basic_usage_example(MavenExecutionResult result) {
@@ -99,9 +92,7 @@ public class TemplifyIT {
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting Templify maven plugin!!");
 
-
         final Path fileTemplatePom = Paths.get(templateDir_default_pom + "/pom.xml");
-
 
         String groupIdQuery = "/project/groupId";
         String groupIdNewName = "{{templify.param.groupId}}";
@@ -109,45 +100,34 @@ public class TemplifyIT {
         String artifactIdQuery = "/project/artifactId";
         String artifactIdNewName = "{{templify.test.replace.map.artifactId}}";
 
-        String scopesQuery =
-                "/project/dependencies/dependency/scope[text()='{{templify.replace.map.scopes}}']";
+        String scopesQuery = "/project/dependencies/dependency/scope[text()='{{templify.replace.map.scopes}}']";
         String scopesNewName = "{{templify.replace.map.scopes}}";
 
-        Map<String, String> actual =
-                handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
+        Map<String, String> actual = handler.find(fileTemplatePom.toAbsolutePath().toString(), artifactIdQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(artifactIdNewName);
-
 
         actual = handler.find(fileTemplatePom.toAbsolutePath().toString(), groupIdQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdNewName);
-
 
         actual = handler.find(fileTemplatePom.toAbsolutePath().toString(), scopesQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(scopesNewName);
 
     }
 
-
     @MavenTest
     public void basic_xml_example(MavenExecutionResult result)
             throws FileHandlerException {
         assertThat(result).isSuccessful();
 
-        final Path fileTemplateGeneric1 =
-                Paths.get(templateDir_generics_xmls + "/xmls/generic_1.xml");
-
+        final Path fileTemplateGeneric1 = Paths.get(templateDir_generics_xmls + "/xmls/generic_1.xml");
 
         String headingQuery = "/note/heading";
         String headingNewName = "{{New Reminder}}";
 
-
-        Map<String, String> actual =
-                handler.find(fileTemplateGeneric1.toAbsolutePath().toString(), headingQuery);
+        Map<String, String> actual = handler.find(fileTemplateGeneric1.toAbsolutePath().toString(), headingQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(headingNewName);
 
-
-        final Path fileTemplateGeneric2 =
-                Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
+        final Path fileTemplateGeneric2 = Paths.get(templateDir_generics_xmls + "/xmls/complex/generic_2.xml");
 
         String authorQuery = "/bookstore/book/author[text()='{{templify.kurtCagle}}']";
         String autorNewName = "{{templify.kurtCagle}}";
@@ -157,7 +137,6 @@ public class TemplifyIT {
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), authorQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(autorNewName);
-
 
         actual = handler.find(fileTemplateGeneric2.toAbsolutePath().toString(), yearQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(yearNewName)
@@ -175,9 +154,7 @@ public class TemplifyIT {
         assertThat(result).isSuccessful().out().info()
                 .contains("Brace yourself! starting Templify maven plugin!!");
 
-        final Path fileTemplateGeneric1 =
-                Paths.get(templateDir_generics_ymls + "/yamls/generic1.yml");
-
+        final Path fileTemplateGeneric1 = Paths.get(templateDir_generics_ymls + "/yamls/generic1.yml");
 
         String fileQuery = "mappings[0].file";
         String fileNewName = "{{newFile}}";
@@ -188,22 +165,17 @@ public class TemplifyIT {
         String groupIdQueryName = "mappings[0].placeholders[0].name";
         String groupIdNewName = "{{templify.replace.map.groupId}}";
 
-        Map<String, String> actual =
-                yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), fileQuery);
+        Map<String, String> actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), fileQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(fileNewName);
-
 
         actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(), groupIdQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdQueryNewName);
-
 
         actual = yamlHandler.find(fileTemplateGeneric1.toAbsolutePath().toString(),
                 groupIdQueryName);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(groupIdNewName);
 
-
     }
-
 
     @MavenTest
     public void basic_java_example(MavenExecutionResult result) throws FileHandlerException {
@@ -227,7 +199,6 @@ public class TemplifyIT {
                         + classpathTemplate_java);
     }
 
-
     @MavenTest
     public void test_replace_json_file(MavenExecutionResult result)
             throws IOException, FileHandlerException {
@@ -236,9 +207,7 @@ public class TemplifyIT {
 
         assertThat(result).isSuccessful();
 
-
         final Path fileTemplatePom = Paths.get(template_json + "/jsons/test.json");
-
 
         String nameQuery = "$['name']";
         String nameNewName = "{{templify.name}}";
@@ -246,23 +215,18 @@ public class TemplifyIT {
         String ageQuery = "$['age']";
         String ageNewName = "{{templify.age}}";
 
-
-        Map<String, String> actual =
-                jsonHandler.find(fileTemplatePom.toAbsolutePath().toString(), ageQuery);
+        Map<String, String> actual = jsonHandler.find(fileTemplatePom.toAbsolutePath().toString(), ageQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(ageNewName);
-
 
         actual = jsonHandler.find(fileTemplatePom.toAbsolutePath().toString(), nameQuery);
         assertThat(actual).isNotNull().isNotEmpty().containsValue(nameNewName);
     }
-
 
     @MavenTest
     public void test_replace_throw_unsupported_file_type(MavenExecutionResult result) {
         assertThat(result).isFailure().out().error()
                 .anyMatch(msg -> msg.contains("Unsupported kind handler received"));
     }
-
 
     @MavenTest
     public void java_project_example(MavenExecutionResult result) throws FileHandlerException {
@@ -289,10 +253,7 @@ public class TemplifyIT {
         assertThat(result).isSuccessful().out().warn().anyMatch(msg -> msg
                 .contains("Replace: " + packageQuery + " with: " + packageNewName));
 
-
-
     }
-
 
     @MavenTest
     public void test_running_with_existing_template_directory(MavenExecutionResult result) {
@@ -301,15 +262,12 @@ public class TemplifyIT {
 
     }
 
-
     @MavenTest
     public void test_using_default_placeholder_settings(MavenExecutionResult result) {
         assertThat(result).isSuccessful().out().warn().anyMatch(msg -> msg
                 .contains("Using default placeholder settings!! -> Prefix:{{ and Suffix: }}"));
 
     }
-
-
 
     @MavenTest
     public void test_using_custom_placeholder_settings(MavenExecutionResult result)
@@ -326,7 +284,6 @@ public class TemplifyIT {
         assertThat(result).isSuccessful();
         assertThat(result).isSuccessful().out().info().anyMatch(msg -> msg
                 .contains("Brace yourself! starting Templify maven plugin!!"));
-
 
         String classpathTemplate_java = template_custom_placeholder + "/src/main/java";
         // String packageQuery = "com.myPackage";
@@ -362,6 +319,18 @@ public class TemplifyIT {
 
     }
 
+    @MavenTest
+    public void test_directory(MavenExecutionResult result) {
+        assertThat(result).isSuccessful().out().info()
+                .contains("Brace yourself! starting Templify maven plugin!!");
 
+        assertThat(result).isSuccessful().out().info()
+                .contains("Producing KindHandlerEvent: DirectoryHandler");
+
+        assertThat(result).isSuccessful().out().info().contains(
+                "[DirectoryHandlerKind] Executing spec with baseDir: src/main/java");
+
+        assertThat(result).isSuccessful().out().warn().contains("Replace: com/myPackage with: {{teste}}");
+    }
 
 }

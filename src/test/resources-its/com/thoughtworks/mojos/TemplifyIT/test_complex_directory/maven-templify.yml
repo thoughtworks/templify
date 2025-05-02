@@ -1,0 +1,15 @@
+steps:
+  - kind: DirectorHandler
+    apiVersion: v1
+    spec:
+      - placeholders:
+          - match: projectA
+            replace: im_a_template
+
+      - placeholders:
+          - match: directory/rename_me
+            replace: template_renamed
+      - placholders:
+          - match: projectB
+            replace: im_a_template_for_b
+        baseDir: yml
