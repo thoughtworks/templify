@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 jobs:
   release_build:
     name: at Maven Central if not SNAPSHOT (Commit/Merge)
