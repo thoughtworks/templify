@@ -34,8 +34,7 @@ public class JavaHandlerKindTest {
 
     private static final String TARGET = "target/";
     private static final String BUILD_TEMPLATE_DIR = "/template";
-    private static final String FIXTURE_JAVA_REPLACE =
-            "src/test/resources-its/com/thoughtworks/mojos/TemplifyIT/basic_java_example/";
+    private static final String FIXTURE_JAVA_REPLACE = "src/test/resources-its/com/thoughtworks/mojos/TemplifyIT/basic_java_example/";
 
     private LoadConfigurationTask loadConfigurationTask = new LoadConfigurationTask();
     Injector injector = Guice.createInjector(new CoreModule());
@@ -130,9 +129,8 @@ public class JavaHandlerKindTest {
         doReturn(spyLogger).when(mockCommand).getLogger();
         doReturn(spyCreateTemplateCommand).when(mockCommand).getRequest();
 
-        KindHandlerEvent event =
-                (new KindHandlerEvent(spyCreateTemplateCommand.getConfiguration().getSteps().get(0),
-                        spyCreateTemplateCommand));
+        KindHandlerEvent event = (new KindHandlerEvent(spyCreateTemplateCommand.getConfiguration().getSteps().get(0),
+                spyCreateTemplateCommand));
         // ACT:
         spyJavaHandlerKind.subscribeToKindHandlerEvent(event);
 

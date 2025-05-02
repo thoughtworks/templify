@@ -1,15 +1,18 @@
 package com.thoughtworks.kinds.handlers.directoryhandler;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
@@ -65,37 +68,72 @@ public class DirectoryHandlerKindTest {
         spyDirectoryHandleKind = spy(new DirectoryHandlerKind(spyDirectoryHandler));
     }
 
+    private void executeFixture() {
+        for (KindMappingTemplate step : spyCreateTemplateCommand.getConfiguration().getSteps()) {
+            KindHandlerEvent event = (new KindHandlerEvent(step, spyCreateTemplateCommand));
+            spyDirectoryHandleKind.subscribeToKindHandlerEvent(event);
+        }
+    }
+
     @Test
-    void test_execute() throws FileHandlerException {
+    public void test_execute() throws FileHandlerException {
         KindHandlerCommand<DirectoryHandlerSpec> mockCommand = mock(KindHandlerCommand.class);
         doReturn(spyLogger).when(mockCommand).getLogger();
         doReturn(spyCreateTemplateCommand).when(mockCommand).getRequest();
         doNothing().when(spyDirectoryHandler).replace(anyString(), anyString(), anyString());
 
-        for (KindMappingTemplate step : spyCreateTemplateCommand.getConfiguration().getSteps()) {
-            KindHandlerEvent event = (new KindHandlerEvent(step, spyCreateTemplateCommand));
-            spyDirectoryHandleKind.subscribeToKindHandlerEvent(event);
-        }
+        executeFixture();
 
         verify(spyLogger).info(contains("Executing DirectoryHandlerKind."));
-
+        verify(spyLogger).info(contains("[DirectoryHandlerKind] Executing with placeholder settings: "));
         verify(spyLogger).info(contains("[DirectoryHandlerKind] For 1 specs."));
+        verify(spyLogger).info(contains("[DirectoryHandlerKind] Executing spec with baseDir: "));
+        verify(spyLogger, never()).warn((contains("baseDir parameter is null or empty!")));
     }
 
     @Test
-    void test_do_replace() throws FileHandlerException {
+    public void test_do_replace() throws FileHandlerException {
         KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
         doReturn(spyLogger).when(mockCommand).getLogger();
         doReturn(spyCreateTemplateCommand).when(mockCommand).getRequest();
         doNothing().when(spyDirectoryHandler).replace(anyString(), anyString(), anyString());
 
-        for (KindMappingTemplate step : spyCreateTemplateCommand.getConfiguration().getSteps()) {
-            KindHandlerEvent event = (new KindHandlerEvent(step, spyCreateTemplateCommand));
-            spyDirectoryHandleKind.subscribeToKindHandlerEvent(event);
-        }
+        executeFixture();
 
         verify(spyLogger).warn(contains("Replace: "));
         verify(spyDirectoryHandler).replace(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void test_exception() throws FileHandlerException {
+        KindHandlerCommand<KindDefaultSpec> mockCommand = mock(KindHandlerCommand.class);
+        doReturn(spyLogger).when(mockCommand).getLogger();
+        doReturn(spyCreateTemplateCommand).when(mockCommand).getRequest();
+
+        doThrow(new FileHandlerException("fake_error")).when(spyDirectoryHandler).replace(
+                anyString(),
+                anyString(),
+                anyString());
+
+        assertThrows(RuntimeException.class, () -> executeFixture());
+
+        verify(spyDirectoryHandler).replace(anyString(), anyString(), anyString());
+        verify(spyLogger).error(contains("Error to replace placeholders"), any());
+        ;
+    }
+
+    @Test
+    public void test_withouth_baseDir() throws FileHandlerException {
+        DirectoryHandlerSpec spec = mock(DirectoryHandlerSpec.class);
+        when(spec.getBaseDir()).thenReturn("");
+
+        String result = spyDirectoryHandleKind.getBasedDir(spyLogger, spec);
+
+        assertEquals("", result, "if baseDir is null, return \"\"");
+
+        verify(spyLogger).warn(contains("baseDir parameter is null or empty!"));
+        verify(spyLogger).warn(contains("Setting based directory to template root"));
+
     }
 
 }

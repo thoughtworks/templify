@@ -40,13 +40,24 @@ public class DirectoryHandlerKind extends KindHandlerBase<DirectoryHandlerSpec> 
         List<DirectoryHandlerSpec> specs = command.getSpecs();
         command.getLogger().info("[DirectoryHandlerKind] For " + specs.size() + " specs.");
         for (final DirectoryHandlerSpec spec : command.getSpecs()) {
-            String baseDir = spec.getBaseDir();
+            String baseDir = this.getBasedDir(command.getLogger(), spec);
             List<KindPlaceholder> placeholders = spec.getPlaceholders();
             command.getLogger().info("[DirectoryHandlerKind] Executing spec with baseDir: " + baseDir);
 
             this.doReplace(command.getLogger(), templateDirectory, placeholderSetting, baseDir, placeholders);
         }
 
+    }
+
+    protected String getBasedDir(RunnerLogger logger, DirectoryHandlerSpec spec) {
+
+        String baseDir = spec.getBaseDir();
+        if (baseDir == null || baseDir.isEmpty()) {
+            logger.warn("[DirectoryHandlerKind] baseDir parameter is null or empty!");
+            logger.warn("[DirectoryHandlerKind] Setting based directory to template root");
+            baseDir = "";
+        }
+        return baseDir;
     }
 
     protected void doReplace(RunnerLogger logger, String templateDirectory, PlaceholderSettings placeholderSettings,
