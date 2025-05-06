@@ -1,0 +1,22 @@
+mappings:
+  - file: pom.xml
+    placeholders:
+      - query: /project/groupId
+        name: templify.param.groupId
+      - query: /project/artifactId
+        name: templify.test.replace.map.artifactId
+      - query: /project/dependencies/dependency/scope[text()='test']
+        name: templify.replace.map.scopes
+  - file: xmls/generic_1.xml
+    placeholders:
+      - query: /note/heading
+        name: New Reminder
+  - file: xmls/complex/generic_2.xml
+    placeholders:
+      - query: /bookstore/book/author[text()='Kurt Cagle']
+        name: templify.kurtCagle
+      - query: /bookstore/book/year[text()='2005']
+        name: templify.NewYear
+      - query: /bookstore/book/author[text()='replace ---- test']
+        name: templify.kurtCagle
+

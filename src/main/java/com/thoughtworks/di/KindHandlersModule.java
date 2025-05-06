@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.thoughtworks.kinds.api.FileHandler;
 import com.thoughtworks.kinds.api.Kind;
+import com.thoughtworks.kinds.handlers.directoryhandler.DirectoryHandlerKind;
 import com.thoughtworks.kinds.handlers.javahandler.JavaFileHandler;
 import com.thoughtworks.kinds.handlers.javahandler.JavaHandlerKind;
 import com.thoughtworks.kinds.handlers.jsonhandler.JsonFileHandler;
@@ -15,21 +16,25 @@ import com.thoughtworks.kinds.handlers.xmlhandler.XmlHandlerKind;
 import com.thoughtworks.kinds.handlers.yamlhandler.YamlFileHandler;
 import com.thoughtworks.kinds.handlers.yamlhandler.YamlHandlerKind;
 
-
 /**
- * This Guice module configures all the dependencies needed to process the configuration events
+ * This Guice module configures all the dependencies needed to process the
+ * configuration events
  * (KindHandlerEvents).
  * 
- * The module provides bindings for the following handlers and their corresponding kinds: -
- * JavaFileHandler and JavaHandlerKind - JsonFileHandler and JsonHandlerKind - XmlFileHandler and
+ * The module provides bindings for the following handlers and their
+ * corresponding kinds: -
+ * JavaFileHandler and JavaHandlerKind - JsonFileHandler and JsonHandlerKind -
+ * XmlFileHandler and
  * XmlHandlerKind - YamlFileHandler and YamlHandlerKind
  * 
  * Example usage:
  * 
- * KindHandlersModule kindHandlersModule = new KindHandlersModule(); Injector injector =
+ * KindHandlersModule kindHandlersModule = new KindHandlersModule(); Injector
+ * injector =
  * Guice.createInjector(kindHandlersModule);
  * 
- * // Now the dependencies for processing configuration events are configured and can be used.
+ * // Now the dependencies for processing configuration events are configured
+ * and can be used.
  * 
  * @see FileHandler
  * @see JavaFileHandler
@@ -40,9 +45,9 @@ import com.thoughtworks.kinds.handlers.yamlhandler.YamlHandlerKind;
  * @see JsonHandlerKind
  * @see XmlHandlerKind
  * @see YamlHandlerKind
+ * @see DirectoryHandlerkind
  */
 public class KindHandlersModule extends AbstractModule {
-
 
     @Override
     protected void configure() {
@@ -72,6 +77,8 @@ public class KindHandlersModule extends AbstractModule {
                 .to(YamlHandlerKind.class);
         bind(Kind.class).annotatedWith(Names.named(PlainTextHandlerKind.NAME))
                 .to(PlainTextHandlerKind.class);
+
+        bind(Kind.class).annotatedWith(Names.named(DirectoryHandlerKind.NAME)).to(DirectoryHandlerKind.class);
     }
 
 }

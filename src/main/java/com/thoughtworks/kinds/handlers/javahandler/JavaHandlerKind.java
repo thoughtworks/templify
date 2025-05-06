@@ -9,7 +9,6 @@ import com.thoughtworks.kinds.handlers.base.KindHandlerCommand;
 import com.thoughtworks.kinds.handlers.base.KindPlaceholder;
 import com.thoughtworks.services.logger.RunnerLogger;
 
-
 @KindHandler(name = JavaHandlerKind.NAME, specClass = JavaHandlerSpec.class)
 public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
 
@@ -38,7 +37,6 @@ public class JavaHandlerKind extends KindHandlerBase<JavaHandlerSpec> {
                     spec.getPlaceholders());
         }
     }
-
 
     protected void handleJavaType(RunnerLogger logger, String templateDirectory,
             PlaceholderSettings placeholder, String baseDir,

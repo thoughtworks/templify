@@ -1,0 +1,17 @@
+steps:
+  - kind: DirectoryHandler
+    apiVersion: v1
+    spec:
+      - placeholders:
+          - match: projectA
+            replace: im_a_template
+        baseDir: xml
+      - placeholders:
+          - match: directory/rename_me
+            replace: template_renamed
+      - placeholders:
+          - match: projectB
+            replace: im_a_template_for_b
+          - match: projectA
+            replace: im_a_template_for_a_for_yml
+        baseDir: yml
