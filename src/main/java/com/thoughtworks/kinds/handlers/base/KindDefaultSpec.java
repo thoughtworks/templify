@@ -6,11 +6,13 @@ import com.thoughtworks.kinds.api.DefaultSpecification;
 /**
  * This class represents a KindDefaultSpec object.
  * 
- * A KindDefaultSpec object is a serializable class that provides default specifications for a kind.
+ * A KindDefaultSpec object is a serializable class that provides default
+ * specifications for a kind.
  * 
  * Example usage: class MyFileHandlerSpec extends KindDefaultSpec{ ... }
  * 
- * Note: This class implements the Serializable interface, which means objects of this class can be
+ * Note: This class implements the Serializable interface, which means objects
+ * of this class can be
  * converted into a byte stream and stored in a file or sent over a network.
  */
 public class KindDefaultSpec implements DefaultSpecification {
@@ -23,7 +25,8 @@ public class KindDefaultSpec implements DefaultSpecification {
         this.placeholders = placeholders;
     }
 
-    public KindDefaultSpec() {}
+    public KindDefaultSpec() {
+    }
 
     public List<String> getFiles() {
         return files;
