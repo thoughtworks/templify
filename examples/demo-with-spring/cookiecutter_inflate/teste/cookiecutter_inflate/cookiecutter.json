@@ -1,0 +1,10 @@
+{
+    "project_name": "Teste",
+    "project_slug": "teste",
+    "group_id": "project.new.id",
+    "project_version": "0.0.1",
+    "project_description": "This is very new fancy description",
+    "template_demo_package": "com.project",
+    "get_mapping": "/project-get",
+    "return_get": "My new Hello World!"
+}
