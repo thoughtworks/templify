@@ -1,5 +1,5 @@
 {
-    "project_name": "Teste",
+    "project_name": "templify_example_with_cookiecutter",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
     "group_id": "project.new.id",
     "project_version": "0.0.1",
