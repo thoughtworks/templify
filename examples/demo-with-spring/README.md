@@ -13,7 +13,8 @@ Then, we use Cookiecutter to inflate the template with specific values, generati
 ├── cookiecutter_inflate/          # Cookiecutter template
 │   ├── cookiecutter.json          # Defines dynamic fields
 │   └── {{ cookiecutter.project_slug }}/
-└── README.md```
+└── README.md
+```
 
 ### Cookiecutter Parameters
 This is what we have in our cookcutter config file, and for what we are going replace the place holders during the inflate
