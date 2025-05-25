@@ -21,7 +21,7 @@
         <failsafe.only>${skipTests}</failsafe.only>
 
         <!-- Testing -->
-        <pitest.version>1.15.2</pitest.version>
+        <pitest.version>1.19.4</pitest.version>
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
         <junit.version>5.10.1</junit.version>
@@ -542,40 +542,6 @@
         </extensions>
 
     </build>
-    <reporting>
-        <plugins>
-            <!-- <plugin> -->
-            <!--     <groupId>org.apache.maven.plugins</groupId> -->
-            <!--     <artifactId>maven-surefire-report-plugin</artifactId> -->
-            <!--     <version>${maven-surefire-report-plugin.version}</version> -->
-            <!--     <reportSets> -->
-            <!--         <reportSet> -->
-            <!--             <id>integration-tests</id> -->
-            <!--             <reports> -->
-            <!--                 <report>failsafe-report-only</report> -->
-            <!--             </reports> -->
-            <!--         </reportSet> -->
-            <!--     </reportSets> -->
-            <!-- </plugin> -->
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${pitest.version}</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <siteReportName>${pit.conf.siteReportName}</siteReportName>
-                    <skip>${unit.only}</skip>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
     <scm>
         <url>https://github.com/thoughtworks/templify</url>
         <connection>scm:git:git://github.com/thoughtworks/templify.git</connection>
