@@ -19,7 +19,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: "corretto"
+          distribution: "adopt"
           java-version: "11"
           cache: "maven"
 
