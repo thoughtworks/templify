@@ -21,6 +21,6 @@ jobs:
           java-version: "11"
 
       - name: Build with Maven
-        run: mvn -X clean install -Dgpg.skip=true
+        run: mvn clean package -Dgpg.skip=true
         env:
           MAVEN_CONFIG: ""
