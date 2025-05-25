@@ -35,6 +35,6 @@ jobs:
           MAVEN_CONFIG: ""
           
       - name: Verify Mutation Coverage
-        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage
+        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage -Djava.home=$JAVA_HOME
         env:
           MAVEN_CONFIG: ""
