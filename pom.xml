@@ -49,7 +49,7 @@
         <javafaker.version>1.0.2</javafaker.version>
         <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
         <plexus-component-metadata.version>2.1.1</plexus-component-metadata.version>
-        <maven-surefire-report-plugin.version>3.0.0</maven-surefire-report-plugin.version>
+        <maven-surefire-report-plugin.version>3.5.3</maven-surefire-report-plugin.version>
         <com.google.cloud.artifactregistry.version>2.2.0</com.google.cloud.artifactregistry.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
@@ -544,36 +544,35 @@
     </build>
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${maven-surefire-report-plugin.version}</version>
-                <!-- <reportSets> -->
-                <!--     <reportSet> -->
-                <!--         <id>integration-tests</id> -->
-                <!--         <reports> -->
-                <!--             <report>failsafe-report-only</report> -->
-                <!--         </reports> -->
-                <!--     </reportSet> -->
-                <!-- </reportSets> -->
-            </plugin>
+            <!-- <plugin> -->
+            <!--     <groupId>org.apache.maven.plugins</groupId> -->
+            <!--     <artifactId>maven-surefire-report-plugin</artifactId> -->
+            <!--     <version>${maven-surefire-report-plugin.version}</version> -->
+            <!--     <reportSets> -->
+            <!--         <reportSet> -->
+            <!--             <id>integration-tests</id> -->
+            <!--             <reports> -->
+            <!--                 <report>failsafe-report-only</report> -->
+            <!--             </reports> -->
+            <!--         </reportSet> -->
+            <!--     </reportSets> -->
+            <!-- </plugin> -->
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
                 <version>${pitest.version}</version>
                 <configuration>
-                    <!--
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory> -->
-                    <!-- <siteReportName>${pit.conf.siteReportName}</siteReportName> -->
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <siteReportName>${pit.conf.siteReportName}</siteReportName>
                     <skip>${unit.only}</skip>
                 </configuration>
-                <!-- <reportSets> -->
-                <!--     <reportSet> -->
-                <!--         <reports> -->
-                <!--             <report>report</report> -->
-                <!--         </reports> -->
-                <!--     </reportSet> -->
-                <!-- </reportSets> -->
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>
