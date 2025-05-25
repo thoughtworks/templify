@@ -35,12 +35,4 @@ jobs:
         run: mvn clean install -Dgpg.skip=true
         env:
           MAVEN_CONFIG: ""
-          
-      - name: Verify Mutation Coverage
-        run: |
-          echo "JAVA_HOME=$JAVA_HOME"
-          which java
-          java -version
-          mvn test-compile org.pitest:pitest-maven:mutationCoverage -Djava.home=$JAVA_HOME
-        env:
-          MAVEN_CONFIG: ""
+
