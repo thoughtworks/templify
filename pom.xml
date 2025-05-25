@@ -21,8 +21,8 @@
         <failsafe.only>${skipTests}</failsafe.only>
 
         <!-- Testing -->
-        <pitest.version>1.15.2</pitest.version>
-        <pitest.junit5.version>1.2.1</pitest.junit5.version>
+        <pitest.version>1.19.4</pitest.version>
+        <pitest.junit5.version>1.2.3</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
         <junit.version>5.10.1</junit.version>
         <assertj.version>3.25.3</assertj.version>
@@ -405,16 +405,16 @@
                         <version>${pitest.junit5.version}</version>
                     </dependency>
                 </dependencies>
-                <executions>
-                    <execution>
-                        <id>pit-report</id>
-                        <!-- optional, this example attached the goal into mvn test phase -->
-                        <phase>test</phase>
-                        <goals>
-                            <goal>mutationCoverage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <!-- <executions> -->
+                <!--     <execution> -->
+                <!--         <id>pit-report</id> -->
+                <!--         optional, this example attached the goal into mvn test phase -->
+                <!--         <phase>test</phase> -->
+                <!--         <goals> -->
+                <!--             <goal>mutationCoverage</goal> -->
+                <!--         </goals> -->
+                <!--     </execution> -->
+                <!-- </executions> -->
             </plugin>
 
             <plugin>
@@ -601,3 +601,5 @@
         </developer>
     </developers>
 </project>
+
+
