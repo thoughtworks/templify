@@ -21,7 +21,10 @@ jobs:
           java-version: "11"
 
       - name: Verify Java version
-        run: java -version
+        run: |
+          echo "JAVA_HOME=$JAVA_HOME"
+          which java
+          java -version
 
       - name: Verify Maven version
         run: mvn -v
