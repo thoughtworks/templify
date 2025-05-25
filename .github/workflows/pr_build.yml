@@ -10,5 +10,5 @@ permissions:
   contents: read
 
 jobs:
-  check-dotgithub:
+  check-safe-pr-build:
     uses: thoughtworks/templify/.github/workflows/reusable/pr_build.yml@main
