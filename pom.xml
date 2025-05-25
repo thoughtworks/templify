@@ -562,8 +562,9 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>${pitest.version}</version>
                 <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <siteReportName>${pit.conf.siteReportName}</siteReportName>
+                    <!--
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory> -->
+                    <!-- <siteReportName>${pit.conf.siteReportName}</siteReportName> -->
                     <skip>${unit.only}</skip>
                 </configuration>
                 <reportSets>
