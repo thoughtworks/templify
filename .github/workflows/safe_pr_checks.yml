@@ -33,3 +33,5 @@ jobs:
           
       - name: Verify Mutation Coverage
         run: mvn test-compile org.pitest:pitest-maven:mutationCoverage
+        env:
+          MAVEN_CONFIG: ""
