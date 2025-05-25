@@ -11,7 +11,17 @@ permissions:
 jobs:
   run-steps:
     runs-on: ubuntu-22.04
+
     steps:
+      - name: Check for sensitive changes from fork
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^.github/' && {
+            echo "❌ Fork PR modifies .github/, needs manual review"
+            exit 1
+          } || echo "✅ No sensitive changes"
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -21,8 +31,8 @@ jobs:
           distribution: "corretto"
           java-version: "11"
           cache: "maven"
-          server-username: ${{secrets.USERNAME}}
-          server-password: ${{secrets.PASSWORD}}
 
       - name: Build with Maven
         run: mvn -X clean install -Dgpg.skip=true
+        env:
+          MAVEN_CONFIG: ""
