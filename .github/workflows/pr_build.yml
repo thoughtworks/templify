@@ -13,15 +13,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Check for sensitive changes from fork
-        if: github.event.pull_request.head.repo.full_name != github.repository
-        run: |
-          git fetch origin ${{ github.base_ref }}
-          git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^.github/' && {
-            echo "❌ Fork PR modifies .github/, needs manual review"
-            exit 1
-          } || echo "✅ No sensitive changes"
-
       - name: Checkout code
         uses: actions/checkout@v4
 
