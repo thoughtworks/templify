@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   run-steps:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -19,7 +19,6 @@ jobs:
         with:
           distribution: "corretto"
           java-version: "11"
-          cache: "maven"
 
       - name: Build with Maven
         run: mvn -X clean install -Dgpg.skip=true
