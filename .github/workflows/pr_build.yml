@@ -1,5 +1,4 @@
-# .github/workflows/block-dotgithub.yml (this is what PRs trigger)
-name: Safe Build PR
+name: Pull request checks
 
 on:
   pull_request:
@@ -10,5 +9,5 @@ permissions:
   contents: read
 
 jobs:
-  check-dotgithub:
-    uses: thoughtworks/templify/.github/workflows/reusable/pr_build.yml@main
+  safe_pr_checks:
+    uses: thoughtworks/templify/.github/workflows/safe_pr_checks.yml@main
