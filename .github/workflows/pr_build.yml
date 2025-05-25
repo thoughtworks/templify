@@ -2,7 +2,7 @@
 name: Safe Build PR
 
 on:
-  pull_request:
+  push:
     branches:
       - "**"
 
