@@ -22,6 +22,7 @@ jobs:
           distribution: "corretto"
           java-version: "11"
           cache: "maven"
+          server-username: ${{secrets.USERNAME}}
 
       - name: Build with Maven
         run: mvn -X clean install -Dgpg.skip=true
