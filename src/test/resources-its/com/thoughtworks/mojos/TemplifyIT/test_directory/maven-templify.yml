@@ -1,0 +1,8 @@
+steps:
+  - kind: DirectoryHandler
+    apiVersion: v1
+    spec:
+      - placeholders:
+          - match: com/myPackage
+            replace: teste
+        baseDir: src/main/java

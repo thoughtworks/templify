@@ -6,6 +6,7 @@ import com.thoughtworks.kinds.handlers.jsonhandler.JsonHandlerKind;
 import com.thoughtworks.kinds.handlers.plaintexthandler.PlainTextHandlerKind;
 import com.thoughtworks.kinds.handlers.xmlhandler.XmlHandlerKind;
 import com.thoughtworks.kinds.handlers.yamlhandler.YamlHandlerKind;
+import com.thoughtworks.kinds.handlers.directoryhandler.DirectoryHandlerKind;
 
 /**
  * Index
@@ -19,7 +20,8 @@ public class KindHandlersIndex {
                 YamlHandlerKind.NAME,
                 JavaHandlerKind.NAME,
                 XmlHandlerKind.NAME,
-                PlainTextHandlerKind.NAME
+                PlainTextHandlerKind.NAME,
+                DirectoryHandlerKind.NAME
 
         );
     }

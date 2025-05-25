@@ -1,0 +1,48 @@
+steps:
+  - kind: XmlHandler
+    apiVersion: v1
+    spec:
+      - files:
+          - pom.xml
+        placeholders:
+          - match: /project/groupId
+            replace: templify.param.groupId
+          - match: /project/artifactId
+            replace: templify.test.replace.map.artifactId
+          - match: /project/dependencies/dependency/scope[text()='test']
+            replace: templify.replace.map.scopes
+      - files:
+          - xmls/generic_1.xml
+        placeholders:
+          - match: /note/heading
+            replace: New Reminder
+      - files:
+          - xmls/complex/generic_2.xml
+        placeholders:
+          - match: /bookstore/book/author[text()='Kurt Cagle']
+            replace: templify.kurtCagle
+          - match: /bookstore/book/year[text()='2005']
+            replace: templify.NewYear
+  - kind: YmlHandler
+    apiVersion: v1
+    spec:
+      - files:
+          - yamls/generic1.yml
+        placeholders:
+          - match: mappings[0].file
+            replace: newFile
+          - match: mappings[0].placeholders[0].query
+            replace: templify.query.project.groupId
+          - match: mappings[0].placeholders[0].name
+            replace: templify.replace.map.groupId
+          - match: mappings[0].placeholders[1].query
+            replace: templify.match.project.artifactId
+          - match: mappings[0].placeholders[1].name
+            replace: templify.replace.map.artifactId
+  - kind: JavaHandler
+    apiVersion: v1
+    spec:
+      - placeholders:
+          - match: com.myPackage
+            replace: templify.package
+        baseDir: src/main/java

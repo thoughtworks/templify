@@ -4,17 +4,15 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
-  schedule:
-    - cron: "20 4 * * *"
-
 jobs:
-  build:
+  release_build:
+    name: at Maven Central if not SNAPSHOT (Commit/Merge)
     environment: maven-central
     runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    permissions:
+      packages: write
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,6 +29,18 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
+
+      - name: Validate pom.xml Version
+        id: validate_pom_version
+        run: |
+          version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          mvn_run_type=deploy
+          echo "version=$version" >> $GITHUB_OUTPUT
+          if [[ $version == *"-SNAPSHOT" ]]; then
+            echo -e "----####----\n VERSION IS SNAPSHOT: $version, DOING ONLY BUILD AND INSTALL \n----####----"
+            mvn_run_type=install
+          fi
+          echo "mvn_run_type=$mvn_run_type" >> $GITHUB_OUTPUT
 
       - name: Configure Maven settings
         run: |
@@ -58,5 +68,5 @@ jobs:
           echo "$GPG_PASSPHRASE" | gpg --batch --passphrase-fd 0 --pinentry-mode loopback --sign-key "$GPG_PUBLIC_KEY"
           echo "MAVEN_GPG_PASSPHRASE=${{ secrets.GPG_PASSPHRASE }}" >> $GITHUB_ENV
 
-      - name: Build and Test
-        run: mvn -X clean deploy
+      - name: Build, Test and Deploy Snapshot
+        run: mvn -X clean ${{ steps.validate_pom_version.outputs.mvn_run_type }}
