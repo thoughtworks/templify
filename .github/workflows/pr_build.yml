@@ -2,9 +2,9 @@
 name: Safe Build PR
 
 on:
-  push:
+  pull_request:
     branches:
-      - "**"
+      - "main"
 
 permissions:
   contents: read
