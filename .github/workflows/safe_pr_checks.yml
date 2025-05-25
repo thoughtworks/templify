@@ -30,3 +30,6 @@ jobs:
         run: mvn clean package -Dgpg.skip=true
         env:
           MAVEN_CONFIG: ""
+          
+      - name: Verify Mutation Coverage
+        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage
