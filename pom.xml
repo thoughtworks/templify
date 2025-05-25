@@ -86,7 +86,6 @@
         <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
         <surefire.report.reportFormat>plain</surefire.report.reportFormat>
 
-
     </properties>
 
     <dependencies>
