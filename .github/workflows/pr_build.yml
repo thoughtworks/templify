@@ -1,4 +1,5 @@
-name: Build PR
+# .github/workflows/block-dotgithub.yml (this is what PRs trigger)
+name: Safe Build PR
 
 on:
   pull_request:
@@ -9,21 +10,5 @@ permissions:
   contents: read
 
 jobs:
-  run-steps:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: "corretto"
-          java-version: "11"
-          cache: "maven"
-
-      - name: Build with Maven
-        run: mvn -X clean install -Dgpg.skip=true
-        env:
-          MAVEN_CONFIG: ""
+  check-dotgithub:
+    uses: thoughtworks/templify/.github/workflows/reusable/pr_build.yml@main
