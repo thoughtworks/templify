@@ -404,15 +404,6 @@
                         <version>${pitest.junit5.version}</version>
                     </dependency>
                 </dependencies>
-                <!-- <executions> -->
-                <!--     <execution> -->
-                <!--         <id>pit-report</id> -->
-                <!--         <phase>test</phase> -->
-                <!--         <goals> -->
-                <!--             <goal>mutationCoverage</goal> -->
-                <!--         </goals> -->
-                <!--     </execution> -->
-                <!-- </executions> -->
             </plugin>
 
             <plugin>
