@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -143,5 +144,18 @@ public class DirectoryHandlerTest {
         Map<String, String> queryValueMap = new HashMap<String, String>();
         queryValueMap.put("br/com/projeto", "{{placeholder}}");
         assertThrows(UnsupportedOperationException.class, () -> this.directoryHandler.replace("", queryValueMap));
+    }
+
+    @AfterAll
+    public static void cleanFolders() {
+
+        String pathReplaceDirectory = "src/test/resources/processador/directory/static/folder_replace";
+
+        DirectoryHandler directoryHandler = new DirectoryHandler();
+        boolean exists = directoryHandler.isDirectoryExists(pathReplaceDirectory);
+
+        if (exists) {
+            directoryHandler.deleteDirectory(pathReplaceDirectory);
+        }
     }
 }
