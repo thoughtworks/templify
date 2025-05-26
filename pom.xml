@@ -21,7 +21,7 @@
         <failsafe.only>${skipTests}</failsafe.only>
 
         <!-- Testing -->
-        <pitest.version>1.15.2</pitest.version>
+        <pitest.version>1.19.4</pitest.version>
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
         <junit.version>5.10.1</junit.version>
@@ -49,7 +49,7 @@
         <javafaker.version>1.0.2</javafaker.version>
         <jacoco-maven-plugin.version>0.8.9</jacoco-maven-plugin.version>
         <plexus-component-metadata.version>2.1.1</plexus-component-metadata.version>
-        <maven-surefire-report-plugin.version>3.0.0</maven-surefire-report-plugin.version>
+        <maven-surefire-report-plugin.version>3.5.3</maven-surefire-report-plugin.version>
         <com.google.cloud.artifactregistry.version>2.2.0</com.google.cloud.artifactregistry.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
@@ -85,7 +85,6 @@
         <surefire.report.theme>UNICODE</surefire.report.theme>
         <surefire.report.consoleOutputReporter>false</surefire.report.consoleOutputReporter>
         <surefire.report.reportFormat>plain</surefire.report.reportFormat>
-
 
     </properties>
 
@@ -405,16 +404,6 @@
                         <version>${pitest.junit5.version}</version>
                     </dependency>
                 </dependencies>
-                <executions>
-                    <execution>
-                        <id>pit-report</id>
-                        <!-- optional, this example attached the goal into mvn test phase -->
-                        <phase>test</phase>
-                        <goals>
-                            <goal>mutationCoverage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -483,7 +472,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
                 <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+                    <reportsDirectory>${project.build.outputDirectory}/surefire-reports</reportsDirectory>
                     <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     <argLine>${failsafe.jacoco.args}</argLine>
                 </configuration>
@@ -542,40 +531,6 @@
         </extensions>
 
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${maven-surefire-report-plugin.version}</version>
-                <reportSets>
-                    <reportSet>
-                        <id>integration-tests</id>
-                        <reports>
-                            <report>failsafe-report-only</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>${pitest.version}</version>
-                <configuration>
-                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
-                    <siteReportName>${pit.conf.siteReportName}</siteReportName>
-                    <skip>${unit.only}</skip>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
     <scm>
         <url>https://github.com/thoughtworks/templify</url>
         <connection>scm:git:git://github.com/thoughtworks/templify.git</connection>
