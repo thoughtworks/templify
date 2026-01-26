@@ -25,7 +25,7 @@
         <pitest.junit5.version>1.2.1</pitest.junit5.version>
         <failsafe.version>3.1.2</failsafe.version>
         <junit.version>5.10.1</junit.version>
-        <assertj.version>3.25.3</assertj.version>
+        <assertj.version>3.27.7</assertj.version>
         <itf.version>0.13.1</itf.version>
         <mojo.executor.version>2.4.0</mojo.executor.version>
 
