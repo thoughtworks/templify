@@ -17,7 +17,7 @@ import com.thoughtworks.kinds.api.FileHandlerException;
 import com.thoughtworks.kinds.handlers.base.AbstractFileHandler;
 
 /**
- * This class base.represents a JSON file handler that implements the FileHandler interface and
+ * This class represents a JSON file handler that implements the FileHandler interface and
  * extends the FileHandlerOptions class. It provides methods to read and write JSON files, as well
  * as handle various file operations.
  * 

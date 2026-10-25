@@ -67,13 +67,13 @@ public class DirectoryHandlerKind extends KindHandlerBase<DirectoryHandlerSpec> 
         for (KindPlaceholder placholderNew : placeholders) {
             String match = placholderNew.getMatch();
             String replace = placholderNew.getReplace();
-            String replaceWtihPlaceholder = placeholderSettings.getPrefix() + replace + placeholderSettings.getSuffix();
+            String replaceWithPlaceholder = placeholderSettings.getPrefix() + replace + placeholderSettings.getSuffix();
             String filePath = templateDirectory + File.separator + baseDir;
 
             try {
-                logger.warn("Replace: " + match + " with: " + replaceWtihPlaceholder);
+                logger.warn("Replace: " + match + " with: " + replaceWithPlaceholder);
 
-                this.directoryHandler.replace(filePath, match, replaceWtihPlaceholder);
+                this.directoryHandler.replace(filePath, match, replaceWithPlaceholder);
 
             } catch (FileHandlerException e) {
                 logger.error("Error to replace placeholders", e);

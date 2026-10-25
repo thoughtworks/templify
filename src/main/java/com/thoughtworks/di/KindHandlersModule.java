@@ -45,7 +45,7 @@ import com.thoughtworks.kinds.handlers.yamlhandler.YamlHandlerKind;
  * @see JsonHandlerKind
  * @see XmlHandlerKind
  * @see YamlHandlerKind
- * @see DirectoryHandlerkind
+ * @see DirectoryHandlerKind
  */
 public class KindHandlersModule extends AbstractModule {
 

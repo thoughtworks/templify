@@ -34,7 +34,7 @@ public abstract class KindHandlerBase<S extends Serializable>
     // protected KindHandlerBase() {
     // Type genericSuperclass = this.getClass().getGenericSuperclass();
     // this._type = (Class<S>) ((ParameterizedType)genericSuperclass).getActualTypeArguments()[0];
-    // System.out.println("type from supper" +_type);
+    // System.out.println("type from super" +_type);
     // }
 
     public boolean shouldProcessEvent(KindHandlerEvent event) {

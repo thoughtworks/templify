@@ -75,7 +75,7 @@ public class XmlFileHandler extends AbstractFileHandler {
                     nodeMap.put(query, node.getTextContent());
                 } else if (!(nodeMap.get(query).equals(node.getTextContent()))) {
                     throw new FileHandlerException(
-                            "We have same nodes paths with difrentes values. Adjust your Xpath. \n Query Error: "
+                            "We have same nodes paths with different values. Adjust your Xpath. \n Query Error: "
                                     + query);
                 } // if equals do nothing
             }
@@ -138,9 +138,9 @@ public class XmlFileHandler extends AbstractFileHandler {
                     "Was not possible to make a instance of a transformer!!!");
         } catch (TransformerException e) {
             throw new FileHandlerException(
-                    "It aws not possible to save the changes on " + filePath);
+                    "It was not possible to save the changes on " + filePath);
         } catch (IOException e) {
-            throw new FileHandlerException("It was not possible do to colse Stream: " + filePath);
+            throw new FileHandlerException("It was not possible to close Stream: " + filePath);
         }
     }
 
